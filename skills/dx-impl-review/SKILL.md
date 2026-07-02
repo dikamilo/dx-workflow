@@ -12,7 +12,7 @@ The post-implementation gate. Compare what was built against `context/changes/<c
 **Guard.** Resolve `<change-id>` under `context/changes/`. Missing → tell the user to run `/dx-new`. Under `context/archive/` → refuse; an archived change is done. If `plan.md`'s `## Progress` still has a `- [ ]`, the change isn't finished — say so and point at `/dx-implement <change-id>`.
 
 ## 1 — Load
-Read `plan.md` fully (note `change.md`'s `type`), its **Standards to apply** checklist and **Priors & gotchas**, and `foundation/glossary.md` (a one-line habit — review naming against the project's terms). Get the diff scope: `git log`/`git diff` for the commits that landed this change's phases. Then invoke `dx-references` with `knowledge-layer` (how to verify standards compliance), and — when `type: refactor` — also with `module-design` (depth/seam/deletion vocabulary for the pattern axis).
+Read `plan.md` fully (note `change.md`'s `type`), its **Standards to apply** checklist and **Priors & gotchas**, and `foundation/glossary.md` (a one-line habit — review naming against the project's terms). Get the diff scope: `git log`/`git diff` for the commits that landed this change's phases. Then invoke `dx-references` with `knowledge-layer` (how to verify standards compliance), with `review-report` (the finding-ID/`Resolution` schema and file convention shared with `plan-review` and `review-triage`), and — when `type: refactor` — also with `module-design` (depth/seam/deletion vocabulary for the pattern axis).
 
 ## 2 — Review on four dimensions
 Fan out to built-in `Explore`/`general-purpose` subagents to keep the main context clean — e.g. one for drift, one for safety + standards. Each reads only the files it needs; don't pre-load 20 files here.
@@ -25,7 +25,7 @@ Fan out to built-in `Explore`/`general-purpose` subagents to keep the main conte
 **Refactor gate (`type: refactor`).** Additionally verify the behavior-preserving gate: tests green **before and after**, observable behavior unchanged, and depth/locality/testability actually improved (not just "looks cleaner").
 
 ## 3 — Write and report
-Write findings to `context/changes/<change-id>/reviews/impl-review-<today>.md` (`date +%F`): the four dimensions, each finding as `file:line — what the plan/standard said vs what exists`, and a one-line verdict per dimension. Print the same to screen. Be specific; skip style preferences that don't matter.
+Write findings to `context/changes/<change-id>/reviews/impl-review.md` per the `review-report` reference's file convention. Open with the per-dimension **Verdicts** block the reference specifies (PASS/WARNING/FAIL, or `N/A` for a dimension with nothing to check — e.g. Standards when `context/standards/` doesn't exist yet; add a low-priority `Consider` finding pointing at `/dx-standards-discover` in that case rather than silently marking it PASS). Then each finding via the reference's format, tagged with its dimension. Print the same to screen. Be specific; skip style preferences that don't matter.
 
 ## 4 — Offer a lesson (don't auto-write)
 If a finding is **recurring or non-obvious** — the kind a future change would trip on again — offer to capture it via `/dx-lesson`. Show the proposed one-liner; let the user confirm. Never append to `foundation/lessons.md` yourself.
@@ -34,7 +34,8 @@ If a finding is **recurring or non-obvious** — the kind a future change would 
 The review file exists and its findings are printed. If the change passes (no unresolved critical finding), set `change.md` `status: reviewed`, `updated: <today>`. Then print one line and stop — do not chain, do not fix:
 
 ```
-Review written: context/changes/<change-id>/reviews/impl-review-<today>.md
-Next: /dx-lesson            # a finding worth recording — offered above
-  or: /dx-archive <change-id>   # passed — retire the change
+Review written: context/changes/<change-id>/reviews/impl-review.md
+Next: /dx-review-triage <change-id> impl   — triage findings and apply fixes
+  or: /dx-lesson                           # a finding worth recording — offered above
+  or: /dx-archive <change-id>              # passed — retire the change
 ```

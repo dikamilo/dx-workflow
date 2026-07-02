@@ -23,6 +23,10 @@ The argument is one id. Find its home:
 
 An effort is done only when **every child change is already archived**. Before moving an effort, read its `roadmap.md`, and for each linked child change check for `archived_at` (derive it — scan the child's `change.md`, don't trust a checkbox). If any child is still open, **list them and ask** before continuing. The user may override.
 
+## Review gate — unresolved findings
+
+For a **change**, check `reviews/impl-review.md`. If it has any finding with `Resolution: PENDING`, warn — "N unresolved impl-review finding(s) — /dx-review-triage <change-id> impl to address them first" — and ask whether to archive anyway. The user may override.
+
 ## Move and stamp
 
 1. Destination: `context/archive/<today>-<id>/` where `<today>` is `date +%F`. If it already exists, fail loud and stop.

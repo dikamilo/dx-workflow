@@ -45,6 +45,7 @@ Two container levels under `context/`, never nested:
 | `dx-implement` | Execute one plan phase, verify, commit; writes shared `## Progress`. |
 | `dx-tdd` | Red-green sibling of implement; same `## Progress`, vertical slices. |
 | `dx-impl-review` | Post-implementation gate: drift + safety + patterns + standards; offers to record a lesson. |
+| `dx-review-triage` | Triage a plan-review/impl-review report's findings and apply the fixes you choose. |
 | `dx-roadmap` | Effort-level: decompose into vertical slices → child changes. |
 | `dx-refactor-discover` | Scan for deepening opportunities; promote a selection to a change or effort. |
 | `dx-standards-discover` | Mine standards from config + code + docs → `context/standards/`. |

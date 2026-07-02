@@ -34,7 +34,7 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 - **Question-scaling from upstream artifacts** — don't re-ask what a frame/research doc (or a parent effort) already settled (§7.4).
 - Implementer "siblings" (`implement` / `tdd`) sharing one Progress section so they interleave.
 - Explicit handoff schemas between skills, no conversation-memory coupling.
-- **`plan-review` and `impl-review` as skill-based gates** (pre- and post-implementation) — no agents needed (§3).
+- **`plan-review` and `impl-review` as skill-based gates** (pre- and post-implementation) — no agents needed (§3). **`review-triage`** is the single skill that acts on either gate's findings — the gates themselves stay report-only.
 
 ### The knowledge layer
 - **Standards layer** at `context/standards/{global,frontend,backend,testing}/`, plus `standards-discover` and `standards-update` skills.
@@ -55,7 +55,7 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 - **All dedicated agents.** Fan-out uses built-in `Explore`/`general-purpose` subagents. (§3.)
 - HTML dashboards, `.html` companion reports, shared HTML style guides.
 - Greenfield bootstrap chains and multi-phase orchestrators.
-- **Issue-tracker coupling** (`to-issues`, `triage`, `to-prd`, sync). Artifacts in `context/` are the source of truth. An optional sync adapter can be designed later; it is out of scope now.
+- **External issue-tracker sync** (`to-issues`, `to-prd`). Artifacts in `context/` are the source of truth. An optional sync adapter can be designed later; it is out of scope now.
 - **ADRs.** Decisions and rationales live as **lessons** (cautionary) or **standards** (normative) — no third register.
 
 ---
@@ -70,7 +70,7 @@ A dedicated agent earns its keep in only two cases: a **hard, harness-enforced c
 
 **Decision:** ship skills only. When the workflow needs fan-out or a constrained pass, it spawns built-in `Explore`/`general-purpose` subagents inline. If a future role ever proves it *must not* be violable by the model (e.g. a verifier caught editing files it should only check), that is the single criterion that would justify promoting it to a dedicated agent — but we start from zero and add only on observed need.
 
-**Known limitation this accepts:** because `plan-review`/`impl-review` are skills, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above).
+**Known limitation this accepts:** because `plan-review`/`impl-review` are skills, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above). `review-triage` is the deliberate escape valve for this constraint: findings need to turn into edits *somewhere*, so that somewhere is a separate skill, keeping both review gates pure.
 
 This keeps the workflow a **single artifact type** (skills), simpler to ship, install, reason about, and document.
 
@@ -134,6 +134,7 @@ D. refactor find: refactor-discover → findings → pick one (→ new change) o
     ├── dx-implement/SKILL.md      # writes shared ## Progress
     ├── dx-tdd/SKILL.md            # sibling of implement
     ├── dx-impl-review/SKILL.md    # post-implementation gate (checks standards compliance too)
+    ├── dx-review-triage/SKILL.md  # triages plan-review/impl-review findings, applies chosen fixes
     ├── dx-roadmap/SKILL.md        # effort-level: decomposes into vertical slices → child changes
     ├── dx-diagnose/SKILL.md       # model-invoked discovery entry; promotes to change (§9)
     ├── dx-refactor-discover/SKILL.md  # discovery entry; promotes to change or effort (§9)
@@ -152,7 +153,8 @@ D. refactor find: refactor-discover → findings → pick one (→ new change) o
             ├── plan-template.md
             ├── interview.md                # the interview loop (loaded by dx-frame/dx-plan)
             ├── module-design.md           # deep-module vocabulary (loaded for refactors)
-            └── knowledge-layer.md         # how standards, lessons & glossary flow through skills (§8)
+            ├── knowledge-layer.md         # how standards, lessons & glossary flow through skills (§8)
+            └── review-report.md           # finding-ID/Resolution schema shared by plan-review, impl-review, review-triage
 ```
 
 **Why references are an invocable loader skill.** `dx-references/SKILL.md` is a thin loader: a skill that needs a reference **invokes `dx-references` with a `topic` argument** (e.g. `interview`), and the loader reads `${CLAUDE_SKILL_DIR}/references/<topic>.md` and returns its contents. This removes disk-topology coupling entirely — no dx- skill needs to know where any *other* skill lives; only `dx-references` resolves a path, and only ever its own. `${CLAUDE_SKILL_DIR}` is guaranteed to resolve to the invoked skill's own directory at any install scope (personal, project, or plugin), so there is no symlink/sibling assumption left to break. The loader body:
@@ -204,7 +206,7 @@ context/
 
 ---
 
-## 6. Skill inventory (18 workflow skills, 0 agents, 0 orchestrators)
+## 6. Skill inventory (19 workflow skills, 0 agents, 0 orchestrators)
 
 > All skills ship under the **`dx-` prefix** (`dx-init`, `dx-new`, …); short names are shown in the table for readability. Plus **`dx-references`** — the shared reference-doc **loader** (§5), invoked by other skills to pull in shared docs by topic; it carries no workflow role of its own.
 
@@ -219,6 +221,7 @@ context/
 | `implement` | user | Execute **one phase** from plan; writes shared `## Progress`; follows matched standards |
 | `tdd` | user | Red-green sibling of `implement`, same Progress section; vertical slices |
 | `impl-review` | user | Post-implementation gate: plan-drift + safety + patterns + **standards compliance**; offers "record as lesson" |
+| `review-triage` | user | Triage a `plan-review`/`impl-review` report's findings and apply the fixes chosen — the one place either gate's findings get acted on |
 | `roadmap` | user | **Effort-level:** decompose a research+framed effort into vertical slices → child changes |
 | `diagnose` | model | Feedback-loop-first bug/perf diagnosis; promotes to a change carrying `diagnosis.md` |
 | `refactor-discover` | user | Scan for deepening opportunities; present findings; promote selection to a change or effort |
@@ -379,6 +382,9 @@ Three artifacts, all markdown, all in `foundation/` or `standards/`. They look s
                         impl-review       ── checks plan-drift + safety + patterns
                                             AND standards-compliance;
                                             offers "record as lesson" on recurring issues
+                                  │
+                                  ├─ open findings ──▶ review-triage  ── applies chosen fixes,
+                                  │                                       commits each one
                                   │
                                   │ recurring / non-obvious finding
                                   ▼

@@ -25,8 +25,9 @@ package.json              # install-skills / list-skills scripts (npx skills)
 
 ## Skill index
 
-Lifecycle: `dx-init` → `dx-new` → `dx-research?` → `dx-frame?` → `dx-plan` → `dx-plan-review?` → `dx-implement`/`dx-tdd` → `dx-impl-review` → `dx-archive`.
+Lifecycle: `dx-init` → `dx-new` → `dx-research?` → `dx-frame?` → `dx-plan` → `dx-plan-review?` → `dx-review-triage?` → `dx-implement`/`dx-tdd` → `dx-impl-review` → `dx-review-triage?` → `dx-archive`.
 Effort: `dx-roadmap` (+ `dx-new <effort> <slice>` per slice).
 Knowledge: `dx-standards-discover`, `dx-standards-update`, `dx-domain-discover`, `dx-domain`, `dx-lesson`.
+Review: `dx-review-triage` — the sole skill that acts on a `plan-review`/`impl-review` finding; the gates themselves stay report-only.
 Discovery entries: `dx-diagnose`, `dx-refactor-discover`.
 Plumbing: `dx-references`.
