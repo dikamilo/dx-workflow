@@ -9,7 +9,7 @@ argument-hint: [change-id]
 
 Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation — never the whole plan. `## Progress` in the plan is the single source of truth; you resume from it and write back to it.
 
-**No-op test:** if `plan.md` has no `- [ ]` in `## Progress`, everything is done — don't implement, jump to *Completion*. If the path is under `context/archive/`, refuse: the change is archived. If there is no `plan.md`, stop and say to run `/dx-plan <change-id>` first.
+**Guard.** If `plan.md` has no `- [ ]` in `## Progress`, everything is done — don't implement, jump to *Completion*. If the path is under `context/archive/`, refuse: the change is archived. If there is no `plan.md`, stop and say to run `/dx-plan <change-id>` first.
 
 ## Load first
 - The plan fully, plus any `research/`, `frame.md`, `diagnosis.md` it references.
@@ -18,7 +18,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation �
 - The plan's **Standards to apply** checklist and **Priors & gotchas** — these bind this phase.
 
 ## The phase
-1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase. Do that phase, following the plan's intent and its matched standards. If reality contradicts the plan, stop and ask — don't silently improvise.
+1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase. If `change.md`'s `status` is still `planned`, flip it to `implementing` (`updated: <today>`) before you start — the lifecycle field should show work underway, not just planned. Do that phase, following the plan's intent and its matched standards. If reality contradicts the plan, stop and ask — don't silently improvise.
 2. **Verify** — run the phase's `#### Automated` checks. Flip a `- [ ]` to `- [x]` **only** when its check genuinely passes. **Fail loud:** if a check is red, missing, or skipped, stop and report — do not check the box. `#### Manual` boxes need a human confirmation before flipping.
 3. **Commit** the phase as one Conventional Commit: `<type>(<change-id>): <phase title> (p<N>)`. Then append the short SHA to every Progress row that landed in it (` — <sha>`). A no-diff phase (manual-only) commits nothing and leaves rows SHA-less.
 

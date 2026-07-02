@@ -9,7 +9,7 @@ argument-hint: [change-id]
 
 Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation, test-first — never the whole plan. `## Progress` in the plan is the single source of truth; you resume from it and write back to it. This is the **red-green sibling of `dx-implement`**: same section, same rows, same commit ritual — the only difference is ordering, the failing test comes before the code.
 
-**No-op test:** if `plan.md` has no `- [ ]` in `## Progress`, everything is done — jump to *Completion*. If the path is under `context/archive/`, refuse: the change is archived. If there is no `plan.md`, stop and say to run `/dx-plan <change-id>` first.
+**Guard.** If `plan.md` has no `- [ ]` in `## Progress`, everything is done — jump to *Completion*. If the path is under `context/archive/`, refuse: the change is archived. If there is no `plan.md`, stop and say to run `/dx-plan <change-id>` first.
 
 ## Load first
 - The plan fully, plus any `research/`, `frame.md`, `diagnosis.md` it references.
@@ -18,7 +18,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation, t
 - The plan's **Standards to apply** checklist and **Priors & gotchas** — these bind this phase.
 
 ## The phase
-1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase, and it is a **vertical slice** — end-to-end and demoable, not a horizontal layer. If the phase genuinely can't be driven by a failing test (pure scaffolding, config, infra wiring), say so and hand it to `/dx-implement` — don't fake a test.
+1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase, and it is a **vertical slice** — end-to-end and demoable, not a horizontal layer. If `change.md`'s `status` is still `planned`, flip it to `implementing` (`updated: <today>`) before you start — the lifecycle field should show work underway, not just planned. If the phase genuinely can't be driven by a failing test (pure scaffolding, config, infra wiring), say so and hand it to `/dx-implement` — don't fake a test.
 2. **Red → green → refactor**, behavior by behavior — each `#### Automated` row is one trip round the loop:
    - **Red:** write **one** failing test for the next behavior; run it; confirm it fails for the *right* reason (a real assertion or "not implemented", not a broken import). Never `skip`/`xit` to fake a pass — red is the point.
    - **Green:** write the **minimal** production code to pass. One test → one slice of code; never write all the tests up front.

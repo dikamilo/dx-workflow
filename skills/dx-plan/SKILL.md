@@ -13,7 +13,7 @@ Turn a change's upstream context into a solution design at `context/changes/<cha
 
 ## 1 — Gather what upstream already settled
 
-Read `change.md` (note `type`). Then read **all** available upstream as context — never re-spawn agents to find what these already map: every `research/<topic>.md` (change-scoped **and** the parent effort's when `change.md` names an `effort:` **and** `foundation/research/`), `frame.md` if present, `diagnosis.md` if present (a defect's "research" is its diagnosis), and `foundation/glossary.md`. Each artifact is a decision already made.
+Read `change.md` (note `type`). Then read **all** available upstream as context — never re-spawn agents to find what these already map: every `research/<topic>.md` (change-scoped **and** the parent effort's when `change.md` names an `effort:` **and** `foundation/research/`), `frame.md` if present (this change's own, **and** the parent effort's `frame.md` when `effort:` is set — the same parent-inherits rule as research), `diagnosis.md` if present (a defect's "research" is its diagnosis), and `foundation/glossary.md`. Each artifact is a decision already made.
 
 ## 2 — Interview (invoke `dx-references` with `interview`)
 
