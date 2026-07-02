@@ -48,13 +48,14 @@ Then the synthesized findings in markdown — no HTML, no sidecar state. One fil
 
 ## Done when
 
-The file exists at `<container>/research/<topic-slug>.md` with correct provenance and evidence-backed findings. Then print and stop:
+The file exists at `<container>/research/<topic-slug>.md` with correct provenance and evidence-backed findings. Then print and stop — show only the line matching the container type you resolved in the Guard, an effort never goes straight to `/dx-plan`:
 
 ```
 Research written: <container>/research/<topic-slug>.md
 Next: /dx-research <container-id> <another-topic>   — investigate another facet
-  or: /dx-frame <id>                                — frame the problem
-  or: /dx-plan <id>                                 — design the solution
+  or: /dx-frame <id>   → /dx-plan <id>       # change
+  or: /dx-frame <id>   → /dx-roadmap <id>    # effort
+  (foundation: no owning container — read automatically by future plans)
 ```
 
 Stop. Do not chain into another skill.
