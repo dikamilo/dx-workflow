@@ -9,7 +9,7 @@ argument-hint: [change-id or effort-id]
 
 Retire a finished container. One id in, one folder moved, one stamp written. No registry — the archive is just where done work lives.
 
-**No-op test:** if the id resolves to nothing, or the folder can't move cleanly, do nothing and say why. Never half-move.
+**Guard.** If the id resolves to nothing, or the folder can't move cleanly, do nothing and say why. Never half-move.
 
 ## Resolve
 
@@ -26,7 +26,7 @@ An effort is done only when **every child change is already archived**. Before m
 ## Move and stamp
 
 1. Destination: `context/archive/<today>-<id>/` where `<today>` is `date +%F`. If it already exists, fail loud and stop.
-2. Stamp the moved container's `change.md` (or `effort.md`): set `status: archived` and `archived_at:` to today's ISO datetime; bump `updated:`. Leave every other field alone. For the exact schema, invoke `dx-references` with topic `change-md` (a change) or `effort-md` (an effort).
+2. Stamp the moved container's `change.md` (or `effort.md`): set `status: archived` and `archived_at:` to today's date (`date +%F`, same format as `created`/`updated` — no other field in the schema carries a finer timestamp); bump `updated:`. Leave every other field alone. For the exact schema, invoke `dx-references` with topic `change-md` (a change) or `effort-md` (an effort).
 3. Move the whole folder: prefer `git mv` so history follows; fall back to `mv` (warn) if git is unavailable. Confirm the source is gone and the destination exists — if not, print a diagnostic and stop.
 
 ## Done when

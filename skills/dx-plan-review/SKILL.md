@@ -14,6 +14,7 @@ An **optional pre-implementation gate**. Where `dx-implement` asks "did we build
 ## Load first
 - `plan.md` fully, plus the `change.md` (note `type`) and any `research/`, `frame.md`, `diagnosis.md` it draws on.
 - The `plan-template` reference (invoke `dx-references` with `plan-template`) — so you know the shape a sound plan should have.
+- `context/standards/` and the `knowledge-layer` reference (invoke `dx-references` with `knowledge-layer`) — you need the matching heuristic and the real catalog yourself to catch a standard the plan's own checklist missed, not just re-check what it already listed.
 - `foundation/glossary.md` — a one-line habit: judge naming against the project's established terms.
 
 ## Review on four dimensions
