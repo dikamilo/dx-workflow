@@ -31,16 +31,17 @@ Do **not** design interfaces yet. Then ask which the user wants to promote.
 
 ## 4 — Promote the pick
 
-- **One** → spawn a single change: `/dx-new <slug>` stamped `type: refactor`, seeded with that finding as its research/frame. `dx-new` drops the finding into the change folder; `dx-plan` will load `module-design` and the behavior-preserving gate.
-- **Many** → spawn one effort via `/dx-new`, then `/dx-roadmap <effort-id>` with the selected candidates as slices — each becomes a child refactor-change.
+- **One** → create the change directly, the same way `dx-diagnose` self-contains its own promotion: write `context/changes/<slug>/change.md` stamped `type: refactor`, with the finding captured as its seed `research/<topic>.md` (or `frame.md` if it reads more like a framing than a research write-up). Invoke `dx-references` with `change-md` for the exact schema. This is this skill's own deliverable, not a chain into `/dx-plan` — that stays the printed next command.
+- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here.
 - **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" so the next run skips it. Rejected ephemerally or selected → no durable trace.
 
 ## Done when
 
-Findings have been presented inline and the user has chosen. Print the exact promotion command and **stop** — never run it:
+Findings have been presented inline and the user has chosen. For a single promoted change, the container now exists — print what was created and the next command. For everything else, print the exact command and **stop** — never run it:
 
 ```
-Promote one:  /dx-new <slug>            (type: refactor, seeded with the finding)
+Promoted one: Change created: context/changes/<slug>/change.md   (type: refactor, seeded with the finding)
+              Next: /dx-plan <slug>
 Promote many: /dx-new <effort-slug>  →  /dx-roadmap <effort-id>
 Record a no:  /dx-lesson                (don't re-deepen X because Y)
 ```
