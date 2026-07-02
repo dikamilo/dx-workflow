@@ -20,5 +20,5 @@
 - **Completion** = `count([x]) / count([ ] + [x])`.
 - Each phase should be a **vertical slice** where practical — end-to-end and demoable, not a horizontal layer pass.
 - `#### Automated` = agent-verifiable (tests, build, migration). `#### Manual` = needs a human check.
-- When a step lands, flip the box and append the short SHA of the commit that landed it. Per-phase Conventional Commit: `<type>(<change-id>): <phase title> (p<N>)`.
+- When a step lands, flip the box and append the short SHA of the commit that landed it. Per-phase Conventional Commit: `<type>(<change-id>): <phase title> (p<N>)`. The SHA can only be known once that commit exists, so this edit happens *after* committing and is itself left **uncommitted** — don't spend a second commit just to record it. It rides into the repo with whatever commits next (the following phase, a review fix, or the user's own commit); if this was the plan's last phase, it's fine for it to simply sit as harmless uncommitted state.
 - Never delete or renumber landed steps; add follow-ups as new boxes.

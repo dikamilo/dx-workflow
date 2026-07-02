@@ -13,7 +13,7 @@ Three markdown artifacts that look alike (rules/terms) but do different jobs and
 
 ## Matching heuristics (how `dx-plan` selects)
 - **Standards** by *domain × topic*: the change's area (frontend/backend/testing/global) and what it touches (api, migrations, css, error-handling…). Pull only matching files into the plan's checklist; don't dump the whole tree.
-- **Lessons** by keyword/subject overlap with the change; surface any that bear on this work as priors.
+- **Lessons** by whether the lesson's actual warned-about scenario is in play in this change — shared vocabulary with the change's title or module isn't enough. A lesson about module A only bears on a change touching module B if the change actually crosses into A's territory (calls it, depends on it, risks re-introducing the coupling); otherwise leave it out, even if both mention the same subsystem name.
 - **Glossary**: read for naming and to cut verbosity — a one-line habit, not a section.
 
 ## Lesson entry shape (append-only)
