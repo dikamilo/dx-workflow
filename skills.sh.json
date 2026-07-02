@@ -1,0 +1,54 @@
+{
+  "groupings": [
+    {
+      "title": "Change lifecycle",
+      "description": "The core path for a single shippable change, start to archive.",
+      "skills": [
+        "dx-init",
+        "dx-new",
+        "dx-research",
+        "dx-frame",
+        "dx-plan",
+        "dx-plan-review",
+        "dx-implement",
+        "dx-tdd",
+        "dx-impl-review",
+        "dx-archive"
+      ]
+    },
+    {
+      "title": "Effort",
+      "description": "Larger work that decomposes into vertical slices, each a child change.",
+      "skills": [
+        "dx-roadmap"
+      ]
+    },
+    {
+      "title": "Knowledge",
+      "description": "Discover and maintain standards, domain understanding, and lessons.",
+      "skills": [
+        "dx-standards-discover",
+        "dx-standards-update",
+        "dx-domain-discover",
+        "dx-domain",
+        "dx-lesson"
+      ]
+    },
+    {
+      "title": "Discovery",
+      "description": "Entry points that route ad-hoc work into the lifecycle.",
+      "skills": [
+        "dx-diagnose",
+        "dx-refactor-discover"
+      ]
+    },
+    {
+      "title": "Plumbing",
+      "description": "Shared internals used by the other skills.",
+      "skills": [
+        "dx-references"
+      ]
+    }
+  ],
+  "notGrouped": "bottom"
+}
