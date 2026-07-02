@@ -4,7 +4,7 @@ Misalignment is the dominant failure mode. The cure is an interview: **one quest
 
 ## The loop
 1. Ask **exactly one** question. Never batch a form.
-2. Offer a **recommended answer** with a one-line rationale, so the user can accept with a word.
+2. Offer **2-4 concrete options**, one marked as the **recommendation** with a one-line rationale — never a single suggestion dressed as a question. A lone "recommended answer" hides the actual trade-off and gives the user nothing to redirect to but "no"; a short option set makes the alternatives visible and lets them accept the recommendation with a word or pick another with just as little friction.
 3. **If the codebase can answer it, explore instead of asking.** Don't ask what a file, a `research/` doc, a `frame.md`, or the glossary already settles.
 4. Take the answer, resolve that branch, and let it determine the next question. Stop when no open branch remains.
 

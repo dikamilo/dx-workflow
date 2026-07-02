@@ -17,7 +17,7 @@ Read `change.md` (or `effort.md`) — note `type`. Read every existing `research
 
 ## 2 — Interview (invoke `dx-references` with `interview`)
 
-**One question at a time, each with a recommended answer**, walking the decision tree until the framing resolves. If the codebase or a research doc can answer a question, explore instead of asking. Scale the count down by whatever upstream already settled. Stay on the **WHAT** — the real problem and the alternatives — never solution design; that is `dx-plan`'s job. Don't manufacture a reframe: "the initial framing was right" is a valid outcome.
+**One question at a time, each offering a few concrete options with one recommended**, walking the decision tree until the framing resolves. If the codebase or a research doc can answer a question, explore instead of asking. Scale the count down by whatever upstream already settled. Stay on the **WHAT** — the real problem and the alternatives — never solution design; that is `dx-plan`'s job. Don't manufacture a reframe: "the initial framing was right" is a valid outcome.
 
 If `change.md`'s `type` is `refactor` (or this is a refactor effort), **also invoke `dx-references` with `module-design`** and frame in its vocabulary — deep vs shallow modules, seams, the deletion test.
 
