@@ -7,7 +7,7 @@ argument-hint: [change-id]
 
 # dx-impl-review
 
-The post-implementation gate. Compare what was built against `context/changes/<change-id>/plan.md` and **report** — this skill reviews, it never fixes-and-hides the code it is checking (root `CLAUDE.md`, DESIGN §3). Findings land in a review file and on screen; the user decides what to do.
+The post-implementation gate. Compare what was built against `context/changes/<change-id>/plan.md` and **report** — this skill reviews, it never fixes-and-hides the code it is checking. Findings land in a review file and on screen; the user decides what to do.
 
 **Guard.** Resolve `<change-id>` under `context/changes/`. Missing → tell the user to run `/dx-new`. Under `context/archive/` → refuse; an archived change is done. If `plan.md`'s `## Progress` still has a `- [ ]`, the change isn't finished — say so and point at `/dx-implement <change-id>`.
 
