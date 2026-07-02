@@ -2,7 +2,7 @@
 name: dx-review-triage
 description: Triage findings from a plan-review or impl-review report and apply the fixes you choose.
 disable-model-invocation: true
-argument-hint: [change-id] [plan|impl]
+argument-hint: "[change-id] [plan|impl]"
 ---
 
 # dx-review-triage

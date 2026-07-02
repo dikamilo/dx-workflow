@@ -2,7 +2,7 @@
 name: dx-research
 description: Investigate one topic — codebase or external doc — and write it down with provenance for a plan to lean on.
 disable-model-invocation: true
-argument-hint: [container-id topic [--url=…] [--kind=codebase|external]]
+argument-hint: "[container-id topic [--url=…] [--kind=codebase|external]]"
 ---
 
 # dx-research
