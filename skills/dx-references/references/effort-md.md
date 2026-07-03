@@ -32,9 +32,15 @@ An ordered list of slices; each links to exactly one child change.
 
 ### Slice 1: <name>          # feature effort: end-to-end tracer (schema → api → ui)
 - change: payments-schema
+- why: <one line — dependency or sequencing reason this slice sits here>
+- next: `/dx-new payments-v2 1`
 ### Slice 2: <name>          # refactor effort: one slice = one module deepening
 - change: payments-api
+- why: <one line>
+- next: `/dx-new payments-v2 2`
 ```
+
+`next` is just `/dx-new <effort-id> <slice-n>` spelled out per slice — copy-pasteable, not a new decision.
 
 - **Feature efforts** use vertical slices — each a tracer bullet, end-to-end and demoable, not a horizontal layer.
 - **Refactor efforts** (from `dx-refactor-discover`) use one slice per module deepening.
