@@ -14,7 +14,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation, t
 ## Load first
 - The plan fully, plus any `research/`, `frame.md`, `diagnosis.md` it references.
 - The `progress-format` reference (invoke `dx-references`); `plan-template` for the phase's shape.
-- `foundation/glossary.md` — a one-line habit: name tests and interfaces with the project's established terms.
+- `foundation/glossary.md` — a one-line habit: name tests and interfaces with the project's established terms. If naming this phase surfaces a clash, a fuzzy term, or a term that finally resolves, invoke `dx-domain` before continuing.
 - The plan's **Standards to apply** checklist and **Priors & gotchas** — these bind this phase.
 
 ## The phase
@@ -29,7 +29,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation, t
 **Done when** every `#### Automated` row in the phase is `- [x]` on a green suite and the slice is demoable. Do **not** renumber, delete, or duplicate Progress rows. `dx-tdd` and `dx-implement` are siblings writing this same section, so phases interleave freely — one may be TDD, the next standard.
 
 ## On failure
-Never auto-rollback or revert (root `CLAUDE.md` rollback principle). A red test at commit time means the code isn't done, not that work should be discarded — fix the code (never the test) until green, or stop and report and let the user decide.
+Never auto-rollback or revert (root `CLAUDE.md` rollback principle). A red test at commit time means the code isn't done, not that work should be discarded — fix the code (never the test) until green, or stop and report and let the user decide. If the cause isn't obvious after a quick look — no one-line explanation, or a fix attempt didn't stick — invoke `dx-diagnose` instead of guessing further fixes.
 
 ## Completion
 When every `## Progress` box is `- [x]`: set `change.md` `status: implemented`, `updated: <today>`, then suggest the review gate. Otherwise there are more phases — suggest the next one. Print one line and stop (no auto-chain):

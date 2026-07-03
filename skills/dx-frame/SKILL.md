@@ -15,6 +15,8 @@ Settle the **WHAT** before the **HOW**. Run a deep interview on problem framing 
 
 Read `change.md` (or `effort.md`) — note `type`. Read every existing `research/<topic>.md` and `diagnosis.md` if present as **settled context**; don't re-ask what research already answered. Read `foundation/glossary.md` for naming (a one-line habit — no section). Each artifact is a decision already made.
 
+If the interview below surfaces a term that clashes with the glossary, is vague/overloaded, or finally gets pinned down, invoke `dx-domain` right then — don't just note it and keep talking.
+
 ## 2 — Interview (invoke `dx-references` with `interview`)
 
 **One question at a time, each offering a few concrete options with one recommended**, walking the decision tree until the framing resolves. If the codebase or a research doc can answer a question, explore instead of asking. Scale the count down by whatever upstream already settled. Stay on the **WHAT** — the real problem and the alternatives — never solution design; that is `dx-plan`'s job. Don't manufacture a reframe: "the initial framing was right" is a valid outcome.

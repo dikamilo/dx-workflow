@@ -12,7 +12,7 @@ The post-implementation gate. Compare what was built against `context/changes/<c
 **Guard.** Resolve `<change-id>` under `context/changes/`. Missing → tell the user to run `/dx-new`. Under `context/archive/` → refuse; an archived change is done. If `plan.md`'s `## Progress` still has a `- [ ]`, the change isn't finished — say so and point at `/dx-implement <change-id>`.
 
 ## 1 — Load
-Read `plan.md` fully (note `change.md`'s `type`), its **Standards to apply** checklist and **Priors & gotchas**, and `foundation/glossary.md` (a one-line habit — review naming against the project's terms). Get the diff scope: `git log`/`git diff` for the commits that landed this change's phases. Then invoke `dx-references` with `knowledge-layer` (how to verify standards compliance), with `review-report` (the finding-ID/`Resolution` schema and file convention shared with `plan-review` and `review-triage`), and — when `type: refactor` — also with `module-design` (depth/seam/deletion vocabulary for the pattern axis).
+Read `plan.md` fully (note `change.md`'s `type`), its **Standards to apply** checklist and **Priors & gotchas**, and `foundation/glossary.md` (a one-line habit — review naming against the project's terms; if the diff's naming clashes with the glossary or reveals a term that only just resolved, invoke `dx-domain`). Get the diff scope: `git log`/`git diff` for the commits that landed this change's phases. Then invoke `dx-references` with `knowledge-layer` (how to verify standards compliance), with `review-report` (the finding-ID/`Resolution` schema and file convention shared with `plan-review` and `review-triage`), and — when `type: refactor` — also with `module-design` (depth/seam/deletion vocabulary for the pattern axis).
 
 ## 2 — Review on four dimensions
 Fan out to built-in `Explore`/`general-purpose` subagents to keep the main context clean — e.g. one for drift, one for safety + standards. Each reads only the files it needs; don't pre-load 20 files here.
@@ -21,6 +21,8 @@ Fan out to built-in `Explore`/`general-purpose` subagents to keep the main conte
 2. **Safety** — data loss, destructive/irreversible ops, missing error handling at boundaries, hardcoded secrets, injection.
 3. **Patterns** — sound structure judged with the `module-design` vocabulary (deep vs shallow, clean seams, does the interface leak?). Report substantive mismatches with sibling code, not style nits.
 4. **Standards compliance** — did it follow the plan's matched **Standards to apply**? Cite the standard for each miss.
+
+If any dimension turns up a regression — behavior that used to work and now doesn't — don't just log it as a finding; invoke `dx-diagnose` on it directly.
 
 **Refactor gate (`type: refactor`).** Additionally verify the behavior-preserving gate: tests green **before and after**, observable behavior unchanged, and depth/locality/testability actually improved (not just "looks cleaner").
 

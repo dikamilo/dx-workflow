@@ -14,7 +14,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation �
 ## Load first
 - The plan fully, plus any `research/`, `frame.md`, `diagnosis.md` it references.
 - The `progress-format` and `plan-template` references (invoke `dx-references` with each topic).
-- `foundation/glossary.md` — a one-line habit: name things with the project's established terms.
+- `foundation/glossary.md` — a one-line habit: name things with the project's established terms. If naming this phase surfaces a clash, a fuzzy term, or a term that finally resolves, invoke `dx-domain` before continuing.
 - The plan's **Standards to apply** checklist and **Priors & gotchas** — these bind this phase.
 
 ## The phase
@@ -25,7 +25,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation �
 Do **not** renumber, delete, or duplicate Progress rows. `dx-implement` and `dx-tdd` are siblings writing this same section, so phases interleave freely — one may be TDD, the next standard.
 
 ## On failure
-Never auto-rollback or revert (root `CLAUDE.md` rollback principle). Stop, report what failed and why, and let the user decide. Most failures are a small fix, not a reason to discard work.
+Never auto-rollback or revert (root `CLAUDE.md` rollback principle). Stop, report what failed and why, and let the user decide. Most failures are a small fix, not a reason to discard work. If the cause isn't obvious after a quick look — no one-line explanation, or a fix attempt didn't stick — invoke `dx-diagnose` instead of guessing further fixes.
 
 ## Completion
 When every `## Progress` box is `- [x]`: set `change.md` `status: implemented`, `updated: <today>`, then suggest the review gate. Otherwise there are more phases — suggest the next one. Print one line and stop (no auto-chain):

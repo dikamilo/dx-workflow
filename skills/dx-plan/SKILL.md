@@ -24,6 +24,8 @@ Read `change.md` (note `type`). Then read **all** available upstream as context 
 
 A trivial change asks near-zero questions. Don't pad; don't re-ask what an artifact answered.
 
+If a term clashes with the glossary, is vague/overloaded, or finally gets pinned down mid-interview, invoke `dx-domain` right then — don't just note it and keep going.
+
 ## 3 — Match the knowledge layer (invoke `dx-references` with `knowledge-layer`)
 
 - **Standards** — match `context/standards/` by domain × topic; pull only the matching files into a `## Standards to apply` checklist.

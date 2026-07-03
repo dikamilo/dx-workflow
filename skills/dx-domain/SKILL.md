@@ -1,6 +1,6 @@
 ---
 name: dx-domain
-description: Actively sharpen the ubiquitous language in foundation/glossary.md. Use when a domain term clashes with an existing glossary definition, when the user reaches for a vague or overloaded term (an "account" that might be a Customer or a User, an "order" that might be a Cart), or when a fuzzy term finally gets pinned down during framing, planning, or implementation. Fires mid-task to capture or correct a term, then hands back.
+description: Actively sharpen the ubiquitous language in foundation/glossary.md. Fire the instant a domain term clashes with an existing definition, is vague or overloaded (an "account" that might be a Customer or a User), or finally gets pinned down — mid-task, not only when asked. Capture or correct the term, then hand back to the interrupted work.
 ---
 
 # dx-domain
