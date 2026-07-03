@@ -32,7 +32,7 @@ Do **not** design interfaces yet. Then ask which the user wants to promote.
 ## 4 — Promote the pick
 
 - **One** → create the change directly, the same way `dx-diagnose` self-contains its own promotion: write `context/changes/<slug>/change.md` stamped `type: refactor`, with the finding captured as its seed `research/<topic>.md` (or `frame.md` if it reads more like a framing than a research write-up). Invoke `dx-references` with `change-md` for the exact schema. This is this skill's own deliverable, not a chain into `/dx-plan` — that stays the printed next command.
-- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here.
+- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here. But don't make the user re-type what they just picked: compose a **seed summary**, the full entry (what & where, why, proposed deepening, strength tag) for each promoted finding, under a heading that names `/dx-refactor-discover` as the source. Print it as the literal argument to hand to `/dx-new` so the handoff carries the detail, not just a slug.
 - **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" so the next run skips it. Rejected ephemerally or selected → no durable trace.
 
 ## Done when
@@ -42,7 +42,16 @@ Findings have been presented inline and the user has chosen. For a single promot
 ```
 Promoted one: Change created: context/changes/<slug>/change.md   (type: refactor, seeded with the finding)
               Next: /dx-plan <slug>
-Promote many: /dx-new <effort-slug>  →  /dx-roadmap <effort-id>
+
+Promote many: Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
+
+              Where <seed summary> is:
+              ## Refactor opportunities (from /dx-refactor-discover)
+              1. **<title>** — <module/files>
+                 Why: <shallow/tangled reason, in module-design terms>
+                 Proposed: <shape after> (<Strong|Worth exploring|Speculative>)
+              2. ...
+
 Record a no:  /dx-lesson                (don't re-deepen X because Y)
 ```
 
