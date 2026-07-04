@@ -214,9 +214,9 @@ context/
 |---|---|---|
 | `init` | user | Scaffold `context/{foundation,standards,efforts,changes,archive}/`; seed the 3 global standards; create empty `foundation/{glossary,lessons}.md` |
 | `new` | user | **Router:** create a change or an effort; point at the next skill |
-| `research` | user | Research **one topic** per invocation → `research/<topic>.md` (codebase via `Explore`, or external via `WebFetch`/`WebSearch`); also targets `foundation/research/` |
+| `research` | user | Research **one topic** per invocation → `research/<topic>.md` (codebase via `Explore` — including a prior-art facet over `context/changes/**/` and `context/archive/**/` — or external via `WebFetch`/`WebSearch`); also targets `foundation/research/` |
 | `frame` | user | Deep interview on problem framing + alternatives → `frame.md` |
-| `plan` | user | Upstream-aware **interview** (one question at a time; complexity-scaled count) → `plan.md`; absorbs framing-interview when no `frame.md`; folds in matched standards + lessons + glossary |
+| `plan` | user | Upstream-aware **interview** (one question at a time; complexity-scaled count) → `plan.md`; absorbs framing-interview when no `frame.md`; folds in matched standards + lessons + glossary + related prior decisions from `context/archive/` |
 | `plan-review` | user | Optional pre-implementation gate |
 | `implement` | user | Execute **one phase** from plan; writes shared `## Progress`; follows matched standards |
 | `tdd` | user | Red-green sibling of `implement`, same Progress section; vertical slices |
