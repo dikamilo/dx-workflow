@@ -9,6 +9,8 @@ argument-hint: "[change-id] [plan|impl]"
 
 Turn a review report's findings into decisions — and, when you say so, into edits. `dx-plan-review` and `dx-impl-review` only analyze and report; this is the one place that **acts** on a finding, editing `plan.md` or the code it reviewed, one finding at a time, only on your confirmation. That split keeps both review gates pure: a reviewer that never fixes what it checks doesn't need to graduate into a tool-restricted agent.
 
+This skill runs in the main thread, not a forked subagent — unlike `dx-plan-review`/`dx-impl-review`, it holds a live one-finding-at-a-time confirmation loop with you, and a fork only returns a single final result, per the `model-policy` reference.
+
 **Guard.** Resolve `<change-id>` under `context/changes/`. `reviews/` must contain `plan-review.md` or `impl-review.md` — if the directory is missing or empty, point at `/dx-plan-review` or `/dx-impl-review` instead. If the path is under `context/archive/`, refuse: archived work is done.
 
 ## Load first

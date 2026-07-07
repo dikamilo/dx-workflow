@@ -25,11 +25,15 @@ Run the loop red. Confirm it is the **user's** symptom, not a nearby one. Then s
 
 ## Phase 3 — Hypothesise (3–5, ranked, falsifiable)
 
-Generate 3–5 hypotheses **before testing any** — single-hypothesis anchors on the first plausible idea. Each states its prediction: "if X is the cause, changing Y flips the verdict." No prediction → it's a vibe; sharpen or drop it. **Show the ranked list to the user before instrumenting** (they may re-rank instantly); proceed on your ranking if they're AFK.
+Generate 3–5 hypotheses **before testing any** — single-hypothesis anchors on the first plausible idea. Each states its prediction: "if X is the cause, changing Y flips the verdict." No prediction → it's a vibe; sharpen or drop it.
+
+In a large or unfamiliar codebase, a quick fan-out to built-in `Explore` subagents — one per hypothesis, read-only, "does the code even support this theory" — before ranking can save an instrumentation pass a 30-second look would have ruled out. Optional and cheap: mechanical existence-checking, so the cheapest reliable model (invoke `dx-references` with `model-policy`) is fine for it. The ranking itself stays yours — full judgment, not delegated, especially on a bug that resisted the first pass.
+
+**Show the ranked list to the user before instrumenting** (they may re-rank instantly); proceed on your ranking if they're AFK.
 
 ## Phase 4 — Instrument (one variable at a time)
 
-Each probe maps to one Phase-3 prediction. Prefer a debugger/REPL over logs; **tag every debug log** with a unique prefix (`[DEBUG-a4f2]`) so cleanup is one grep. For perf: measure a baseline first (profiler / timing / query plan), then bisect — never "log everything".
+Each probe maps to one Phase-3 prediction. Prefer a debugger/REPL over logs; **tag every debug log** with a unique prefix like (`[DEBUG-a4f2]`) so cleanup is one grep. For perf: measure a baseline first (profiler / timing / query plan), then bisect — never "log everything".
 
 ## Phase 5 — Fix + regression test
 

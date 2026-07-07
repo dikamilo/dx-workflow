@@ -18,6 +18,7 @@ package.json              # install-skills / list-skills scripts (npx skills)
 - **Body.** Short and principle-first. Leading words that recruit pretrained concepts (*tight*, *red-capable*, *tracer bullet*, *deep module*). Apply the no-op test: delete any sentence the model already obeys. Multi-step skills carry a `Done when` completion criterion.
 - **Shared references** are pulled by invoking `dx-references` with a topic — never deep-link another skill's files. Add a reference to `dx-references/references/` only when ≥2 skills use it; otherwise collocate it inside its one skill.
 - **Anti-ceremony.** Markdown only — no HTML, no sidecar `*.yml` state. No auto-chain: print the next command and stop. Derive, don't maintain — lists from `ls`, status from frontmatter, effort progress from child changes.
+- **No references to this repo's own `DESIGN.md` or `CLAUDE.md` from inside `skills/`.** Those files live only in this authoring repo — skills.sh installs just the `skills/dx-<x>/` directories into target projects, so a skill that says "see DESIGN.md" or "per this repo's CLAUDE.md" points at a file that won't exist post-install. Any behavior a skill needs must be self-contained in the skill body or pulled via `dx-references`.
 
 ## The two-level model
 
