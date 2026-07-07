@@ -3,6 +3,8 @@ name: dx-research
 description: Investigate one topic — codebase or external doc — and write it down with provenance for a plan to lean on.
 disable-model-invocation: true
 argument-hint: "[container-id topic [--url=…] [--kind=codebase|external]]"
+context: fork
+agent: general-purpose
 ---
 
 # dx-research
@@ -24,7 +26,7 @@ If the topic is a refactor investigation (or the container is a `type: refactor`
 
 ## 2 — Codebase mode
 
-Spawn built-in **`Explore`** subagents (fan-out, read-only — no dedicated agents), each on a distinct facet of the topic — include one facet searching `context/changes/**/research.md` and `context/changes/**/plan.md` (and the same paths under `context/archive/`) for prior work on this same topic, so a past decision gets cited instead of re-derived; request **`file:line`** references for code, and `<path>` + section for prior-art hits. Wait for all to return, then synthesize: answer the topic with concrete evidence and the patterns that connect the findings. Capture the current HEAD sha (`git rev-parse HEAD`) for `git_commit`.
+Spawn built-in **`Explore`** subagents (fan-out, read-only — no dedicated agents), each on a distinct facet of the topic — include one facet searching `context/changes/**/research.md` and `context/changes/**/plan.md` (and the same paths under `context/archive/`) for prior work on this same topic, so a past decision gets cited instead of re-derived; request **`file:line`** references for code, and `<path>` + section for prior-art hits. Mechanical, high-volume search, not judgment — per the `model-policy` reference (invoke `dx-references` with `model-policy`), run these on the cheapest reliable model, rerunning a facet that comes back thin rather than hand-patching it. Wait for all to return, then synthesize yourself: answer the topic with concrete evidence and the patterns that connect the findings. Capture the current HEAD sha (`git rev-parse HEAD`) for `git_commit`.
 
 ## 3 — External mode
 
