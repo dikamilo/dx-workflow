@@ -4,6 +4,7 @@ description: Record one finding — a warning or a decision-with-rationale — a
 disable-model-invocation: true
 argument-hint: [the finding]
 effort: low
+model: haiku
 ---
 
 # dx-lesson
