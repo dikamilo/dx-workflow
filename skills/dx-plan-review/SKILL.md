@@ -5,6 +5,7 @@ disable-model-invocation: true
 argument-hint: [change-id]
 context: fork
 agent: general-purpose
+model: opus
 ---
 
 # dx-plan-review
