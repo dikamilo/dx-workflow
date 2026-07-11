@@ -4,7 +4,6 @@ description: Archive a completed change or effort — move its folder to context
 disable-model-invocation: true
 argument-hint: [change-id or effort-id]
 effort: low
-model: haiku
 ---
 
 # dx-archive
