@@ -3,8 +3,6 @@ name: dx-plan-review
 description: Review a change's plan before implementation — substance, feasibility, fit, and standards match.
 disable-model-invocation: true
 argument-hint: [change-id]
-context: fork
-agent: general-purpose
 ---
 
 # dx-plan-review
@@ -28,7 +26,7 @@ Read the plan against itself first (the cheapest, highest-value pass), then agai
 - **Architectural fitness** — does it fit the existing system? New patterns where one already exists, wrong dependency direction, wide blast radius.
 - **Standards-fit** — are the plan's **Standards to apply** the right *matched* ones for this change's domain and type? Flag gaps (an applicable standard the plan missed) and mismatches.
 
-To check claims against the real codebase — riskiest file paths, unlisted callers, whether a pattern already exists — fan out to built-in `Explore` subagents with targeted questions. Don't dump the whole plan; a focused prompt finds more. A plain "does this file/caller exist" check is mechanical (cheapest reliable model, per the `model-policy` reference loaded via `dx-references`); if the question is really about architectural fitness — does this pattern already exist, does it clash with one that does — that's a judgment call and belongs on a smarter model, since a wrong verdict here is expensive to catch later.
+To check claims against the real codebase — riskiest file paths, unlisted callers, whether a pattern already exists — fan out to built-in `Explore` subagents with targeted questions. Don't dump the whole plan; a focused prompt finds more.
 
 ## Write and print the findings
 Compile a **concise markdown list** — no tables, no box-drawing, no severity matrix. Follow the `review-report` reference's finding format, tagging each with `[Blocker]` or `[Consider]`. If the plan is sound, say so in a line — don't manufacture findings. If `context/standards/` doesn't exist yet, don't fault the plan for "no standards matched" as if the dimension were checked clean — flag it as a low-priority `Consider` finding pointing at `/dx-standards-discover` instead. Close with a one-line verdict: **sound** / **revise** / **rethink**.

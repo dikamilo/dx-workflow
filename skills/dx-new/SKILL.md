@@ -3,7 +3,6 @@ name: dx-new
 description: Start a new piece of work — creates a change or an effort and points you at the next step.
 disable-model-invocation: true
 argument-hint: [idea or effort/slice]
-effort: low
 ---
 
 # dx-new — the entry point and router

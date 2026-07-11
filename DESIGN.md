@@ -70,10 +70,6 @@ A dedicated agent earns its keep in only two cases: a **hard, harness-enforced c
 
 **Decision:** ship skills only. When the workflow needs fan-out or a constrained pass, it spawns built-in `Explore`/`general-purpose` subagents inline. If a future role ever proves it *must not* be violable by the model (e.g. a verifier caught editing files it should only check), that is the single criterion that would justify promoting it to a dedicated agent — but we start from zero and add only on observed need.
 
-**Which model runs that fan-out** is a separate, lighter decision, covered by the `model-policy` reference (loaded via `dx-references`): default Sonnet, drop to Haiku for mechanical search, escalate to Opus for genuine judgment calls, Fable off by default. That reference also states the two live justifications for delegating at all (disposable fan-out; keeping bulk reference material out of the main thread) and the rule that interactive steps never move into a subagent.
-
-The skill format separately exposes `model`/`effort`/`context: fork`/`agent` frontmatter — still "no dedicated agents," since `agent:` only ever names a built-in like `general-purpose`. `context: fork` isolates a whole skill invocation into a subagent with no conversation history, so it only fits a skill with zero mid-run interaction; `dx-plan`, `dx-frame`, `dx-roadmap`, `dx-review-triage` stay un-forked for that reason.
-
 **Known limitation this accepts:** because `plan-review`/`impl-review` are skills, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above). `review-triage` is the deliberate escape valve for this constraint: findings need to turn into edits *somewhere*, so that somewhere is a separate skill, keeping both review gates pure.
 
 This keeps the workflow a **single artifact type** (skills), simpler to ship, install, reason about, and document.
@@ -158,8 +154,7 @@ D. refactor find: refactor-discover → findings → pick one (→ new change) o
             ├── interview.md                # the interview loop (loaded by dx-frame/dx-plan)
             ├── module-design.md           # deep-module vocabulary (loaded for refactors)
             ├── knowledge-layer.md         # how standards, lessons & glossary flow through skills (§8)
-            ├── review-report.md           # finding-ID/Resolution schema shared by plan-review, impl-review, review-triage
-            └── model-policy.md            # model/effort choice for built-in subagent fan-out (§3)
+            └── review-report.md           # finding-ID/Resolution schema shared by plan-review, impl-review, review-triage
 ```
 
 **Why references are an invocable loader skill.** `dx-references/SKILL.md` is a thin loader: a skill that needs a reference **invokes `dx-references` with a `topic` argument** (e.g. `interview`), and the loader reads `${CLAUDE_SKILL_DIR}/references/<topic>.md` and returns its contents. This removes disk-topology coupling entirely — no dx- skill needs to know where any *other* skill lives; only `dx-references` resolves a path, and only ever its own. `${CLAUDE_SKILL_DIR}` is guaranteed to resolve to the invoked skill's own directory at any install scope (personal, project, or plugin), so there is no symlink/sibling assumption left to break. The loader body:

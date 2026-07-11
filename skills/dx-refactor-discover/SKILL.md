@@ -19,8 +19,6 @@ Invoke `dx-references` with topic `module-design` — its terms (deep vs shallow
 
 Optionally scoped by `[area or path]`; unscoped means the whole tree. Fan out to built-in `Explore` subagents to walk it — explore for friction, don't run rigid heuristics. Look for: understanding one concept that means bouncing between many small modules; shallow modules (interface nearly as wide as the implementation); pure functions extracted only for testability while the real bug hides in how they're called; seams that leak. Apply the **deletion test** to each suspect: would deleting it concentrate complexity, or just move it? "Concentrates" is the signal.
 
-Per the `model-policy` reference (invoke `dx-references` with `model-policy`): walking the tree for candidates is search, but judging shallow-vs-deep and applying the deletion test is the real call each subagent makes — don't drop below the default model just because the walk itself is mechanical. If a subagent's verdict on a suspect reads thin or generic ("could be refactored" with no concrete shape), that's a sign to re-run it rather than fold a weak finding into the list.
-
 ## 3 — Present findings inline
 
 Markdown only — no HTML, no report file, no clipboard. A concise numbered list; each candidate one tight entry:

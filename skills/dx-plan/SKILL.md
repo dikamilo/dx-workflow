@@ -15,7 +15,7 @@ Turn a change's upstream context into a solution design at `context/changes/<cha
 
 Read `change.md` (note `type`). Then read **all** available upstream as context — never re-spawn agents to find what these already map: every `research/<topic>.md` (change-scoped **and** the parent effort's when `change.md` names an `effort:` **and** `foundation/research/`), `frame.md` if present (this change's own, **and** the parent effort's `frame.md` when `effort:` is set — the same parent-inherits rule as research), `diagnosis.md` if present (a defect's "research" is its diagnosis), and `foundation/glossary.md`. Each artifact is a decision already made.
 
-If the change resembles past work, spawn a quick **Explore** search over `context/changes/**/research.md` and `context/changes/**/plan.md` (and the same paths under `context/archive/`) for a related prior decision — cite it in the plan instead of re-litigating it. Skip this when the topic is clearly novel; it's a cheap check, not a mandatory sweep. This is mechanical search, not judgment — invoke `dx-references` with `model-policy` and run it on the cheapest model that reliably returns grounded hits.
+If the change resembles past work, spawn a quick **Explore** search over `context/changes/**/research.md` and `context/changes/**/plan.md` (and the same paths under `context/archive/`) for a related prior decision — cite it in the plan instead of re-litigating it. Skip this when the topic is clearly novel; it's a cheap check, not a mandatory sweep.
 
 ## 2 — Interview (invoke `dx-references` with `interview`)
 

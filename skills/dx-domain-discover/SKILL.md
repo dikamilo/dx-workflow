@@ -22,8 +22,6 @@ Spawn built-in **`Explore`** subagents (fan-out, read-only), scoped to `[module 
 
 Keep only terms **specific to this domain**. Drop general programming concepts (cache, retry, handler, DTO) — they are not ubiquitous language.
 
-This harvesting pass is mechanical extraction, not judgment — per the `model-policy` reference (invoke `dx-references` with `model-policy`), the cheapest reliable model is the right default here. The judgment (which surviving terms are actually domain-specific, how to resolve a clash) happens in step 2, in the main thread, not in these subagents.
-
 ## 2 — Resolve and write
 
 For each surviving term, write a glossary entry in the shape from `knowledge-layer` (`**Term**: definition — domain-only, no implementation. _Avoid_: confusable term`). Be opinionated: when several names map to one concept, pick one and list the rest under `_Avoid_`.

@@ -3,8 +3,6 @@ name: dx-standards-discover
 description: Mine the project's real conventions from tooling, code, and docs and write them into the standards layer.
 disable-model-invocation: true
 argument-hint: [--from=PATH]
-context: fork
-agent: general-purpose
 ---
 
 # dx-standards-discover
@@ -18,8 +16,6 @@ Read the config that already encodes rules: linter + formatter configs, `tsconfi
 
 ## 2 — Mine code patterns by layer
 Fan out one built-in `Explore` subagent per layer present (frontend, backend, testing). Each reports the **recurring** patterns actually in the code — component/module structure, API shape and error handling, state and data access, test structure and naming, file layout. A convention counts only when it recurs across several files; one example is not a standard. Skip any layer the project doesn't have.
-
-Telling "recurs across several files" from "one example that looks like a pattern" is a judgment call, not a grep — per the `model-policy` reference (invoke `dx-references` with `model-policy`), keep these at the default model rather than the cheapest tier, and escalate a layer whose subagent comes back with thin or contradictory findings (e.g. it can't tell if two conventions are actually the same one) instead of writing down a weak claim.
 
 ## 3 — Write the standard files
 Group findings by layer + topic into concise, prescriptive files (~20–30 lines each) — e.g. `frontend/components.md`, `backend/api.md`, `testing/test-writing.md`. Match the seeded style: a `##` per rule, "do this" phrasing, a short example only when it clarifies. Every rule must trace to something you saw — name the config or pattern in a few words, and drop anything you can't back. Where config and code disagree, follow the enforced config and flag the drift as a lesson candidate — don't average the two.

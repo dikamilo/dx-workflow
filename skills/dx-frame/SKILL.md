@@ -15,8 +15,6 @@ Settle the **WHAT** before the **HOW**. Run a deep interview on problem framing 
 
 Read `change.md` (or `effort.md`) — note `type`. Read every existing `research/<topic>.md` and `diagnosis.md` if present as **settled context**; don't re-ask what research already answered. Read `foundation/glossary.md` for naming (a one-line habit — no section). Each artifact is a decision already made.
 
-If the problem resembles past work, spawn a quick **Explore** search over `context/changes/**/frame.md` and `context/changes/**/research.md` (and the same paths under `context/archive/`) for a related prior framing decision — cite it instead of re-litigating it. Skip this when the problem is clearly novel. This is mechanical search, not judgment — per the `model-policy` reference (invoke `dx-references` with `model-policy`), the cheapest reliable model is fine for it.
-
 If the interview below surfaces a term that clashes with the glossary, is vague/overloaded, or finally gets pinned down, invoke `dx-domain` right then — don't just note it and keep talking.
 
 ## 2 — Interview (invoke `dx-references` with `interview`)

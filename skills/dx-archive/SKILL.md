@@ -3,7 +3,6 @@ name: dx-archive
 description: Archive a completed change or effort — move its folder to context/archive/ and stamp it archived.
 disable-model-invocation: true
 argument-hint: [change-id or effort-id]
-effort: low
 ---
 
 # dx-archive
