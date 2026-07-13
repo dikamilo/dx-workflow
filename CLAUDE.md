@@ -19,6 +19,12 @@ package.json              # install-skills / list-skills scripts (npx skills)
 - **Shared references** are pulled by invoking `dx-references` with a topic — never deep-link another skill's files. Add a reference to `dx-references/references/` only when ≥2 skills use it; otherwise collocate it inside its one skill.
 - **Anti-ceremony.** Markdown only — no HTML, no sidecar `*.yml` state. No auto-chain: print the next command and stop. Derive, don't maintain — lists from `ls`, status from frontmatter, effort progress from child changes.
 
+## Keep docs in sync
+
+Adding, removing, or significantly changing a skill (behavior, invocation, reads/writes, `Next:` output) is not
+done until `docs/` reflects it — update `docs/reference/skills.md` and any tutorial/explanation page that
+names the skill in the same change. A skill diff without a matching docs diff is incomplete.
+
 ## The two-level model
 
 `effort` ⊃ `change`, never nested. A change is one shippable unit (`change.md` + `plan.md`/`## Progress`). An effort is larger work (`effort.md` + `roadmap.md`) that decomposes into vertical slices, each spawning a flat child change that inherits the effort's research + frame. `dx-new` routes; the change lifecycle is the same either way.
