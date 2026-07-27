@@ -26,5 +26,6 @@ jobs:
       - uses: changesets/action@v1
         with:
           version: npx changeset version
+          publish: npx changeset tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
