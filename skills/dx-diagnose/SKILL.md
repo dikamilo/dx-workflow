@@ -53,3 +53,5 @@ Promoted: Diagnosis written: context/changes/<id>/diagnosis.md
 ```
 
 Never chain into the next skill; never roll back without the user.
+
+<!-- gate-test: trivial change, no changeset, expect gate failure -->
