@@ -49,3 +49,5 @@
 **Skill**: A discrete, invokable unit of the workflow, named `dx-<x>`, either user-invoked (runs only when typed) or model-invoked (fires when its trigger is recognized). _Avoid_: Command, Agent.
 
 **Discovery Entry**: A Skill that starts from a symptom rather than a request, produces a Finding, and promotes it into a Change or Effort rather than keeping its own durable register. _Avoid_: Entry point, Bootstrap.
+
+**Changeset**: A `@changesets/cli` artifact — a markdown file under `.changeset/` recording an intended semver bump and its rationale for a pending PR touching `skills/`; consumed by CI to version-and-release, unrelated to the dx workflow's own Change. _Avoid_: Change (the dx workflow's shippable unit — same root word, different concept).
