@@ -28,3 +28,7 @@ npm run list-skills      # list the skills in this repo
 ```
 
 Then, in any project: run `/dx-init` once to scaffold `context/`, and `/dx-new <idea>` to start work.
+
+## Contributing
+
+PRs that touch `skills/` must include a changeset: run `npx changeset`, pick a bump type, write a summary, and commit the generated `.changeset/*.md` file alongside your change. CI checks for this on every PR touching `skills/` and fails if it's missing. Changes to `docs/` or other non-`skills/` paths (docs aren't installed via the CLI) don't need one.

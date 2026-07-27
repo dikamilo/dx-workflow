@@ -27,6 +27,12 @@ Adding, removing, or significantly changing a skill (behavior, invocation, reads
 done until `docs/` reflects it — update `docs/reference/skills.md` and any tutorial/explanation page that
 names the skill in the same change. A skill diff without a matching docs diff is incomplete.
 
+## Versioning
+
+Any PR touching `skills/**` must carry a changeset. Run `npx changeset` before opening the PR — pick the bump type (`major`/`minor`/`patch`) and write a one-line summary; it drops a file under `.changeset/` to include in the same PR. CI's gate job enforces this (fails the PR if `skills/` changed with no new `.changeset/*.md`). Changes to `context/`, `docs/`, `DESIGN.md`, or other non-`skills/` paths don't need one.
+
+Merging to `main` runs the release job, which opens/updates a "Version Packages" PR bumping `package.json` and generating `CHANGELOG.md`; merging that PR is the actual version release. Turning the gate job into a required branch-protection check is a manual follow-up in GitHub Settings, not something this workflow configures.
+
 ## The two-level model
 
 `effort` ⊃ `change`, never nested. A change is one shippable unit (`change.md` + `plan.md`/`## Progress`). An effort is larger work (`effort.md` + `roadmap.md`) that decomposes into vertical slices, each spawning a flat child change that inherits the effort's research + frame. `dx-new` routes; the change lifecycle is the same either way.
