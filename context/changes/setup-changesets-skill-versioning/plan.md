@@ -49,12 +49,12 @@ End-to-end: contributor-facing instructions exist in both docs, and this change'
 
 ### Phase 1: Changesets scaffold + version reset
 #### Automated
-- [ ] 1.1 `@changesets/cli` added as devDependency, `package-lock.json` committed
-- [ ] 1.2 `.changeset/config.json` + `.changeset/README.md` scaffolded via `changeset init`, with `privatePackages.version`/`.tag` set to `true`
-- [ ] 1.3 `package.json` version reset to `0.0.0`
-- [ ] 1.4 `.nvmrc` added
+- [x] 1.1 `@changesets/cli` added as devDependency, `package-lock.json` committed
+- [x] 1.2 `.changeset/config.json` + `.changeset/README.md` scaffolded via `changeset init`, with `privatePackages.version`/`.tag` set to `true`
+- [x] 1.3 `package.json` version reset to `0.0.0`
+- [x] 1.4 `.nvmrc` added
 #### Manual
-- [ ] 1.5 `npx changeset status` runs cleanly locally
+- [ ] 1.5 `npx changeset status` runs cleanly locally (note: currently fails with "no changesets found" — expected until Phase 3 adds the initial-release changeset; re-check after Phase 3)
 
 ### Phase 2: GitHub Actions — gate + release workflows
 #### Automated
