@@ -4,7 +4,7 @@ title: Set up Changesets for skill versioning with GitHub Actions
 type: feature
 effort: null
 slice: null
-status: implementing
+status: implemented
 created: 2026-07-27
 updated: 2026-07-27
 archived_at: null

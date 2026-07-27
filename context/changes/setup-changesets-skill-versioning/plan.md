@@ -61,9 +61,9 @@ End-to-end: contributor-facing instructions exist in both docs, and this change'
 - [x] 2.1 `.github/workflows/changeset-gate.yml` added — 0ccf603
 - [x] 2.2 `.github/workflows/release.yml` added — 0ccf603
 #### Manual
-- [ ] 2.3 Push a throwaway branch touching `skills/` with no changeset — gate job fails
+- [x] 2.3 Push a throwaway branch touching `skills/` with no changeset — gate job fails — verified via throwaway PR #6 (`test/gate-fails-no-changeset` → `main`): `check-changeset` failed with "This PR changes files under skills/ but adds no .changeset/*.md file" (run 30273280361); PR closed and branch deleted after
 - [x] 2.4 Push a throwaway branch touching only `context/` — gate job passes — verified live via PR #3 (this change's own PR, touches no `skills/` paths): `check-changeset` passed in 9s (run 30272575404)
-- [ ] 2.5 Confirm release job triggers on push to `main` (or dry-run via `act`/inspection if not mergeable yet)
+- [x] 2.5 Confirm release job triggers on push to `main` (or dry-run via `act`/inspection if not mergeable yet) — verified: merging PR #3 to `main` triggered the Release job, which ran `changeset version`, bumped `package.json` `0.0.0` → `1.0.0`, generated `CHANGELOG.md`, and opened the Version Packages PR (#5) after a repo Actions-permission recheck; PR #5 diff confirmed correct
 
 ### Phase 3: Docs + initial changeset
 #### Automated
