@@ -49,26 +49,26 @@ End-to-end: contributor-facing instructions exist in both docs, and this change'
 
 ### Phase 1: Changesets scaffold + version reset
 #### Automated
-- [x] 1.1 `@changesets/cli` added as devDependency, `package-lock.json` committed
-- [x] 1.2 `.changeset/config.json` + `.changeset/README.md` scaffolded via `changeset init`, with `privatePackages.version`/`.tag` set to `true`
-- [x] 1.3 `package.json` version reset to `0.0.0`
-- [x] 1.4 `.nvmrc` added
+- [x] 1.1 `@changesets/cli` added as devDependency, `package-lock.json` committed — c5a8d47
+- [x] 1.2 `.changeset/config.json` + `.changeset/README.md` scaffolded via `changeset init`, with `privatePackages.version`/`.tag` set to `true` — c5a8d47
+- [x] 1.3 `package.json` version reset to `0.0.0` — c5a8d47
+- [x] 1.4 `.nvmrc` added — c5a8d47
 #### Manual
-- [ ] 1.5 `npx changeset status` runs cleanly locally (note: currently fails with "no changesets found" — expected until Phase 3 adds the initial-release changeset; re-check after Phase 3)
+- [x] 1.5 `npx changeset status` runs cleanly locally (note: currently fails with "no changesets found" — expected until Phase 3 adds the initial-release changeset; re-check after Phase 3) — re-checked 2026-07-27: passes, shows `dx-workflow` bumping at major; confirmed by user
 
 ### Phase 2: GitHub Actions — gate + release workflows
 #### Automated
-- [ ] 2.1 `.github/workflows/changeset-gate.yml` added
-- [ ] 2.2 `.github/workflows/release.yml` added
+- [x] 2.1 `.github/workflows/changeset-gate.yml` added — 0ccf603
+- [x] 2.2 `.github/workflows/release.yml` added — 0ccf603
 #### Manual
 - [ ] 2.3 Push a throwaway branch touching `skills/` with no changeset — gate job fails
-- [ ] 2.4 Push a throwaway branch touching only `context/` — gate job passes
+- [x] 2.4 Push a throwaway branch touching only `context/` — gate job passes — verified live via PR #3 (this change's own PR, touches no `skills/` paths): `check-changeset` passed in 9s (run 30272575404)
 - [ ] 2.5 Confirm release job triggers on push to `main` (or dry-run via `act`/inspection if not mergeable yet)
 
 ### Phase 3: Docs + initial changeset
 #### Automated
-- [ ] 3.1 `CLAUDE.md` `## Versioning` section added
-- [ ] 3.2 `README.md` `## Contributing` section added
-- [ ] 3.3 `.changeset/*.md` initial-release changeset added (`major`, "Initial release")
+- [x] 3.1 `CLAUDE.md` `## Versioning` section added — 8a342a2
+- [x] 3.2 `README.md` `## Contributing` section added — 8a342a2
+- [x] 3.3 `.changeset/*.md` initial-release changeset added (`major`, "Initial release") — 8a342a2
 #### Manual
-- [ ] 3.4 Docs read coherently end-to-end (human pass)
+- [x] 3.4 Docs read coherently end-to-end (human pass) — confirmed by user
