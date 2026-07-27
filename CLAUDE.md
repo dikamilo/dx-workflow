@@ -2,6 +2,8 @@
 
 This repo authors the `dx-` skill set. `DESIGN.md` is the source of truth for behavior; this file orients anyone working **on** the skills. (It is not installed with the skills — each skill ships standalone via skills.sh. The workflow's own rollback principle is written into each *target project's* `CLAUDE.md` by `dx-init`.)
 
+This project uses the dx- SDLC framework; workflow state lives under `context/`.
+
 ## Layout
 
 ```
