@@ -18,9 +18,14 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation �
 - The plan's **Standards to apply** checklist and **Priors & gotchas** — these bind this phase.
 
 ## The phase
-1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase. If `change.md`'s `status` is still `planned`, flip it to `implementing` (`updated: <today>`) before you start — the lifecycle field should show work underway, not just planned. Do that phase, following the plan's intent and its matched standards. If reality contradicts the plan, stop and ask — don't silently improvise.
-2. **Verify** — run the phase's `#### Automated` checks. Flip a `- [ ]` to `- [x]` **only** when its check genuinely passes. **Fail loud:** if a check is red, missing, or skipped, stop and report — do not check the box. `#### Manual` boxes need a human confirmation before flipping.
-3. **Commit** the phase as one Conventional Commit: `<type>(<change-id>): <phase title> (p<N>)`. Then append the short SHA to every Progress row that landed in it (` — <sha>`). A no-diff phase (manual-only) commits nothing and leaves rows SHA-less.
+1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase. If `change.md`'s `status` is still `planned`, flip it to `implementing` (`updated: <today>`) before you start — the lifecycle field should show work underway, not just planned.
+
+2. **Break the phase into tasks, in memory.** A phase is rarely one atomic step — sketch its sequence (files touched, order, which checks gate which edits) as a short working list. Scratch reasoning only, never written to `plan.md`.
+
+3. **Delegate what's self-contained, do the rest yourself.** A task with its own files and its own check, that nothing later in the phase needs your reasoning about, can go to a fresh `general-purpose` subagent with write access — the task, matched standards/priors, and the check to run — reporting back what changed and the result. Keep inline anything small, or whose approach a later task's judgment call depends on. Pick the model per the `model-policy` reference (invoke `dx-references` with `model-policy`). Verify a subagent's result against its own stated check before folding it in — its "done" isn't yours to trust unchecked. If reality contradicts the plan — your own work or a subagent's report — stop and ask, don't silently improvise past it.
+
+4. **Verify** — run the phase's `#### Automated` checks yourself, even for tasks a subagent already checked; the phase-level check is what actually gates the box. Flip a `- [ ]` to `- [x]` **only** when its check genuinely passes. **Fail loud:** if a check is red, missing, or skipped, stop and report — do not check the box. `#### Manual` boxes need a human confirmation before flipping.
+5. **Commit** the phase as one Conventional Commit: `<type>(<change-id>): <phase title> (p<N>)`. Then append the short SHA to every Progress row that landed in it (` — <sha>`). A no-diff phase (manual-only) commits nothing and leaves rows SHA-less.
 
 Do **not** renumber, delete, or duplicate Progress rows. `dx-implement` and `dx-tdd` are siblings writing this same section, so phases interleave freely — one may be TDD, the next standard.
 

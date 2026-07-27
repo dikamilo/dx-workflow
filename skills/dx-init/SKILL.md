@@ -2,6 +2,8 @@
 name: dx-init
 description: Scaffold the dx- SDLC state tree (context/) in this project and seed the baseline standards.
 disable-model-invocation: true
+effort: low
+model: haiku
 ---
 
 # dx-init
