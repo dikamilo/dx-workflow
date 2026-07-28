@@ -32,8 +32,8 @@ Update the `/dx-impl-review` **Writes** line (currently "a per-dimension PASS/WA
 
 ### Phase 2: Update `dx-plan-review` and `dx-impl-review` to match
 #### Automated
-- [ ] 2.1 `dx-plan-review/SKILL.md` confirmed/updated to match the new finding format
-- [ ] 2.2 `dx-impl-review/SKILL.md` updated to emit `[<Dimension>: <Severity>]` tags
+- [x] 2.1 `dx-plan-review/SKILL.md` confirmed/updated to match the new finding format
+- [x] 2.2 `dx-impl-review/SKILL.md` updated to emit `[<Dimension>: <Severity>]` tags
 
 ### Phase 3: Sync `docs/reference/skills.md`
 #### Automated
