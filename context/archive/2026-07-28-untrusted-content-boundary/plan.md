@@ -32,8 +32,8 @@ Add `untrusted-content.md`, wire the four call sites and the `dx-references` top
 
 ### Phase 1: Trust-boundary reference + wiring across the chain
 #### Automated
-- [x] 1.1 `skills/dx-references/references/untrusted-content.md` created; `dx-research/SKILL.md`, `dx-plan/SKILL.md`, `dx-implement/SKILL.md`, `dx-tdd/SKILL.md` each invoke it with the exact `dx-references\` with \`untrusted-content\`` phrasing the lint script matches; `dx-references/SKILL.md` description lists the new topic
-- [x] 1.2 `docs/reference/skills.md` updated: `Reads` lines for `/dx-research`, `/dx-plan`, `/dx-implement`, `/dx-tdd`, and the `dx-references` topic list/count
-- [x] 1.3 `npm run lint:skills` passes clean (topic resolution + docs-sync checks both cover the new topic and updated call sites)
+- [x] 1.1 `skills/dx-references/references/untrusted-content.md` created; `dx-research/SKILL.md`, `dx-plan/SKILL.md`, `dx-implement/SKILL.md`, `dx-tdd/SKILL.md` each invoke it with the exact `dx-references\` with \`untrusted-content\`` phrasing the lint script matches; `dx-references/SKILL.md` description lists the new topic — de07387
+- [x] 1.2 `docs/reference/skills.md` updated: `Reads` lines for `/dx-research`, `/dx-plan`, `/dx-implement`, `/dx-tdd`, and the `dx-references` topic list/count — de07387
+- [x] 1.3 `npm run lint:skills` passes clean (topic resolution + docs-sync checks both cover the new topic and updated call sites) — de07387
 #### Manual
-- [x] 1.4 Read through all four call sites and the new reference file — the write-path and read-path framing is consistent and each sentence is additive (no rewritten unrelated prose)
+- [x] 1.4 Read through all four call sites and the new reference file — the write-path and read-path framing is consistent and each sentence is additive (no rewritten unrelated prose) — de07387
