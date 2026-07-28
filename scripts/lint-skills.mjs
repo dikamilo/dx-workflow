@@ -85,7 +85,10 @@ for (const name of skillNames) {
   }
 
   const bodyText = body.join("\n").trim();
-  bodySizes.push([name, bodyText ? bodyText.split("\n").length : 0]);
+  const lineCount = bodyText ? bodyText.split("\n").length : 0;
+  // Rough chars/4 heuristic, not an actual tokenizer — good enough for a relative comparison.
+  const estTokens = Math.round(bodyText.length / 4);
+  bodySizes.push([name, lineCount, estTokens]);
 }
 
 // Check 4: every `dx-references` call site resolves to an existing reference topic.
@@ -123,9 +126,9 @@ for (const heading of docHeadings) {
 }
 
 // Report body sizes (advisory only — no cap exists yet).
-console.log("Body size (lines), advisory only:");
-for (const [name, size] of bodySizes.sort((a, b) => b[1] - a[1])) {
-  console.log(`  ${size}\t${name}`);
+console.log("Body size (lines / est. tokens, chars/4 heuristic), advisory only:");
+for (const [name, lines, tokens] of bodySizes.sort((a, b) => b[1] - a[1])) {
+  console.log(`  ${lines}\t${tokens}\t${name}`);
 }
 
 if (failed) {
