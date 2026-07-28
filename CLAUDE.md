@@ -27,6 +27,8 @@ Adding, removing, or significantly changing a skill (behavior, invocation, reads
 done until `docs/` reflects it — update `docs/reference/skills.md` and any tutorial/explanation page that
 names the skill in the same change. A skill diff without a matching docs diff is incomplete.
 
+Run `npm run lint:skills` after any edit under `skills/dx-*` — it's the same check CI's gate job runs, so catch it locally before opening the PR.
+
 ## Versioning
 
 Any PR touching `skills/**` must carry a changeset. Run `npx changeset` before opening the PR — pick the bump type (`major`/`minor`/`patch`) and write a one-line summary; it drops a file under `.changeset/` to include in the same PR. CI's gate job enforces this (fails the PR if `skills/` changed with no new `.changeset/*.md`). Changes to `context/`, `docs/`, `DESIGN.md`, or other non-`skills/` paths don't need one.
