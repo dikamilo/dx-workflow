@@ -32,9 +32,9 @@ Add a `lint-skills` job to `.github/workflows/changeset-gate.yml` (checkout, set
 
 ### Phase 1: Lint script, local and green against current repo
 #### Automated
-- [x] 1.1 `scripts/lint-skills.mjs` implements all five checks and exits 0 clean on current `skills/` tree
-- [x] 1.2 `npm run lint:skills` added to `package.json` and runs the script
-- [x] 1.3 Each check verified to fail on a deliberately broken temporary mutation, then reverted
+- [x] 1.1 `scripts/lint-skills.mjs` implements all five checks and exits 0 clean on current `skills/` tree — 60e51db
+- [x] 1.2 `npm run lint:skills` added to `package.json` and runs the script — 60e51db
+- [x] 1.3 Each check verified to fail on a deliberately broken temporary mutation, then reverted — 60e51db
 
 ### Phase 2: Wire into CI as a required gate
 #### Automated
