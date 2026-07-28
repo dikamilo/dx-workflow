@@ -244,53 +244,19 @@ Deliberately **not** included: product-design, performance, e2e-test-generation,
 ```yaml
 ---
 change_id: oauth-login
-title: Add Google sign-in
-type: feature         # feature | defect | refactor | migration  — activates plan characteristics (§11, §14 rule 7)
-effort: null          # parent effort-id, or null for a freeform change
-slice: null           # index within the effort roadmap, or null
 status: new           # new → planned → implementing → implemented → reviewed → archived
-created: 2026-07-01
-updated: 2026-07-01
-archived_at: null
 ---
-
-## Notes
-<free-form>
 ```
-Status transitions are **record-only** (not enforced). Derive everything else from `ls` and from the `## Progress` section.
+Status transitions are **record-only** (not enforced). Derive everything else from `ls` and from the `## Progress` section. See `change-md.md` for the exact current schema.
 
 ### 7.2 `effort.md` + `roadmap.md`
 ```yaml
 ---
 effort_id: payments-v2
-title: Rebuild payments flow
 status: new           # new → scoped → in-progress → done → archived
-created: 2026-07-01
-updated: 2026-07-01
-archived_at: null
 ---
-
-## Goal
-<one paragraph — what success looks like for the whole effort>
-
-## Notes
-<free-form>
 ```
-`roadmap.md`:
-```markdown
-## Roadmap
-> An ordered list of slices; each links to exactly one child change.
-> A slice is **done** when its child change is archived (`archived_at` set) —
-> derived by scanning the child, never a hand-checked box.
-> Feature efforts use vertical slices (tracer bullets, end-to-end);
-> refactor efforts (from `refactor-discover`) use one slice per deepening.
-
-### Slice 1: <name>          # feature: end-to-end tracer (schema → api → ui)
-- change: payments-schema
-### Slice 2: <name>          # (refactor effort: one slice = one module deepening)
-- change: payments-api
-```
-Effort progress is **derived** — never a maintained checklist: for each slice, read its linked child change and count the ones with `archived_at` set. Done = every child change archived. Nothing flips a checkbox; there is no checkbox to flip (§14 rule 9).
+`roadmap.md` links an ordered list of slices, each to exactly one child change. Effort progress is **derived** — never a maintained checklist: for each slice, read its linked child change and count the ones with `archived_at` set. Done = every child change archived. Nothing flips a checkbox; there is no checkbox to flip (§14 rule 9). See `effort-md.md` for the exact current schema, including the roadmap's slice/`- change:`/`- why:`/`- next:` format.
 
 ### 7.3 `## Progress` — single source of truth (changes)
 ```markdown
@@ -342,6 +308,17 @@ git_commit: <sha>         # codebase mode only; null in external mode
 ```
 
 **Two research homes:** change/effort-scoped (`<container>/research/<topic>.md`) is the default; `foundation/research/<topic>.md` holds durable, reusable investigations (the natural home for external-doc research) read by every plan.
+
+### 7.6 Cross-skill formats — single source of truth
+Every parsed format with more than one consumer has exactly one canonical definition; this is an index of where each lives, not a re-definition.
+
+| Format | Canonical source | Consumers |
+|---|---|---|
+| `## Progress` checkbox rows | `progress-format.md` | `plan` (creates), `implement`, `tdd` (write), `review-triage`, `archive` (read) |
+| `Resolution: PENDING` schema | `review-report.md` | `plan-review`, `impl-review` (write), `review-triage` (only writer of resolutions) |
+| `change.md` frontmatter | `change-md.md` | every change-lifecycle skill (§7.1) |
+| `effort.md` frontmatter + roadmap `- change:` lines | `effort-md.md` | `roadmap`, `new`, `archive` (§7.2) |
+| `archived_at` derivation | `effort-md.md` / rule 9 (§14) | `archive` (writes it), `roadmap` (reads it to derive slice/effort completion) |
 
 ---
 
