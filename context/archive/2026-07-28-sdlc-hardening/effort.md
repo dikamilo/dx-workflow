@@ -1,10 +1,10 @@
 ---
 effort_id: sdlc-hardening
 title: Harden the dx- SDLC — entry point, mechanical checks, safety boundary, review consistency
-status: scoped
+status: archived
 created: 2026-07-27
-updated: 2026-07-27
-archived_at: null
+updated: 2026-07-28
+archived_at: 2026-07-28
 ---
 
 ## Goal
