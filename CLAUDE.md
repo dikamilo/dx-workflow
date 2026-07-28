@@ -27,6 +27,8 @@ Adding, removing, or significantly changing a skill (behavior, invocation, reads
 done until `docs/` reflects it — update `docs/reference/skills.md` and any tutorial/explanation page that
 names the skill in the same change. A skill diff without a matching docs diff is incomplete.
 
+When creating new skills that introduce new capabilities, we should also create a tutorial. Additionally, for new ideas that the workflow is introducing, we should create additional documentation inside the explanation directory. For writing documentation, we should use the documentation skill.
+
 Run `npm run lint:skills` after any edit under `skills/dx-*` — it's the same check CI's gate job runs, so catch it locally before opening the PR.
 
 ## Versioning
