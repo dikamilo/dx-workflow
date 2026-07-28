@@ -31,4 +31,10 @@ Write `none` under a heading rather than deleting it.
 
 **Resolved unknowns is the self-check.** An empty table means nothing was settled, so the route isn't earned: keep talking, or downgrade the ramp.
 
-`dx-plan`, `dx-frame`, and `dx-roadmap` read this as settled context — write each section to survive being read cold by someone who wasn't in the conversation.
+`dx-plan`, `dx-frame`, and `dx-roadmap` read this as **settled context**, not a proposal to relitigate. Write each section knowing what it becomes downstream:
+
+- **`## Resolved unknowns`** — every row is a question a later skill won't ask again. A thin table silently costs the plan its scaling.
+- **`## Not doing`** — rejected scope, reopened only with a reason the brainstorm didn't have.
+- **`## Conclusion & route`** — the caveats here are live risks to plan against, not decisions already made.
+
+So write for a cold reader months from now, not as conversation notes.

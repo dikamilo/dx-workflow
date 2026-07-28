@@ -13,7 +13,7 @@ Runs **before** `dx-new` on an idea nobody has yet decided is worth building. **
 
 ## 1 — Sources before questions
 
-Climb in order, stopping as soon as something answers: `foundation/glossary.md` + `lessons.md` → `context/standards/` → `context/changes/**` and `context/archive/**` (already decided, shipped, or rejected?) → the codebase → the user.
+A question whose answer already sits in the repo is homework, not conversation. Climb in order, stopping as soon as something answers: `foundation/glossary.md` + `lessons.md` → `context/standards/` → `context/changes/**` and `context/archive/**` (already decided, shipped, or rejected?) → the codebase → the user.
 
 ## 2 — Diverge
 
