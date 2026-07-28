@@ -13,7 +13,7 @@ Settle the **WHAT** before the **HOW**. Run a deep interview on problem framing 
 
 ## 1 — Gather settled context
 
-Read `change.md` (or `effort.md`) — note `type`. Read every existing `research/<topic>.md` and `diagnosis.md` if present as **settled context**; don't re-ask what research already answered. Read `foundation/glossary.md` for naming (a one-line habit — no section). Each artifact is a decision already made.
+Read `change.md` (or `effort.md`) — note `type`. Read every existing `research/<topic>.md`, and `diagnosis.md` and `brainstorm.md` if present, as **settled context**; don't re-ask what research already answered. A `brainstorm.md` already chose the route and priced the do-nothing — deepen its `## Conclusion & route` into a full framing rather than reopening it, and treat its `## Not doing` as out of scope already decided. Read `foundation/glossary.md` for naming (a one-line habit — no section). Each artifact is a decision already made.
 
 If the interview below surfaces a term that clashes with the glossary, is vague/overloaded, or finally gets pinned down, invoke `dx-domain` right then — don't just note it and keep talking.
 

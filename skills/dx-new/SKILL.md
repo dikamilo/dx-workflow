@@ -32,7 +32,7 @@ Never nest a change inside a change. Large work is an effort that spawns flat ch
 
 ## Promoted entries
 
-`dx-diagnose` and `dx-refactor-discover` are separate discovery skills that hand a finding here. When invoked with a pre-seeded `diagnosis.md` (bug) or refactor finding, drop it into the new change's folder as its seed research and set `type` accordingly (`defect` / `refactor`). Don't re-derive what the discovery skill already found.
+`dx-diagnose`, `dx-refactor-discover`, and `dx-brainstorm` are separate discovery skills that hand a finding here. When invoked with a pre-seeded `diagnosis.md` (bug) or refactor finding, drop it into the new change's folder as its seed research and set `type` accordingly (`defect` / `refactor`). Don't re-derive what the discovery skill already found. `dx-brainstorm` creates its own container, so when a brainstorm already ran the bundling test the change-vs-effort level is **handed over, not re-derived** — you won't be routing that work at all.
 
 ## Done when
 

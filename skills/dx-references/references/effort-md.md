@@ -1,6 +1,6 @@
 # `effort.md` + `roadmap.md` — schema & shape
 
-An effort is a larger body of work that *produces* changes. It lives at `context/efforts/<effort-id>/` and is **one level above** the change — never nested inside one. It owns shared upstream artifacts (`research/`, `frame.md`) that its child changes inherit, and a `roadmap.md` that decomposes it into slices.
+An effort is a larger body of work that *produces* changes. It lives at `context/efforts/<effort-id>/` and is **one level above** the change — never nested inside one. It owns shared upstream artifacts (`research/`, `frame.md`, and `brainstorm.md` when created by `dx-brainstorm`) that its child changes inherit, and a `roadmap.md` that decomposes it into slices.
 
 ## `effort.md`
 

@@ -25,7 +25,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-new`
 - **Invoke:** user — `/dx-new [idea or effort/slice]`
 - **Purpose:** the entry point and router — pick the container level (change vs effort vs a child slice) and create its identity file; see [efforts and changes](../explanation/efforts-and-changes.md).
-- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md`; accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill.
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md`; accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here.
 - **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled.
 - **Prints next:**
   ```text
@@ -55,7 +55,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-frame`
 - **Invoke:** user — `/dx-frame [change-id or effort-id]`
 - **Purpose:** settle the WHAT before the HOW — interview on problem framing and alternatives so planning can jump straight to solution design; see [research and frame](../explanation/research-and-frame.md).
-- **Reads:** `change.md`/`effort.md` (notes `type`), every `research/<topic>.md`, `diagnosis.md`, `foundation/glossary.md`; may invoke `/dx-domain` on a clashing term.
+- **Reads:** `change.md`/`effort.md` (notes `type`), every `research/<topic>.md`, `diagnosis.md`, `brainstorm.md` (settled context — deepens its conclusion instead of reopening it), `foundation/glossary.md`; may invoke `/dx-domain` on a clashing term.
 - **Writes:** `context/{changes|efforts}/<id>/frame.md` (real problem, who/what it affects, alternatives, out of scope); sets container `updated`.
 - **Prints next:**
   ```text
@@ -71,7 +71,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan`
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
-- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
+- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
 - **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, and a `## Progress` section with all boxes `[ ]`); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
@@ -155,7 +155,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-roadmap`
 - **Invoke:** user — `/dx-roadmap [effort-id]`
 - **Purpose:** decompose an effort into an ordered list of vertical slices, each mapping to one child change — decomposes but does not create the changes; see [efforts and changes](../explanation/efforts-and-changes.md) and [run an effort](../tutorials/run-an-effort.md).
-- **Reads:** `effort.md` (its `## Goal`), the effort's `research/` and `frame.md`, `foundation/glossary.md`; runs a short anchor interview to settle slice ordering.
+- **Reads:** `effort.md` (its `## Goal`), the effort's `research/`, `frame.md`, and `brainstorm.md` (its capability split is raw material for the slices), `foundation/glossary.md`; runs a short anchor interview to settle slice ordering.
 - **Writes:** `context/efforts/<effort-id>/roadmap.md` — numbered slices, each naming one child change id, a one-line `why`, and a verbatim `/dx-new <effort-id> <slice-n>` line; flips `effort.md` to `status: scoped`. No maintained checklist — progress is derived.
 - **Prints next:**
   ```text
