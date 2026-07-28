@@ -4,7 +4,7 @@ title: Review severity unification
 type: refactor
 effort: sdlc-hardening
 slice: 4
-status: implementing
+status: implemented
 created: 2026-07-28
 updated: 2026-07-28
 archived_at: null
