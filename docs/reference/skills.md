@@ -229,6 +229,21 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 
 ## Discovery entries
 
+### `/dx-brainstorm`
+- **Invoke:** user — `/dx-brainstorm [idea or question]`
+- **Purpose:** the divergent front door that runs before `/dx-new` — question whether the problem is real, weigh at least two alternatives against a priced do-nothing, and route to a change, an effort, or nothing at all; see [brainstorm an idea](../tutorials/brainstorm-an-idea.md).
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` and `foundation/lessons.md`, `context/standards/`, `context/changes/**` and `context/archive/**` (to spot work already decided or shipped), the codebase, and the user; the `interview` reference for the questioning loop and its adversarial pass, plus `change-md` or `effort-md` when writing a container.
+- **Writes:** nothing when the conclusion is "not worth building" or "already covered"; otherwise `context/changes/<id>/change.md` **or** `context/efforts/<id>/effort.md` plus a `brainstorm.md` beside it (the question, alternatives weighed incl. the priced do-nothing, conclusion & route, resolved unknowns, not doing). Never decomposes slices or creates child changes.
+- **Prints next:**
+  ```text
+  Nothing to build: <one-line conclusion — why the do-nothing won>
+  Already covered:  Covered by <path>   (status: <status>)
+  One change:       Brainstorm written: context/changes/<id>/brainstorm.md
+                    Next: /dx-frame <id>    → /dx-plan <id>       (frame optional)
+  An effort:        Brainstorm written: context/efforts/<id>/brainstorm.md
+                    Next: /dx-frame <id>    → /dx-roadmap <id>    (frame optional)
+  ```
+
 ### `/dx-diagnose`
 - **Invoke:** **model** (auto-fires) — `/dx-diagnose [symptom]`
 - **Purpose:** feedback-loop-first diagnosis for a bug or perf regression — build a red-capable loop, find the cause, then fix inline or promote it to a change; see [diagnose a bug](../tutorials/diagnose-a-bug.md).
