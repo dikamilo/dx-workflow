@@ -28,7 +28,7 @@ Update the `/dx-impl-review` **Writes** line (currently "a per-dimension PASS/WA
 
 ### Phase 1: Unify the shared finding format in `review-report.md`
 #### Automated
-- [x] 1.1 `review-report.md` finding format includes **Why it matters**; `<tag>` rule defines one shared Blocker/Consider vocabulary with impl-review's compound form documented
+- [x] 1.1 `review-report.md` finding format includes **Why it matters**; `<tag>` rule defines one shared Blocker/Consider vocabulary with impl-review's compound form documented — 57c9be2
 
 ### Phase 2: Update `dx-plan-review` and `dx-impl-review` to match
 #### Automated
