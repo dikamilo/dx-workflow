@@ -18,5 +18,5 @@ End-to-end and demoable: read the current file, append Step 5 to "The loop" sect
 
 ### Phase 1: Add the challenger step to `interview.md`
 #### Automated
-- [x] 1.1 Step 5 added to `skills/dx-references/references/interview.md`'s loop with checklist + critical/non-critical handling, style matches existing file
-- [x] 1.2 Confirmed no edits needed in `dx-frame`, `dx-plan`, `dx-roadmap` SKILL.md (they inherit the step via the shared reference)
+- [x] 1.1 Step 5 added to `skills/dx-references/references/interview.md`'s loop with checklist + critical/non-critical handling, style matches existing file — 91fce47
+- [x] 1.2 Confirmed no edits needed in `dx-frame`, `dx-plan`, `dx-roadmap` SKILL.md (they inherit the step via the shared reference) — 91fce47

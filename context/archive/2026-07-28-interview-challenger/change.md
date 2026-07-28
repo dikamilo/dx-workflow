@@ -4,10 +4,10 @@ title: Interview challenger pass
 type: feature
 effort: sdlc-hardening
 slice: 3
-status: implemented
+status: archived
 created: 2026-07-28
 updated: 2026-07-28
-archived_at: null
+archived_at: 2026-07-28
 ---
 
 ## Notes
