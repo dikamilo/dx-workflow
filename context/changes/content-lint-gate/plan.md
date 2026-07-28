@@ -38,6 +38,6 @@ Add a `lint-skills` job to `.github/workflows/changeset-gate.yml` (checkout, set
 
 ### Phase 2: Wire into CI as a required gate
 #### Automated
-- [x] 2.1 `lint-skills` job added to `.github/workflows/changeset-gate.yml`, mirrors `check-changeset`'s checkout/setup-node/npm-ci steps
+- [x] 2.1 `lint-skills` job added to `.github/workflows/changeset-gate.yml`, mirrors `check-changeset`'s checkout/setup-node/npm-ci steps — da17439
 #### Manual
-- [x] 2.2 Workflow YAML reviewed for validity (no PR exists yet to trigger a live run)
+- [x] 2.2 Workflow YAML reviewed for validity (no PR exists yet to trigger a live run) — da17439
