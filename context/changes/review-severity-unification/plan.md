@@ -37,4 +37,4 @@ Update the `/dx-impl-review` **Writes** line (currently "a per-dimension PASS/WA
 
 ### Phase 3: Sync `docs/reference/skills.md`
 #### Automated
-- [ ] 3.1 `/dx-impl-review` Writes line updated to name the compound tag; `/dx-plan-review` Writes line confirmed unchanged
+- [x] 3.1 `/dx-impl-review` Writes line updated to name the compound tag; `/dx-plan-review` Writes line confirmed unchanged

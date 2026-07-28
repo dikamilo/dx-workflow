@@ -127,7 +127,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Invoke:** user — `/dx-impl-review [change-id]`
 - **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift, safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
 - **Reads:** `plan.md` (with Standards and Priors), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
-- **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus tagged findings; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
+- **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus findings tagged `[<Dimension>: <Severity>]`; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
 - **Prints next:**
   ```text
   Review written: context/changes/<change-id>/reviews/impl-review.md
