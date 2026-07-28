@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - run: npm run lint:skills
+
+  check-changeset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - name: Check for changeset on skills/ changes
+        run: |
+          git fetch origin "${{ github.base_ref }}"
+          CHANGED_SKILLS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- skills/)
+          ADDED_CHANGESET=$(git diff --name-only --diff-filter=A "origin/${{ github.base_ref }}...HEAD" -- '.changeset/*.md')
+
+          if [ -n "$CHANGED_SKILLS" ] && [ -z "$ADDED_CHANGESET" ]; then
+            echo "::error::This PR changes files under skills/ but adds no .changeset/*.md file. Run 'npx changeset' to add one."
+            exit 1
+          fi
+
+          echo "OK: no changeset required, or one was added."
