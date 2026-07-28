@@ -65,12 +65,14 @@ context/
 │   ├── effort.md
 │   ├── research/              # shared upstream research (read by child changes)
 │   ├── frame.md               # shared framing (read by child changes)
+│   ├── brainstorm.md          # optional; when promoted from /dx-brainstorm
 │   └── roadmap.md             # vertical slices; each → a child change
 ├── changes/<change-id>/
 │   ├── change.md              # carries effort/slice/type when applicable
 │   ├── research/<topic>.md    # one file per research topic
 │   ├── frame.md               # optional
 │   ├── diagnosis.md           # optional; when promoted from /dx-diagnose
+│   ├── brainstorm.md          # optional; when promoted from /dx-brainstorm
 │   ├── plan.md                # owns ## Progress; carries matched Standards + Lessons
 │   └── reviews/               # plan-review.md / impl-review.md
 └── archive/<YYYY-MM-DD>-<id>/ # archives both efforts and changes
@@ -82,8 +84,8 @@ context/
 |---|---|---|---|
 | `foundation/` | Project-wide memory: `glossary.md` (ubiquitous language), `lessons.md` (accrued warnings), durable `research/`, and optional `vision.md` / `roadmap.md` / `tech-stack.md`. | `/dx-domain-discover` and `/dx-domain` seed the glossary; `/dx-lesson` appends lessons; `/dx-research` writes durable research. | Long-lived. `lessons.md` is append-only. Read by nearly every plan. |
 | `standards/` | The prescriptive baseline — how code *should* be written. `global/` is seeded with three starter standards; `frontend/`, `backend/`, `testing/` start empty. | `/dx-init` seeds `global/`; `/dx-standards-discover` mines the rest; `/dx-standards-update` edits and promotes graduated lessons. | Long-lived. Grows as your conventions harden. Matched into every plan and checked at review. |
-| `efforts/` | One directory per **effort** (larger work spanning several changes). Holds `effort.md`, shared `research/` and `frame.md`, and a `roadmap.md` of vertical slices. | `/dx-new` creates the directory; `/dx-roadmap` decomposes it into slices. | Medium-lived. Spawns child changes; moves to `archive/` when done. |
-| `changes/` | One directory per **change** (a single shippable unit). Holds `change.md`, `research/`, optional `frame.md` / `diagnosis.md`, `plan.md` (which owns `## Progress`), and `reviews/`. | `/dx-new` creates it; `/dx-research`, `/dx-frame`, `/dx-plan`, `/dx-implement`, and the review skills fill it. | Short-lived. Active until shipped, then moves to `archive/`. |
+| `efforts/` | One directory per **effort** (larger work spanning several changes). Holds `effort.md`, shared `research/` and `frame.md`, optional `brainstorm.md`, and a `roadmap.md` of vertical slices. | `/dx-new` creates the directory; `/dx-roadmap` decomposes it into slices. | Medium-lived. Spawns child changes; moves to `archive/` when done. |
+| `changes/` | One directory per **change** (a single shippable unit). Holds `change.md`, `research/`, optional `frame.md` / `diagnosis.md` / `brainstorm.md`, `plan.md` (which owns `## Progress`), and `reviews/`. | `/dx-new` creates it; `/dx-research`, `/dx-frame`, `/dx-plan`, `/dx-implement`, and the review skills fill it. | Short-lived. Active until shipped, then moves to `archive/`. |
 | `archive/` | Finished efforts and changes, each under a dated `<YYYY-MM-DD>-<id>/` directory. | `/dx-archive` moves a completed `changes/<id>/` or `efforts/<id>/` here and stamps `archived_at`. | Permanent, effectively read-only. Searched for prior art by `/dx-research` and `/dx-plan`. |
 
 A `change.md` carries its own frontmatter — `change_id`, `title`, `type`, `effort`, `slice`, `status`,

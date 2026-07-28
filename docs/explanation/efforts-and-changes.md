@@ -195,13 +195,21 @@ A. small idea:    new → change → research? → frame? → plan → implement
 B. large idea:    new → effort → research → frame → roadmap → (per slice) new → plan → implement
 C. bug:           diagnose → cause → (trivial: fix) | (non-trivial: new + diagnosis.md → plan → implement)
 D. refactor find: refactor-discover → findings → pick one (→ new change) or many (→ new effort + roadmap)
+E. raw idea:      brainstorm → (nothing) | (already covered) | (one change + brainstorm.md) | (an effort + brainstorm.md)
 ```
 
-Shapes C and D start at a **discovery** skill (`/dx-diagnose`,
-`/dx-refactor-discover`) that investigates first and then promotes its finding
-into a standard container — one change, or an effort with a roadmap — and gets
-out of the way. Whatever the entry, the destination is always a change or an
-effort, and the change lifecycle downstream is identical.
+Shapes C, D, and E start at a **discovery** skill (`/dx-diagnose`,
+`/dx-refactor-discover`, `/dx-brainstorm`) that investigates first and then
+promotes its finding into a standard container — one change, or an effort with
+a roadmap — and gets out of the way. Whatever the entry, the destination is
+always a change or an effort, and the change lifecycle downstream is identical.
+
+`/dx-brainstorm` is the discovery entry that may deliberately promote
+**nothing** — concluding the idea isn't worth building is a valid terminal
+outcome, not a failed run. When it does route, it also hands over the
+change-vs-effort level rather than leaving it for `/dx-new` to re-derive: its
+bundling test — *would each capability function without the other?* — already
+made that call.
 
 ## Trade-off: only two levels, on purpose
 
@@ -222,5 +230,6 @@ progress stay derived and the whole structure stay legible from an `ls`.
 - [Plan and slices](plan-and-slices.md) — how `plan.md` phases and `roadmap.md` slices are structured.
 - [Research and frame](research-and-frame.md) — the shared upstream artifacts a change or effort owns.
 - [Handoff scaling](handoff-scaling.md) — why a child change inherits and skips work already settled upstream.
+- [Divergent and convergent work](divergent-vs-convergent.md) — why `/dx-brainstorm` diverges before any of these shapes converge.
 - [Ship a change](../tutorials/ship-a-change.md) — walk a single change end to end.
 - [Run an effort](../tutorials/run-an-effort.md) — decompose a large body of work into child changes.

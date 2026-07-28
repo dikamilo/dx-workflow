@@ -92,10 +92,17 @@ Framing does not have to produce a reframe. **"The initial framing was right" is
 point of the interview is to *test* the framing, not to manufacture a new one. If it survives scrutiny,
 you have earned confidence, and that is worth the few minutes.
 
-Before framing, `/dx-frame` reads every existing `research/<topic>.md` and any `diagnosis.md` as settled
-context, so it never re-asks what research already answered. It reads `foundation/glossary.md` for
-naming. If the interview surfaces a term that clashes with the glossary or is vague or overloaded, it
-hands off to `/dx-domain` to pin the term down, then returns.
+Before framing, `/dx-frame` reads every existing `research/<topic>.md`, any `diagnosis.md`, and any
+`brainstorm.md` as settled context, so it never re-asks what research already answered. It reads
+`foundation/glossary.md` for naming. If the interview surfaces a term that clashes with the glossary or
+is vague or overloaded, it hands off to `/dx-domain` to pin the term down, then returns.
+
+`brainstorm.md`, produced by `/dx-brainstorm`, is a third upstream artifact kind, distinct from both of
+the above: research is investigation-with-provenance, frame is problem-framing for work already deemed
+worth doing, and a brainstorm records whether it is worth doing at all — including what was rejected and
+why the priced do-nothing lost. Running `/dx-frame` on top of a brainstorm is wanted, not redundant: the
+frame deepens the brainstorm's conclusion rather than colliding with it. See
+[divergent and convergent work](divergent-vs-convergent.md).
 
 ## The interview — the shared discipline
 
@@ -190,3 +197,5 @@ count down to near-zero.
   explores instead of asking.
 - [Frame and research tutorial](../tutorials/frame-and-research.md) — a hands-on walkthrough of running
   both steps on a real change.
+- [Divergent and convergent work](./divergent-vs-convergent.md) — how `brainstorm.md` relates to research
+  and frame as a third upstream artifact kind.

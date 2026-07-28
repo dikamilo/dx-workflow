@@ -83,7 +83,10 @@ Named in order: `/dx-init` (once per project) → `/dx-new` → `/dx-research?` 
 - **`/dx-init`** scaffolds `context/` and writes the rollback principle into your project's
   `CLAUDE.md`. You run it once.
 - **`/dx-new`** is the universal entry point. It creates the container for a piece of work and
-  routes between the two levels (see below).
+  routes between the two levels (see below). `/dx-brainstorm` can run *before* `/dx-new`, when it
+  isn't yet decided that the idea is worth building at all — concluding "build nothing" is a
+  success there, not a failure to produce work. See
+  [divergent and convergent work](divergent-vs-convergent.md).
 - **`/dx-research`** and **`/dx-frame`** are the optional upstream steps: research gathers what you
   need to know (codebase and external), framing interviews you to pin down scope and approach. See
   [research and framing](research-and-frame.md).
