@@ -6,6 +6,8 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Behavior-preserving gate** — the extra impl-review check on a `refactor`-type change: it verifies the change altered structure only, leaving observable behavior identical. See [find refactors](../tutorials/find-refactors.md).
 
+**Brainstorm (`brainstorm.md`)** — the record of a divergent conversation held *before* a container exists, about whether an idea is worth building at all: the alternatives weighed, the priced do-nothing and why it lost, the routing conclusion, and what is explicitly not being done. Produced by `/dx-brainstorm`; read as settled context by `/dx-frame`, `/dx-plan`, and `/dx-roadmap`. Deciding to build nothing is a valid terminal outcome that writes no file. See [skills reference](skills.md).
+
 **Change** — one shippable unit of work, the atomic container of the workflow; its identity and metadata live in `change.md`. A change moves `new → planned → implementing → implemented → reviewed → archived`. See [efforts and changes](../explanation/efforts-and-changes.md).
 
 **Container** — the general term for either level of work: a change or an effort. Both carry a `.md` identity file and a status lifecycle; discovery-entry skills *promote* findings into one. See [efforts and changes](../explanation/efforts-and-changes.md).
@@ -16,7 +18,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Diagnosis (`diagnosis.md`)** — the artifact a promoted bug carries into its change: a minimised reproduction, ranked hypotheses, and a regression test. `/dx-plan` reads it the same way it reads research. See [diagnose a bug](../tutorials/diagnose-a-bug.md).
 
-**Discovery entry** — a skill that starts work from a raw finding rather than an existing container, then *promotes* it: `/dx-diagnose` (a bug) and `/dx-refactor-discover` (a shallow module). See [skills reference](skills.md).
+**Discovery entry** — a skill that starts work from a raw finding rather than an existing container, then *promotes* it: `/dx-diagnose` (a bug), `/dx-refactor-discover` (a shallow module), and `/dx-brainstorm` (a raw idea — the one entry that may deliberately promote nothing). See [skills reference](skills.md).
 
 **Effort** — larger work that does not fit in one change; its identity lives in `effort.md`, and it decomposes into child changes via a roadmap. An effort moves `new → scoped → in-progress → done → archived`. See [efforts and changes](../explanation/efforts-and-changes.md).
 

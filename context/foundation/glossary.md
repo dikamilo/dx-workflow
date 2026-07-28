@@ -16,6 +16,8 @@
 
 **Diagnosis**: A feedback-loop-first bug investigation — build a reproducing loop first, then hypothesize, instrument, and fix; when non-trivial, promotes into a defect-type Change. _Avoid_: Research (investigation without a symptom to chase).
 
+**Brainstorm**: A divergent conversation about whether an idea is worth building at all, held before any container exists and recorded at a Change or Effort root — the alternatives weighed, the priced do-nothing and why it lost, the routing conclusion, and what is explicitly not being done. Deciding to build nothing is one of its valid terminal outcomes. _Avoid_: Research (an investigation recorded with provenance, not a divergent conversation), Frame (frames the problem for work already deemed worth doing).
+
 **Standard**: A normative, prescriptive rule that is project-wide and stable, matched into a Plan's checklist by domain and topic. _Avoid_: Lesson, Glossary.
 
 **Lesson**: An append-only record of scar tissue ("this broke") or a load-bearing decision ("we chose X over Y because Z"); recurring Lessons graduate into a Standard. _Avoid_: Standard (prescriptive, not cautionary/decisional), ADR (a decision-with-rationale is a Lesson here, not a separate register).

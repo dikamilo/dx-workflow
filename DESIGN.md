@@ -105,7 +105,7 @@ A child change links back to its effort via `change.md` frontmatter (`effort: <i
 
 Freeform changes (no parent effort) remain fully first-class — `new` without an effort just makes a standalone change. Most work is a change; efforts exist for the cases that genuinely decompose.
 
-### The four entry shapes
+### The five entry shapes
 All entries converge on the same two-level model and the same change lifecycle:
 
 ```
@@ -113,9 +113,10 @@ A. small idea:    new → change → research? → frame? → plan → implement
 B. large idea:    new → effort → research → frame → roadmap → (per slice) new → plan → implement
 C. bug:           diagnose → cause → (trivial: fix) | (non-trivial: new + diagnosis.md → plan → implement)
 D. refactor find: refactor-discover → findings → pick one (→ new change) or many (→ new effort + roadmap)
+E. raw idea:      brainstorm → (nothing worth building | already covered) | (change | effort) + brainstorm.md
 ```
 
-(C) and (D) are **discovery-entry skills** — `diagnose` and `refactor-discover` — that promote a finding into a standard container and then get out of the way (§9).
+(C), (D) and (E) are **discovery-entry skills** — `diagnose`, `refactor-discover` and `brainstorm` — that promote a finding into a standard container and then get out of the way (§9). (E) is the only entry whose terminal outcome can be *no container at all*, and it is the step **before** (A)/(B) when nobody has yet decided the work is worth doing.
 
 ---
 
@@ -138,6 +139,9 @@ D. refactor find: refactor-discover → findings → pick one (→ new change) o
     ├── dx-roadmap/SKILL.md        # effort-level: decomposes into vertical slices → child changes
     ├── dx-diagnose/SKILL.md       # model-invoked discovery entry; promotes to change (§9)
     ├── dx-refactor-discover/SKILL.md  # discovery entry; promotes to change or effort (§9)
+    ├── dx-brainstorm/             # discovery entry; runs before dx-new — may build nothing (§9)
+    │   ├── SKILL.md
+    │   └── references/brainstorm-md.md   # collocated: the brainstorm.md shape, read on the two writing ramps
     ├── dx-standards-discover/SKILL.md
     ├── dx-standards-update/SKILL.md
     ├── dx-domain-discover/SKILL.md    # brownfield glossary bootstrap, re-runnable per module
@@ -192,6 +196,7 @@ context/
 │   ├── effort.md
 │   ├── research/              # shared upstream research (read by child changes)
 │   ├── frame.md               # shared framing (read by child changes)
+│   ├── brainstorm.md          # optional; when the effort was promoted from /brainstorm
 │   └── roadmap.md             # vertical slices; each → a child change
 ├── changes/<change-id>/
 │   ├── change.md              # carries effort/slice/type when applicable
@@ -199,6 +204,7 @@ context/
 │   ├── research.md            # optional legacy single-file (still read if present)
 │   ├── frame.md               # optional
 │   ├── diagnosis.md           # optional; when the change was promoted from /diagnose
+│   ├── brainstorm.md          # optional; when the change was promoted from /brainstorm
 │   ├── plan.md                # owns ## Progress; carries matched Standards + Lessons sections
 │   └── reviews/
 └── archive/<YYYY-MM-DD>-<id>/ # archives both efforts and changes
@@ -206,7 +212,7 @@ context/
 
 ---
 
-## 6. Skill inventory (19 workflow skills, 0 agents, 0 orchestrators)
+## 6. Skill inventory (20 workflow skills, 0 agents, 0 orchestrators)
 
 > All skills ship under the **`dx-` prefix** (`dx-init`, `dx-new`, …); short names are shown in the table for readability. Plus **`dx-references`** — the shared reference-doc **loader** (§5), invoked by other skills to pull in shared docs by topic; it carries no workflow role of its own.
 
@@ -225,6 +231,7 @@ context/
 | `roadmap` | user | **Effort-level:** decompose a research+framed effort into vertical slices → child changes |
 | `diagnose` | model | Feedback-loop-first bug/perf diagnosis; promotes to a change carrying `diagnosis.md` |
 | `refactor-discover` | user | Scan for deepening opportunities; present findings; promote selection to a change or effort |
+| `brainstorm` | user | Interrogate a raw idea *before* a container exists: weigh ≥2 alternatives plus a priced do-nothing, then take one of four ramps — nothing worth building, already covered, a change, or an effort — the writing ramps carrying `brainstorm.md` |
 | `standards-discover` | user | Mine standards from config + code + docs → `context/standards/` |
 | `standards-update` | user | Create/edit/promote standards from conversation or a graduated lesson |
 | `domain-discover` | user | Brownfield glossary bootstrap from identifiers/docs; re-runnable per module |
@@ -282,7 +289,7 @@ The plan skill counts its questions against what upstream artifacts already sett
 | + frame + research | solution-design questions only |
 | + parent effort's research + frame | skip all effort-level upstream; solution-design only |
 
-Principle: *every artifact passed in — including a parent effort's — is a decision already made; don't re-ask it.* `plan` reads every available research file (change-scoped, parent-effort, `foundation/research/`, and `diagnosis.md` when present) as gathered context; it never re-spawns agents to find what a research file already mapped.
+Principle: *every artifact passed in — including a parent effort's — is a decision already made; don't re-ask it.* `plan` reads every available research file (change-scoped, parent-effort, `foundation/research/`, and `diagnosis.md` / `brainstorm.md` when present) as gathered context; it never re-spawns agents to find what a research file already mapped.
 
 **Questioning is one question at a time (interview — §10), not a batch form.** The counts above are the *expected number* of interview questions for a complexity tier, scaled down by whatever upstream already settled. A **trivial** change gets a thin, single-phase plan with near-zero questions — `plan` is never skipped (it owns `## Progress`), but it scales down to almost nothing for small work, so there is no separate "no-plan" fast path to maintain.
 
@@ -319,6 +326,7 @@ Every parsed format with more than one consumer has exactly one canonical defini
 | `change.md` frontmatter | `change-md.md` | every change-lifecycle skill (§7.1) |
 | `effort.md` frontmatter + roadmap `- change:` lines | `effort-md.md` | `roadmap`, `new`, `archive` (§7.2) |
 | `archived_at` derivation | `effort-md.md` / rule 9 (§14) | `archive` (writes it), `roadmap` (reads it to derive slice/effort completion) |
+| Seed artifacts at a container root (`diagnosis.md`, `brainstorm.md`) | `dx-diagnose` / `dx-brainstorm` — each owns its own shape, collocated, not a shared reference | `plan`, `frame`, `roadmap` (read as settled upstream context) |
 
 ---
 
@@ -383,9 +391,9 @@ If three registers ever feels like overhead, collapse standards + lessons into o
 
 ---
 
-## 9. Discovery-entry skills: `diagnose` and `refactor-discover`
+## 9. Discovery-entry skills: `diagnose`, `refactor-discover` and `brainstorm`
 
-Both are **discovery entries** — you start from a symptom or a hunting instinct rather than a known target. Both produce a finding, then **promote it into a standard container and get out of the way.** Neither writes a durable register; the finding lives inside the container it spawns and archives with it.
+All three are **discovery entries** — you start from a symptom, a hunting instinct, or a raw idea rather than a known target. Each produces a finding, then **promotes it into a standard container and gets out of the way.** None writes a durable register; the finding lives inside the container it spawns and archives with it.
 
 ### `diagnose` (model-invoked)
 Feedback-loop-first. The skill is: **build a tight, red-capable feedback loop before any hypothesis.** Phases: build loop → reproduce + minimise → hypothesise (3–5 ranked, falsifiable) → instrument → fix → regression test → cleanup.
@@ -403,7 +411,18 @@ Run with no concrete target — "find me refactor opportunities." Scans the code
 
 A candidate **rejected with a load-bearing reason** → offered as a **lesson** ("don't re-deepen X because Y") so the next run doesn't re-suggest it. Rejected ephemerally or selected → no durable trace. **No `foundation/architecture-debt.md` register** — refactor findings are ephemeral work items, not stable reference knowledge, and a shared register would create stale-entry and parallel-write hazards that fight the workflow's derive-don't-maintain principle.
 
-This makes `diagnose` and `refactor-discover` a clean pair: discovery-entry skills that promote a finding into a standard container, then hand off to the normal workflow.
+### `brainstorm` (user-invoked)
+
+Runs on a raw idea **before** `new`, when nobody has yet decided the work is worth doing. Interactive-only: it exists to ask about appetite and constraints, so an unattended invocation stops rather than inventing them. Climbs a source ladder before questioning (glossary + lessons → standards → open and archived containers → codebase → the user), then diverges — restate the problem without the user's proposed solution, ≥2 genuinely different alternatives plus a **priced** do-nothing, the riskiest assumption and its cheapest test — and converges through the `interview` reference's adversarial pass. Four ramps:
+
+- **Nothing worth building** → no container, no artifact, no `Next:`. A terminal success, not a failed run — the only entry in the workflow whose best outcome writes nothing.
+- **Already covered** by an open or archived container → cite the path, stop.
+- **One shippable unit** → `changes/<id>/change.md` + `brainstorm.md`.
+- **≥2 independently shippable capabilities** (the *bundling test*: would each function without the other?) → `efforts/<id>/effort.md` + `brainstorm.md`. Identity file only — decomposing into slices stays `roadmap`'s job, child changes stay `new`'s.
+
+`brainstorm.md` carries what neither research nor a frame has a home for: the alternatives weighed, why the do-nothing lost, and what is explicitly *not* being done. It is read as **settled context** by `plan`, `frame`, and `roadmap` (§7.6) — which is why running `/dx-frame` on top of a brainstorm deepens the conclusion instead of colliding with it, and why the artifact is deliberately not `frame.md`.
+
+This makes the three a clean set: discovery-entry skills that promote a finding into a standard container, then hand off to the normal workflow.
 
 ---
 

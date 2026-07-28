@@ -47,5 +47,5 @@ Lifecycle: `dx-init` → `dx-new` → `dx-research?` → `dx-frame?` → `dx-pla
 Effort: `dx-roadmap` (+ `dx-new <effort> <slice>` per slice).
 Knowledge: `dx-standards-discover`, `dx-standards-update`, `dx-domain-discover`, `dx-domain`, `dx-lesson`.
 Review: `dx-review-triage` — the sole skill that acts on a `plan-review`/`impl-review` finding; the gates themselves stay report-only.
-Discovery entries: `dx-diagnose`, `dx-refactor-discover`.
+Discovery entries: `dx-diagnose`, `dx-refactor-discover`, `dx-brainstorm` (runs before `dx-new`; may deliberately route to nothing).
 Plumbing: `dx-references`.
