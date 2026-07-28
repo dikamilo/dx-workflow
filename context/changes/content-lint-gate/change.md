@@ -4,7 +4,7 @@ title: Content lint gate for skills/dx-*
 type: feature
 effort: sdlc-hardening
 slice: 1
-status: implementing
+status: implemented
 created: 2026-07-28
 updated: 2026-07-28
 archived_at: null
