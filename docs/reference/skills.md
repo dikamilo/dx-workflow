@@ -42,7 +42,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-research`
 - **Invoke:** user — `/dx-research [container-id topic [--url=…] [--kind=codebase|external]]`
 - **Purpose:** investigate one topic (codebase or external doc) and record it with provenance a later plan can trust; see [research and frame](../explanation/research-and-frame.md).
-- **Reads:** the container folder under `context/changes/`, `context/efforts/`, or `context/foundation/`; `foundation/glossary.md`; the codebase (via `Explore` subagents) or the web (via `WebFetch`/`WebSearch`).
+- **Reads:** the container folder under `context/changes/`, `context/efforts/`, or `context/foundation/`; `foundation/glossary.md`; the codebase (via `Explore` subagents) or the web (via `WebFetch`/`WebSearch`, gated by the `untrusted-content` reference before synthesizing).
 - **Writes:** `<container>/research/<topic-slug>.md` with provenance frontmatter (`topic`, `kind`, `source`, `gathered`, `git_commit`) and evidence-backed findings.
 - **Prints next:**
   ```text
@@ -71,7 +71,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan`
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
-- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`), `frame.md`, `diagnosis.md`, `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
+- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
 - **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, and a `## Progress` section with all boxes `[ ]`); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
@@ -99,7 +99,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-implement`
 - **Invoke:** user — `/dx-implement [change-id]`
 - **Purpose:** execute **one** pending phase of the plan, verify it, and commit — resuming from `## Progress`; see [implement vs TDD](../explanation/implement-vs-tdd.md).
-- **Reads:** `plan.md` fully (resumes at the first `- [ ]`), its `research/`/`frame.md`/`diagnosis.md`, the plan's Standards and Priors, `foundation/glossary.md`, and the `progress-format`/`plan-template` references.
+- **Reads:** `plan.md` fully (resumes at the first `- [ ]`), its `research/`/`frame.md`/`diagnosis.md` (`untrusted-content` reference gates any `kind: external` research), the plan's Standards and Priors, `foundation/glossary.md`, and the `progress-format`/`plan-template` references.
 - **Writes:** the phase's code; flips its `## Progress` boxes to `- [x]` with the commit's short SHA appended; flips `change.md` to `status: implementing`, then `status: implemented` when every box is done. Never auto-rollback on failure.
 - **Prints next:**
   ```text
@@ -276,7 +276,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `dx-references`
 - **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
 - **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the eight topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `interview`, `module-design`, `knowledge-layer`, `review-report`. (There is no `model-policy` topic.)
+- **Reads:** `references/<topic>.md` for one of the nine topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `interview`, `module-design`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 
