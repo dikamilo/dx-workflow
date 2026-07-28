@@ -25,15 +25,16 @@ package.json              # install-skills / list-skills scripts (npx skills)
 
 Adding, removing, or significantly changing a skill (behavior, invocation, reads/writes, `Next:` output) is not
 done until `docs/` reflects it — update `docs/reference/skills.md` and any tutorial/explanation page that
-names the skill in the same change. A skill diff without a matching docs diff is incomplete.
-
-When creating new skills that introduce new capabilities, we should also create a tutorial. Additionally, for new ideas that the workflow is introducing, we should create additional documentation inside the explanation directory. For writing documentation, we should use the documentation skill.
+names the skill, in the same change. A new capability also gets a tutorial; a new workflow idea also gets an
+explanation page. Use the documentation skill for all of it. A skill diff without a matching docs diff is incomplete.
 
 Run `npm run lint:skills` after any edit under `skills/dx-*` — it's the same check CI's gate job runs, so catch it locally before opening the PR.
 
 ## Versioning
 
-Any PR touching `skills/**` must carry a changeset. Run `npx changeset` before opening the PR — pick the bump type (`major`/`minor`/`patch`) and write a one-line summary; it drops a file under `.changeset/` to include in the same PR. CI's gate job enforces this (fails the PR if `skills/` changed with no new `.changeset/*.md`). Changes to `context/`, `docs/`, `DESIGN.md`, or other non-`skills/` paths don't need one.
+Any PR touching `skills/**` must carry a changeset per change/slice it contains — run `npx changeset` before opening the PR (pick the bump type, write a one-line summary; it drops a file under `.changeset/`). Changes to `context/`, `docs/`, `DESIGN.md`, or other non-`skills/` paths don't need one.
+
+**One PR, multiple slices.** CI's gate job only checks that *some* `.changeset/*.md` exists, not that every slice is covered — on a multi-change branch it's satisfied the moment the first slice adds one, even if a later slice then touches `skills/**` uncovered. Before opening the PR, walk every child change (`context/changes/`, `context/archive/<date>-*/`) individually and confirm each one whose diff touches `skills/**` is described in its own changeset.
 
 Merging to `main` runs the release job, which opens/updates a "Version Packages" PR bumping `package.json` and generating `CHANGELOG.md`; merging that PR is the actual version release. Turning the gate job into a required branch-protection check is a manual follow-up in GitHub Settings, not something this workflow configures.
 
