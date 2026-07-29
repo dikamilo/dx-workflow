@@ -80,7 +80,7 @@ check.
 - [x] 1.6 §11 keeps rationale paragraphs, drops restated characteristics list, adds pointer — 961b3ad
 - [x] 1.7 §15 deleted entirely — 961b3ad
 #### Manual
-- [ ] 1.8 Full read-through: doc is coherent, no orphaned cross-references
+- [x] 1.8 Full read-through: doc is coherent, no orphaned cross-references — 682c375
 
 ### Phase 2: Verify no stale references
 #### Manual
