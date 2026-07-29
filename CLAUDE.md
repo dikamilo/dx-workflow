@@ -41,15 +41,4 @@ Any PR touching `skills/**` must carry a changeset per change/slice it contains 
 
 Merging to `main` runs the release job, which opens/updates a "Version Packages" PR bumping `package.json` and generating `CHANGELOG.md`; merging that PR is the actual version release. Turning the gate job into a required branch-protection check is a manual follow-up in GitHub Settings, not something this workflow configures.
 
-## The two-level model
-
-`effort` ⊃ `change`, never nested. A change is one shippable unit (`change.md` + `plan.md`/`## Progress`). An effort is larger work (`effort.md` + `roadmap.md`) that decomposes into vertical slices, each spawning a flat child change that inherits the effort's research + frame. `dx-new` routes; the change lifecycle is the same either way.
-
-## Skill index
-
-Lifecycle: `dx-init` → `dx-new` → `dx-research?` → `dx-frame?` → `dx-plan` → `dx-plan-review?` → `dx-review-triage?` → `dx-implement`/`dx-tdd` → `dx-impl-review` → `dx-review-triage?` → `dx-archive`.
-Effort: `dx-roadmap` (+ `dx-new <effort> <slice>` per slice).
-Knowledge: `dx-standards-discover`, `dx-standards-update`, `dx-domain-discover`, `dx-domain`, `dx-lesson`.
-Review: `dx-review-triage` — the sole skill that acts on a `plan-review`/`impl-review` finding; the gates themselves stay report-only.
-Discovery entries: `dx-diagnose`, `dx-refactor-discover`, `dx-brainstorm` (runs before `dx-new`; may deliberately route to nothing).
-Plumbing: `dx-references`.
+See `DESIGN.md` §4 for the two-level model (effort ⊃ change) and the full skill lifecycle/entry shapes.
