@@ -14,10 +14,11 @@ Built around a few core decisions: file-derived state (`context/`, `change.md`, 
 
 ## Install
 
-Per skill via the [skills CLI](https://www.skills.sh):
+Via the [skills CLI](https://www.skills.sh):
 
 ```
-npx skills add <owner>/<repo>/dx-init
+npx skills add <owner>/<repo>/          # Interactively select skills
+npx skills add <owner>/<repo>/dx-init   # Install a single skill
 ```
 
 Or install the whole set at once with the bundled scripts (via `npx skills`):
