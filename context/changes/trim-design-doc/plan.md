@@ -72,13 +72,13 @@ check.
 
 ### Phase 1: Trim and add pointers
 #### Automated
-- [x] 1.1 Top blockquote carries the new scope-boundary line
-- [x] 1.2 §5 keeps plugin-root tree + loader rationale, drops the per-project `context/` tree, adds pointer
-- [x] 1.3 §6 header count dropped, table replaced with pointer to `docs/reference/skills.md`
-- [x] 1.4 §7.4 trimmed to principle + pointer to `interview.md`
-- [x] 1.5 §7.5 trimmed to short paragraph + pointer to `docs/explanation/research-and-frame.md`
-- [x] 1.6 §11 keeps rationale paragraphs, drops restated characteristics list, adds pointer
-- [x] 1.7 §15 deleted entirely
+- [x] 1.1 Top blockquote carries the new scope-boundary line — 961b3ad
+- [x] 1.2 §5 keeps plugin-root tree + loader rationale, drops the per-project `context/` tree, adds pointer — 961b3ad
+- [x] 1.3 §6 header count dropped, table replaced with pointer to `docs/reference/skills.md` — 961b3ad
+- [x] 1.4 §7.4 trimmed to principle + pointer to `interview.md` — 961b3ad
+- [x] 1.5 §7.5 trimmed to short paragraph + pointer to `docs/explanation/research-and-frame.md` — 961b3ad
+- [x] 1.6 §11 keeps rationale paragraphs, drops restated characteristics list, adds pointer — 961b3ad
+- [x] 1.7 §15 deleted entirely — 961b3ad
 #### Manual
 - [ ] 1.8 Full read-through: doc is coherent, no orphaned cross-references
 
