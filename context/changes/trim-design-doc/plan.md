@@ -84,5 +84,5 @@ check.
 
 ### Phase 2: Verify no stale references
 #### Manual
-- [ ] 2.1 `CLAUDE.md`'s `DESIGN.md §4` pointer still correct
-- [ ] 2.2 `docs/README.md`'s `../DESIGN.md` link still resolves
+- [x] 2.1 `CLAUDE.md`'s `DESIGN.md §4` pointer still correct
+- [x] 2.2 `docs/README.md`'s `../DESIGN.md` link still resolves
