@@ -29,7 +29,7 @@ Read the plan against itself first (the cheapest, highest-value pass), then agai
 To check claims against the real codebase — riskiest file paths, unlisted callers, whether a pattern already exists — fan out to built-in `Explore` subagents with targeted questions. Don't dump the whole plan; a focused prompt finds more.
 
 ## Write and print the findings
-Compile a **concise markdown list** — no tables, no box-drawing, no severity matrix. Follow the `review-report` reference's finding format, tagging each with `[Blocker]` or `[Consider]`. If the plan is sound, say so in a line — don't manufacture findings. If `context/standards/` doesn't exist yet, don't fault the plan for "no standards matched" as if the dimension were checked clean — flag it as a low-priority `Consider` finding pointing at `/dx-standards-discover` instead. Close with a one-line verdict: **sound** / **revise** / **rethink**.
+Compile a **concise markdown list** — no tables, no box-drawing, no severity matrix. Follow the `review-report` reference's finding format (each finding needs a **Why it matters** line, not just **Detail**), tagging each with `[Blocker]` or `[Consider]`. If the plan is sound, say so in a line — don't manufacture findings. If `context/standards/` doesn't exist yet, don't fault the plan for "no standards matched" as if the dimension were checked clean — flag it as a low-priority `Consider` finding pointing at `/dx-standards-discover` instead. Close with a one-line verdict: **sound** / **revise** / **rethink**.
 
 Write it to `context/changes/<change-id>/reviews/plan-review.md` (create `reviews/` if absent) per the reference's file convention, and print the same list to the user. Do **not** touch `plan.md`.
 

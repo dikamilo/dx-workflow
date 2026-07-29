@@ -178,9 +178,12 @@ Note what does *not* happen automatically: no skill chains into the next. Each
 prints a `Next:` suggestion and stops, so recording a lesson or promoting a
 standard is always a deliberate step you take, never a silent side effect.
 
-Two discovery entries also feed the layer. `/dx-diagnose` may append a lesson when
-a class of bug recurs, and `/dx-refactor-discover` offers a rejected candidate as a
-lesson ("don't re-deepen X because Y") so the next scan doesn't re-suggest it.
+Three discovery entries also feed the layer. `/dx-diagnose` may append a lesson when
+a class of bug recurs, `/dx-refactor-discover` offers a rejected candidate as a
+lesson ("don't re-deepen X because Y") so the next scan doesn't re-suggest it, and
+`/dx-brainstorm` offers `/dx-lesson` when a rejection is load-bearing — the one
+durable trace a "nothing worth building" or "already covered" outcome leaves, since
+those ramps write no file at all.
 
 ## Trade-offs and what was deliberately left out
 
@@ -194,7 +197,9 @@ relitigate this," one catalog for "always do this."
 items, not stable reference knowledge, so `/dx-refactor-discover` spawns changes
 rather than maintaining a `foundation/architecture-debt.md`. A shared debt file
 would invite stale entries and parallel-write conflicts that fight dx-'s
-derive-don't-maintain grain.
+derive-don't-maintain grain. The same principle is why there is no brainstorm
+register or backlog file either: a rejection either becomes a lesson or it
+doesn't need to be remembered at all.
 
 **Why three and not two?** There's a real minimalist fallback: standards and
 lessons could collapse into a single `context/standards/` tree where each entry

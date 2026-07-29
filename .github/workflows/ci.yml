@@ -1,4 +1,4 @@
-name: Changeset Gate
+name: CI
 
 on:
   pull_request:
@@ -6,6 +6,21 @@ on:
       - main
 
 jobs:
+  lint-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - run: npm ci
+
+      - run: npm run lint:skills
+
   check-changeset:
     runs-on: ubuntu-latest
     steps:

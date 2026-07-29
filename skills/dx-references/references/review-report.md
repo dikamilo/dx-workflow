@@ -8,11 +8,12 @@ A review report (`plan-review.md` or `impl-review.md`, under `context/changes/<c
 ### F1 — <one-line title> [<tag>]
 - **Location:** <plan section/phase, or file:line>
 - **Detail:** <what's wrong, with evidence>
+- **Why it matters:** <the concrete impact if left unaddressed>
 - **Fix:** <recommended fix>
 - **Resolution:** PENDING
 ```
 
-`<tag>` is `Blocker`/`Consider` in `plan-review.md`, the dimension name (e.g. `Plan-Drift`, `Safety`, `Patterns`, `Standards`) in `impl-review.md`.
+Both report types share one severity vocabulary, `Blocker`/`Consider`. `<tag>` is the bare severity (`Blocker`/`Consider`) in `plan-review.md`. In `impl-review.md`, `<tag>` is the compound form `<Dimension>: <Severity>` (e.g. `Safety: Blocker`, `Patterns: Consider`) — the dimension (`Plan-Drift`, `Safety`, `Patterns`, `Standards`) and the severity are two different axes, both worth keeping visible.
 
 ## Rules
 

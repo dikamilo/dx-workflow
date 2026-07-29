@@ -25,7 +25,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-new`
 - **Invoke:** user — `/dx-new [idea or effort/slice]`
 - **Purpose:** the entry point and router — pick the container level (change vs effort vs a child slice) and create its identity file; see [efforts and changes](../explanation/efforts-and-changes.md).
-- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md`; accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill.
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md`; accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here.
 - **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled.
 - **Prints next:**
   ```text
@@ -42,7 +42,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-research`
 - **Invoke:** user — `/dx-research [container-id topic [--url=…] [--kind=codebase|external]]`
 - **Purpose:** investigate one topic (codebase or external doc) and record it with provenance a later plan can trust; see [research and frame](../explanation/research-and-frame.md).
-- **Reads:** the container folder under `context/changes/`, `context/efforts/`, or `context/foundation/`; `foundation/glossary.md`; the codebase (via `Explore` subagents) or the web (via `WebFetch`/`WebSearch`).
+- **Reads:** the container folder under `context/changes/`, `context/efforts/`, or `context/foundation/`; `foundation/glossary.md`; the codebase (via `Explore` subagents) or the web (via `WebFetch`/`WebSearch`, gated by the `untrusted-content` reference before synthesizing).
 - **Writes:** `<container>/research/<topic-slug>.md` with provenance frontmatter (`topic`, `kind`, `source`, `gathered`, `git_commit`) and evidence-backed findings.
 - **Prints next:**
   ```text
@@ -55,7 +55,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-frame`
 - **Invoke:** user — `/dx-frame [change-id or effort-id]`
 - **Purpose:** settle the WHAT before the HOW — interview on problem framing and alternatives so planning can jump straight to solution design; see [research and frame](../explanation/research-and-frame.md).
-- **Reads:** `change.md`/`effort.md` (notes `type`), every `research/<topic>.md`, `diagnosis.md`, `foundation/glossary.md`; may invoke `/dx-domain` on a clashing term.
+- **Reads:** `change.md`/`effort.md` (notes `type`), every `research/<topic>.md`, `diagnosis.md`, `brainstorm.md` (settled context — deepens its conclusion instead of reopening it), `foundation/glossary.md`; may invoke `/dx-domain` on a clashing term.
 - **Writes:** `context/{changes|efforts}/<id>/frame.md` (real problem, who/what it affects, alternatives, out of scope); sets container `updated`.
 - **Prints next:**
   ```text
@@ -71,7 +71,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan`
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
-- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`), `frame.md`, `diagnosis.md`, `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
+- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
 - **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, and a `## Progress` section with all boxes `[ ]`); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
@@ -99,7 +99,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-implement`
 - **Invoke:** user — `/dx-implement [change-id]`
 - **Purpose:** execute **one** pending phase of the plan, verify it, and commit — resuming from `## Progress`; see [implement vs TDD](../explanation/implement-vs-tdd.md).
-- **Reads:** `plan.md` fully (resumes at the first `- [ ]`), its `research/`/`frame.md`/`diagnosis.md`, the plan's Standards and Priors, `foundation/glossary.md`, and the `progress-format`/`plan-template` references.
+- **Reads:** `plan.md` fully (resumes at the first `- [ ]`), its `research/`/`frame.md`/`diagnosis.md` (`untrusted-content` reference gates any `kind: external` research), the plan's Standards and Priors, `foundation/glossary.md`, and the `progress-format`/`plan-template` references.
 - **Writes:** the phase's code; flips its `## Progress` boxes to `- [x]` with the commit's short SHA appended; flips `change.md` to `status: implementing`, then `status: implemented` when every box is done. Never auto-rollback on failure.
 - **Prints next:**
   ```text
@@ -127,7 +127,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Invoke:** user — `/dx-impl-review [change-id]`
 - **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift, safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
 - **Reads:** `plan.md` (with Standards and Priors), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
-- **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus tagged findings; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
+- **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus findings tagged `[<Dimension>: <Severity>]`; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
 - **Prints next:**
   ```text
   Review written: context/changes/<change-id>/reviews/impl-review.md
@@ -155,7 +155,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-roadmap`
 - **Invoke:** user — `/dx-roadmap [effort-id]`
 - **Purpose:** decompose an effort into an ordered list of vertical slices, each mapping to one child change — decomposes but does not create the changes; see [efforts and changes](../explanation/efforts-and-changes.md) and [run an effort](../tutorials/run-an-effort.md).
-- **Reads:** `effort.md` (its `## Goal`), the effort's `research/` and `frame.md`, `foundation/glossary.md`; runs a short anchor interview to settle slice ordering.
+- **Reads:** `effort.md` (its `## Goal`), the effort's `research/`, `frame.md`, and `brainstorm.md` (its capability split is raw material for the slices), `foundation/glossary.md`; runs a short anchor interview to settle slice ordering.
 - **Writes:** `context/efforts/<effort-id>/roadmap.md` — numbered slices, each naming one child change id, a one-line `why`, and a verbatim `/dx-new <effort-id> <slice-n>` line; flips `effort.md` to `status: scoped`. No maintained checklist — progress is derived.
 - **Prints next:**
   ```text
@@ -229,6 +229,21 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 
 ## Discovery entries
 
+### `/dx-brainstorm`
+- **Invoke:** user — `/dx-brainstorm [idea or question]`
+- **Purpose:** the divergent front door that runs before `/dx-new` — question whether the problem is real, weigh at least two alternatives against a priced do-nothing, and route to a change, an effort, or nothing at all; see [brainstorm an idea](../tutorials/brainstorm-an-idea.md).
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` and `foundation/lessons.md`, `context/standards/`, `context/changes/**` and `context/archive/**` (to spot work already decided or shipped), the codebase, and the user; the `interview` reference for the questioning loop and its adversarial pass, plus `change-md` or `effort-md` when writing a container, and its own bundled `references/brainstorm-md.md` for the artifact's shape (loaded only on a ramp that writes one).
+- **Writes:** nothing when the conclusion is "not worth building" or "already covered"; otherwise `context/changes/<id>/change.md` **or** `context/efforts/<id>/effort.md` plus a `brainstorm.md` beside it (the question, alternatives weighed incl. the priced do-nothing, conclusion & route, resolved unknowns, not doing). Never decomposes slices or creates child changes.
+- **Prints next:**
+  ```text
+  Nothing to build: <one-line conclusion — why the do-nothing won>
+  Already covered:  Covered by <path>   (status: <status>)
+  One change:       Brainstorm written: context/changes/<id>/brainstorm.md
+                    Next: /dx-frame <id>    → /dx-plan <id>       (frame optional)
+  An effort:        Brainstorm written: context/efforts/<id>/brainstorm.md
+                    Next: /dx-frame <id>    → /dx-roadmap <id>    (frame optional)
+  ```
+
 ### `/dx-diagnose`
 - **Invoke:** **model** (auto-fires) — `/dx-diagnose [symptom]`
 - **Purpose:** feedback-loop-first diagnosis for a bug or perf regression — build a red-capable loop, find the cause, then fix inline or promote it to a change; see [diagnose a bug](../tutorials/diagnose-a-bug.md).
@@ -276,7 +291,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `dx-references`
 - **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
 - **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the eight topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `interview`, `module-design`, `knowledge-layer`, `review-report`. (There is no `model-policy` topic.)
+- **Reads:** `references/<topic>.md` for one of the nine topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `interview`, `module-design`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 

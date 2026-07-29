@@ -13,7 +13,7 @@ Turn a researched, framed effort into an ordered sequence of **vertical slices**
 
 ## 1 — Gather what upstream settled
 
-Read `effort.md` (note its `## Goal`). Then read the effort's shared upstream as context: every `research/<topic>.md` and `frame.md` if present. Read `foundation/glossary.md` for naming (a one-line habit — no section). These are decisions already made; slice within them, don't re-litigate them.
+Read `effort.md` (note its `## Goal`). Then read the effort's shared upstream as context: every `research/<topic>.md`, and `frame.md` and `brainstorm.md` if present. A `brainstorm.md` reached this effort by passing the bundling test — its `## Conclusion & route` names the independently shippable capabilities it found, which is raw material for the slices below. Read `foundation/glossary.md` for naming (a one-line habit — no section). These are decisions already made; slice within them, don't re-litigate them.
 
 ## 2 — Draft candidate slices
 

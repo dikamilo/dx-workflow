@@ -25,23 +25,20 @@ package.json              # install-skills / list-skills scripts (npx skills)
 
 Adding, removing, or significantly changing a skill (behavior, invocation, reads/writes, `Next:` output) is not
 done until `docs/` reflects it — update `docs/reference/skills.md` and any tutorial/explanation page that
-names the skill in the same change. A skill diff without a matching docs diff is incomplete.
+names the skill, in the same change. A new capability also gets a tutorial; a new workflow idea also gets an
+explanation page. Use the documentation skill for all of it. A skill diff without a matching docs diff is incomplete.
+
+Adding or removing a skill directory under `skills/` also means adding or removing its entry in
+`skills.sh.json` (under the right `groupings` entry, or `notGrouped` if none fits), in the same change.
+
+Run `npm run lint:skills` after any edit under `skills/dx-*` — it's the same check CI's gate job runs, so catch it locally before opening the PR.
 
 ## Versioning
 
-Any PR touching `skills/**` must carry a changeset. Run `npx changeset` before opening the PR — pick the bump type (`major`/`minor`/`patch`) and write a one-line summary; it drops a file under `.changeset/` to include in the same PR. CI's gate job enforces this (fails the PR if `skills/` changed with no new `.changeset/*.md`). Changes to `context/`, `docs/`, `DESIGN.md`, or other non-`skills/` paths don't need one.
+Any PR touching `skills/**` must carry a changeset per change/slice it contains — run `npx changeset` before opening the PR (pick the bump type, write a one-line summary; it drops a file under `.changeset/`). Changes to `context/`, `docs/`, `DESIGN.md`, or other non-`skills/` paths don't need one.
+
+**One PR, multiple slices.** CI's gate job only checks that *some* `.changeset/*.md` exists, not that every slice is covered — on a multi-change branch it's satisfied the moment the first slice adds one, even if a later slice then touches `skills/**` uncovered. Before opening the PR, walk every child change (`context/changes/`, `context/archive/<date>-*/`) individually and confirm each one whose diff touches `skills/**` is described in its own changeset.
 
 Merging to `main` runs the release job, which opens/updates a "Version Packages" PR bumping `package.json` and generating `CHANGELOG.md`; merging that PR is the actual version release. Turning the gate job into a required branch-protection check is a manual follow-up in GitHub Settings, not something this workflow configures.
 
-## The two-level model
-
-`effort` ⊃ `change`, never nested. A change is one shippable unit (`change.md` + `plan.md`/`## Progress`). An effort is larger work (`effort.md` + `roadmap.md`) that decomposes into vertical slices, each spawning a flat child change that inherits the effort's research + frame. `dx-new` routes; the change lifecycle is the same either way.
-
-## Skill index
-
-Lifecycle: `dx-init` → `dx-new` → `dx-research?` → `dx-frame?` → `dx-plan` → `dx-plan-review?` → `dx-review-triage?` → `dx-implement`/`dx-tdd` → `dx-impl-review` → `dx-review-triage?` → `dx-archive`.
-Effort: `dx-roadmap` (+ `dx-new <effort> <slice>` per slice).
-Knowledge: `dx-standards-discover`, `dx-standards-update`, `dx-domain-discover`, `dx-domain`, `dx-lesson`.
-Review: `dx-review-triage` — the sole skill that acts on a `plan-review`/`impl-review` finding; the gates themselves stay report-only.
-Discovery entries: `dx-diagnose`, `dx-refactor-discover`.
-Plumbing: `dx-references`.
+See `DESIGN.md` §4 for the two-level model (effort ⊃ change) and the full skill lifecycle/entry shapes.

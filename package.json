@@ -10,7 +10,8 @@
   "packageManager": "npm@10.9.4",
   "scripts": {
     "list-skills": "npx skills add . --list",
-    "install-skills": "npx skills add . -g -s '*' -a claude-code"
+    "install-skills": "npx skills add . -g -s '*' -a claude-code",
+    "lint:skills": "node scripts/lint-skills.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1"
