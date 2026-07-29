@@ -28,6 +28,9 @@ done until `docs/` reflects it — update `docs/reference/skills.md` and any tut
 names the skill, in the same change. A new capability also gets a tutorial; a new workflow idea also gets an
 explanation page. Use the documentation skill for all of it. A skill diff without a matching docs diff is incomplete.
 
+Adding or removing a skill directory under `skills/` also means adding or removing its entry in
+`skills.sh.json` (under the right `groupings` entry, or `notGrouped` if none fits), in the same change.
+
 Run `npm run lint:skills` after any edit under `skills/dx-*` — it's the same check CI's gate job runs, so catch it locally before opening the PR.
 
 ## Versioning
