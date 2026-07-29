@@ -5,6 +5,8 @@
 > **Shipped as a package of skills only — no dedicated agents.** See §3.
 >
 > **Two container levels:** *effort* (large, decomposes) ⊃ *change* (single shippable unit). See §4.
+>
+> **This doc is rationale only.** The skill inventory and directory layout are maintained in `docs/` (`docs/reference/skills.md`, `docs/explanation/directory-layout.md`) — don't re-add them here out of habit; add the *why*, not the *what*.
 
 ---
 
@@ -177,67 +179,13 @@ the current task. If it does not exist, list the files in
 
 Skills that load a reference (`dx-frame`, `dx-plan`, `dx-research`, `dx-refactor-discover`, the knowledge-layer consumers) name the **topic** instead of a path ("invoke `dx-references` with `interview`"). Model-invocation stays **enabled** (do not set `disable-model-invocation`) so a skill can reach the loader when instructed; the missing-topic branch does real work (lists available topics) so the one remaining failure mode is informative. Bonus: only the requested topic enters context (progressive disclosure), not the whole reference set.
 
-Per-project, the workflow scaffolds into the target repo as:
-
-```
-context/
-├── foundation/        # stable reference docs
-│   ├── glossary.md            # ubiquitous language (glossary-only) — seeded by domain-discover
-│   ├── lessons.md             # accrued warnings — append-only
-│   ├── research/              # durable, reusable investigations (read by every plan)
-│   ├── vision.md / roadmap.md / tech-stack.md   # optional project orientation
-│   └── ...
-├── standards/         # the prescriptive baseline
-│   ├── global/        # SEED: coding-style.md, minimal-implementation.md, conventions.md
-│   ├── frontend/      # empty — filled by standards-discover
-│   ├── backend/       # empty
-│   └── testing/       # empty
-├── efforts/<effort-id>/
-│   ├── effort.md
-│   ├── research/              # shared upstream research (read by child changes)
-│   ├── frame.md               # shared framing (read by child changes)
-│   ├── brainstorm.md          # optional; when the effort was promoted from /brainstorm
-│   └── roadmap.md             # vertical slices; each → a child change
-├── changes/<change-id>/
-│   ├── change.md              # carries effort/slice/type when applicable
-│   ├── research/<topic>.md    # one file per research topic (§7.5)
-│   ├── research.md            # optional legacy single-file (still read if present)
-│   ├── frame.md               # optional
-│   ├── diagnosis.md           # optional; when the change was promoted from /diagnose
-│   ├── brainstorm.md          # optional; when the change was promoted from /brainstorm
-│   ├── plan.md                # owns ## Progress; carries matched Standards + Lessons sections
-│   └── reviews/
-└── archive/<YYYY-MM-DD>-<id>/ # archives both efforts and changes
-```
+Per-project `context/` layout (the tree that gets scaffolded into a target repo) is maintained in `docs/explanation/directory-layout.md` — not duplicated here.
 
 ---
 
-## 6. Skill inventory (20 workflow skills, 0 agents, 0 orchestrators)
+## 6. Skill inventory (0 agents, 0 orchestrators)
 
-> All skills ship under the **`dx-` prefix** (`dx-init`, `dx-new`, …); short names are shown in the table for readability. Plus **`dx-references`** — the shared reference-doc **loader** (§5), invoked by other skills to pull in shared docs by topic; it carries no workflow role of its own.
-
-| Skill | Invoke | Purpose |
-|---|---|---|
-| `init` | user | Scaffold `context/{foundation,standards,efforts,changes,archive}/`; seed the 3 global standards; create empty `foundation/{glossary,lessons}.md` |
-| `new` | user | **Router:** create a change or an effort; point at the next skill |
-| `research` | user | Research **one topic** per invocation → `research/<topic>.md` (codebase via `Explore` — including a prior-art facet over `context/changes/**/` and `context/archive/**/` — or external via `WebFetch`/`WebSearch`); also targets `foundation/research/` |
-| `frame` | user | Deep interview on problem framing + alternatives → `frame.md` |
-| `plan` | user | Upstream-aware **interview** (one question at a time; complexity-scaled count) → `plan.md`; absorbs framing-interview when no `frame.md`; folds in matched standards + lessons + glossary + related prior decisions from `context/archive/` |
-| `plan-review` | user | Optional pre-implementation gate |
-| `implement` | user | Execute **one phase** from plan; writes shared `## Progress`; follows matched standards |
-| `tdd` | user | Red-green sibling of `implement`, same Progress section; vertical slices |
-| `impl-review` | user | Post-implementation gate: plan-drift + safety + patterns + **standards compliance**; offers "record as lesson" |
-| `review-triage` | user | Triage a `plan-review`/`impl-review` report's findings and apply the fixes chosen — the one place either gate's findings get acted on |
-| `roadmap` | user | **Effort-level:** decompose a research+framed effort into vertical slices → child changes |
-| `diagnose` | model | Feedback-loop-first bug/perf diagnosis; promotes to a change carrying `diagnosis.md` |
-| `refactor-discover` | user | Scan for deepening opportunities; present findings; promote selection to a change or effort |
-| `brainstorm` | user | Interrogate a raw idea *before* a container exists: weigh ≥2 alternatives plus a priced do-nothing, then take one of four ramps — nothing worth building, already covered, a change, or an effort — the writing ramps carrying `brainstorm.md` |
-| `standards-discover` | user | Mine standards from config + code + docs → `context/standards/` |
-| `standards-update` | user | Create/edit/promote standards from conversation or a graduated lesson |
-| `domain-discover` | user | Brownfield glossary bootstrap from identifiers/docs; re-runnable per module |
-| `domain` | model | Active glossary sharpening on triggers (term clash, fuzzy term, resolved term); writes `glossary.md` |
-| `lesson` | user | Capture one finding as a concise rule → append to `foundation/lessons.md` |
-| `archive` | user | Move `changes/<id>/` **or** `efforts/<id>/` → `archive/<date>-<id>/`, set `archived_at` |
+> All skills ship under the **`dx-` prefix** (`dx-init`, `dx-new`, …). Plus **`dx-references`** — the shared reference-doc **loader** (§5), invoked by other skills to pull in shared docs by topic; it carries no workflow role of its own. The full per-skill table (invoke mode, purpose) is maintained in `docs/reference/skills.md` — not duplicated here.
 
 **Model-invoked (2):** `diagnose`, `domain` — the only skills worth auto-firing (natural autonomous triggers). `research` is **user-invoked**: investigation is a deliberate act you initiate, not something the model should auto-reach for mid-task. Everything else is user-invoked: the workflow is user-driven, and user-invocation pays zero context load. `interview` is a **reference loop**, not a skill. Effort and refactor are **types** handled by `new`, not separate skills.
 
@@ -279,40 +227,12 @@ status: new           # new → scoped → in-progress → done → archived
 Resume = first `- [ ]` in document order. Completion = `count([x]) / count( [ ]+[x] )`. Multiple implementer skills (implement/tdd) write this identically. Each phase should be a **vertical slice** where practical — end-to-end and demoable — not a horizontal layer pass.
 
 ### 7.4 Handoff scaling (question count vs. upstream artifacts)
-The plan skill counts its questions against what upstream artifacts already settled — **including the parent effort's research and frame**.
+Principle: *every artifact passed in — including a parent effort's — is a decision already made; don't re-ask it.* `plan` reads every available research file (change-scoped, parent-effort, `foundation/research/`, and `diagnosis.md` / `brainstorm.md` when present) as gathered context; it never re-spawns agents to find what a research file already mapped. The exact question-scaling table (upstream provided → questions to ask) lives in the `interview` reference (loaded via `dx-references`), which is the more current copy.
 
-| Upstream provided | Questions to ask |
-|---|---|
-| Task description only | full (complexity-scaled: trivial 0–2 / low 4–6 / medium 7–10 / high 11–15) |
-| + research | skip what any research file already answered |
-| + frame.md | skip all problem-framing questions |
-| + frame + research | solution-design questions only |
-| + parent effort's research + frame | skip all effort-level upstream; solution-design only |
-
-Principle: *every artifact passed in — including a parent effort's — is a decision already made; don't re-ask it.* `plan` reads every available research file (change-scoped, parent-effort, `foundation/research/`, and `diagnosis.md` / `brainstorm.md` when present) as gathered context; it never re-spawns agents to find what a research file already mapped.
-
-**Questioning is one question at a time (interview — §10), not a batch form.** The counts above are the *expected number* of interview questions for a complexity tier, scaled down by whatever upstream already settled. A **trivial** change gets a thin, single-phase plan with near-zero questions — `plan` is never skipped (it owns `## Progress`), but it scales down to almost nothing for small work, so there is no separate "no-plan" fast path to maintain.
+**Questioning is one question at a time (interview — §10), not a batch form.** The `interview` reference's counts are the *expected number* of interview questions for a complexity tier, scaled down by whatever upstream already settled. A **trivial** change gets a thin, single-phase plan with near-zero questions — `plan` is never skipped (it owns `## Progress`), but it scales down to almost nothing for small work, so there is no separate "no-plan" fast path to maintain.
 
 ### 7.5 Research — multi-topic, multi-mode
-A change or effort can carry **multiple research files**, one per topic, in `research/<topic>.md`. No index — `ls research/` derives the list (same derive-don't-maintain rule as `change.md`). A top-level `research.md` is still read if present.
-
-**User-invoked, two modes branched on input** — `/research <container-id> <topic-slug> [--url=…] [--kind=codebase|external]`:
-
-- **Codebase mode** (default): spawn `Explore` subagents, return `file:line` refs, stamp `git_commit`.
-- **External mode** (a URL, `--url=…`, or `--kind=external`): `WebFetch`/`WebSearch`, synthesize a summary with **citations + fetch date**. No MCP required.
-
-One file = one topic = one mode by default. Each is independently refreshable.
-
-Provenance frontmatter:
-```yaml
----
-topic: auth-library
-kind: external            # codebase | external
-source: https://libX.example.com/docs/auth
-gathered: 2026-07-01
-git_commit: <sha>         # codebase mode only; null in external mode
----
-```
+A change or effort can carry **multiple research files**, one per topic, in `research/<topic>.md` — codebase mode (via `Explore`, `file:line` refs) or external mode (via `WebFetch`/`WebSearch`, citations + fetch date), one file per topic per mode. The two modes, the provenance frontmatter schema, and the codebase/external branching are covered in `docs/explanation/research-and-frame.md` — not duplicated here.
 
 **Two research homes:** change/effort-scoped (`<container>/research/<topic>.md`) is the default; `foundation/research/<topic>.md` holds durable, reusable investigations (the natural home for external-doc research) read by every plan.
 
@@ -441,10 +361,7 @@ Net: **the interview always happens.** `frame` makes the framing half explicit a
 
 Refactoring is first-class but flows through the **same change lifecycle** — it is a `type: refactor` (or an effort of refactor-changes), not a separate workflow.
 
-A refactor change activates two characteristics, encoded in `plan.md` and enforced in review (mirroring the existing conditional-phase rule: migration → rollback phase, defect → TDD gate):
-
-- **Module-design reference** — the `module-design` topic (loaded via `dx-references`; deep modules, seams, deletion test, "the interface is the test surface") is loaded by `dx-research`/`dx-frame`/`dx-plan` for this change.
-- **Behavior-preserving gate** — tests must be green **before and after**; `impl-review` checks "did observable behavior stay the same? did depth/locality/testability improve?"
+A refactor change activates conditional characteristics (mirroring the existing conditional-phase rule: migration → rollback phase, defect → TDD gate) — the module-design vocabulary and the behavior-preserving gate. The exact list of characteristics is the "Conditional phases by type" entry in `plan-template.md` and the `module-design` reference (both loaded via `dx-references`) — not restated here.
 
 A refactor can be a single change (one isolated deepening) or an effort + roadmap (a cluster surfaced by `refactor-discover`). Same bones as any change; the type just activates the gate and the vocabulary.
 
@@ -486,16 +403,3 @@ To keep this from drifting back into bloat, the workflow obeys:
 7. **Conditional phases by type.** A plan activates phase characteristics by `type` (defect → TDD gate, refactor → behavior-preserving gate, migration → rollback phase) — encoded in `plan.md`, not by an orchestrator at runtime.
 8. **No skill without a `context/` read or write.** This single rule excludes anything that isn't part of the workflow.
 9. **Derive, don't maintain.** Lists come from `ls`; status comes from frontmatter; effort progress comes from child changes. No index files, no registers to keep in sync.
-
----
-
-## 15. Build order (when we scaffold)
-
-1. Plugin root: `CLAUDE.md` + `skills/dx-references/` (the loader `SKILL.md` + `references/{change-md,effort-md,progress-format,plan-template,knowledge-layer,interview,module-design}.md`) — scaffold this **first**, since the workflow skills load from it at runtime.
-2. Core change lifecycle: `dx-init` → `dx-new` (router) → `dx-plan` → `dx-implement` → `dx-archive`.
-3. Effort level: `dx-roadmap` (+ `dx-new` effort path).
-4. Knowledge layer: `dx-standards-discover`, `dx-standards-update`, `dx-lesson`, `dx-domain-discover`, `dx-domain` + the 3 seed standard files + `foundation/glossary.md`.
-5. Discovery entries: `dx-diagnose`, `dx-refactor-discover`.
-6. Add-ons: `dx-research`, `dx-frame`, `dx-tdd`, `dx-plan-review`, `dx-impl-review`.
-
-Each step is independently usable — nothing depends on a later step existing.
