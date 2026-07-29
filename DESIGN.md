@@ -128,40 +128,14 @@ E. raw idea:      brainstorm → (nothing worth building | already covered) | (c
 <engineering-group>/               # the dx- skill set (plugin root)
 ├── CLAUDE.md                      # root orientation + rollback principle + skill index
 └── skills/
-    ├── dx-init/SKILL.md
-    ├── dx-new/SKILL.md            # router: change vs effort
-    ├── dx-research/SKILL.md       # user-invoked; → research/<topic>.md (multi-topic, codebase + external — §7.5)
-    ├── dx-frame/SKILL.md          # deep interview on framing (loads the `interview` reference via dx-references)
-    ├── dx-plan/SKILL.md           # → plan.md; absorbs framing-interview when no frame (§10)
-    ├── dx-plan-review/SKILL.md    # optional pre-implementation gate
-    ├── dx-implement/SKILL.md      # writes shared ## Progress
-    ├── dx-tdd/SKILL.md            # sibling of implement
-    ├── dx-impl-review/SKILL.md    # post-implementation gate (checks standards compliance too)
-    ├── dx-review-triage/SKILL.md  # triages plan-review/impl-review findings, applies chosen fixes
-    ├── dx-roadmap/SKILL.md        # effort-level: decomposes into vertical slices → child changes
-    ├── dx-diagnose/SKILL.md       # model-invoked discovery entry; promotes to change (§9)
-    ├── dx-refactor-discover/SKILL.md  # discovery entry; promotes to change or effort (§9)
-    ├── dx-brainstorm/             # discovery entry; runs before dx-new — may build nothing (§9)
-    │   ├── SKILL.md
-    │   └── references/brainstorm-md.md   # collocated: the brainstorm.md shape, read on the two writing ramps
-    ├── dx-standards-discover/SKILL.md
-    ├── dx-standards-update/SKILL.md
-    ├── dx-domain-discover/SKILL.md    # brownfield glossary bootstrap, re-runnable per module
-    ├── dx-domain/SKILL.md             # model-invoked; active glossary sharpening
-    ├── dx-lesson/SKILL.md             # capture a finding → foundation/lessons.md
-    ├── dx-archive/SKILL.md
-    └── dx-references/                 # shared reference docs, loaded on demand via a topic argument
-        ├── SKILL.md                   # invocable loader: takes a `topic`, reads references/<topic>.md, returns it
-        └── references/
-            ├── change-md.md               # change.md schema + lifecycle
-            ├── effort-md.md               # effort.md schema + roadmap.md shape
-            ├── progress-format.md         # ## Progress contract
-            ├── plan-template.md
-            ├── interview.md                # the interview loop (loaded by dx-frame/dx-plan)
-            ├── module-design.md           # deep-module vocabulary (loaded for refactors)
-            ├── knowledge-layer.md         # how standards, lessons & glossary flow through skills (§8)
-            └── review-report.md           # finding-ID/Resolution schema shared by plan-review, impl-review, review-triage
+    ├── dx-<skill>/SKILL.md        # one directory per skill — current list derives from `ls`; see docs/reference/skills.md
+    └── dx-references/             # shared reference docs, loaded on demand via a topic argument
+        ├── SKILL.md               # invocable loader: takes a `topic`, reads references/<topic>.md, returns it
+        └── references/<topic>.md  # change-md, effort-md, progress-format, plan-template, interview,
+                                    # module-design, knowledge-layer, review-report, …
 ```
+
+Skill directories don't get individually listed here — that list is exactly the kind of thing that must be derived, not maintained (§14 rule 9): it grows every time a skill is added, and a hand-kept copy would drift immediately. `docs/reference/skills.md` is the maintained inventory; `ls skills/` is the ground truth.
 
 **Why references are an invocable loader skill.** `dx-references/SKILL.md` is a thin loader: a skill that needs a reference **invokes `dx-references` with a `topic` argument** (e.g. `interview`), and the loader reads `${CLAUDE_SKILL_DIR}/references/<topic>.md` and returns its contents. This removes disk-topology coupling entirely — no dx- skill needs to know where any *other* skill lives; only `dx-references` resolves a path, and only ever its own. `${CLAUDE_SKILL_DIR}` is guaranteed to resolve to the invoked skill's own directory at any install scope (personal, project, or plugin), so there is no symlink/sibling assumption left to break. The loader body:
 
@@ -268,40 +242,32 @@ Three artifacts, all markdown, all in `foundation/` or `standards/`. They look s
 - The **glossary** is *never* a spec, scratch pad, or home for implementation decisions — it is a glossary and nothing else. Every skill **reads** it as a one-line habit; only `domain-discover` and `domain` **write** it.
 
 ### The lifecycle (how each skill reads/writes them)
-```
-   context/standards/            foundation/lessons.md        foundation/glossary.md
-   (prescriptive baseline)       (warnings + decisions)       (ubiquitous language)
-        │                              │                              │
-        │ matched by domain + topic    │ read as priors               │ read for naming (one-line habit)
-        ▼                              ▼                              ▼
-   ┌─────────────────────────────────────────────────────────────────────────┐
-   │  plan  ── reads ALL THREE ──▶  plan.md gains:                          │
-   │           • "Standards to apply" checklist (matched)                   │
-   │           • "Priors & gotchas" (from lessons)                          │
-   │           • vocabulary drawn from glossary                             │
-   └──────────────────────────────┬──────────────────────────────────────────┘
-                                  │ plan.md carries the matched checklist
-                                  ▼
-                        implement / tdd   ── follows matched standards; uses glossary terms
-                                  ▼
-                        impl-review       ── checks plan-drift + safety + patterns
-                                            AND standards-compliance;
-                                            offers "record as lesson" on recurring issues
-                                  │
-                                  ├─ open findings ──▶ review-triage  ── applies chosen fixes,
-                                  │                                       commits each one
-                                  │
-                                  │ recurring / non-obvious finding
-                                  ▼
-                        lesson             ── appends to foundation/lessons.md
-                                  │
-                                  │ if it generalizes & keeps recurring
-                                  ▼
-                        standards-update  ── promotes into context/standards/
+```mermaid
+flowchart TD
+    standards["context/standards/<br/>(prescriptive baseline)"]
+    lessons["foundation/lessons.md<br/>(warnings + decisions)"]
+    glossary["foundation/glossary.md<br/>(ubiquitous language)"]
 
-   diagnose            ── may append a lesson (e.g. "this class of bug recurred because…")
-   refactor-discover   ── a rejected-with-reason candidate ──▶ lesson ("don't re-deepen X because Y")
-   domain              ── writes glossary on triggers (term clash, fuzzy term, resolved term)
+    plan["plan<br/>gains: Standards to apply checklist,<br/>Priors &amp; gotchas, glossary vocabulary"]
+    implement["implement / tdd<br/>follows matched standards; uses glossary terms"]
+    implreview["impl-review<br/>plan-drift + safety + patterns + standards-compliance"]
+    triage["review-triage<br/>applies chosen fixes, commits each"]
+    lesson["lesson<br/>appends to foundation/lessons.md"]
+    standardsupdate["standards-update<br/>promotes into context/standards/"]
+
+    standards -- "matched by domain + topic" --> plan
+    lessons -- "read as priors" --> plan
+    glossary -- "read for naming" --> plan
+    plan -- "plan.md carries matched checklist" --> implement
+    implement --> implreview
+    implreview -- "open findings" --> triage
+    implreview -- "recurring / non-obvious finding" --> lesson
+    lesson -- "if it generalizes &amp; keeps recurring" --> standardsupdate
+    standardsupdate -.-> standards
+
+    diagnose["diagnose"] -- "may append a lesson" --> lessons
+    refactordiscover["refactor-discover"] -- "rejected-with-reason candidate" --> lesson
+    domain["domain"] -- "writes on triggers (clash, fuzzy, resolved)" --> glossary
 ```
 
 The full contract (matching heuristics, lesson entry shape, promotion criteria, glossary entry shape) lives in the **`knowledge-layer`** reference (loaded via `dx-references`) on demand by `dx-plan`, `dx-impl-review`, `dx-standards-update`, `dx-lesson`, `dx-domain`, and `dx-refactor-discover`.
