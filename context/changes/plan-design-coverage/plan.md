@@ -190,26 +190,27 @@ raises a finding; on a plan whose silence is correct, it stays quiet.
 ## Progress
 
 ### Phase 1: Authoring side — the three topics reach `plan.md`
-- [ ] `references/plan-data-model.md` written
-- [ ] `references/plan-api-contracts.md` written
-- [ ] `references/plan-failure-modes.md` written (covers reversibility)
-- [ ] `plan-template.md` — conditional-sections block added
-- [ ] `dx-plan/SKILL.md` — steps 2 and 4 updated with relevance triggers and conditional loading
-- [ ] `dx-references/SKILL.md` — description lists the three new topics
-- [ ] `docs/reference/skills.md` — `/dx-plan` entry (Writes + Reads) and `dx-references` entry
-      (topic count + list) updated
-- [ ] `npm run lint:skills` passes
-- [ ] sandboxed `/dx-plan` run — schema-touching change and trivial change behave as specified
+- [x] `references/plan-data-model.md` written — 9e4d265
+- [x] `references/plan-api-contracts.md` written — 9e4d265
+- [x] `references/plan-failure-modes.md` written (covers reversibility) — 9e4d265
+- [x] `plan-template.md` — conditional-sections block added — 9e4d265
+- [x] `dx-plan/SKILL.md` — steps 2 and 4 updated with relevance triggers and conditional loading — 9e4d265
+- [x] `dx-references/SKILL.md` — description lists the three new topics — 9e4d265
+- [x] `docs/reference/skills.md` — `/dx-plan` entry (Writes + Reads) and `dx-references` entry
+      (topic count + list) updated — 9e4d265
+- [x] `npm run lint:skills` passes — 9e4d265
+- [x] sandboxed `/dx-plan` run — schema-touching change and trivial change behave as specified — 9e4d265
 
 ### Phase 2: Review side — the sections get verified
-- [ ] `dx-plan-review/SKILL.md` — conditional topic loading in "Load first"
-- [ ] `dx-plan-review/SKILL.md` — four checks folded into the existing four dimensions
-- [ ] `dx-impl-review/SKILL.md` — Plan-drift checks the diff against the conditional sections
-- [ ] `review-report.md` read and confirmed unchanged (or the assumption break recorded)
-- [ ] `docs/reference/skills.md` — `/dx-plan-review` and `/dx-impl-review` entries updated (including
+- [x] `dx-plan-review/SKILL.md` — conditional topic loading in "Load first"
+- [x] `dx-plan-review/SKILL.md` — four checks folded into the existing four dimensions
+- [x] `dx-impl-review/SKILL.md` — Plan-drift checks the diff against the conditional sections
+- [x] `review-report.md` read and confirmed unchanged (bare `[Blocker]`/`[Consider]` tags in
+      `plan-review.md` need no dimension-tagged form — that's `impl-review.md` only; no edit needed)
+- [x] `docs/reference/skills.md` — `/dx-plan-review` and `/dx-impl-review` entries updated (including
       their Reads lines)
-- [ ] `docs/tutorials/review-and-triage.md` — four-dimension walkthrough updated
-- [ ] sandboxed `/dx-plan-review` run — omitted-migration plan raises a finding, correct-silence plan
+- [x] `docs/tutorials/review-and-triage.md` — four-dimension walkthrough updated
+- [x] sandboxed `/dx-plan-review` run — omitted-migration plan raises a finding, correct-silence plan
       stays quiet
 
 ### Phase 3: Cross-cutting docs, changeset, gate

@@ -83,7 +83,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan-review`
 - **Invoke:** user — `/dx-plan-review [change-id]`
 - **Purpose:** an optional pre-implementation gate asking "will this plan actually work?" across substance, feasibility, architectural fitness, and standards-fit — **report only, never edits**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md`, `change.md`, its `research/`/`frame.md`/`diagnosis.md`, `context/standards/`, `foundation/glossary.md`, and the `plan-template`/`knowledge-layer`/`review-report` references.
+- **Reads:** `plan.md`, `change.md`, its `research/`/`frame.md`/`diagnosis.md`, `context/standards/`, `foundation/glossary.md`, the `plan-template`/`knowledge-layer`/`review-report` references, and — gated on the change, same triggers as `/dx-plan` — any of the `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` references.
 - **Writes:** `context/changes/<change-id>/reviews/plan-review.md` — a concise `[Blocker]`/`[Consider]` findings list with a **sound/revise/rethink** verdict. Leaves `plan.md` and code untouched.
 - **Prints next:**
   ```text
@@ -125,8 +125,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ### `/dx-impl-review`
 - **Invoke:** user — `/dx-impl-review [change-id]`
-- **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift, safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md` (with Standards and Priors), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
+- **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift (including any conditional `plan.md` sections), safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
+- **Reads:** `plan.md` (with Standards and Priors, and any `## Data model`/`## API & contracts`/`## Failure modes & reversibility` sections), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
 - **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus findings tagged `[<Dimension>: <Severity>]`; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
 - **Prints next:**
   ```text
