@@ -33,7 +33,9 @@ reviewer happening to think of them unprompted.
 - **Docs** — per this repo's own house rule, `docs/reference/skills.md` and any tutorial/explanation
   page naming `dx-plan` or `dx-plan-review` need the matching update in the same change.
 - **Not touched:** any plan or review already written before this ships (see below) — this reaches
-  only the two skills and their two shared references; no other skill reads these four topics.
+  only these skills and their shared references. (Corrected in triage: `plan-template` is read by
+  four skills — `dx-implement` and `dx-tdd` inherit the new block with no edit needed — and
+  `dx-impl-review` gains one Plan-drift line, a solution-design call recorded in `plan.md`.)
 
 ## Alternatives considered
 Full comparison lives in `brainstorm.md`. Summary of the resolved route:
