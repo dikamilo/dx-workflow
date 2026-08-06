@@ -107,6 +107,16 @@ option — never a batch form.
 >
 > **You:** 1
 
+> **dx-plan** loads `plan-failure-modes` — this change introduces an external call (Google's token
+> exchange) — and asks:
+>
+> **Q4.** If the Google token exchange fails partway (network error, invalid code), how should the
+> callback behave?
+> 1. Fail closed — show a generic sign-in error and create no partial session; safe to retry **(recommended)**
+> 2. Retry the exchange automatically before failing
+>
+> **You:** 1
+
 > **dx-plan** then matches the knowledge layer — pulling any relevant files from
 > `context/standards/` into a `## Standards to apply` checklist and any relevant `foundation/lessons.md`
 > entries into `## Priors & gotchas` — writes `plan.md` with a few vertical-slice phases and a
@@ -128,6 +138,12 @@ Add "Sign in with Google" using the OAuth 2.0 Authorization Code flow with PKCE.
 `routes/auth/google/` pair — one route to start the flow, one callback — exchanges the code for a
 profile, matches it to an existing user by verified email, and issues the app's normal session. No
 account creation in this change (scope decided in the interview).
+
+## Failure modes & reversibility
+- Google's token exchange can fail or time out; the callback fails closed with a generic sign-in
+  error and creates no partial session — safe to retry.
+- Undo path: this is an additive new route, so removal is a plain revert — no data or state to
+  unwind.
 
 ## Standards to apply
 > Matched from context/standards/ by domain + topic. A checklist the implementer follows and impl-review verifies.

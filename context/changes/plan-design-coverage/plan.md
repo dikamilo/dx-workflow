@@ -202,19 +202,19 @@ raises a finding; on a plan whose silence is correct, it stays quiet.
 - [x] sandboxed `/dx-plan` run — schema-touching change and trivial change behave as specified — 9e4d265
 
 ### Phase 2: Review side — the sections get verified
-- [x] `dx-plan-review/SKILL.md` — conditional topic loading in "Load first"
-- [x] `dx-plan-review/SKILL.md` — four checks folded into the existing four dimensions
-- [x] `dx-impl-review/SKILL.md` — Plan-drift checks the diff against the conditional sections
+- [x] `dx-plan-review/SKILL.md` — conditional topic loading in "Load first" — 848bfbf
+- [x] `dx-plan-review/SKILL.md` — four checks folded into the existing four dimensions — 848bfbf
+- [x] `dx-impl-review/SKILL.md` — Plan-drift checks the diff against the conditional sections — 848bfbf
 - [x] `review-report.md` read and confirmed unchanged (bare `[Blocker]`/`[Consider]` tags in
-      `plan-review.md` need no dimension-tagged form — that's `impl-review.md` only; no edit needed)
+      `plan-review.md` need no dimension-tagged form — that's `impl-review.md` only; no edit needed) — 848bfbf
 - [x] `docs/reference/skills.md` — `/dx-plan-review` and `/dx-impl-review` entries updated (including
-      their Reads lines)
-- [x] `docs/tutorials/review-and-triage.md` — four-dimension walkthrough updated
+      their Reads lines) — 848bfbf
+- [x] `docs/tutorials/review-and-triage.md` — four-dimension walkthrough updated — 848bfbf
 - [x] sandboxed `/dx-plan-review` run — omitted-migration plan raises a finding, correct-silence plan
-      stays quiet
+      stays quiet — 848bfbf
 
 ### Phase 3: Cross-cutting docs, changeset, gate
-- [ ] `docs/explanation/plan-and-slices.md` — `plan.md` anatomy updated
-- [ ] `docs/tutorials/ship-a-change.md` — worked example updated (at most one conditional section)
-- [ ] `npx changeset` written
-- [ ] `npm run lint:skills` passes and every touched file re-read against the no-op test
+- [x] `docs/explanation/plan-and-slices.md` — `plan.md` anatomy updated — 0006e5a
+- [x] `docs/tutorials/ship-a-change.md` — worked example updated (at most one conditional section) — 0006e5a
+- [x] `npx changeset` written — 0006e5a
+- [x] `npm run lint:skills` passes and every touched file re-read against the no-op test — 0006e5a
