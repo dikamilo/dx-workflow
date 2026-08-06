@@ -4,10 +4,10 @@ title: Close the plan/plan-review design-coverage gap (data model, contracts, ed
 type: feature
 effort: null
 slice: null
-status: implemented
+status: archived
 created: 2026-08-06
 updated: 2026-08-06
-archived_at: null
+archived_at: 2026-08-06
 ---
 
 ## Notes
