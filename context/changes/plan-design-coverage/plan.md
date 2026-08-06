@@ -214,7 +214,7 @@ raises a finding; on a plan whose silence is correct, it stays quiet.
       stays quiet — 848bfbf
 
 ### Phase 3: Cross-cutting docs, changeset, gate
-- [x] `docs/explanation/plan-and-slices.md` — `plan.md` anatomy updated — 0006e5a
-- [x] `docs/tutorials/ship-a-change.md` — worked example updated (at most one conditional section) — 0006e5a
-- [x] `npx changeset` written — 0006e5a
-- [x] `npm run lint:skills` passes and every touched file re-read against the no-op test — 0006e5a
+- [x] `docs/explanation/plan-and-slices.md` — `plan.md` anatomy updated — 9df28b5
+- [x] `docs/tutorials/ship-a-change.md` — worked example updated (at most one conditional section) — 9df28b5
+- [x] `npx changeset` written — 9df28b5
+- [x] `npm run lint:skills` passes and every touched file re-read against the no-op test — 9df28b5
