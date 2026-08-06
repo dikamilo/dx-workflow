@@ -26,6 +26,19 @@
 <see progress-format — the execution single-source-of-truth>
 ```
 
+## Conditional sections by relevance
+Three sections sit right after `## Approach`, each populated only when the change actually touches
+that concern (`dx-plan` gates them with a one-line relevance trigger before interviewing):
+- `## Data model` — the change adds, removes, or reshapes a schema, table, or persisted structure.
+  Load `plan-data-model`.
+- `## API & contracts` — the change adds or changes an endpoint, function signature, event, or
+  message another caller depends on. Load `plan-api-contracts`.
+- `## Failure modes & reversibility` — the change introduces an external call, a migration, or
+  needs an undo path once shipped. Load `plan-failure-modes`.
+
+**Omit a section entirely when it doesn't apply — never write `N/A` or a placeholder.** A trivial
+plan with none of these concerns in play carries none of these headers.
+
 ## Conditional phases by `type`
 Read `change.md`'s `type` and activate the matching characteristic in the phases (mirrors the "characteristic per type" rule — not an orchestrator):
 - `defect` → **TDD gate**: first phase writes the failing regression test, then the fix.

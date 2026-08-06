@@ -21,6 +21,15 @@ If the change resembles past work, spawn a quick **Explore** search over `contex
 
 **One question at a time, each with a recommended answer.** If the codebase, a research doc, or the frame can answer it, explore instead of asking. Scale the count by complexity **and** by what upstream settled (the scaling table in that reference).
 
+Before interviewing, check relevance and load only the topics that apply:
+- Touches a schema, table, or persisted structure → invoke `dx-references` with `plan-data-model`.
+- Adds or changes an endpoint, function signature, event, or message another caller depends on →
+  invoke `dx-references` with `plan-api-contracts`.
+- Introduces an external call, a migration, or needs an undo path once shipped → invoke
+  `dx-references` with `plan-failure-modes`.
+
+A change touching none of these loads none of them.
+
 - **No `frame.md`** → front-load the framing questions `dx-frame` would have asked, then move to solution design.
 - **`frame.md` present** (or a parent effort's frame/research) → solution design only.
 
@@ -36,7 +45,10 @@ If a term clashes with the glossary, is vague/overloaded, or finally gets pinned
 
 ## 4 — Write `plan.md` (invoke `dx-references` with `plan-template`)
 
-Follow that shape. Each phase a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Activate the conditional characteristic for `change.md`'s `type`:
+Follow that shape. Author `## Data model`, `## API & contracts`, and/or `## Failure modes &
+reversibility` for whichever topics step 2 loaded — omit the rest entirely, never `N/A`. Each phase
+a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Activate
+the conditional characteristic for `change.md`'s `type`:
 
 - `defect` → TDD gate: first phase writes the failing regression test, then the fix.
 - `refactor` → behavior-preserving gate (tests green before **and** after); **also invoke `dx-references` with `module-design`** and use its vocabulary.
