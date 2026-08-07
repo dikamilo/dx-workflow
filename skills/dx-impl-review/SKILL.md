@@ -17,7 +17,7 @@ Read `plan.md` fully (note `change.md`'s `type`), its **Standards to apply** che
 ## 2 — Review on four dimensions
 Fan out to built-in `Explore`/`general-purpose` subagents to keep the main context clean — e.g. one for drift, one for safety + standards. Each reads only the files it needs; don't pre-load 20 files here.
 
-1. **Plan-drift** — was what's in the diff what `plan.md` planned? Flag intent mismatches, skipped items, and unplanned scope (extra files/behavior not in the plan).
+1. **Plan-drift** — was what's in the diff what `plan.md` planned? Flag intent mismatches, skipped items, and unplanned scope (extra files/behavior not in the plan). If `plan.md` carries any of the conditional sections (`## Data model`, `## API & contracts`, `## Failure modes & reversibility`), check the diff against what each one planned — a documented undo path or migration that the implementation never shipped is Plan-drift, not a new dimension.
 2. **Safety** — data loss, destructive/irreversible ops, missing error handling at boundaries, hardcoded secrets, injection.
 3. **Patterns** — sound structure judged with the `module-design` vocabulary (deep vs shallow, clean seams, does the interface leak?). Report substantive mismatches with sibling code, not style nits.
 4. **Standards compliance** — did it follow the plan's matched **Standards to apply**? Cite the standard for each miss.

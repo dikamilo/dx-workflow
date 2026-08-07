@@ -32,6 +32,9 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 ## Approach
 <the chosen solution in a few sentences — what and why, drawn from the interview>
 
+## Data model / API & contracts / Failure modes & reversibility
+<conditional — present only when the change actually touches that concern>
+
 ## Standards to apply
 > Matched from context/standards/ by domain + topic. A checklist the implementer follows and impl-review verifies.
 - [ ] <standard>: <one-line how it applies here>
@@ -50,6 +53,13 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 
 - **Approach** is the decision, in prose. It captures *what* solution was chosen and *why*, distilled from
   the plan interview. A reader should be able to understand the direction without reading the phases.
+- **Data model**, **API & contracts**, and **Failure modes & reversibility** are conditional — each
+  appears only when the change actually touches that concern (a schema change, a caller-facing
+  interface, an external call or migration). `/dx-plan` gates them with a one-line relevance trigger
+  before interviewing, so a trivial change carries none of them. A section is **omitted entirely**
+  when it doesn't apply — never written as `N/A` — because the silence itself is what
+  `/dx-plan-review` checks: a wrongly-absent section is exactly as reachable in review as a
+  present-but-wrong one.
 - **Standards to apply** is a checklist, not a narrative. `/dx-plan` matches your `context/standards/`
   files by domain and topic and pulls only the relevant ones in. The implementer follows the list;
   `/dx-impl-review` verifies against the same list. It is the contract between planning and review.

@@ -71,8 +71,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan`
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
-- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions.
-- **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, and a `## Progress` section with all boxes `[ ]`); flips `change.md` to `status: planned`.
+- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions; loads `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` when the change touches that concern.
+- **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, a `## Progress` section with all boxes `[ ]`, and — only when relevant — `## Data model`/`## API & contracts`/`## Failure modes & reversibility`); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
   Plan written: context/changes/<change-id>/plan.md
@@ -83,7 +83,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan-review`
 - **Invoke:** user — `/dx-plan-review [change-id]`
 - **Purpose:** an optional pre-implementation gate asking "will this plan actually work?" across substance, feasibility, architectural fitness, and standards-fit — **report only, never edits**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md`, `change.md`, its `research/`/`frame.md`/`diagnosis.md`, `context/standards/`, `foundation/glossary.md`, and the `plan-template`/`knowledge-layer`/`review-report` references.
+- **Reads:** `plan.md`, `change.md`, its `research/`/`frame.md`/`diagnosis.md`, `context/standards/`, `foundation/glossary.md`, the `plan-template`/`knowledge-layer`/`review-report` references, and — gated on the change, same triggers as `/dx-plan` — any of the `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` references.
 - **Writes:** `context/changes/<change-id>/reviews/plan-review.md` — a concise `[Blocker]`/`[Consider]` findings list with a **sound/revise/rethink** verdict. Leaves `plan.md` and code untouched.
 - **Prints next:**
   ```text
@@ -125,8 +125,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ### `/dx-impl-review`
 - **Invoke:** user — `/dx-impl-review [change-id]`
-- **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift, safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md` (with Standards and Priors), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
+- **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift (including any conditional `plan.md` sections), safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
+- **Reads:** `plan.md` (with Standards and Priors, and any `## Data model`/`## API & contracts`/`## Failure modes & reversibility` sections), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
 - **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus findings tagged `[<Dimension>: <Severity>]`; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
 - **Prints next:**
   ```text
@@ -291,7 +291,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `dx-references`
 - **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
 - **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the nine topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `interview`, `module-design`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
+- **Reads:** `references/<topic>.md` for one of the twelve topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 

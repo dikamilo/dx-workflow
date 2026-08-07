@@ -48,12 +48,21 @@ review costs minutes. Run it:
 > `frame.md`/`research/` it drew on), then reviews on four dimensions:
 >
 > - **Substance** — does the approach actually solve the framed problem, or could every phase pass and
->   the goal still be unmet?
+>   the goal still be unmet? Folds in **reversibility** (is the undo path documented alongside the
+>   execute path, when the plan touches failure modes?) and **scope cohesion** (one independently
+>   deployable capability, not bundled unrelated work).
 > - **Feasibility** — are the phases realistic, correctly ordered, each a testable vertical slice?
+>   Folds in **failure-scenario coverage** — do external calls and migrations have documented
+>   failure modes?
 > - **Architectural fitness** — does it fit the existing system, or invent a new pattern where one
->   already exists?
+>   already exists? Folds in **contracts & compatibility** — is a breaking change named as one?
 > - **Standards-fit** — are the plan's **Standards to apply** the right matched ones for this change's
 >   domain and type?
+>
+> These extra checks only fire when `plan.md` was expected to carry a `## Data model`, `## API &
+> contracts`, or `## Failure modes & reversibility` section — the same relevance triggers `dx-plan`
+> used to decide whether to write one, so a wrongly-omitted section is caught, not just a
+> present-but-wrong one.
 >
 > To check the plan's claims against reality — riskiest file paths, unlisted callers, whether a pattern
 > already exists — it fans out built-in `Explore` subagents with focused questions rather than dumping
