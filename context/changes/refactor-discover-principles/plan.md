@@ -357,16 +357,16 @@ Runs **only if phase 5's read-back came back lossy.** Skipped entirely otherwise
 
 ### Phase 2: Broaden the sweep
 #### Automated
-- [ ] 2.1 `references/design-lenses.md` created — bare principles, no `bounded context`, one known-shape sentence, no catalogue, the diagnosis-is-never-a-win clause
-- [ ] 2.2 `dx-references/SKILL.md:3` topic list includes `design-lenses`
-- [ ] 2.3 `dx-refactor-discover` §2 broadened; all findings still phrased in `module-design` terms
-- [ ] 2.4 `dx-plan` **§4** loads `design-lenses` unconditionally (not §2 — its block is conditional by design); §2 untouched
-- [ ] 2.5 `dx-refactor-discover` frontmatter `description` and `docs/reference/skills.md:262` **Purpose** no longer say depth-only; `DESIGN.md` §9 no longer says the scan uses `module-design` alone; `docs/reference/skills.md` topic list **and count** (twelve → thirteen) + both Reads lines; `research-and-frame.md`, `plan-and-slices.md`, `find-refactors.md` updated
-- [ ] 2.6 `npm run lint:skills` passes
-- [ ] 2.7 Changeset added
+- [x] 2.1 `references/design-lenses.md` created — bare principles, no `bounded context`, one known-shape sentence, no catalogue, the diagnosis-is-never-a-win clause — a262f7b
+- [x] 2.2 `dx-references/SKILL.md:3` topic list includes `design-lenses` — a262f7b
+- [x] 2.3 `dx-refactor-discover` §2 broadened; all findings still phrased in `module-design` terms — a262f7b
+- [x] 2.4 `dx-plan` **§4** loads `design-lenses` unconditionally (not §2 — its block is conditional by design); §2 untouched — a262f7b
+- [x] 2.5 `dx-refactor-discover` frontmatter `description` and `docs/reference/skills.md:262` **Purpose** no longer say depth-only; `DESIGN.md` §9 no longer says the scan uses `module-design` alone; `docs/reference/skills.md` topic list **and count** (twelve → thirteen) + both Reads lines; `research-and-frame.md`, `plan-and-slices.md`, `find-refactors.md` updated — a262f7b
+- [x] 2.6 `npm run lint:skills` passes — a262f7b
+- [x] 2.7 Changeset added — a262f7b
 #### Manual
-- [ ] 2.8 `design-lenses.md` re-read against the no-op test — no line defines a principle the model already knows; file still ~15 lines
-- [ ] 2.9 Sandboxed `/dx-refactor-discover` run on this repo yields ≥1 finding whose diagnosis is non-module-depth (coupling, duplication, SRP), cashed out in `module-design` terms — the broadening demonstrably finds what the pre-change scan was blind to. Keep this finding: it is 5.3's input
+- [x] 2.8 `design-lenses.md` re-read against the no-op test — no line defines a principle the model already knows; file still ~15 lines
+- [x] 2.9 Sandboxed `/dx-refactor-discover` run on this repo yields ≥1 finding whose diagnosis is non-module-depth (coupling, duplication, SRP), cashed out in `module-design` terms — the broadening demonstrably finds what the pre-change scan was blind to. Keep this finding: it is 5.3's input
 
 ### Phase 3: Scan targeting and an opinionated read
 #### Automated

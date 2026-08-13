@@ -10,7 +10,7 @@ Single responsibility · open/closed · Liskov substitution · interface segrega
 
 ## Known shapes
 
-Consider whether a known design pattern, architectural style, or domain archetype names the shape the code could become — when one genuinely fits. There is no catalogue to work through on purpose: a list of patterns to satisfy pulls straight against KISS and YAGNI standing right above it.
+Consider whether a known design pattern, architectural style, or domain archetype names the shape the code could become — when one genuinely fits. There is deliberately no catalogue here to work through.
 
 ## A principle name is a diagnosis, never a win
 
