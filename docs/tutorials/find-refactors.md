@@ -34,8 +34,9 @@ Run the skill with no argument to sweep the whole tree, or scope it to a path to
 
 > **dx-refactor-discover** starts with no concrete target. First it loads its vocabulary — it invokes
 > `dx-references` with topic `module-design` so every finding is phrased in those terms (**deep vs
-> shallow** modules, **seams**, the **deletion test**, "the interface is the test surface"), not vague
-> "component / service / boundary" talk. It reads `foundation/glossary.md` for naming, and it reads
+> shallow** modules, **seams**, **leverage and locality**, **adapters**, **dependency category**, the
+> **deletion test**), not vague "component / service / boundary" talk — that reference's
+> **rejected framings** list says which words stay out. It reads `foundation/glossary.md` for naming, and it reads
 > `foundation/lessons.md` so it **skips anything a prior run already rejected** ("don't re-deepen X
 > because Y").
 >
@@ -68,26 +69,42 @@ yet — that's a job for planning. Each entry gives you just enough to decide.
 >   per underlying call (`readEnv`, `readFile`, `resolvePath`, `parse`, `merge`…). Deleting `loader.ts`
 >   would *concentrate* the config-assembly logic that's currently smeared across three files — the
 >   deletion test says "yes."
+> - **Shape: before → after** — 3 files + 5 exported steps → 1 module, 1 method
 > - **Proposed deepening** — a single deep loader behind a narrow interface: `loadConfig(): Config`.
 >   Callers stop orchestrating steps; the module owns the whole read-parse-merge pipeline.
+>   Leverage: one interface replaces five learned at 14 call sites.
+> - **Dependency category** — local-substitutable (reads the filesystem; the in-memory FS stand-in
+>   already used elsewhere covers it), so the seam stays internal and no port is needed.
 >
 > **2. Collapse `retry-helpers`**  ·  `Worth exploring`
 > - **What & where** — `src/net/retry.ts`, `src/net/backoff.ts`
 > - **Why it's tangled** — two pure functions extracted only so they could be unit-tested, but the real
 >   sequencing bug lives in the caller that wires them together, which no test covers.
+> - **Shape: before → after** — 2 helpers + caller-side loop → 1 seam, 1 entry point
 > - **Proposed deepening** — fold both into a single `withRetry(fn, policy)` seam that owns the loop, so
->   the tested surface is the behavior callers actually depend on.
+>   the tested surface is the behavior callers actually depend on. Locality: the sequencing bug now has
+>   one place to live and one place to be tested.
+> - **Dependency category** — in-process (pure computation plus a clock), so it's testable through the
+>   new interface with no adapter.
 >
 > **3. Narrow the `Cache` seam**  ·  `Speculative`
 > - **What & where** — `src/cache/index.ts`
 > - **Why it's leaky** — the interface hands callers the raw store handle, so eviction logic leaks out.
+> - **Shape: before → after** — store handle + 6 exports → 3 methods
 > - **Proposed deepening** — hide the store; expose `get`/`set`/`invalidate` only. Lower confidence —
 >   only two callers touch it today.
+> - **Dependency category** — remote-but-owned (the store is a Redis you run), so the deepening needs a
+>   port at the seam: real transport in prod, in-memory adapter in tests. Two adapters, so the seam is real.
 >
 > Then it asks which you want to promote.
 
-Each entry carries a **strength tag** — `Strong`, `Worth exploring`, or `Speculative` — so you can
-weigh them fast. `config-loader` is the clear `Strong` one, and it's the one we'll drive from here.
+Each entry carries two axes that answer different questions. The **strength tag** — `Strong`,
+`Worth exploring`, or `Speculative` — is *desirability*: how confident the scan is that the deepening
+is worth doing. The **dependency category** — in-process, local-substitutable, remote-but-owned, or
+true-external — is *feasibility*: whether the result can actually be tested once deepened, which is
+where a refactor tends to stall. Note too that no entry says "cleaner code": every win is cashed out
+into a concrete consequence in `module-design` terms, so it survives the handoff into a change.
+`config-loader` is the clear `Strong` one, and it's the one we'll drive from here.
 
 Now the two branches. What you type next depends on whether you pick **one** finding or **many**.
 
@@ -136,7 +153,10 @@ And the finding it captured, seeded so `/dx-plan` inherits the full context inst
 **What & where** — src/config/loader.ts, env.ts, paths.ts.
 **Why it's shallow** — wide pass-through wrapper; interface nearly as wide as the implementation.
 Deletion test: removing loader.ts concentrates the read-parse-merge logic rather than moving it.
+**Shape: before → after** — 3 files + 5 exported steps → 1 module, 1 method.
 **Proposed deepening** — one deep `loadConfig(): Config` behind a narrow interface.
+Leverage: one interface replaces five learned at 14 call sites.
+**Dependency category** — local-substitutable; the seam stays internal, no port needed.
 ```
 
 That `type: refactor` stamp is what makes this a refactor rather than a feature. When you run
@@ -172,11 +192,15 @@ literal argument to hand to `/dx-new`, so the handoff carries the detail, not ju
 > ```text
 > ## Refactor opportunities (from /dx-refactor-discover)
 > 1. **Deepen config-loader** — src/config/*
->    Why: wide pass-through wrapper; interface nearly as wide as implementation
->    Proposed: a single deep loader behind a narrow interface (Strong)
+>    Why: wide pass-through wrapper; interface nearly as wide as implementation.
+>         Leverage: one interface replaces five learned at 14 call sites
+>    Shape: 3 files + 5 exported steps → 1 module, 1 method
+>    Proposed: a single deep loader behind a narrow interface (Strong, local-substitutable)
 > 2. **Collapse retry-helpers** — src/net/retry.ts, backoff.ts
->    Why: pure functions extracted only for testability; the real bug is in the caller
->    Proposed: one withRetry(fn, policy) seam that owns the loop (Worth exploring)
+>    Why: pure functions extracted only for testability; the real bug is in the caller.
+>         Locality: the sequencing bug gets one place to live and one place to be tested
+>    Shape: 2 helpers + caller-side loop → 1 seam, 1 entry point
+>    Proposed: one withRetry(fn, policy) seam that owns the loop (Worth exploring, in-process)
 > ```
 
 You then drive the handoff yourself. `/dx-new` sizes that seed as an **effort** (it's large and

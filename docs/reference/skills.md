@@ -259,8 +259,8 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `/dx-refactor-discover`
 - **Invoke:** user — `/dx-refactor-discover [area or path]`
 - **Purpose:** hunt the codebase for deepening opportunities (shallow modules to turn deep), present them inline, and promote the ones you pick; see [find refactors](../tutorials/find-refactors.md).
-- **Reads:** the `module-design` reference for its vocabulary, `foundation/glossary.md`, `foundation/lessons.md` (to skip prior rejections), the codebase (via `Explore` subagents scoped to `[area or path]`).
-- **Writes:** findings inline as markdown (ephemeral — no debt register); for a single pick, `context/changes/<slug>/change.md` stamped `type: refactor` with the finding as its seed `research/`/`frame.md`. Many picks are handed to `/dx-new` as a seed summary.
+- **Reads:** the `module-design` reference for its vocabulary (deep vs shallow, seams, leverage and locality, adapters, dependency category, the deletion test, and the rejected framings that keep words like "component / service / boundary" out), `foundation/glossary.md`, `foundation/lessons.md` (to skip prior rejections), the codebase (via `Explore` subagents scoped to `[area or path]`).
+- **Writes:** findings inline as markdown — each carrying a one-line `Shape: before → after`, a strength tag (desirability), a dependency category (feasibility), and a win cashed out in `module-design` terms rather than "cleaner code" (ephemeral — no debt register); for a single pick, `context/changes/<slug>/change.md` stamped `type: refactor` with the finding as its seed `research/`/`frame.md`. Many picks are handed to `/dx-new` as a seed summary.
 - **Prints next:**
   ```text
   Promoted one: Change created: context/changes/<slug>/change.md   (type: refactor, seeded with the finding)

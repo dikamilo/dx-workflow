@@ -13,7 +13,7 @@ Start with no concrete target — "find me refactor opportunities." Scan the cod
 
 ## 1 — Load the vocabulary
 
-Invoke `dx-references` with topic `module-design` — its terms (deep vs shallow, seam, the deletion test, "the interface is the test surface") are how every finding is phrased. Don't drift into "component / service / boundary." Read `foundation/glossary.md` for naming (a one-line habit — no section) and `foundation/lessons.md` so you **skip anything a prior run already rejected** ("don't re-deepen X because Y").
+Invoke `dx-references` with topic `module-design` — its terms (deep vs shallow, seam, leverage and locality, adapter, dependency category, the deletion test) are how every finding is phrased, and its `## Rejected framings` says which words stay out. Read `foundation/glossary.md` for naming (a one-line habit — no section) and `foundation/lessons.md` so you **skip anything a prior run already rejected** ("don't re-deepen X because Y").
 
 ## 2 — Scan
 
@@ -25,14 +25,18 @@ Markdown only — no HTML, no report file, no clipboard. A concise numbered list
 
 - **What & where** — the module and files.
 - **Why it's shallow / tangled** — in `module-design` terms.
-- **Proposed deepening** — the shape after, plus a strength tag (`Strong` | `Worth exploring` | `Speculative`).
+- **Shape: before → after** — one line (`4 wrappers + handler → 1 module, 2 methods`).
+- **Proposed deepening** — the move, plus a strength tag (`Strong` | `Worth exploring` | `Speculative`).
+- **Dependency category** — in-process / local-substitutable / remote-but-owned / true-external. The strength tag says whether the deepening is worth doing; this says whether the result can be tested afterwards, which is where a refactor actually stalls.
+
+**Cash out the win.** Name it in `module-design` terms — "locality: bugs concentrate in one module", "leverage: one interface, 12 call sites", "two adapters justify the seam: HTTP in prod, in-memory in tests". "Cleaner code" and "easier to maintain" give the reader nothing to check and nothing to carry into the change.
 
 Do **not** design interfaces yet. Then ask which the user wants to promote.
 
 ## 4 — Promote the pick
 
 - **One** → create the change directly, the same way `dx-diagnose` self-contains its own promotion: write `context/changes/<slug>/change.md` stamped `type: refactor`, with the finding captured as its seed `research/<topic>.md` (or `frame.md` if it reads more like a framing than a research write-up). Invoke `dx-references` with `change-md` for the exact schema. This is this skill's own deliverable, not a chain into `/dx-plan` — that stays the printed next command.
-- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here. But don't make the user re-type what they just picked: compose a **seed summary**, the full entry (what & where, why, proposed deepening, strength tag) for each promoted finding, under a heading that names `/dx-refactor-discover` as the source. Print it as the literal argument to hand to `/dx-new` so the handoff carries the detail, not just a slug.
+- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here. But don't make the user re-type what they just picked: compose a **seed summary**, the full entry (what & where, why, shape, proposed deepening, strength tag, dependency category) for each promoted finding, under a heading that names `/dx-refactor-discover` as the source. Print it as the literal argument to hand to `/dx-new` so the handoff carries the detail, not just a slug.
 - **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" so the next run skips it. Rejected ephemerally or selected → no durable trace.
 
 ## Done when
@@ -48,8 +52,9 @@ Promote many: Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
               Where <seed summary> is:
               ## Refactor opportunities (from /dx-refactor-discover)
               1. **<title>** — <module/files>
-                 Why: <shallow/tangled reason, in module-design terms>
-                 Proposed: <shape after> (<Strong|Worth exploring|Speculative>)
+                 Why: <shallow/tangled reason + the cashed-out win, in module-design terms>
+                 Shape: <before → after>
+                 Proposed: <the move> (<Strong|Worth exploring|Speculative>, <dependency category>)
               2. ...
 
 Record a no:  /dx-lesson                (don't re-deepen X because Y)
