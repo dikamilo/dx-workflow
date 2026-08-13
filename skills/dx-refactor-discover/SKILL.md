@@ -7,7 +7,7 @@ argument-hint: [area or path]
 
 # dx-refactor-discover
 
-Start with no concrete target — "find me refactor opportunities." Scan the codebase for **deepening opportunities** (shallow modules to turn deep), present them **inline as markdown**, and promote whichever the user picks into a normal container. This skill discovers and hands off; it does not plan or edit code.
+Start with no concrete target — "find me refactor opportunities." Scan the codebase for **design problems worth fixing** — shallow modules to turn deep, plus whatever the wider design lenses surface — present them **inline as markdown**, and promote whichever the user picks into a normal container. This skill discovers and hands off; it does not plan or edit code.
 
 **Guard.** If `context/` isn't scaffolded (no `changes/` or `efforts/`), stop and tell the user to run `/dx-init`. The findings this run produces are **ephemeral** — there is no debt register; anything not promoted or recorded as a lesson leaves no trace.
 
@@ -17,7 +17,11 @@ Invoke `dx-references` with topic `module-design` — its terms (deep vs shallow
 
 ## 2 — Scan
 
-Optionally scoped by `[area or path]`; unscoped means the whole tree. Fan out to built-in `Explore` subagents to walk it — explore for friction, don't run rigid heuristics. Look for: understanding one concept that means bouncing between many small modules; shallow modules (interface nearly as wide as the implementation); pure functions extracted only for testability while the real bug hides in how they're called; seams that leak. Apply the **deletion test** to each suspect: would deleting it concentrate complexity, or just move it? "Concentrates" is the signal.
+Optionally scoped by `[area or path]`; unscoped means the whole tree. Invoke `dx-references` with `design-lenses` — module depth is the primary lens, not the only one, and problems outside it go unfound if nothing else is looking. Fan out to built-in `Explore` subagents to walk it — explore for friction, don't run rigid heuristics.
+
+Look for: understanding one concept that means bouncing between many small modules; shallow modules (interface nearly as wide as the implementation); pure functions extracted only for testability while the real bug hides in how they're called; seams that leak; and what the other lenses catch — knowledge duplicated across modules, one module changing for unrelated reasons, coupling that makes a single edit ripple. Apply the **deletion test** to each suspect: would deleting it concentrate complexity, or just move it? "Concentrates" is the signal.
+
+**Whichever lens found it, `module-design` is still how it's said.** A layering violation reports as "this module reaches through two interfaces to the store; the seam belongs at X" — not as the principle it violates.
 
 ## 3 — Present findings inline
 

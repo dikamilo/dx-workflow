@@ -171,7 +171,7 @@ switch at planning time, not a controller at execution time.
 |---|---|
 | `feature` | None. Straight vertical-slice phases. |
 | `defect` | A **TDD gate**: the first phase writes a failing regression test that reproduces the bug, and only then the fix. The test proves the bug existed and that it is gone. |
-| `refactor` | A **behavior-preserving gate**: tests must be green *before and after*, and a phase asserts observable behavior is unchanged while depth, locality, or testability improve. `/dx-plan` also loads the `module-design` vocabulary — deep vs shallow modules, seams, the deletion test — so the plan talks about *shape*, not features. |
+| `refactor` | A **behavior-preserving gate**: tests must be green *before and after*, and a phase asserts observable behavior is unchanged while depth, locality, or testability improve. `/dx-plan` also loads the `module-design` vocabulary — deep vs shallow modules, seams, the deletion test — so the plan talks about *shape*, not features. (The `design-lenses` reference is separate: `/dx-plan` loads it on **every** change, whatever the type, since design principles bear on any solution design.) |
 | `migration` | A **user-confirmed rollback phase**: an explicit, deliberate rollback step. dx- never auto-rolls-back on failure — the plan makes the rollback a step a human confirms. |
 
 The `oauth-login` example is a `feature`, so it gets plain sliced phases. Change its type to `defect` and

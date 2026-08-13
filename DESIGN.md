@@ -290,7 +290,7 @@ Feedback-loop-first. The skill is: **build a tight, red-capable feedback loop be
 `diagnosis.md` is read by `plan` exactly the way `research.md` is — a bug-fix change is just a change whose "research" is a diagnosis. Triggers: "it's broken / slow / throwing / failing." Reachable mid-`implement` or from `impl-review` on a regression.
 
 ### `refactor-discover` (user-invoked)
-Run with no concrete target — "find me refactor opportunities." Scans the codebase using the `module-design` reference (loaded via `dx-references`; deep vs shallow modules, seams, deletion test), presents findings **inline** (markdown, no HTML), and you pick:
+Run with no concrete target — "find me refactor opportunities." Scans the codebase through two references (both loaded via `dx-references`): `module-design` (deep vs shallow modules, seams, deletion test), which is the primary lens **and** the sole vocabulary every finding is phrased in, and `design-lenses` (SRP and the rest of SOLID, KISS, YAGNI, DRY, coupling, orthogonality), which widens what gets found without adding a second way to say it. Presents findings **inline** (markdown, no HTML), and you pick:
 
 - **one** → spawn a single change (`type: refactor`) seeded with that finding as its research/frame.
 - **many** → spawn one effort whose `roadmap.md` is the selected candidates as slices; each slice becomes a child refactor-change.

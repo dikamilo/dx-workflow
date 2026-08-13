@@ -71,7 +71,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan`
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
-- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions; loads `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` when the change touches that concern.
+- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md`, `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions; always loads the `design-lenses` reference while writing the solution design; loads `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` when the change touches that concern.
 - **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, a `## Progress` section with all boxes `[ ]`, and — only when relevant — `## Data model`/`## API & contracts`/`## Failure modes & reversibility`); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
@@ -258,8 +258,8 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 
 ### `/dx-refactor-discover`
 - **Invoke:** user — `/dx-refactor-discover [area or path]`
-- **Purpose:** hunt the codebase for deepening opportunities (shallow modules to turn deep), present them inline, and promote the ones you pick; see [find refactors](../tutorials/find-refactors.md).
-- **Reads:** the `module-design` reference for its vocabulary (deep vs shallow, seams, leverage and locality, adapters, dependency category, the deletion test, and the rejected framings that keep words like "component / service / boundary" out), `foundation/glossary.md`, `foundation/lessons.md` (to skip prior rejections), the codebase (via `Explore` subagents scoped to `[area or path]`).
+- **Purpose:** hunt the codebase for design problems worth fixing — shallow modules to turn deep, plus what the wider design lenses surface (duplication, coupling, single-responsibility) — present them inline, and promote the ones you pick; see [find refactors](../tutorials/find-refactors.md).
+- **Reads:** the `module-design` reference for its vocabulary (deep vs shallow, seams, leverage and locality, adapters, dependency category, the deletion test, and the rejected framings that keep words like "component / service / boundary" out), the `design-lenses` reference for what to scan *for* beyond module depth, `foundation/glossary.md`, `foundation/lessons.md` (to skip prior rejections), the codebase (via `Explore` subagents scoped to `[area or path]`).
 - **Writes:** findings inline as markdown — each carrying a one-line `Shape: before → after`, a strength tag (desirability), a dependency category (feasibility), and a win cashed out in `module-design` terms rather than "cleaner code" (ephemeral — no debt register); for a single pick, `context/changes/<slug>/change.md` stamped `type: refactor` with the finding as its seed `research/`/`frame.md`. Many picks are handed to `/dx-new` as a seed summary.
 - **Prints next:**
   ```text
@@ -291,7 +291,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `dx-references`
 - **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
 - **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the twelve topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
+- **Reads:** `references/<topic>.md` for one of the thirteen topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 

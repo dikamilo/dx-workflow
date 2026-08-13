@@ -346,14 +346,14 @@ Runs **only if phase 5's read-back came back lossy.** Skipped entirely otherwise
 
 ### Phase 1: Deepen the lens
 #### Automated
-- [ ] 1.1 `module-design.md` carries leverage/locality, adapter-vs-implementation, one-vs-two adapters, internal-vs-external seams, interface ⊃ signature, `## Dependency category`, `## Rejected framings` (scoped to module shape, with the `## API & contracts` exemption stated)
-- [ ] 1.2 `plan-failure-modes.md` cross-references `module-design`'s `## Dependency category`; `dx-refactor-discover` §1 reduced to load + anchor; anti-drift clause no longer duplicated in the skill
-- [ ] 1.3 §3 finding shape carries dependency category, `Shape: before → after`, and the cash-out rule; §4 seed summary matches
-- [ ] 1.4 `docs/reference/skills.md` + `docs/tutorials/find-refactors.md` (+ `docs/reference/glossary.md:17` if stale) updated
-- [ ] 1.5 `npm run lint:skills` passes
-- [ ] 1.6 Changeset added
+- [x] 1.1 `module-design.md` carries leverage/locality, adapter-vs-implementation, one-vs-two adapters, internal-vs-external seams, interface ⊃ signature, `## Dependency category`, `## Rejected framings` (scoped to module shape, with the `## API & contracts` exemption stated) — e8df4c0
+- [x] 1.2 `plan-failure-modes.md` cross-references `module-design`'s `## Dependency category`; `dx-refactor-discover` §1 reduced to load + anchor; anti-drift clause no longer duplicated in the skill — e8df4c0
+- [x] 1.3 §3 finding shape carries dependency category, `Shape: before → after`, and the cash-out rule; §4 seed summary matches — e8df4c0
+- [x] 1.4 `docs/reference/skills.md` + `docs/tutorials/find-refactors.md` (+ `docs/reference/glossary.md:17` if stale) updated — e8df4c0
+- [x] 1.5 `npm run lint:skills` passes — e8df4c0
+- [x] 1.6 Changeset added — e8df4c0
 #### Manual
-- [ ] 1.7 Sandboxed `/dx-refactor-discover` run on this repo yields findings with a dependency category and a non-generic win (standing in for the absent eval harness)
+- [x] 1.7 Sandboxed `/dx-refactor-discover` run on this repo yields findings with a dependency category and a non-generic win (standing in for the absent eval harness)
 
 ### Phase 2: Broaden the sweep
 #### Automated

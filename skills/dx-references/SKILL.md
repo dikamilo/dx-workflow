@@ -1,6 +1,6 @@
 ---
 name: dx-references
-description: Loads a dx shared reference document by topic. Invoked by other dx- skills to pull in shared reference material (change-md, effort-md, progress-format, plan-template, plan-data-model, plan-api-contracts, plan-failure-modes, interview, module-design, knowledge-layer, review-report, untrusted-content).
+description: Loads a dx shared reference document by topic. Invoked by other dx- skills to pull in shared reference material (change-md, effort-md, progress-format, plan-template, plan-data-model, plan-api-contracts, plan-failure-modes, interview, module-design, design-lenses, knowledge-layer, review-report, untrusted-content).
 user-invocable: false
 arguments: topic
 argument-hint: [topic]

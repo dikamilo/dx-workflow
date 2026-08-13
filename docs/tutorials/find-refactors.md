@@ -2,7 +2,7 @@
 
 In this tutorial you will start with **no concrete target** — just "find me some refactor
 opportunities" — and let `/dx-refactor-discover` scan the codebase, surface a short list of
-**deepening opportunities**, and promote the ones you pick into real work. By the end you will have
+**design problems worth fixing**, and promote the ones you pick into real work. By the end you will have
 seen both branches: promoting **one** finding into a `type: refactor` change, and promoting **many**
 into an effort. You will use the running example `config-loader` — a wide pass-through wrapper that is
 a textbook shallow module. No prior dx- experience is needed.
@@ -40,6 +40,11 @@ Run the skill with no argument to sweep the whole tree, or scope it to a path to
 > `foundation/lessons.md` so it **skips anything a prior run already rejected** ("don't re-deepen X
 > because Y").
 >
+> Then it loads a second reference, `design-lenses`, before scanning. Module depth is the primary lens
+> but not the only one, and a problem nothing is looking for goes unfound — so this one names the
+> principles to sweep for (SRP and the rest of SOLID, KISS, YAGNI, DRY, separation of concerns,
+> coupling, orthogonality) with no definitions attached, because they don't need any.
+>
 > Then it fans out built-in `Explore` subagents to walk the scoped path, hunting for friction rather
 > than running rigid heuristics. To each suspect it applies the **deletion test**: *would deleting this
 > module concentrate complexity, or just move it?* "Concentrates" is the signal for a real deepening
@@ -48,7 +53,17 @@ Run the skill with no argument to sweep the whole tree, or scope it to a path to
 > - **shallow modules** — the interface is nearly as wide as the implementation behind it;
 > - **pass-throughs / thin wrappers** — a layer that forwards calls and adds almost nothing;
 > - **pure functions extracted only for testability** — while the real bug hides in how they're called;
-> - **leaky seams** — boundaries that leak their internals to callers.
+> - **leaky seams** — boundaries that leak their internals to callers;
+> - **what the wider lenses catch** — knowledge duplicated across modules, one module changing for two
+>   unrelated reasons, coupling that makes a single edit ripple.
+
+The two lenses do different jobs, and it's worth being clear which is which. `design-lenses` decides
+what gets **found**; `module-design` decides how it gets **said**. Every finding is written in module
+terms no matter which lens turned it up — you will see a single-responsibility problem reported as
+"this module changes for two unrelated reasons; the seam belongs between them", never as "violates
+SRP". A principle name is a diagnosis, and a diagnosis is not a win: it tells you the lens, not the
+cost. It also keeps the handoff honest, since `/dx-plan` and `/dx-frame` downstream load
+`module-design` and not `design-lenses`.
 
 Nothing is written to disk yet. The scan produces a set of candidate findings, which it presents
 inline in the next step.
