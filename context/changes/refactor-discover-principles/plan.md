@@ -370,11 +370,11 @@ Runs **only if phase 5's read-back came back lossy.** Skipped entirely otherwise
 
 ### Phase 3: Scan targeting and an opinionated read
 #### Automated
-- [ ] 3.1 §2 carries recency-weighted targeting (glossary/lessons reads stay in §1 — no ordering sentence added)
-- [ ] 3.2 §3/§4 close with a one-sentence top pick
-- [ ] 3.3 Docs updated (`find-refactors.md`, `skills.md`)
-- [ ] 3.4 `npm run lint:skills` passes
-- [ ] 3.5 Changeset added
+- [x] 3.1 §2 carries recency-weighted targeting (glossary/lessons reads stay in §1 — no ordering sentence added) — 1a789b2
+- [x] 3.2 §3/§4 close with a one-sentence top pick — 1a789b2
+- [x] 3.3 Docs updated (`find-refactors.md`, `skills.md`) — 1a789b2
+- [x] 3.4 `npm run lint:skills` passes — 1a789b2
+- [x] 3.5 Changeset added — 1a789b2
 
 ### Phase 4: Design it twice
 #### Automated
