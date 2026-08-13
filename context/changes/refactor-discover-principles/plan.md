@@ -378,29 +378,32 @@ Runs **only if phase 5's read-back came back lossy.** Skipped entirely otherwise
 
 ### Phase 4: Design it twice
 #### Automated
-- [ ] 4.1 §3's "Do not design interfaces yet" replaced by the scan-stays-at-shape-level rule; the skill's opening line corrected
-- [ ] 4.2 §4 carries the opt-in step: frame the problem space → spawn 3–4 constrained sub-agents (ports & adapters one gated on dependency category) → compare on depth/locality/seam placement → opinionated pick or hybrid
-- [ ] 4.3 Failure/reconciliation rules stated: drop non-returning agents and say so; re-spawn rather than reconcile if the user's reply contradicts the framing
-- [ ] 4.4 Per-agent brief specified: own technical brief, both vocabularies, the five-part return shape
-- [ ] 4.5 Chosen sketch is carried into the promoted change's seed artifact (and into the seed summary on the promote-many path)
-- [ ] 4.6 `DESIGN.md` §9 (pick can be explored before promotion) + §14 rule 4 (`Plan` agent named); docs updated (`skills.md` Purpose/Writes, `find-refactors.md`, `research-and-frame.md` if the seed content widens)
-- [ ] 4.7 `npm run lint:skills` passes
-- [ ] 4.8 Changeset added
+- [x] 4.1 §3's "Do not design interfaces yet" replaced by the scan-stays-at-shape-level rule; the skill's opening line corrected — 8278f0e
+- [x] 4.2 §4 carries the opt-in step: frame the problem space → spawn 3–4 constrained sub-agents (ports & adapters one gated on dependency category) → compare on depth/locality/seam placement → opinionated pick or hybrid — 8278f0e
+- [x] 4.3 Failure/reconciliation rules stated: drop non-returning agents and say so; re-spawn rather than reconcile if the user's reply contradicts the framing — 8278f0e
+- [x] 4.4 Per-agent brief specified: own technical brief, both vocabularies, the five-part return shape — 8278f0e
+- [x] 4.5 Chosen sketch is carried into the promoted change's seed artifact (and into the seed summary on the promote-many path) — 8278f0e
+- [x] 4.6 `DESIGN.md` §9 (pick can be explored before promotion) + §14 rule 4 (`Plan` agent named — both occurrences, `:57` and `:366`); docs updated (`skills.md` Purpose/Writes, `find-refactors.md` new Step 3, `research-and-frame.md` seed content) — 8278f0e
+- [x] 4.7 `npm run lint:skills` passes — 8278f0e
+- [x] 4.8 Changeset added — 8278f0e
 #### Manual
-- [ ] 4.9 Sandboxed run: the three designs come back genuinely different, not three phrasings of one shape — if they converge, the constraints aren't biting and need sharpening
-- [ ] 4.10 `## Done when` still accurate now that a pick can be explored before promotion
+- [x] 4.9 Sandboxed run: the three designs come back genuinely different, not three phrasings of one shape — if they converge, the constraints aren't biting and need sharpening. **First run failed** (constraints named a value to maximize; "collapse to 1–3 entry points" and "optimize for the common caller" share an optimum on a single-caller module, and returned the same signature with a parameter renamed). Constraints re-stated as *where the seam goes*; re-run returned three distinct shapes (one entry point / rule manifest / two doors split by caller). Caveat: step 1's framing-to-user was not exercised — no interactive turn between pick and spawn
+- [x] 4.10 `## Done when` still accurate now that a pick can be explored before promotion
 
 ### Phase 5: Verify the handoff, then release hygiene
 #### Automated
-- [ ] 5.1 `npm run lint:skills` clean on the full branch
-- [ ] 5.2 Per-phase diff walk confirms every `skills/**`-touching phase has its own changeset
+- [x] 5.1 `npm run lint:skills` clean on the full branch — 51844db
+- [x] 5.2 Per-phase diff walk confirms every `skills/**`-touching phase has its own changeset — all four `skills/**`-touching phases covered: p1 `e8df4c0` → `refactor-discover-deepen-lens.md`, p2 `a262f7b` → `refactor-discover-design-lenses.md`, p3 `1a789b2` → `refactor-discover-targeting-and-top-pick.md`, p4 `8278f0e` → `refactor-discover-design-it-twice.md`. Each changeset describes its own phase, not a neighbour's. (`.changeset/plan-design-coverage.md` predates this branch — `0cf2a8f`, PR #10.) — 51844db
 #### Manual
-- [ ] 5.3 The principle-lens finding from 2.9 read back with only `module-design` loaded — cash-out rule holds, or the read-back is recorded as lossy and phase 6 opens
+- [x] 5.3 The principle-lens finding from 2.9 read back with only `module-design` loaded — **not lossy**; every term resolves in `module-design` and the diagnosis is stated as mechanism, not as a principle name. Recorded in `verification-2.9.md`. **Phase 6 stays closed** — 51844db
 
 ### Phase 6 (conditional — only if 5.3 came back lossy)
+**Not triggered.** 5.3's read-back held, so this phase is skipped by design — its boxes stay `- [ ]`
+as a record that the condition never fired, not as outstanding work.
+
 #### Automated
-- [ ] 6.1 Narrowest relaxation (named shape inside the `Shape:` line only) applied to `dx-refactor-discover` §3 / `module-design.md`; anti-drift clause itself untouched
-- [ ] 6.2 Docs + `DESIGN.md` §9 updated for the changed finding shape
-- [ ] 6.3 `npm run lint:skills` passes
-- [ ] 6.4 Changeset added
-- [ ] 6.5 5.2's per-phase changeset audit re-run over phase 6
+- [ ] 6.1 Narrowest relaxation (named shape inside the `Shape:` line only) applied to `dx-refactor-discover` §3 / `module-design.md`; anti-drift clause itself untouched — *skipped, 5.3 not lossy*
+- [ ] 6.2 Docs + `DESIGN.md` §9 updated for the changed finding shape — *skipped, 5.3 not lossy*
+- [ ] 6.3 `npm run lint:skills` passes — *skipped, 5.3 not lossy*
+- [ ] 6.4 Changeset added — *skipped, 5.3 not lossy*
+- [ ] 6.5 5.2's per-phase changeset audit re-run over phase 6 — *skipped, 5.3 not lossy*

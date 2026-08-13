@@ -4,7 +4,7 @@ title: Broaden dx-refactor-discover beyond deep modules to general design princi
 type: feature
 effort: null
 slice: null
-status: implementing
+status: implemented
 created: 2026-08-13
 updated: 2026-08-13
 archived_at: null

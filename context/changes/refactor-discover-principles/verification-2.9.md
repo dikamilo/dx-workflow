@@ -35,3 +35,24 @@ Read the entry above as `dx-frame` / `dx-research` / `dx-impl-review` would, wit
 `module-design` loaded. No principle name appears in it — the diagnosis is stated as a copy with no
 single home, cashed out as locality. If that reads whole with no lens knowledge, the cash-out rule
 holds and phase 6 stays closed.
+
+## 5.3 result — not lossy, phase 6 stays closed
+
+Every term the finding leans on resolves inside `module-design.md`:
+
+- *Dependency category — in-process* → row 1 of the `## Dependency category` table (`:41`), and it
+  carries its own consequence ("always deepenable; test through the new interface, no adapter").
+- *Win — locality* → defined at `:13` ("where change, bugs and verification concentrate"). The
+  finding's phrasing — "one place to be right, instead of nineteen places to be nearly right" — is
+  that definition instantiated, so a reader gets the payoff without the reference.
+- *Shape: before → after* → self-carrying; `19 hand-written guards → 1 stated guard + 19 one-line
+  invocations` needs no vocabulary at all.
+- The **Why it's tangled** paragraph names no principle. It states the mechanism (one rule, nineteen
+  copies, already disagreeing, a nineteen-file edit with no mechanical check) — which is the evidence
+  a DRY/separation-of-concerns label would have compressed away. A reader with only `module-design`
+  loses nothing; a reader who knows the principle can still name it themselves.
+- The one term that is not `module-design`'s is the **Worth exploring** strength tag, which predates
+  this change and is defined by the seed summary's own legend.
+
+Residual gap: none found. The cash-out rule did the work it was written to do — the lens that *found*
+the problem left no trace the downstream reader needed. Phase 6 is not opened.
