@@ -392,10 +392,10 @@ Runs **only if phase 5's read-back came back lossy.** Skipped entirely otherwise
 
 ### Phase 5: Verify the handoff, then release hygiene
 #### Automated
-- [x] 5.1 `npm run lint:skills` clean on the full branch — 51844db
-- [x] 5.2 Per-phase diff walk confirms every `skills/**`-touching phase has its own changeset — all four `skills/**`-touching phases covered: p1 `e8df4c0` → `refactor-discover-deepen-lens.md`, p2 `a262f7b` → `refactor-discover-design-lenses.md`, p3 `1a789b2` → `refactor-discover-targeting-and-top-pick.md`, p4 `8278f0e` → `refactor-discover-design-it-twice.md`. Each changeset describes its own phase, not a neighbour's. (`.changeset/plan-design-coverage.md` predates this branch — `0cf2a8f`, PR #10.) — 51844db
+- [x] 5.1 `npm run lint:skills` clean on the full branch — 7c292ef
+- [x] 5.2 Per-phase diff walk confirms every `skills/**`-touching phase has its own changeset — all four `skills/**`-touching phases covered: p1 `e8df4c0` → `refactor-discover-deepen-lens.md`, p2 `a262f7b` → `refactor-discover-design-lenses.md`, p3 `1a789b2` → `refactor-discover-targeting-and-top-pick.md`, p4 `8278f0e` → `refactor-discover-design-it-twice.md`. Each changeset describes its own phase, not a neighbour's. (`.changeset/plan-design-coverage.md` predates this branch — `0cf2a8f`, PR #10.) — 7c292ef
 #### Manual
-- [x] 5.3 The principle-lens finding from 2.9 read back with only `module-design` loaded — **not lossy**; every term resolves in `module-design` and the diagnosis is stated as mechanism, not as a principle name. Recorded in `verification-2.9.md`. **Phase 6 stays closed** — 51844db
+- [x] 5.3 The principle-lens finding from 2.9 read back with only `module-design` loaded — **not lossy**; every term resolves in `module-design` and the diagnosis is stated as mechanism, not as a principle name. Recorded in `verification-2.9.md`. **Phase 6 stays closed** — 7c292ef
 
 ### Phase 6 (conditional — only if 5.3 came back lossy)
 **Not triggered.** 5.3's read-back held, so this phase is skipped by design — its boxes stay `- [ ]`
