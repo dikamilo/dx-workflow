@@ -46,9 +46,10 @@ Run the skill with no argument to sweep the whole tree, or scope it to a path to
 > coupling, orthogonality) with no definitions attached, because they don't need any.
 >
 > Then it fans out built-in `Explore` subagents to walk the scoped path, hunting for friction rather
-> than running rigid heuristics. To each suspect it applies the **deletion test**: *would deleting this
-> module concentrate complexity, or just move it?* "Concentrates" is the signal for a real deepening
-> opportunity. It looks for:
+> than running rigid heuristics — walking back a stretch of `git log --oneline` first, so the paths
+> that keep changing get looked at hardest. To each suspect it applies the **deletion test**: *would
+> deleting this module concentrate complexity, or just move it?* "Concentrates" is the signal for a
+> real deepening opportunity. It looks for:
 >
 > - **shallow modules** — the interface is nearly as wide as the implementation behind it;
 > - **pass-throughs / thin wrappers** — a layer that forwards calls and adds almost nothing;
@@ -64,6 +65,11 @@ terms no matter which lens turned it up — you will see a single-responsibility
 SRP". A principle name is a diagnosis, and a diagnosis is not a win: it tells you the lens, not the
 cost. It also keeps the handoff honest, since `/dx-plan` and `/dx-frame` downstream load
 `module-design` and not `design-lenses`.
+
+That `git log` read is a **prior, not a filter** — it decides what gets looked at first, not what is
+allowed to be found. Recent churn is where a deepening pays back soonest, so it earns the first pass;
+if the log turns out to be scattered with no clear hot spot, the skill widens the net instead.
+Nothing is maintained for this — the ordering is derived from the log at run time.
 
 Nothing is written to disk yet. The scan produces a set of candidate findings, which it presents
 inline in the next step.
@@ -111,6 +117,9 @@ yet — that's a job for planning. Each entry gives you just enough to decide.
 > - **Dependency category** — remote-but-owned (the store is a Redis you run), so the deepening needs a
 >   port at the seam: real transport in prod, in-memory adapter in tests. Two adapters, so the seam is real.
 >
+> **Start with #1** — `config-loader` sits in the busiest part of the tree and needs no adapter work,
+> so it pays back fastest; the `Cache` seam can wait until a second backend actually exists.
+>
 > Then it asks which you want to promote.
 
 Each entry carries two axes that answer different questions. The **strength tag** — `Strong`,
@@ -119,7 +128,11 @@ is worth doing. The **dependency category** — in-process, local-substitutable,
 true-external — is *feasibility*: whether the result can actually be tested once deepened, which is
 where a refactor tends to stall. Note too that no entry says "cleaner code": every win is cashed out
 into a concrete consequence in `module-design` terms, so it survives the handoff into a change.
-`config-loader` is the clear `Strong` one, and it's the one we'll drive from here.
+
+Neither axis is a running order, which is why the list closes with a one-sentence **top pick**. A
+`Strong` finding in a file nobody has touched in a year is worth less than a `Worth exploring` one in
+a hot path, so the skill ends with a read rather than a menu. Here it picks `config-loader`, and
+that's the one we'll drive from here.
 
 Now the two branches. What you type next depends on whether you pick **one** finding or **many**.
 
@@ -216,13 +229,16 @@ literal argument to hand to `/dx-new`, so the handoff carries the detail, not ju
 >         Locality: the sequencing bug gets one place to live and one place to be tested
 >    Shape: 2 helpers + caller-side loop → 1 seam, 1 entry point
 >    Proposed: one withRetry(fn, policy) seam that owns the loop (Worth exploring, in-process)
+> Start with: config-loader — hottest path in the tree and no adapter work needed.
 > ```
 
 You then drive the handoff yourself. `/dx-new` sizes that seed as an **effort** (it's large and
 branching), writes `context/efforts/<effort-id>/effort.md`, and prints its own `Next:` pointing at
 `/dx-roadmap`. `/dx-roadmap` turns the numbered candidates into roadmap slices — **one slice per
 module deepening** — and each slice spawns a child `type: refactor` change that inherits the effort's
-frame. See [run an effort](./run-an-effort.md) for that full flow.
+frame. The `Start with:` line rides along for exactly that step: `/dx-roadmap` has to put the slices in
+some order, and which one goes first is the one judgement it can't re-derive from the findings.
+See [run an effort](./run-an-effort.md) for that full flow.
 
 The skill printed the commands and **stopped**. It never ran `/dx-new` for you — no dx- skill
 auto-chains.
