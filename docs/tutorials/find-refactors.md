@@ -134,6 +134,74 @@ Neither axis is a running order, which is why the list closes with a one-sentenc
 a hot path, so the skill ends with a read rather than a menu. Here it picks `config-loader`, and
 that's the one we'll drive from here.
 
+---
+
+## Step 3 — Design the pick twice (optional)
+
+Once you've picked, the skill offers one more thing before promoting: exploring three or four
+genuinely different interfaces for the candidate. It's opt-in — decline it and you go straight to
+promotion. Take it when the right shape isn't obvious, because this is the moment the context is
+freshest, and whatever you choose is carried into the change rather than re-derived by `/dx-plan`.
+
+> **You:** yes, explore config-loader before promoting
+
+> **dx-refactor-discover** first frames the problem space back to you — the constraints any new
+> interface has to satisfy, the dependencies and their category, and a rough code sketch to make
+> those constraints concrete. That sketch is an illustration, not a proposal.
+>
+> Then it **doesn't wait for your reply**. It spawns three built-in `Plan` subagents in parallel,
+> each under a different forcing constraint, so you read and think while they work:
+>
+> ```text
+> A. collapse to 1–3 entry points  — everything else pushed behind them
+> B. move contract out of the       — into structure or config the caller
+>    interface                        declares rather than calls
+> C. split the seam by caller       — common and rare callers reach
+>                                     different entry points
+> ```
+>
+> A fourth, **ports & adapters**, is spawned only when the dependency category is *remote-but-owned*
+> or *true-external* — `config-loader` is local-substitutable, so it isn't.
+
+Notice what those constraints have in common: each names **where the seam goes**, not a value to
+maximize. That distinction is load-bearing. "Minimize the interface" and "make the default case
+trivial" sound like two different briefs, but on a module with one dominant caller they have the same
+optimum — the smallest surface already *is* the best default case — and two agents hand you back the
+same interface with a parameter renamed. Seam placements can't coincide that way.
+
+Each agent also gets its own **technical brief** — file paths, coupling detail, dependency category,
+what sits behind the seam — because a subagent starts cold. The structure is written in
+`module-design` terms; the domain in `foundation/glossary.md` terms when the candidate has a domain at
+all. Infrastructure and tooling often doesn't, and forcing glossary words onto a build script buys
+nothing.
+
+All three return the same five things, which is what makes them comparable: the **interface** (types,
+methods, params — plus invariants, ordering and error modes), a **usage example** from the caller's
+side, **what the implementation hides behind the seam**, the **dependency strategy and adapters**, and
+the **trade-offs** — where leverage is high and where it's thin.
+
+> **dx-refactor-discover** presents them one at a time, compares them on **depth, locality, and seam
+> placement**, and closes:
+>
+> **I'd take A, with one thing borrowed from B** — a single `loadConfig(): Config` gives the best
+> leverage per entry point, and B's idea of declaring the search path in config rather than passing it
+> costs no extra interface. C's split entry points are a seam with one caller — indirection nobody
+> uses yet.
+
+If two of them come back as the same entry point with a policy toggled, you're told that plainly
+rather than shown a padded list of three. That's the constraint failing to bite, and an honest two is
+worth more than a third design that's really the first one again.
+
+Two things can go wrong here, and both are handled rather than papered over. An agent that returns
+nothing or comes back unusable is **dropped, not retried** — you're told plainly that fewer than three
+came back, so you know how wide the comparison actually was. And if your reply to the framing
+**contradicts** the constraints the briefs were built on, the in-flight sketches are discarded and the
+agents re-spawned; reconciling designs built on a superseded framing produces a shape nobody chose.
+
+Note what this step still doesn't do: it writes no `plan.md` and edits no code. It produces interface
+*sketches* for one candidate you already chose. Designing across all five findings before you'd picked
+would be the waste — which is why the scan itself stops at `Shape: before → after`.
+
 Now the two branches. What you type next depends on whether you pick **one** finding or **many**.
 
 ---
@@ -185,6 +253,9 @@ Deletion test: removing loader.ts concentrates the read-parse-merge logic rather
 **Proposed deepening** — one deep `loadConfig(): Config` behind a narrow interface.
 Leverage: one interface replaces five learned at 14 call sites.
 **Dependency category** — local-substitutable; the seam stays internal, no port needed.
+**Chosen interface (design-it-twice)** — `loadConfig(): Config`, one entry point; env resolution and
+merge order are invariants of the module, not parameters. Defaults `NODE_ENV` for the common caller.
+Rejected: extension hooks (a seam with one adapter — indirection nobody uses yet).
 ```
 
 That `type: refactor` stamp is what makes this a refactor rather than a feature. When you run
@@ -224,6 +295,7 @@ literal argument to hand to `/dx-new`, so the handoff carries the detail, not ju
 >         Leverage: one interface replaces five learned at 14 call sites
 >    Shape: 3 files + 5 exported steps → 1 module, 1 method
 >    Proposed: a single deep loader behind a narrow interface (Strong, local-substitutable)
+>    Sketch: loadConfig(): Config — one entry point; merge order is an invariant, not a parameter
 > 2. **Collapse retry-helpers** — src/net/retry.ts, backoff.ts
 >    Why: pure functions extracted only for testability; the real bug is in the caller.
 >         Locality: the sequencing bug gets one place to live and one place to be tested
@@ -245,7 +317,7 @@ auto-chains.
 
 ---
 
-## Step 3 — Record a "no" so the next run skips it
+## Step 4 — Record a "no" so the next run skips it
 
 Not every candidate should be deepened, and some *shouldn't be re-suggested ever*. If you reject a
 finding with a **load-bearing reason** — the module is shallow *on purpose* — the skill offers to
@@ -273,8 +345,8 @@ Running `/dx-lesson` records "don't re-deepen `Cache` — shallow on purpose; we
 Which artifacts exist on disk depends on the branch you took — the scan itself writes nothing:
 
 - **Branch A (pick one):** `context/changes/config-loader/change.md` at `status: new`, stamped
-  `type: refactor`, plus a seeded `research/…md` (or `frame.md`) carrying the finding. Ready for
-  `/dx-plan config-loader`.
+  `type: refactor`, plus a seeded `research/…md` (or `frame.md`) carrying the finding — and, if you
+  took Step 3, the chosen interface sketch alongside it. Ready for `/dx-plan config-loader`.
 - **Branch B (pick many):** nothing yet — you were handed a seed-summary argument to paste into
   `/dx-new`, which creates the effort. The effort and its roadmap slices appear only once you run those
   commands.

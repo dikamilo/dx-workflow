@@ -54,7 +54,7 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 
 ### Deliberately excluded
 - **All orchestrators.** The user is the workflow engine. A migration is not a separate workflow — it's a change whose `plan.md` includes a rollback phase.
-- **All dedicated agents.** Fan-out uses built-in `Explore`/`general-purpose` subagents. (§3.)
+- **All dedicated agents.** Fan-out uses built-in `Explore`/`general-purpose`/`Plan` subagents. (§3.)
 - HTML dashboards, `.html` companion reports, shared HTML style guides.
 - Greenfield bootstrap chains and multi-phase orchestrators.
 - **External issue-tracker sync** (`to-issues`, `to-prd`). Artifacts in `context/` are the source of truth. An optional sync adapter can be designed later; it is out of scope now.
@@ -290,7 +290,7 @@ Feedback-loop-first. The skill is: **build a tight, red-capable feedback loop be
 `diagnosis.md` is read by `plan` exactly the way `research.md` is — a bug-fix change is just a change whose "research" is a diagnosis. Triggers: "it's broken / slow / throwing / failing." Reachable mid-`implement` or from `impl-review` on a regression.
 
 ### `refactor-discover` (user-invoked)
-Run with no concrete target — "find me refactor opportunities." Scans the codebase through two references (both loaded via `dx-references`): `module-design` (deep vs shallow modules, seams, deletion test), which is the primary lens **and** the sole vocabulary every finding is phrased in, and `design-lenses` (SRP and the rest of SOLID, KISS, YAGNI, DRY, coupling, orthogonality), which widens what gets found without adding a second way to say it. Presents findings **inline** (markdown, no HTML), and you pick:
+Run with no concrete target — "find me refactor opportunities." Scans the codebase through two references (both loaded via `dx-references`): `module-design` (deep vs shallow modules, seams, deletion test), which is the primary lens **and** the sole vocabulary every finding is phrased in, and `design-lenses` (SRP and the rest of SOLID, KISS, YAGNI, DRY, coupling, orthogonality), which widens what gets found without adding a second way to say it. Presents findings **inline** (markdown, no HTML), and you pick. Before promoting, the pick can optionally be **designed twice** — 3–4 built-in `Plan` subagents in parallel, each under a forcing constraint stated as *where the seam goes* (collapse to 1–3 entry points, move contract out of the interface, split the seam by caller, ports & adapters), compared on depth/locality/seam placement and closed with an opinionated pick — two designs sharing an entry point count as one. The winning sketch rides into the promoted container's seed so `plan` doesn't re-derive it; the skill still writes no `plan.md` and edits no code. Then:
 
 - **one** → spawn a single change (`type: refactor`) seeded with that finding as its research/frame.
 - **many** → spawn one effort whose `roadmap.md` is the selected candidates as slices; each slice becomes a child refactor-change.
@@ -363,7 +363,7 @@ To keep this from drifting back into bloat, the workflow obeys:
 1. **State is markdown, never a sidecar.** No `*.yml` state files. `change.md`/`effort.md` frontmatter + `## Progress` is all.
 2. **No HTML anywhere.** Reports are markdown. No dashboards.
 3. **No auto-chain, no auto-copy.** A skill finishes → **prints** the suggested next command → stops. It never copies to the clipboard and never runs the next step; the user decides what runs. Model-invoked skills (`diagnose`, `domain`) may fire mid-task; when they do, they complete their unit of work and then likewise suggest the next step rather than silently resuming the skill they interrupted.
-4. **Skills only — no dedicated agents.** Fan-out uses built-in `Explore`/`general-purpose` subagents. (§3.)
+4. **Skills only — no dedicated agents.** Fan-out uses built-in `Explore`/`general-purpose`/`Plan` subagents. (§3.)
 5. **References are maps.** Each doc under `dx-references/references/` stays conceptual, no full implementations.
 6. **Two container levels — no nesting.** Effort ⊃ change. A change never lives inside another change; large work is an effort that spawns flat child changes. (§4.)
 7. **Conditional phases by type.** A plan activates phase characteristics by `type` (defect → TDD gate, refactor → behavior-preserving gate, migration → rollback phase) — encoded in `plan.md`, not by an orchestrator at runtime.
