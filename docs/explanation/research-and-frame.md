@@ -185,6 +185,13 @@ file too. So a refactor change can arrive with part of its solution space alread
 the point: the alternatives were weighed when the code was freshest in view, and `/dx-plan` inherits
 that judgement instead of re-deriving it.
 
+That holds at the effort level too. Promoting **many** findings at once no longer collapses them into
+one printed blob — `/dx-new` writes one `research/<topic>.md` per finding at the effort root, each
+carrying that finding's own chosen sketch if design-it-twice ran for it. A child change spawned from
+any slice inherits the whole set in place, the same "nothing copied" mechanic as a single change's
+research — so a slice's `/dx-plan` sees its own finding's sketch alongside its siblings', not just a
+single collapsed seed.
+
 ## Trade-offs and what was deliberately left out
 
 **Both steps are optional and skippable — on purpose.** dx- refuses to force ceremony on small work.

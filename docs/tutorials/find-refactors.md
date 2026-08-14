@@ -280,7 +280,18 @@ literal argument to hand to `/dx-new`, so the handoff carries the detail, not ju
 
 > **You:** promote #1 and #2
 
-> **dx-refactor-discover** composes the seed summary from the two findings and prints — then stops:
+Because you picked more than one, the skill doesn't repeat Step 3's yes/no per finding. It asks a
+single batched question first:
+
+> **dx-refactor-discover:** sketch any of these before promoting? *none* / *all* / *specific ones* —
+> recommending just #1, `config-loader` (it's the top pick, and its alternatives are the least obvious
+> of the two).
+
+> **You:** just #1
+
+The skill runs Step 3's frame → spawn → compare → stop-and-ask once for `config-loader`, waits for
+your reply, and only then — never before that reply lands — would it move on to a second selected
+finding. Here there's only one to sketch, so it composes the seed summary next:
 >
 > ```text
 > Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
@@ -304,13 +315,20 @@ literal argument to hand to `/dx-new`, so the handoff carries the detail, not ju
 > Start with: config-loader — hottest path in the tree and no adapter work needed.
 > ```
 
-You then drive the handoff yourself. `/dx-new` sizes that seed as an **effort** (it's large and
-branching), writes `context/efforts/<effort-id>/effort.md`, and prints its own `Next:` pointing at
-`/dx-roadmap`. `/dx-roadmap` turns the numbered candidates into roadmap slices — **one slice per
-module deepening** — and each slice spawns a child `type: refactor` change that inherits the effort's
-frame. The `Start with:` line rides along for exactly that step: `/dx-roadmap` has to put the slices in
-some order, and which one goes first is the one judgement it can't re-derive from the findings.
-See [run an effort](./run-an-effort.md) for that full flow.
+You then drive the handoff yourself. `/dx-new` recognizes the `## Refactor opportunities` heading, so
+it doesn't slugify the whole blob as a short idea — it sizes the seed as an **effort**, writes
+`context/efforts/<effort-id>/effort.md` with a `## Goal` citing the `Start with:` line and a `## Notes`
+marker (`Refactor effort — findings promoted from /dx-refactor-discover.`), and then writes one
+`research/<topic>.md` per numbered finding — provenance frontmatter plus that finding's full entry,
+`Sketch:` line included only where Step 3 ran. It prints its own `Next:` pointing at `/dx-roadmap`.
+`/dx-roadmap` turns those research files into roadmap slices — **one slice per module deepening** —
+with no edit of its own, since it already reads "every `research/<topic>.md`" as candidate material.
+Each slice's child change comes from `/dx-new <effort-id> <slice-n>`, which reads the effort's `## Notes`
+marker and stamps `type: refactor` instead of the default `feature`, then inherits the whole
+`research/` set — including sibling findings' files, not just its own. The `Start with:` line rides
+along for `/dx-roadmap`'s sequencing: it has to put the slices in some order, and which one goes first
+is the one judgement it can't re-derive from the findings. See [run an effort](./run-an-effort.md) for
+that full flow.
 
 The skill printed the commands and **stopped**. It never ran `/dx-new` for you — no dx- skill
 auto-chains.
@@ -348,8 +366,9 @@ Which artifacts exist on disk depends on the branch you took — the scan itself
   `type: refactor`, plus a seeded `research/…md` (or `frame.md`) carrying the finding — and, if you
   took Step 3, the chosen interface sketch alongside it. Ready for `/dx-plan config-loader`.
 - **Branch B (pick many):** nothing yet — you were handed a seed-summary argument to paste into
-  `/dx-new`, which creates the effort. The effort and its roadmap slices appear only once you run those
-  commands.
+  `/dx-new`, which creates the effort, its `## Notes` refactor-effort marker, and one
+  `research/<topic>.md` per finding. The roadmap slices and child changes appear only once you run
+  `/dx-roadmap` and `/dx-new <effort-id> <slice-n>`.
 - **Either branch, if you recorded a no:** one new entry in `foundation/lessons.md` that keeps future
   scans from re-suggesting the rejected module.
 
