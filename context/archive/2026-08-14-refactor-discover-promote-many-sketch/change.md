@@ -4,10 +4,10 @@ title: Loop Design it twice through dx-refactor-discover's multi-promote path
 type: feature
 effort: null
 slice: null
-status: implementing
+status: archived
 created: 2026-08-14
 updated: 2026-08-14
-archived_at: null
+archived_at: 2026-08-14
 ---
 
 ## Notes

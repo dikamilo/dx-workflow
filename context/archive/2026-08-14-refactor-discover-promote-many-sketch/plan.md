@@ -243,23 +243,23 @@ No `skills/**` diff of its own.
 ### Phase 2: Fix the propagation hop
 #### Automated
 - [x] 2.1 `dx-new` Promoted-entries gains the heading-detection branch: effort slug via existing
-      "Name it," `effort.md` `## Goal` + `## Notes` marker written
+      "Name it," `effort.md` `## Goal` + `## Notes` marker written — c70384e
 - [x] 2.2 One `research/<topic>.md` per finding written with provenance frontmatter + full entry body,
-      `Sketch:` line present only when §4 explored that finding
-- [x] 2.3 Child-creation's `type: refactor` check reads the concrete `## Notes` marker
+      `Sketch:` line present only when §4 explored that finding — c70384e
+- [x] 2.3 Child-creation's `type: refactor` check reads the concrete `## Notes` marker — c70384e
 - [x] 2.4 Docs updated: `skills.md` `/dx-new` Reads/Writes, `find-refactors.md` Branch B,
-      `research-and-frame.md` refactor twist, `DESIGN.md` §9 + §7.6
-- [x] 2.5 `npm run lint:skills` passes
-- [x] 2.6 Changeset added
+      `research-and-frame.md` refactor twist, `DESIGN.md` §9 + §7.6 — c70384e
+- [x] 2.5 `npm run lint:skills` passes — c70384e
+- [x] 2.6 Changeset added — c70384e
 #### Manual
-- [ ] 2.7 Sandboxed run: `dx-roadmap` on the resulting effort produces one slice per finding with zero
+- [x] 2.7 Sandboxed run: `dx-roadmap` on the resulting effort produces one slice per finding with zero
       edits to `dx-roadmap` itself
-- [ ] 2.8 Sandboxed run: `/dx-new <effort-id> <slice-n>` stamps `type: refactor` from the marker
+- [x] 2.8 Sandboxed run: `/dx-new <effort-id> <slice-n>` stamps `type: refactor` from the marker
 
 ### Phase 3: Verify end-to-end + release hygiene
 #### Automated
-- [ ] 3.1 `npm run lint:skills` clean on the full branch
-- [ ] 3.2 Per-phase diff walk confirms phases 1 and 2 each have their own changeset
+- [x] 3.1 `npm run lint:skills` clean on the full branch
+- [x] 3.2 Per-phase diff walk confirms phases 1 and 2 each have their own changeset
 #### Manual
-- [ ] 3.3 Full chain sandboxed run (promote-many → `dx-new` → `dx-roadmap` → `dx-new` child) completes
+- [x] 3.3 Full chain sandboxed run (promote-many → `dx-new` → `dx-roadmap` → `dx-new` child) completes
       with the right `type`, the right per-finding research, and the right sketches attached
