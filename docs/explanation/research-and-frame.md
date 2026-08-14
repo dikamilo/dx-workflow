@@ -172,6 +172,19 @@ deletion test) and frame the investigation in those terms. So a shallow module l
 described and framed with the same words `/dx-refactor-discover` used to find it, and nothing is lost in
 the handoff.
 
+That holds even though `/dx-refactor-discover` now scans through **two** lenses. It also loads
+`design-lenses` — SRP, DRY, coupling, and the rest — but only to widen what it *finds*; every finding is
+still written in `module-design` terms. A single-responsibility problem arrives as "this module changes
+for two unrelated reasons; the seam belongs between them", not as the principle it violates. That is
+deliberate: `/dx-research` and `/dx-frame` load `module-design` and not `design-lenses`, so a finding
+phrased in principle-names would arrive downstream in a vocabulary nobody there has loaded.
+
+One more thing can ride in on that seed. If you took `/dx-refactor-discover`'s optional design-it-twice
+step, the winning interface sketch and the trade-offs that decided it are written into the seed research
+file too. So a refactor change can arrive with part of its solution space already explored — which is
+the point: the alternatives were weighed when the code was freshest in view, and `/dx-plan` inherits
+that judgement instead of re-deriving it.
+
 ## Trade-offs and what was deliberately left out
 
 **Both steps are optional and skippable — on purpose.** dx- refuses to force ceremony on small work.

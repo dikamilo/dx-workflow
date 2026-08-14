@@ -45,6 +45,8 @@ If a term clashes with the glossary, is vague/overloaded, or finally gets pinned
 
 ## 4 — Write `plan.md` (invoke `dx-references` with `plan-template`)
 
+Also invoke `dx-references` with `design-lenses` — the principles a solution design is judged against, whatever the change's `type`.
+
 Follow that shape. Author `## Data model`, `## API & contracts`, and/or `## Failure modes &
 reversibility` for whichever topics step 2 loaded — omit the rest entirely, never `N/A`. Each phase
 a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Activate
