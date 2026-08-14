@@ -1,5 +1,30 @@
 # dx-workflow
 
+## 1.3.0
+
+### Minor Changes
+
+- 5a215cd: Fix the propagation hop from `dx-refactor-discover`'s promote-many seed summary into `dx-new`.
+  `dx-new` now recognizes an argument opening with `## Refactor opportunities (from
+/dx-refactor-discover)` as a multi-finding effort seed rather than a short idea to slugify: it derives
+  the effort slug from the seed's `Start with:` line, writes `effort.md` with a `## Notes` marker
+  (`Refactor effort — findings promoted from /dx-refactor-discover.`), and writes one
+  `research/<topic>.md` per promoted finding — provenance frontmatter plus that finding's full entry,
+  including its `Sketch:` line when `dx-refactor-discover`'s design-it-twice step ran for it. `dx-roadmap`
+  needs no edit of its own — it already decomposes "every `research/<topic>.md`" into one slice per
+  finding. `dx-new <effort-id> <slice-n>` now reads the concrete `## Notes` marker to stamp `type:
+refactor` on each child instead of defaulting to `feature`.
+- 5a215cd: Loop `dx-refactor-discover`'s "design it twice" offer (§4) across a multi-select promote. Picking
+  exactly one finding keeps today's plain yes/no. Picking more than one no longer skips straight to §5's
+  "Many" case without a chance to sketch — it asks a single batched question first ("sketch any of these
+  before promoting?", options _none_ / _all_ / _specific ones_, recommending just the top pick), then
+  runs the existing frame → spawn 3–4 → compare → stop-and-ask loop once per selected finding,
+  **sequentially** — never spawning the next finding's sub-agents before the current finding's sketch is
+  confirmed. This is the fan-out safeguard: at most one finding's batch of 3–4 `Plan` subagents is ever
+  in flight, no matter how many findings were promoted, with no arbitrary numeric cap to invent or
+  maintain. §5's "Many" seed-summary bullet needed no edit — its wording ("plus the chosen sketch for any
+  finding §4 explored") was already plural-ready.
+
 ## 1.2.0
 
 ### Minor Changes
