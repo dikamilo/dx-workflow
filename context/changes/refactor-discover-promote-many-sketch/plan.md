@@ -237,20 +237,20 @@ No `skills/**` diff of its own.
 - [x] 1.5 `npm run lint:skills` passes
 - [x] 1.6 Changeset added
 #### Manual
-- [ ] 1.7 Sandboxed promote-many run: batched pick fires only when >1 promoted, sub-agents for finding
+- [x] 1.7 Sandboxed promote-many run: batched pick fires only when >1 promoted, sub-agents for finding
       2 don't start before finding 1's sketch is confirmed
 
 ### Phase 2: Fix the propagation hop
 #### Automated
-- [ ] 2.1 `dx-new` Promoted-entries gains the heading-detection branch: effort slug via existing
+- [x] 2.1 `dx-new` Promoted-entries gains the heading-detection branch: effort slug via existing
       "Name it," `effort.md` `## Goal` + `## Notes` marker written
-- [ ] 2.2 One `research/<topic>.md` per finding written with provenance frontmatter + full entry body,
+- [x] 2.2 One `research/<topic>.md` per finding written with provenance frontmatter + full entry body,
       `Sketch:` line present only when §4 explored that finding
-- [ ] 2.3 Child-creation's `type: refactor` check reads the concrete `## Notes` marker
-- [ ] 2.4 Docs updated: `skills.md` `/dx-new` Reads/Writes, `find-refactors.md` Branch B,
+- [x] 2.3 Child-creation's `type: refactor` check reads the concrete `## Notes` marker
+- [x] 2.4 Docs updated: `skills.md` `/dx-new` Reads/Writes, `find-refactors.md` Branch B,
       `research-and-frame.md` refactor twist, `DESIGN.md` §9 + §7.6
-- [ ] 2.5 `npm run lint:skills` passes
-- [ ] 2.6 Changeset added
+- [x] 2.5 `npm run lint:skills` passes
+- [x] 2.6 Changeset added
 #### Manual
 - [ ] 2.7 Sandboxed run: `dx-roadmap` on the resulting effort produces one slice per finding with zero
       edits to `dx-roadmap` itself

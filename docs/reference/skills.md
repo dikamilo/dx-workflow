@@ -25,8 +25,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-new`
 - **Invoke:** user — `/dx-new [idea or effort/slice]`
 - **Purpose:** the entry point and router — pick the container level (change vs effort vs a child slice) and create its identity file; see [efforts and changes](../explanation/efforts-and-changes.md).
-- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md`; accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here.
-- **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled.
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md` plus that effort's `effort.md` `## Notes` (for the refactor-effort marker that decides the slice's `type`); accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill, or (from `/dx-refactor-discover`'s promote-many path) an argument opening with `## Refactor opportunities (from /dx-refactor-discover)`, parsed as a multi-finding effort seed. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here.
+- **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled; for a multi-finding effort seed, also `## Notes`'s refactor-effort marker and one `context/efforts/<id>/research/<topic>.md` per promoted finding (provenance frontmatter + the finding's full entry, with its `Sketch:` line if `/dx-refactor-discover` explored it).
 - **Prints next:**
   ```text
   Change:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-plan <id>
