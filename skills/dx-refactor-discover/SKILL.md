@@ -7,7 +7,7 @@ argument-hint: [area or path]
 
 # dx-refactor-discover
 
-Start with no concrete target — "find me refactor opportunities." Scan the codebase for **design problems worth fixing** — shallow modules to turn deep, plus whatever the wider design lenses surface — present them **inline as markdown**, and promote whichever the user picks into a normal container. This skill discovers and hands off — it can sketch alternative interfaces for the one candidate the user picks, but it writes no `plan.md` and edits no code.
+Start with no concrete target — "find me refactor opportunities." Scan the codebase for **design problems worth fixing** — shallow modules to turn deep, plus whatever the wider design lenses surface — present them **inline as markdown**, and promote whichever the user picks into a normal container. This skill discovers and hands off — it can sketch alternative interfaces for whichever candidates the user picks, but it writes no `plan.md` and edits no code.
 
 **Guard.** If `context/` isn't scaffolded (no `changes/` or `efforts/`), stop and tell the user to run `/dx-init`. The findings this run produces are **ephemeral** — there is no debt register; anything not promoted or recorded as a lesson leaves no trace.
 
@@ -45,6 +45,10 @@ Markdown only — no HTML, no report file, no clipboard. A concise numbered list
 
 Offer this once the user has picked, before promoting. Skipping it is fine and goes straight to §5 — but the scan only ranked candidates on the shape they have, and a candidate whose alternatives all look bad shouldn't be promoted. Exploring here is cheap: the context is freshest at the moment of the pick, and the winning sketch rides into the change so `/dx-plan` doesn't re-derive it.
 
+**One finding picked** → ask the plain yes/no ("explore `<finding>` before promoting?") and, if yes, run steps 1–3 below once for it.
+
+**More than one finding picked** → don't repeat the yes/no per finding. Ask one batched question first: "sketch any of these before promoting?" — options *none* / *all* / *specific ones*, recommending just the top pick (2–4 concrete options with a recommendation, the `interview` reference's shape). Then run steps 1–3 below, plus the stop-and-ask that closes this section, **once per selected finding, sequentially** — never spawn the next finding's sub-agents before the current finding's sketch is confirmed. This is the fan-out safeguard: at most one finding's batch (3–4 agents) is ever in flight, no matter how many findings total, with no arbitrary cap to invent or maintain.
+
 1. **Frame the problem space to the user** — the constraints any new interface has to satisfy, the dependencies and their category, and a rough code sketch to make the constraints concrete (an illustration, not a proposal). Show it and **start the sub-agents immediately**: the user reads and thinks while the agents work, which is the whole point of doing this in parallel. Don't block on a reply.
 2. **Spawn 3–4 built-in `Plan` sub-agents in parallel**, each under a different **forcing constraint**. State each constraint as **where it puts the seam**, not as a value to maximize — two values can share an optimum, and then two agents hand back the same interface:
    - **Collapse to 1–3 entry points**, everything else pushed behind them.
@@ -61,7 +65,7 @@ Ask each for the same five things, so the answers line up: **interface** (types,
 
 Present the survivors **sequentially**, compare them on **depth, locality, and seam placement** — the `module-design` axes, so this stays inside the one vocabulary — and close with an **opinionated pick or hybrid**, the same discipline as the top pick in §3. Two designs that share an entry point and differ only in policy are **one** design: say the constraint didn't bite rather than presenting them as two, because a comparison padded to three is worth less than an honest two.
 
-**Stop here and ask which sketch to carry forward.** The pick is a recommendation, not a decision — §5 writes files, and a file written on the wrong sketch is a redo, not an edit. Don't promote on your own ranking the way §3 permits when the user is AFK; wait for the reply.
+**Stop here and ask which sketch to carry forward.** The pick is a recommendation, not a decision — §5 writes files, and a file written on the wrong sketch is a redo, not an edit. Don't promote on your own ranking the way §3 permits when the user is AFK; wait for the reply. For a multi-select promote, this reply is what unblocks the next selected finding — don't spawn its sub-agents until it lands.
 
 ## 5 — Promote the pick
 

@@ -280,7 +280,18 @@ literal argument to hand to `/dx-new`, so the handoff carries the detail, not ju
 
 > **You:** promote #1 and #2
 
-> **dx-refactor-discover** composes the seed summary from the two findings and prints — then stops:
+Because you picked more than one, the skill doesn't repeat Step 3's yes/no per finding. It asks a
+single batched question first:
+
+> **dx-refactor-discover:** sketch any of these before promoting? *none* / *all* / *specific ones* —
+> recommending just #1, `config-loader` (it's the top pick, and its alternatives are the least obvious
+> of the two).
+
+> **You:** just #1
+
+The skill runs Step 3's frame → spawn → compare → stop-and-ask once for `config-loader`, waits for
+your reply, and only then — never before that reply lands — would it move on to a second selected
+finding. Here there's only one to sketch, so it composes the seed summary next:
 >
 > ```text
 > Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
