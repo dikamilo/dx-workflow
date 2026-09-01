@@ -72,8 +72,8 @@ change to existing invocation paths, only a new one opened) and write a one-line
 
 ### Phase 2: Document the new invocation pattern
 #### Automated
-- [ ] 2.1 `foundation/glossary.md` Skill entry updated with the third invocation shape
-- [ ] 2.2 `docs/reference/skills.md` `Invoke:` lines updated for the four skills
+- [x] 2.1 `foundation/glossary.md` Skill entry updated with the third invocation shape — a8bb5ee
+- [x] 2.2 `docs/reference/skills.md` `Invoke:` lines updated for the four skills — a8bb5ee
 
 ### Phase 3: Versioning
 #### Automated
