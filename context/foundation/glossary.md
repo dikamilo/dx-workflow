@@ -48,7 +48,7 @@
 
 **Rollback Phase**: The Plan characteristic for a migration-type Change — an explicit, separate, user-confirmed rollback step; never an automatic rollback. _Avoid_: TDD Gate, Behavior-preserving Gate.
 
-**Skill**: A discrete, invokable unit of the workflow, named `dx-<x>`, either user-invoked (runs only when typed) or model-invoked (fires when its trigger is recognized). _Avoid_: Command, Agent.
+**Skill**: A discrete, invokable unit of the workflow, named `dx-<x>`, one of three invocation shapes: user-invoked (runs only when typed), model-invoked (fires when its trigger is recognized), or user-invoked *and* explicitly model-callable by another skill's instruction (named invocation, never opportunistically auto-fired). _Avoid_: Command, Agent.
 
 **Discovery Entry**: A Skill that starts from a symptom rather than a request, produces a Finding, and promotes it into a Change or Effort rather than keeping its own durable register. _Avoid_: Entry point, Bootstrap.
 

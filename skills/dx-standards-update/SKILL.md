@@ -1,7 +1,6 @@
 ---
 name: dx-standards-update
 description: Create, edit, or promote a standard in context/standards/ — from the conversation, a graduated lesson, or another project.
-disable-model-invocation: true
 argument-hint: [--from=PATH]
 ---
 

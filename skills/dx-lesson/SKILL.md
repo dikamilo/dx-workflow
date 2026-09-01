@@ -1,7 +1,6 @@
 ---
 name: dx-lesson
 description: Record one finding — a warning or a decision-with-rationale — as an append-only entry in foundation/lessons.md.
-disable-model-invocation: true
 argument-hint: [the finding]
 ---
 

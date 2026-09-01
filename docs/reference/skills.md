@@ -23,7 +23,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
   ```
 
 ### `/dx-new`
-- **Invoke:** user — `/dx-new [idea or effort/slice]`
+- **Invoke:** user or model (by name, no auto-fire) — `/dx-new [idea or effort/slice]`
 - **Purpose:** the entry point and router — pick the container level (change vs effort vs a child slice) and create its identity file; see [efforts and changes](../explanation/efforts-and-changes.md).
 - **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md` plus that effort's `effort.md` `## Notes` (for the refactor-effort marker that decides the slice's `type`); accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill, or (from `/dx-refactor-discover`'s promote-many path) an argument opening with `## Refactor opportunities (from /dx-refactor-discover)`, parsed as a multi-finding effort seed. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here.
 - **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled; for a multi-finding effort seed, also `## Notes`'s refactor-effort marker and one `context/efforts/<id>/research/<topic>.md` per promoted finding (provenance frontmatter + the finding's full entry, with its `Sketch:` line if `/dx-refactor-discover` explored it).
@@ -181,7 +181,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
   ```
 
 ### `/dx-standards-update`
-- **Invoke:** user — `/dx-standards-update [--from=PATH]`
+- **Invoke:** user or model (by name, no auto-fire) — `/dx-standards-update [--from=PATH]`
 - **Purpose:** create, edit, or promote a single standard — edited in place, from the conversation, a graduated lesson, or another project; see [the knowledge layer](../explanation/knowledge-layer.md).
 - **Reads:** the rule's source (conversation, a `foundation/lessons.md` entry, or `--from=PATH`), the `knowledge-layer` reference for the promotion criteria, `foundation/glossary.md`.
 - **Writes:** the matching `context/standards/<layer>/<topic>.md` (append or refine one entry); marks a promoted `foundation/lessons.md` entry as graduated.
@@ -192,7 +192,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
   ```
 
 ### `/dx-lesson`
-- **Invoke:** user — `/dx-lesson [the finding]`
+- **Invoke:** user or model (by name, no auto-fire) — `/dx-lesson [the finding]`
 - **Purpose:** record one finding — a warning or a decision-with-rationale — as an append-only lesson, the anteroom to a standard; see [the knowledge layer](../explanation/knowledge-layer.md).
 - **Reads:** the finding (argument or one clarifying question), the `knowledge-layer` reference for the entry shape, `foundation/glossary.md`.
 - **Writes:** appends one `## <short title> — <YYYY-MM-DD>` entry to `foundation/lessons.md`; never edits existing entries.
@@ -274,7 +274,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ## Lifecycle close
 
 ### `/dx-archive`
-- **Invoke:** user — `/dx-archive [change-id or effort-id]`
+- **Invoke:** user or model (by name, no auto-fire) — `/dx-archive [change-id or effort-id]`
 - **Purpose:** retire a finished change or effort — move its folder to `context/archive/` and stamp it archived. No registry; the archive is just where done work lives; see [ship a change](../tutorials/ship-a-change.md).
 - **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, `reviews/impl-review.md` (warns on any `Resolution: PENDING`); the `change-md`/`effort-md` reference for the schema.
 - **Writes:** moves the folder to `context/archive/<today>-<id>/` (prefers `git mv`); stamps the identity file `status: archived` with `archived_at` set and `updated` bumped.
