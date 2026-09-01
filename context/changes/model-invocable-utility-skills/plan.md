@@ -77,4 +77,4 @@ change to existing invocation paths, only a new one opened) and write a one-line
 
 ### Phase 3: Versioning
 #### Automated
-- [ ] 3.1 `.changeset/*.md` added covering this slice
+- [x] 3.1 `.changeset/*.md` added covering this slice — 01d6e84
