@@ -4,10 +4,10 @@ title: Allow dx-new, dx-archive, dx-lesson, and dx-standards-update to run model
 type: feature
 effort: null
 slice: null
-status: implemented
+status: archived
 created: 2026-09-01
 updated: 2026-09-01
-archived_at: null
+archived_at: 2026-09-01
 ---
 
 ## Notes
