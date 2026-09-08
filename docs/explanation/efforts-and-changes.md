@@ -150,7 +150,11 @@ This creates the change for slice 1 (`payments-schema`) and sets `effort:
 payments-v2` and `slice: 1` in its `change.md` frontmatter. Crucially, the child
 **inherits the effort's `research/` and `frame.md` in place** — nothing is
 copied. Because the upstream framing already exists one level up, the child skips
-effort-level framing entirely and jumps straight to its own `/dx-plan`.
+effort-level framing entirely and can jump straight to its own `/dx-plan`. It can
+also run `/dx-frame payments-schema` first: since the effort's `frame.md` already
+covers the problem and alternatives, this narrower **slice mode** interviews only
+on flows specific to this slice and writes a small `frame.md` of its own holding
+just `## User cases` — additive to the effort's headline sketch, not a redo of it.
 
 This is why there is **no duplicated ceremony**: the research and framing that
 apply to all of `payments-v2` are written once, on the effort, and every slice

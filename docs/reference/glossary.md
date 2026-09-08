@@ -28,7 +28,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Foundation (`foundation/`)** — the folder of stable, long-lived reference docs for a project: its glossary, its lessons, and background research. Unlike a change folder, foundation content outlives any single unit of work. See [knowledge layer](../explanation/knowledge-layer.md).
 
-**Frame (`frame.md`)** — the settled problem definition, the WHAT: the real problem, who it affects, the alternatives considered, and what is explicitly out of scope. Produced by `/dx-frame`; read by `/dx-plan`. See [research and frame](../explanation/research-and-frame.md).
+**Frame (`frame.md`)** — the settled problem definition, the WHAT: the real problem, who it affects, the alternatives considered, and what is explicitly out of scope — plus an optional user cases section for user-facing work. An effort's user cases are a headline sketch only; a slice can run `/dx-frame` again in a narrower mode to add its own `## User cases` on top. Produced by `/dx-frame`; read by `/dx-plan`. See [research and frame](../explanation/research-and-frame.md).
 
 **Glossary (`foundation/glossary.md`)** — your *project's* ubiquitous-language dictionary. It is written only by the two domain skills (`/dx-domain-discover` and `/dx-domain`) and names business concepts, not workflow machinery. (This page you are reading is the workflow glossary — a different thing.) See [knowledge layer](../explanation/knowledge-layer.md).
 

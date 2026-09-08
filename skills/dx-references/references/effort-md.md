@@ -49,4 +49,4 @@ An ordered list of slices; each links to exactly one child change.
 Effort progress = for each slice, read its linked child change and count those with `archived_at` set. Done = every child change archived. There is no checkbox to flip.
 
 ## Child changes
-`dx-new <effort> <slice>` creates a child change with `effort:`/`slice:` set. The child inherits the effort's `research/` + `frame.md` and jumps straight to its own `plan.md`.
+`dx-new <effort> <slice>` creates a child change with `effort:`/`slice:` set. The child inherits the effort's `research/` + `frame.md` and jumps straight to its own `plan.md` — or optionally runs `/dx-frame` first, in its narrower slice mode, to add just this slice's own `## User cases` on top of the parent's.
