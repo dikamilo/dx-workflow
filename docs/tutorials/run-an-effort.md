@@ -193,11 +193,15 @@ time with an effort id and a slice number.
 > here; it jumps straight to planning and prints:
 >
 > ```text
-> Next: /dx-plan payments-schema              (upstream inherited from the effort)
+> Next: /dx-frame payments-schema   → /dx-plan payments-schema    (frame optional — adds this slice's own user cases)
 > ```
 
 That inheritance is the whole point of the two-level model: you did research and frame once in Step 2,
-and every slice starts from it for free.
+and every slice starts from it for free. `payments-schema` is a schema/persistence slice with nothing
+user-facing to add, so it skips straight to `/dx-plan`. A later, user-facing slice — say `payments-ui` —
+could run `/dx-frame payments-ui` first: it would detect the parent effort's `frame.md` and switch to a
+narrower slice mode that only adds this slice's own `## User cases`, on top of whatever headline flows
+the effort-level frame already sketched.
 
 ## Step 5 — Ship each slice as a normal change, then move to the next
 

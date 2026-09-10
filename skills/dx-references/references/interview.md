@@ -23,6 +23,13 @@ The *expected* number of questions scales with complexity, then scales **down** 
 
 Every artifact passed in — including a parent effort's — is a decision already made; don't re-ask it.
 
+**User cases scale by batching, not by one question per flow.** Propose the full candidate list as a
+single question (confirm or edit), then spend extra questions only on flows still ambiguous after that.
+An effort's `frame.md` keeps its list to headline flows — a sketch, not exhaustive, since the effort's
+slices don't exist yet at framing time. Each slice can run `/dx-frame` again in a narrower mode to add
+just its own flows on top of the parent's sketch, so no single interview has to enumerate an entire
+effort's user cases at once.
+
 ## Framing vs solution design
 - **`dx-frame`** runs the deep interview on *problem framing + alternatives* → `frame.md`.
 - **`dx-plan`** interviews on *solution design*. When no `frame.md` exists, it front-loads the framing questions `dx-frame` would have asked, then continues into solution design. So the interview always happens; `dx-frame` just makes the framing half explicit and skippable.

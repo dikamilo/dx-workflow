@@ -92,7 +92,7 @@ what question they answer, and a brainstorm answers a fourth one:
 |---|---|---|
 | `research/<topic>.md` | *What is true?* | investigation with provenance — sources, `file:line`, a fetch date |
 | `diagnosis.md` | *Why is this broken?* | a reproducing loop, ranked hypotheses, the confirmed cause |
-| `frame.md` | *What is the right problem?* | the real problem, who it affects, framings weighed, out of scope |
+| `frame.md` | *What is the right problem?* | the real problem, who it affects, framings weighed, out of scope, and (when user-facing) the user cases to cover |
 | `brainstorm.md` | *Is this worth building at all?* | alternatives weighed, the priced do-nothing and why it lost, the routing conclusion, what is explicitly not being done |
 
 Nothing else has a home for *what was rejected and why the do-nothing lost*. That is the part a cold

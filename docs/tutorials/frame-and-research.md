@@ -123,7 +123,16 @@ You now have the facts. What you still lack is a decision: *which* problem are y
 >
 > **You:** 1
 >
-> **dx-frame** writes `frame.md` with four sections, sets `updated: 2026-07-11` on `change.md`, and prints:
+> **Q3.** Which sign-in flows does this need to cover?
+> 1. New signup and returning login, both via the Google button — the two flows the friction problem
+>    actually names **(recommended)**
+> 2. Also account linking for existing password users, so nobody gets a duplicate account
+>
+> **You:** 1
+>
+> **dx-frame** writes `frame.md` — the four core sections plus `## User cases`, since this is a
+> user-facing change with two flows worth distinguishing — sets `updated: 2026-07-11` on `change.md`,
+> and prints:
 >
 > ```text
 > Frame written: context/changes/oauth-login/frame.md
@@ -143,6 +152,12 @@ one-click sign-in that removes the password entirely.
 ## Who / what it affects
 New and returning consumer users at the login/signup surface; the `User`
 model (needs a provider identity), and `routes/auth/*` (needs a callback route).
+
+## User cases
+- New consumer signs up: taps "Continue with Google" on the signup screen →
+  account created, no password set. (Discovered in this interview.)
+- Returning consumer signs in: taps "Continue with Google" on the login screen →
+  session created against the linked Google identity. (Discovered in this interview.)
 
 ## Alternatives considered
 - **Google OAuth** — one click, no password, covers most consumer accounts. **Chosen.**
@@ -184,7 +199,8 @@ On disk under `context/changes/oauth-login/`:
 
 - `research/existing-auth.md` — codebase facts with a `git_commit` sha pinning them to a revision.
 - `research/oauth-providers.md` — external provider comparison with citations and a fetch date (`git_commit: null`).
-- `frame.md` — the real problem, who it affects, alternatives considered, and out-of-scope, in four scannable sections.
+- `frame.md` — the real problem, who it affects, alternatives considered, and out-of-scope, plus (since
+  this is user-facing) the user cases it must cover.
 - `change.md` — now `status: planned` with `updated` bumped, ready for the rest of the lifecycle.
 
 Each is a decision recorded once. The research and the frame are why the plan interview was short.

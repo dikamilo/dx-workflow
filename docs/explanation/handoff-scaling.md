@@ -69,7 +69,10 @@ of the `payments-v2` effort — say `payments-api` — inherits the effort's res
 frame through its `change.md` frontmatter. So the slice's `/dx-plan` treats all
 effort-level framing as already decided and jumps straight to solution-design questions
 about that slice. No re-framing "what are we building and why" once per slice — the effort
-answered that once, for all of them.
+answered that once, for all of them. The one exception is user cases: the effort's frame
+keeps those to a headline sketch (its slices don't exist yet at framing time), so a slice
+may run `/dx-frame` again itself, in a narrower mode, to add just its own flows before
+`/dx-plan` — still nothing re-asked, only something new added.
 
 ## `/dx-plan` reads research; it does not re-run it
 

@@ -49,8 +49,15 @@ Also invoke `dx-references` with `design-lenses` — the principles a solution d
 
 Follow that shape. Author `## Data model`, `## API & contracts`, and/or `## Failure modes &
 reversibility` for whichever topics step 2 loaded — omit the rest entirely, never `N/A`. Each phase
-a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Activate
-the conditional characteristic for `change.md`'s `type`:
+a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass.
+
+If any `## User cases` section is present — this change's own `frame.md`, the parent effort's, or both;
+treat the two as a union, not a replacement — check whether the repo already has a test setup for the
+relevant layer — explore, don't assume, and never introduce one as part of this plan. If one exists,
+give each phase that implements a user case a task asserting it; if none exists, note the gap once and
+move on.
+
+Activate the conditional characteristic for `change.md`'s `type`:
 
 - `defect` → TDD gate: first phase writes the failing regression test, then the fix.
 - `refactor` → behavior-preserving gate (tests green before **and** after); **also invoke `dx-references` with `module-design`** and use its vocabulary.

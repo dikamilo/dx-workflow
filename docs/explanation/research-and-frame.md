@@ -77,7 +77,7 @@ never does solution design and never names file changes. That is `/dx-plan`'s jo
 /dx-frame <change-id or effort-id>
 ```
 
-`frame.md` has exactly four sections:
+`frame.md` has four core sections, plus an optional fifth:
 
 - **The real problem** — one sentence, root not surface. Not "the login button is slow" but the
   underlying thing that, once fixed, makes the surface complaint disappear.
@@ -86,7 +86,22 @@ never does solution design and never names file changes. That is `/dx-plan`'s jo
   it records the roads not taken so a later reader does not relitigate them.
 - **Out of scope** — what this explicitly does not address.
 
+**User cases**, inserted after "Who / what it affects", is conditional: it appears only when the work
+is user-facing (a UI flow, an API surface, a CLI command) and has more than one flow worth
+distinguishing — one line each, who / triggered by what / to reach what outcome, noting whether it was
+already documented upstream or discovered in this interview. A pure refactor, infra change, or
+schema-only migration omits it entirely rather than leaving it empty.
+
 Keep it tight and scannable. No solution phases, no file changes — that is planning.
+
+**An effort's user cases are a sketch, not the exhaustive list.** Framing an effort happens before
+`/dx-roadmap` decomposes it into slices, so its `## User cases` — when included at all — stays to
+headline flows: enough to inform how the work splits, not a full enumeration of every future slice's
+flows. Once a slice exists, run `/dx-frame <slice-change-id>` again: it detects the parent effort already
+has a `frame.md` and switches to a narrower **slice mode** — it doesn't reopen the problem, alternatives,
+or scope, it interviews only on this slice's own flows and writes a small `frame.md` of its own holding
+just `## User cases`, additive to the parent's sketch. `/dx-plan` then reads both as a union. This keeps
+any single framing interview from having to enumerate an entire effort's user cases up front.
 
 Framing does not have to produce a reframe. **"The initial framing was right" is a valid outcome.** The
 point of the interview is to *test* the framing, not to manufacture a new one. If it survives scrutiny,

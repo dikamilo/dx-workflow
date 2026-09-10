@@ -14,7 +14,7 @@ Every piece of work starts here. Your one job is to pick the **container level**
 
 If invoked as `dx-new <effort-id> <slice-n>`, this is a **child change** — a different path from everything below. Read `context/efforts/<effort-id>/roadmap.md` and find `### Slice <slice-n>`: its `- change: <slug>` line is the id `dx-roadmap` already assigned, and the slice name is the title. Use them as-is — do not derive a new slug from scratch, that would orphan the roadmap's link. Missing effort or slice → tell the user to run `/dx-roadmap <effort-id>` first.
 
-Create `context/changes/<slug>/change.md` with `effort: <effort-id>`, `slice: <slice-n>`, `status: new`. Default `type: feature` unless `effort.md`'s `## Notes` carries the marker line `Refactor effort — findings promoted from /dx-refactor-discover.` (written once at effort creation — see Promoted entries), then `type: refactor`. Fill every other frontmatter field the schema defines — invoke `dx-references` with topic `change-md` for the exact shape. The child **inherits** the effort's `research/` and `frame.md` in place (nothing is copied); it does not get its own. Skip straight to `/dx-plan <slug>` — upstream is already settled.
+Create `context/changes/<slug>/change.md` with `effort: <effort-id>`, `slice: <slice-n>`, `status: new`. Default `type: feature` unless `effort.md`'s `## Notes` carries the marker line `Refactor effort — findings promoted from /dx-refactor-discover.` (written once at effort creation — see Promoted entries), then `type: refactor`. Fill every other frontmatter field the schema defines — invoke `dx-references` with topic `change-md` for the exact shape. The child **inherits** the effort's `research/` and `frame.md` in place (nothing is copied) — its problem framing is already settled, so skip straight to `/dx-plan <slug>`. Optionally run `/dx-frame <slug>` first instead: in slice mode it adds only this slice's own `## User cases` to a small `frame.md` of its own, without reopening the inherited framing.
 
 ## Name it (change or effort, not a slice)
 
@@ -43,7 +43,7 @@ The identity file exists with every frontmatter field filled (plus any seeded fi
 Change:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-plan <id>
               (both optional — small/clear work can go straight to /dx-plan <id>)
 Effort:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-roadmap <id>
-Child change: Next: /dx-plan <slug>              (upstream inherited from the effort)
+Child change: Next: /dx-frame <slug>   → /dx-plan <slug>    (frame optional — adds this slice's own user cases)
 ```
 
 Stop. Do not chain into another skill.
