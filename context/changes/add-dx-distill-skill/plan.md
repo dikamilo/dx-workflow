@@ -137,13 +137,14 @@ Run the full process manually against one real piece of raw material, producing 
 
 ### Phase 4: Sync the record
 #### Automated
-- [ ] 4.1 `DESIGN.md` §7.5 names `foundation/briefs/`; §7.6 has the brief-format row; §4/§6 note the `dx-new` seed
-- [ ] 4.2 **Brief** term in `foundation/glossary.md`, added via `/dx-domain`, distinguished from Research
-- [ ] 4.3 `docs/reference/skills.md` has a `### \`/dx-distill\`` entry in the fixed shape
-- [ ] 4.4 New tutorial and new explanation page exist
-- [ ] 4.5 `docs/reference/glossary.md` and `docs/explanation/directory-layout.md` updated
-- [ ] 4.6 A `.changeset/*.md` covers the `skills/**` diff
-- [ ] 4.7 `npm run lint:skills` passes clean
+- [x] 4.1 `DESIGN.md` §7.5 names `foundation/briefs/`; §7.6 has the brief-format row; §4/§6 note the `dx-new` seed — §7.5 gained a sibling-tier paragraph, §7.6 a Brief row, §4 an "Optional brief seed" paragraph under the router, §6 one clause marking `distill` user-invoked and explicitly not a discovery entry — 9d53934
+- [x] 4.2 **Brief** term in `foundation/glossary.md`, added via `/dx-domain`, distinguished from Research — plus **Evidence Tag**; Research's `_Avoid_` list gained the reciprocal pointer, matching the file's existing pairing convention — 9d53934
+- [x] 4.3 `docs/reference/skills.md` has a `### \`/dx-distill\`` entry in the fixed shape — filed under **Upstream** (not Discovery entries — it promotes nothing); `/dx-new`, `/dx-frame`, `/dx-plan` entries also updated to match what Phase 3 actually landed, which the Phase 3 commit had left undocumented — 9d53934
+- [x] 4.4 New tutorial and new explanation page exist — `docs/tutorials/distill-a-brief.md` and `docs/explanation/evidence-tags.md`; both indexed in `docs/README.md` (tables + reading-order diagram). All relative links verified to resolve — 9d53934
+- [x] 4.5 `docs/reference/glossary.md` and `docs/explanation/directory-layout.md` updated — glossary gained **Brief** and **Evidence tag** and a per-file/per-claim contrast on **Research**; directory-layout gained `briefs/` in the scaffold tree and the `foundation/` row, noting `/dx-init` does **not** create it (verified: no `briefs` reference in `dx-init`) — 9d53934
+- [x] 4.6 A `.changeset/*.md` covers the `skills/**` diff — `.changeset/dx-distill-evidence-tagged-briefs.md`, `minor`, three paragraphs covering all three `skills/**` slices (dx-distill; dx-new; dx-frame/dx-plan). **Written by hand, not via `npx changeset`** — that command is interactive and unsupported in this environment; format matches the existing changesets in history — 9d53934
+- [x] 4.7 `npm run lint:skills` passes clean — all 5 checks green; **check 5 is now green**, closing the known blocker rows 2.4 and 3.5 recorded — 9d53934
+- [x] 4.10 Phase 1's hand-made brief moved out of `foundation/briefs/` (row added 2026-09-18, user's call after Phase 4 landed). `evidence-discipline.md` → `context/changes/add-dx-distill-skill/` via `git mv`, leaving `foundation/briefs/` absent — correct, since `ls` is the list and no conforming brief exists yet. **Why:** it is a Phase 1 fixture, not a model output — 3,260 words against the template's 500–900 cap, and no `<slug>.interview.md` companion, since it predates D06. That companion cannot be reconstructed: the session is gone, and writing one now would invent a source, which is the hard gate the skill enforces. It is also referenced by nothing in the repo. **Cost accepted:** it now archives with the change, so the `om-discover` rationale and A01 stop being durable foundation memory. Rows 1.1/1.2/1.4/1.5/1.6 are left as landed — the artifact they cite still exists, at a new path
 #### Manual
 - [ ] 4.8 Docs written with the `documentation` skill
-- [ ] 4.9 No §9 discovery-entry subsection was added
+- [x] 4.9 No §9 discovery-entry subsection was added — verified by diff: `DESIGN.md`'s heading set is unchanged (no `^[+-]#` lines), and §9 still holds exactly `diagnose`/`refactor-discover`/`brainstorm` — 9d53934
