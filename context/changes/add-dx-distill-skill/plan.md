@@ -2,20 +2,26 @@
 
 ## Approach
 
-Add one user-invoked skill, `dx-distill`, that takes raw material the user points at (file paths in the project, a slug, or pasted text), infers its emphasis from what the material actually contains, interviews to fill the gaps, and writes a single evidence-tagged **Brief** to `context/foundation/briefs/<slug>.md`. It promotes nothing and creates no container — `dx-new` stays the sole router.
+Add one user-invoked skill, `dx-distill`, that runs a **discovery conversation toward a decision** and writes a single evidence-tagged **Brief** to `context/foundation/briefs/<slug>.md`. It promotes nothing and creates no container — `dx-new` stays the sole router.
+
+**Corrected 2026-09-18, during Phase 2.** This paragraph previously described the skill as material-driven: it "takes raw material the user points at… interviews to fill the gaps." Re-reading the upstream `om-discover/SKILL.md` verbatim shows that inverts the entry condition. Upstream, `{topic}` is optional ("when absent, ask what the brief is for"), raw material is an optional `--research <dir>` read *before* questioning, and the session is framed by the decision the user needs to make. Raw material is an input, never the trigger. `dx-distill` follows that: frame the decision → check the material → interview → tagged draft → skeptic → confirm → write.
 
 The brief's shape is adapted from `om-discover`'s `brief-template.md` near-verbatim, minus the sign-off axis (`Owner`, `Definition of Ready signed by`, `Decider for scope decisions`, and the `Mode:` line), which `brainstorm.md` established is moot for a solo workflow. The `Mode:` line is replaced by an `Emphasis detected:` line, since emphasis is inferred from the material rather than declared — the same way `type` already activates plan characteristics without the user naming one.
 
 Three mechanics carry over intact, because they are the reason this skill exists: the seven evidence tags (`[INTERVIEW]` `[DATA]` `[DOCUMENT]` `[PRODUCT]` `[BENCHMARK]` `[SYNTHETIC]` `[ASSUMPTION]`), the hard gate against inventing sources or measurements, and the coverage-arithmetic line. `[SYNTHETIC]` claims stay confined to `## Hypotheses to test` and are counted outside coverage.
 
-Two checkpoints, not three: a **material gate** before drafting (enough to distill? if not, name the gap and write nothing — an off-ramp mirroring `dx-brainstorm`'s ramp 1) and a **skeptic pass** after drafting, run as a built-in `general-purpose` subagent over all 5 source checks. `om-discover`'s separate `quality-gate` is folded into the skeptic pass rather than run as a third read of the same draft.
+Two checkpoints, not three: a **material check** before asking the user for facts (read what exists first; sort it into what supports the decision and what could overturn it; consequential gaps go on the collection plan) and a **skeptic pass** after drafting, run as a built-in `general-purpose` subagent over all 5 source checks. `om-discover`'s separate `quality-gate` is folded into the skeptic pass rather than run as a third read of the same draft. A third checkpoint survives from upstream that this plan originally missed: **confirm with the user before writing**, since a brief written past an unconfirmed decision is exactly the misalignment the interview exists to prevent.
 
-**Sources are paths, not copies.** The expected case is the user pointing at files already in the project, so a claim's source is that path. Pasted material has no path: it is tagged normally but flagged as unverifiable, and nothing is persisted beside the brief. No `.sources/` directory, no verbatim appendix.
+**Corrected 2026-09-18, during Phase 2.** The material check is *not* an off-ramp. This plan called for one — "enough to distill? if not, name the gap and write nothing" — mirroring `dx-brainstorm`'s ramp 1. Upstream has no such refusal: thin material yields "an honestly incomplete brief… but must say what it cannot support yet," with the missing pieces on a collection plan. Refusing would also be the wrong borrow from `dx-brainstorm`, whose ramp 1 concludes *nothing should be built* — a different judgement from *not enough is known yet*, which is the thing a brief is for recording. The one genuine stop is **no user available**, which `dx-brainstorm` already guards the same way and which upstream states outright ("This skill is interactive, has no autonomous mode").
+
+**Sources are paths, not copies.** The expected case is the user pointing at files already in the project, so a claim's source is that path. Pasted material has no path: it is tagged normally but flagged as unverifiable. No `.sources/` directory, no verbatim appendix.
+
+**One exception, decided 2026-09-18 during Phase 2 (D06 supersedes D05).** The interview is recorded to a companion `context/foundation/briefs/<slug>.interview.md`, written before drafting. D05 was reasoned about copies of material that *already has a path*; an interview has none, so under D05 every `[INTERVIEW]` claim was uncheckable forever — including by the skeptic pass, whose first check is to open the cited source. The Phase 2 full-run test hit this directly and reported its own interview claims unverifiable by construction. `om-discover` persists the same record for the same reason.
 
 ### Conflicts surfaced, not averaged
 
 - **Question batching.** `om-discover`'s `interview-rounds.md` batches "two or three independent questions per round, up to three rounds." This repo's `interview` reference mandates **exactly one question at a time**. House convention wins — `dx-distill` invokes `dx-references` with `interview` and does not carry a rounds mechanic. The source's *stopping* rule (stop when the decision has enough support, or the user says so) is compatible and kept.
-- **Empty sections.** `om-discover` leaves an inapplicable section visible as "deferred"; `plan-template` mandates **omitting entirely — never `N/A` or a placeholder**. House convention wins: a brief omits sections its material doesn't reach. The material gate is what names gaps, so nothing is lost by dropping "deferred".
+- **Empty sections.** `om-discover` leaves an inapplicable section visible as "deferred"; `plan-template` mandates **omitting entirely — never `N/A` or a placeholder**. House convention wins: a brief omits sections its material doesn't reach. The collection plan is what names the gaps that block the decision, so nothing is lost by dropping "deferred".
 - **Tracker, emoji, and marker conventions** in `rules.md` are cut — `DESIGN.md` §2 already excludes issue-tracker coupling, and emoji/`PR:`-style markers are not a dx convention.
 
 ### Corrected from upstream
@@ -24,13 +30,13 @@ Two checkpoints, not three: a **material gate** before drafting (enough to disti
 
 ## API & contracts
 
-**The brief file — new format, additive.** `context/foundation/briefs/<slug>.md`, one file per brief. Written only by `dx-distill`; read by `dx-new`, `dx-frame`, and `dx-plan` as settled upstream context. Header block followed by the adapted section list:
+**The brief file — new format, additive.** `context/foundation/briefs/<slug>.md`, plus the companion `<slug>.interview.md` (D06). Written only by `dx-distill`; read by `dx-new`, `dx-frame`, and `dx-plan` as settled upstream context. Header block followed by the adapted section list:
 
 ```markdown
 # <slug> — brief
 
 - Date: <YYYY-MM-DD>; Pass: full | quick
-- Emphasis detected: <product-weighted | interview-weighted | assumption-weighted>, and why
+- Emphasis detected: <the tag(s) the material concentrates in>-weighted, and why
 - Evidence basis: <the material and its limits; the most consequential untested belief>
 - Coverage: <n> claims — <a> sourced (interview <i>, data <d>, document <c>, product <p>,
   benchmark <b>), <s> synthetic, <u> assumed
@@ -95,25 +101,26 @@ Run the full process manually against one real piece of raw material, producing 
 
 ### Phase 1: Prove the process by hand — the off-ramp gate
 #### Automated
-- [x] 1.1 `context/foundation/briefs/` exists and holds one real brief with a valid header block
-- [x] 1.2 Coverage line arithmetic checks out: `sourced = interview+data+document+product+benchmark`, `claims = sourced+synthetic+assumed`, synthetic hypotheses counted separately
+- [x] 1.1 `context/foundation/briefs/` exists and holds one real brief with a valid header block — 3290935
+- [x] 1.2 Coverage line arithmetic checks out: `sourced = interview+data+document+product+benchmark`, `claims = sourced+synthetic+assumed`, synthetic hypotheses counted separately — 3290935
 #### Manual
-- [x] 1.3 Material gate applied by hand — enough material, or the gap named
-- [x] 1.4 Every substantive claim carries one of the seven tags and a resolvable source path (pasted material flagged unverifiable) — counting convention stated post hoc, tracked as Q04
-- [x] 1.5 Skeptic pass run via a `general-purpose` subagent over all 5 checks; findings carry exact sentence + source path + CRITICAL/WARNING — 4 CRITICAL, 11 WARNING
-- [x] 1.6 **Off-ramp decision:** it caught something a lighter read would have missed — confirmed with the user before Phase 2 starts; cleared on the benchmark-emphasis (Q01) and unopened-`rules.md` findings, with A02 noted untested
+- [x] 1.3 Material gate applied by hand — enough material, or the gap named — 3290935
+- [x] 1.4 Every substantive claim carries one of the seven tags and a resolvable source path (pasted material flagged unverifiable) — counting convention stated post hoc, tracked as Q04 — 3290935
+- [x] 1.5 Skeptic pass run via a `general-purpose` subagent over all 5 checks; findings carry exact sentence + source path + CRITICAL/WARNING — 4 CRITICAL, 11 WARNING — 3290935
+- [x] 1.6 **Off-ramp decision:** it caught something a lighter read would have missed — confirmed with the user before Phase 2 starts; cleared on the benchmark-emphasis (Q01) and unopened-`rules.md` findings, with A02 noted untested — 3290935
 
 ### Phase 2: Author `dx-distill`
 #### Automated
-- [ ] 2.1 `skills/dx-distill/SKILL.md` exists with `disable-model-invocation: true` and a terse description
-- [ ] 2.2 Three references exist under `skills/dx-distill/references/`
-- [ ] 2.3 `dx-distill` added to `skills.sh.json` under Knowledge
-- [ ] 2.4 `npm run lint:skills` passes (expect check 5 to fail until 4.3 lands — rerun then)
+- [x] 2.1 `skills/dx-distill/SKILL.md` exists with `disable-model-invocation: true` and a terse description — 91e2cc8
+- [x] 2.2 Three references exist under `skills/dx-distill/references/` — 91e2cc8
+- [x] 2.3 `dx-distill` added to `skills.sh.json` under Knowledge — 91e2cc8
+- [x] 2.4 `npm run lint:skills` passes — checks 1–4 clean; **check 5 still red** as this row anticipated (no `docs/reference/skills.md` heading), clears at 4.3 — 91e2cc8
 #### Manual
-- [ ] 2.5 Skill authored via `skill-creator`
-- [ ] 2.6 Sandboxed subagent run: material gate fires an off-ramp on deliberately thin material
-- [ ] 2.7 Sandboxed subagent run: full run on Phase 1's material reproduces a comparable brief
-- [ ] 2.8 Eval deviation stated to the user, not silently skipped
+- [x] 2.5 Skill authored via `skill-creator` — its drafting guidance applied; its eval-harness loop skipped per 2.8 — 91e2cc8
+- [x] 2.6 Sandboxed subagent run: thin material yields an honestly incomplete brief with a collection plan — **not** a refusal (row rewritten 2026-09-18; it previously asserted an off-ramp, see §Approach's correction). Verified: no "we don't know" answer was upgraded to a sourced claim — 91e2cc8
+- [x] 2.7 Sandboxed subagent run: full run on Phase 1's material reproduces a comparable brief — 899 words, Coverage arithmetic holds, skeptic returned 2 CRITICAL + 1 WARNING — 91e2cc8
+- [x] 2.8 Eval deviation stated to the user, not silently skipped — 91e2cc8
+- [x] 2.9 Third run verifying the post-test fixes: interview note written as a record, `[INTERVIEW]` claims cite it, the confirmation gate held and absorbed the user's change before the write, and `Confirmed by` correctly refused a skeptic push to mark a decision confirmed from an interview remark (row added 2026-09-18 — five fixes landed after 2.6/2.7 ran, so those runs didn't cover them) — 91e2cc8
 
 ### Phase 3: Wire the read side
 #### Automated
