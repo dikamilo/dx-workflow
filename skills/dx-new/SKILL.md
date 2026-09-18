@@ -1,7 +1,7 @@
 ---
 name: dx-new
 description: Start a new piece of work — creates a change or an effort and points you at the next step.
-argument-hint: [idea or effort/slice]
+argument-hint: [idea or effort/slice] [brief...]
 ---
 
 # dx-new — the entry point and router
@@ -9,6 +9,12 @@ argument-hint: [idea or effort/slice]
 Every piece of work starts here. Your one job is to pick the **container level**, create its identity file, and print the next command. You do not research, frame, or plan — you route.
 
 **Guard.** If `context/` isn't scaffolded (no `changes/` or `efforts/`), stop and tell the user to run `/dx-init`. Never auto-create the parent tree.
+
+## Briefs named in the argument — optional, loose, plural
+
+A brief under `context/foundation/briefs/` may be named anywhere in the argument, in any form — a bare slug, a filename, a full path, several of them — with no flag and no fixed position. Those names are settled upstream context, not part of the idea: strip them before deriving a slug. A name that doesn't resolve is never guessed at — list `context/foundation/briefs/` and ask which was meant. No brief named is the ordinary case and changes nothing below.
+
+Record the resolved ones as a single prose line in the new container's `## Notes`, naming their paths (`Briefs: context/foundation/briefs/<slug>.md, …`). Nothing is copied and no frontmatter field changes — that line is the pointer `dx-frame` and `dx-plan` follow.
 
 ## Slice of an existing effort — read the id, don't invent one
 
@@ -37,7 +43,7 @@ Never nest a change inside a change. Large work is an effort that spawns flat ch
 
 ## Done when
 
-The identity file exists with every frontmatter field filled (plus any seeded finding). Print the exact next command and **stop** — never run it:
+The identity file exists with every frontmatter field filled (plus any seeded finding, plus the `## Notes` line for any brief named). Print the exact next command and **stop** — never run it:
 
 ```
 Change:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-plan <id>
