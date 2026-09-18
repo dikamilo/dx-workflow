@@ -124,15 +124,16 @@ Run the full process manually against one real piece of raw material, producing 
 
 ### Phase 3: Wire the read side
 #### Automated
-- [ ] 3.1 `dx-new` resolves loose/plural brief references and writes them into `## Notes`
-- [ ] 3.2 `dx-frame` §1 gather list includes briefs named in `## Notes`
-- [ ] 3.3 `dx-plan` §1 gather list includes briefs named in `## Notes`
-- [ ] 3.4 `change-md.md` and `effort-md.md` unchanged — confirmed by diff
-- [ ] 3.5 `npm run lint:skills` passes
+- [x] 3.1 `dx-new` resolves loose/plural brief references and writes them into `## Notes` — verified in 3 sandboxed runs; two forms of the same brief (bare slug + full path, on either side of the idea) deduplicated to one `Briefs:` line, slug derived from the idea text only — 19ccd93
+- [x] 3.2 `dx-frame` §1 gather list includes briefs named in `## Notes` — **verified by inspection only**; no sandboxed run exercised `dx-frame` (the two end-to-end runs went new → plan) — 19ccd93
+- [x] 3.3 `dx-plan` §1 gather list includes briefs named in `## Notes` — both end-to-end runs opened the brief; the widened `untrusted-content` trigger fired on its external `[BENCHMARK]` claims — 19ccd93
+- [x] 3.4 `change-md.md` and `effort-md.md` unchanged — confirmed by diff: the phase diff is 3 files, all `skills/dx-{new,frame,plan}/SKILL.md` — 19ccd93
+- [x] 3.5 `npm run lint:skills` passes — checks 1–4 clean; **check 5 still red** (no `docs/reference/skills.md` heading for `dx-distill`), the same known Phase-4 blocker row 2.4 recorded; clears at 4.3. No new failure introduced by this phase — 19ccd93
 #### Manual
-- [ ] 3.6 `/dx-new` with no brief behaves exactly as before
-- [ ] 3.7 Unrecognized brief name lists `foundation/briefs/` and asks instead of guessing
-- [ ] 3.8 End-to-end: distill → new → plan carries the brief's claims into the plan
+- [x] 3.6 `/dx-new` with no brief behaves exactly as before — baseline run created its container with `## Notes` left as the bare `<free-form>` placeholder, no brief line — 19ccd93
+- [x] 3.7 Unrecognized brief name lists `foundation/briefs/` and asks instead of guessing — did not guess, despite the one existing brief being thematically close enough to tempt a match — 19ccd93
+- [x] 3.8 End-to-end: distill → new → plan carries the brief's claims into the plan — verified on a change the brief actually governs: 19 carry-through citations (D01–D04, D06, N01–N04 as closed scope, R01–R06, R09, Q01, Q04), zero re-asks, the single interview question landing on the one question the brief itself marks `open` — 19ccd93
+- [x] 3.9 Two post-test wording fixes to `dx-plan` §1 (row added 2026-09-18, after 3.8's runs): the widened `untrusted-content` gate reworded to fix a circular read-order, and the brief's risk sections given `## Priors & gotchas` as an explicit destination — both runs had read those sections and dropped them. **The second fix is itself untested** — it landed after the last run — 19ccd93
 
 ### Phase 4: Sync the record
 #### Automated
