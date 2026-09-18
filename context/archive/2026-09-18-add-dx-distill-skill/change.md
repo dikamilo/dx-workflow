@@ -4,10 +4,10 @@ title: Add dx-distill — a foundation-layer skill that distills raw material in
 type: feature
 effort: null
 slice: null
-status: implemented
+status: archived
 created: 2026-09-18
 updated: 2026-09-18
-archived_at: null
+archived_at: 2026-09-18
 ---
 
 ## Notes
