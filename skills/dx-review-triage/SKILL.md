@@ -7,7 +7,7 @@ argument-hint: "[change-id] [plan|impl]"
 
 # dx-review-triage
 
-Turn a review report's findings into decisions — and, when you say so, into edits. `dx-plan-review` and `dx-impl-review` only analyze and report; this is the one place that **acts** on a finding, editing `plan.md` or the code it reviewed, one finding at a time, only on your confirmation. That split keeps both review gates pure: a reviewer that never fixes what it checks doesn't need to graduate into a tool-restricted agent.
+Turn a review report's findings into decisions — and, when you say so, into edits. `dx-plan-review` and `dx-impl-review` only analyze and report; this is the one place that **acts** on a finding, editing `plan.md` or the code it reviewed, one finding at a time, only on your confirmation.
 
 **Guard.** Resolve `<change-id>` under `context/changes/`. `reviews/` must contain `plan-review.md` or `impl-review.md` — if the directory is missing or empty, point at `/dx-plan-review` or `/dx-impl-review` instead. If the path is under `context/archive/`, refuse: archived work is done.
 

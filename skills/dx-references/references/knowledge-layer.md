@@ -31,6 +31,3 @@ When a lesson stops being "this one time" and becomes "how we do it here" — it
 **<Term>**: <definition, domain-only, no implementation>.  _Avoid_: <term it's often confused with>.
 ```
 The glossary is **never** a spec, scratch pad, or home for implementation decisions. Every skill **reads** it; only `dx-domain-discover` and `dx-domain` **write** it.
-
-## Minimalist fallback
-If three registers ever feels heavy, collapse standards + lessons into one `context/standards/` tree where each entry carries `source: discovered | learned` (consumption logic is identical); keep the glossary separate (different shape). Start with three.

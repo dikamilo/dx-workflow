@@ -53,7 +53,7 @@ This phase *is* the skill. Before anything else, the agent names **one command**
 >
 > This loop **goes red on THIS bug** — it drives the real `cartTotal()` code path and asserts the user's exact symptom, not merely "runs without erroring." It is deterministic and runs in seconds. Only now, with a red loop in hand, does diagnosis proceed.
 
-The loop is 90% of the fix. It is deterministic (no flakiness to raise the reproduction rate on here) and fast. If the agent genuinely could not build one, the rule is to stop and say so — list what was tried, ask for an environment, artifact, or instrumentation — never to fall back on theorising.
+The loop is most of the fix. It is deterministic (no flakiness to raise the reproduction rate on here) and fast. If the agent genuinely could not build one, the rule is to stop and say so — list what was tried, ask for an environment, artifact, or instrumentation — never to fall back on theorising.
 
 ## Phase 2 — Reproduce and minimise
 

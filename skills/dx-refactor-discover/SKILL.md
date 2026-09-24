@@ -27,7 +27,7 @@ Look for: understanding one concept that means bouncing between many small modul
 
 ## 3 — Present findings inline
 
-Markdown only — no HTML, no report file, no clipboard. A concise numbered list; each candidate one tight entry:
+Markdown only — no HTML, no report file. A concise numbered list; each candidate one tight entry:
 
 - **What & where** — the module and files.
 - **Why it's shallow / tangled** — in `module-design` terms.
@@ -47,7 +47,7 @@ Offer this once the user has picked, before promoting. Skipping it is fine and g
 
 **One finding picked** → ask the plain yes/no ("explore `<finding>` before promoting?") and, if yes, run steps 1–3 below once for it.
 
-**More than one finding picked** → don't repeat the yes/no per finding. Ask one batched question first: "sketch any of these before promoting?" — options *none* / *all* / *specific ones*, recommending just the top pick (2–4 concrete options with a recommendation, the `interview` reference's shape). Then run steps 1–3 below, plus the stop-and-ask that closes this section, **once per selected finding, sequentially** — never spawn the next finding's sub-agents before the current finding's sketch is confirmed. This is the fan-out safeguard: at most one finding's batch (3–4 agents) is ever in flight, no matter how many findings total, with no arbitrary cap to invent or maintain.
+**More than one finding picked** → don't repeat the yes/no per finding. Ask one batched question first: "sketch any of these before promoting?" — options *none* / *all* / *specific ones*, recommending just the top pick (2–4 concrete options with a recommendation, the `interview` reference's shape). Then run steps 1–3 below, plus the stop-and-ask that closes this section, **once per selected finding, sequentially** — never spawn the next finding's sub-agents before the current finding's sketch is confirmed. This is the fan-out safeguard: at most one finding's batch (3–4 agents) is ever in flight, no matter how many findings total.
 
 1. **Frame the problem space to the user** — the constraints any new interface has to satisfy, the dependencies and their category, and a rough code sketch to make the constraints concrete (an illustration, not a proposal). Show it and **start the sub-agents immediately**: the user reads and thinks while the agents work, which is the whole point of doing this in parallel. Don't block on a reply.
 2. **Spawn 3–4 built-in `Plan` sub-agents in parallel**, each under a different **forcing constraint**. State each constraint as **where it puts the seam**, not as a value to maximize — two values can share an optimum, and then two agents hand back the same interface:

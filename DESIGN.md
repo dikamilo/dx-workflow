@@ -353,7 +353,7 @@ Light doctrine, big payoff in context load and routing clarity:
 - **User-invoked** (`disable-model-invocation: true`) — reachable only by typing the name; description is human-facing, trigger lists stripped; **zero context load**. The workflow is user-driven, so most skills are this.
 - **Model-invoked** (default) — reachable by model or user; description keeps rich trigger phrasing so auto-invocation fires. Reserve for skills the model should reach autonomously.
 
-Only two skills are model-invoked — `diagnose` ("it's broken/slow"), `domain` (term clash / fuzzy term). `research` is user-invoked: investigation is a deliberate act you initiate. The test per skill: *could the model usefully reach for this on its own?* If not, it's user-invoked and pays no context load.
+Only two skills are model-invoked for autonomous routing — `diagnose` ("it's broken/slow"), `domain` (term clash / fuzzy term). Four utility skills — `new`, `archive`, `lesson`, `standards-update` — also leave model invocation enabled so another skill can call them by name, but keep terse human-facing descriptions with no trigger phrasing. `research` is user-invoked: investigation is a deliberate act you initiate. The test per skill: *could the model usefully reach for this on its own?* If not, it's user-invoked and pays no context load.
 
 ---
 

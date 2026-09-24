@@ -52,7 +52,7 @@ Upstream artifacts subtract from that starting count:
 
 | Upstream provided | Questions to ask |
 |---|---|
-| Task description only | full (complexity-scaled: trivial 0–2 / low 4–6 / medium 7–10 / high 11–15) |
+| Task description only | full — as many as the open branches need; trivial work may need none |
 | + research | skip what any research file already answered |
 | + frame.md | skip all problem-framing questions |
 | + frame + research | solution-design questions only |
@@ -123,7 +123,9 @@ turns "the effort already decided this" into "the slice doesn't ask about it."
 ## Trade-offs and what was left out
 
 **The counts are guidance, not a quota.** The tiers (0–2, 4–6, 7–10, 11–15) describe the
-*expected* shape of an interview, not a target `/dx-plan` must hit. The real rule is
+*expected* shape of an interview for a human reader, not a target `/dx-plan` must hit — which
+is why the `interview` reference the model loads carries no numbers at all: a count in a
+prompt reads as a target. The real rule is
 narrower and firmer: never re-ask a settled decision. If a medium change turns out to
 need only three questions because research answered the rest, three is correct — the tier
 was never a floor to pad up to. Treating the numbers as a rigid quota would reintroduce

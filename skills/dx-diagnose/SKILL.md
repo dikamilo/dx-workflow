@@ -1,6 +1,6 @@
 ---
 name: dx-diagnose
-description: Feedback-loop-first diagnosis for bugs and performance regressions. Use when the user says something is broken/slow/throwing/failing/crashing/hanging/flaky/regressed, reports wrong output, asks to debug, diagnose, or find the root cause of a defect or perf problem.
+description: Feedback-loop-first diagnosis for bugs and performance regressions. Use when something misbehaves (errors, crashes, hangs, wrong output), got slower or flaky, or regressed — or when the user asks to debug or find the root cause of a defect or perf problem.
 argument-hint: [symptom]
 ---
 
@@ -17,7 +17,7 @@ Name **one command** — a failing test, curl, CLI diff, headless-browser script
 - **goes red on THIS bug** — drives the real code path and asserts the user's exact symptom (not "runs without erroring");
 - is **deterministic** (flaky bugs: raise the reproduction rate until debuggable) and **fast** (seconds).
 
-Be aggressive here; a tight loop is 90% of the fix. If you genuinely cannot build one, stop and say so — list what you tried, ask for an environment/artifact/instrumentation. **Done when** that command exists and goes red. Catching yourself theorising before it exists is the exact failure this prevents.
+Spend your effort here — once a tight loop exists, most of the fix follows. If you genuinely cannot build one, stop and say so — list what you tried, ask for an environment/artifact/instrumentation. **Done when** that command exists and goes red. Catching yourself theorising before it exists is the exact failure this prevents.
 
 ## Phase 2 — Reproduce + minimise
 

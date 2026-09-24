@@ -14,7 +14,7 @@ The *expected* number of questions scales with complexity, then scales **down** 
 
 | Upstream provided | Ask about |
 |---|---|
-| Task description only | full — trivial 0–2 / low 4–6 / medium 7–10 / high 11–15 |
+| Task description only | full — as many as the open branches need; trivial work may need none |
 | + research | skip what any research file already answers |
 | + brainstorm.md | skip "is this worth building" entirely — alternatives, the priced do-nothing, and the route are settled; problem framing stays open unless a `frame.md` also exists |
 | + frame.md | skip all problem-framing questions |
