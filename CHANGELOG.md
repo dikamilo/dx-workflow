@@ -1,5 +1,15 @@
 # dx-workflow
 
+## 1.4.0
+
+### Minor Changes
+
+- f26ebcc: dx-distill: new user-invoked skill. Runs a discovery conversation toward a decision and writes one brief to `context/foundation/briefs/<slug>.md`, in which every substantive claim carries one of seven evidence tags (`[INTERVIEW]` `[DATA]` `[DOCUMENT]` `[PRODUCT]` `[BENCHMARK]` `[SYNTHETIC]` `[ASSUMPTION]`) and a source path — provenance per claim, where `dx-research` records it per file. Frames the decision first (material is an input, never the trigger) and infers emphasis from what the material actually is, the way `type` already activates plan characteristics. Checks existing material before asking the user for facts; thin material yields an honestly incomplete brief with a collection plan, not a refusal. Drafts, then hands the draft to a `general-purpose` subagent running five source checks before the user sees it, then waits for confirmation before writing. Reports a Coverage arithmetic line, with `[SYNTHETIC]` claims confined to `## Hypotheses to test` and counted outside it. Records the exchange to a companion `<slug>.interview.md` so `[INTERVIEW]` claims cite a checkable path. Promotes nothing and creates no container — `dx-new` stays the sole router. Brief shape, evidence tags, and the skeptic prompt are collocated references, not shared ones.
+
+  dx-new: accepts optional, loose, plural brief references — a bare slug, a filename, or a full path, anywhere in the argument, no flag and no fixed position. Those names are stripped before deriving the slug, and the resolved paths are recorded as one prose `Briefs:` line in the container's `## Notes`. An unrecognized name lists `context/foundation/briefs/` and asks rather than guessing. No brief named leaves existing behavior unchanged; `change.md`/`effort.md` frontmatter is untouched.
+
+  dx-frame, dx-plan: each gathers any brief named in the container's `## Notes` (for `dx-plan`, the parent effort's `## Notes` too when `effort:` is set) as settled upstream context — a tagged claim is cited rather than re-derived, active non-goals are closed scope, and in `dx-plan` the brief's riskiest assumptions, kill criteria, and bearing open questions carry into `## Priors & gotchas`. `untrusted-content` now also gates a brief carrying claims sourced from outside the repo. Read-only; neither skill's output shape changes.
+
 ## 1.3.3
 
 ### Patch Changes
