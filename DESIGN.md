@@ -107,6 +107,8 @@ A child change links back to its effort via `change.md` frontmatter (`effort: <i
 
 Freeform changes (no parent effort) remain fully first-class — `new` without an effort just makes a standalone change. Most work is a change; efforts exist for the cases that genuinely decompose.
 
+**Optional brief seed.** Naming one or more `foundation/briefs/` slugs or paths anywhere in `new`'s argument seeds the container: `new` records the resolved paths in its `## Notes`, and `frame`/`plan` read them as settled upstream context (§7.5). Loose and plural by design — no flag, no required position, and an unrecognised name is asked about rather than guessed at. Naming none is the unchanged default. A brief never decides change-vs-effort; that stays `new`'s call.
+
 ### The five entry shapes
 All entries converge on the same two-level model and the same change lifecycle:
 
@@ -161,7 +163,7 @@ Per-project `context/` layout (the tree that gets scaffolded into a target repo)
 
 > All skills ship under the **`dx-` prefix** (`dx-init`, `dx-new`, …). Plus **`dx-references`** — the shared reference-doc **loader** (§5), invoked by other skills to pull in shared docs by topic; it carries no workflow role of its own. The full per-skill table (invoke mode, purpose) is maintained in `docs/reference/skills.md` — not duplicated here.
 
-**Model-invoked (2):** `diagnose`, `domain` — the only skills worth auto-firing (natural autonomous triggers). `research` is **user-invoked**: investigation is a deliberate act you initiate, not something the model should auto-reach for mid-task. Everything else is user-invoked: the workflow is user-driven, and user-invocation pays zero context load. `interview` is a **reference loop**, not a skill. Effort and refactor are **types** handled by `new`, not separate skills.
+**Model-invoked (2):** `diagnose`, `domain` — the only skills worth auto-firing (natural autonomous triggers). `research` is **user-invoked**: investigation is a deliberate act you initiate, not something the model should auto-reach for mid-task. `distill` is user-invoked for the same reason, and is a **foundation-layer producer, not a discovery entry** — it writes a brief (§7.5) and stops, promoting nothing. Everything else is user-invoked: the workflow is user-driven, and user-invocation pays zero context load. `interview` is a **reference loop**, not a skill. Effort and refactor are **types** handled by `new`, not separate skills.
 
 Deliberately **not** included: product-design, performance, e2e-test-generation, bootstrapper, issue-tracker/sync, ADRs. Add later only if a real need appears.
 
@@ -210,6 +212,8 @@ A change or effort can carry **multiple research files**, one per topic, in `res
 
 **Two research homes:** change/effort-scoped (`<container>/research/<topic>.md`) is the default; `foundation/research/<topic>.md` holds durable, reusable investigations (the natural home for external-doc research) read by every plan.
 
+**A sibling tier: `foundation/briefs/`.** `dx-distill` (user-invoked) runs a discovery conversation toward a decision and writes one `foundation/briefs/<slug>.md` — the problem, its scope, its rules and open risks, with **every substantive claim carrying an evidence tag and a source path**. Research is per-file provenance for one investigated topic; a brief is per-claim provenance across a decision's whole ground, and it is a conversation, not a sweep. It carries one companion, `<slug>.interview.md`, so `[INTERVIEW]` claims cite a checkable path like any other. `dx-distill` promotes nothing and creates no container — `dx-new` stays the sole router (§4).
+
 ### 7.6 Cross-skill formats — single source of truth
 Every parsed format with more than one consumer has exactly one canonical definition; this is an index of where each lives, not a re-definition.
 
@@ -222,6 +226,7 @@ Every parsed format with more than one consumer has exactly one canonical defini
 | `archived_at` derivation | `effort-md.md` / rule 9 (§14) | `archive` (writes it), `roadmap` (reads it to derive slice/effort completion) |
 | Seed artifacts at a container root (`diagnosis.md`, `brainstorm.md`) | `dx-diagnose` / `dx-brainstorm` — each owns its own shape, collocated, not a shared reference | `plan`, `frame`, `roadmap` (read as settled upstream context) |
 | Effort-level refactor seed (`## Notes` marker + one `research/<topic>.md` per finding) | `new` (writes both, from `refactor-discover`'s promote-many seed summary) | `roadmap` (reads every `research/<topic>.md` as a candidate slice, no edit of its own), `new` child-creation (reads the marker to stamp `type: refactor`) |
+| Brief (`foundation/briefs/<slug>.md` + `<slug>.interview.md`) — evidence tags, id series, Coverage line | `dx-distill` — owns its own shape, collocated (same precedent as `diagnosis.md`/`brainstorm.md`) | `new` (resolves the briefs named in its argument into the container's `## Notes`), `frame`, `plan` (read those briefs as settled upstream context) |
 
 ---
 

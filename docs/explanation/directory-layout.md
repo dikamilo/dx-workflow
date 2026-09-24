@@ -45,9 +45,10 @@ folder never accumulates stale directories. You always know what's in play by lo
 
 ## The scaffold
 
-This is exactly what `/dx-init` writes into your repo. The two `<...>` folders (`efforts/<effort-id>/`
+This is what `/dx-init` writes into your repo. The two `<...>` folders (`efforts/<effort-id>/`
 and `changes/<change-id>/`) are templates — one such directory is created per effort or change as you
-work; they don't exist until you run `/dx-new`.
+work; they don't exist until you run `/dx-new`. `foundation/briefs/` is the same: `/dx-distill` creates
+it the first time you write a brief.
 
 ```
 context/
@@ -55,6 +56,8 @@ context/
 │   ├── glossary.md            # ubiquitous language (glossary-only) — seeded by domain-discover
 │   ├── lessons.md             # accrued warnings — append-only
 │   ├── research/              # durable, reusable investigations (read by every plan)
+│   ├── briefs/                # <slug>.md + <slug>.interview.md — written by /dx-distill
+│   │                          #   (created on first use, not by /dx-init)
 │   └── vision.md / roadmap.md / tech-stack.md   # optional project orientation
 ├── standards/         # the prescriptive baseline
 │   ├── global/        # SEED: coding-style.md, minimal-implementation.md, conventions.md
@@ -82,7 +85,7 @@ context/
 
 | Folder | What lives there | Who writes it | Lifecycle |
 |---|---|---|---|
-| `foundation/` | Project-wide memory: `glossary.md` (ubiquitous language), `lessons.md` (accrued warnings), durable `research/`, and optional `vision.md` / `roadmap.md` / `tech-stack.md`. | `/dx-domain-discover` and `/dx-domain` seed the glossary; `/dx-lesson` appends lessons; `/dx-research` writes durable research. | Long-lived. `lessons.md` is append-only. Read by nearly every plan. |
+| `foundation/` | Project-wide memory: `glossary.md` (ubiquitous language), `lessons.md` (accrued warnings), durable `research/`, `briefs/` (decisions and the [evidence](evidence-tags.md) behind them), and optional `vision.md` / `roadmap.md` / `tech-stack.md`. | `/dx-domain-discover` and `/dx-domain` seed the glossary; `/dx-lesson` appends lessons; `/dx-research` writes durable research; `/dx-distill` writes briefs. | Long-lived. `lessons.md` is append-only. Read by nearly every plan. |
 | `standards/` | The prescriptive baseline — how code *should* be written. `global/` is seeded with three starter standards; `frontend/`, `backend/`, `testing/` start empty. | `/dx-init` seeds `global/`; `/dx-standards-discover` mines the rest; `/dx-standards-update` edits and promotes graduated lessons. | Long-lived. Grows as your conventions harden. Matched into every plan and checked at review. |
 | `efforts/` | One directory per **effort** (larger work spanning several changes). Holds `effort.md`, shared `research/` and `frame.md`, optional `brainstorm.md`, and a `roadmap.md` of vertical slices. | `/dx-new` creates the directory; `/dx-roadmap` decomposes it into slices. | Medium-lived. Spawns child changes; moves to `archive/` when done. |
 | `changes/` | One directory per **change** (a single shippable unit). Holds `change.md`, `research/`, optional `frame.md` / `diagnosis.md` / `brainstorm.md`, `plan.md` (which owns `## Progress`), and `reviews/`. | `/dx-new` creates it; `/dx-research`, `/dx-frame`, `/dx-plan`, `/dx-implement`, and the review skills fill it. | Short-lived. Active until shipped, then moves to `archive/`. |

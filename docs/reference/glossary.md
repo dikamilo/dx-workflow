@@ -8,6 +8,8 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Brainstorm (`brainstorm.md`)** — the record of a divergent conversation held *before* a container exists, about whether an idea is worth building at all: the alternatives weighed, the priced do-nothing and why it lost, the routing conclusion, and what is explicitly not being done. Produced by `/dx-brainstorm`; read as settled context by `/dx-frame`, `/dx-plan`, and `/dx-roadmap`. Deciding to build nothing is a valid terminal outcome that writes no file. See [skills reference](skills.md).
 
+**Brief (`foundation/briefs/<slug>.md`)** — the recorded ground a decision stands on: its scope, rules, decisions, and open risks, with every substantive claim carrying an [evidence tag](../explanation/evidence-tags.md) and a source path, and the unsupported ones named as assumptions rather than quietly asserted. Written by `/dx-distill` alongside a companion `<slug>.interview.md`; read as settled context by `/dx-new`, `/dx-frame`, and `/dx-plan`. Unlike a frame it belongs to no container and outlives any one change; unlike research its provenance is per claim, not per file. See [distill a brief](../tutorials/distill-a-brief.md).
+
 **Change** — one shippable unit of work, the atomic container of the workflow; its identity and metadata live in `change.md`. A change moves `new → planned → implementing → implemented → reviewed → archived`. See [efforts and changes](../explanation/efforts-and-changes.md).
 
 **Container** — the general term for either level of work: a change or an effort. Both carry a `.md` identity file and a status lifecycle; discovery-entry skills *promote* findings into one. See [efforts and changes](../explanation/efforts-and-changes.md).
@@ -21,6 +23,8 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 **Discovery entry** — a skill that starts work from a raw finding rather than an existing container, then *promotes* it: `/dx-diagnose` (a bug), `/dx-refactor-discover` (a shallow module), and `/dx-brainstorm` (a raw idea — the one entry that may deliberately promote nothing). See [skills reference](skills.md).
 
 **Effort** — larger work that does not fit in one change; its identity lives in `effort.md`, and it decomposes into child changes via a roadmap. An effort moves `new → scoped → in-progress → done → archived`. See [efforts and changes](../explanation/efforts-and-changes.md).
+
+**Evidence tag** — the marker on a claim in a brief naming what kind of source backs it: `[INTERVIEW]`, `[DATA]`, `[DOCUMENT]`, `[PRODUCT]`, `[BENCHMARK]`, `[SYNTHETIC]`, or `[ASSUMPTION]`. The tags name a *kind* of source, not a quality ranking, and they feed the brief's **Coverage** line — an arithmetic of what is sourced versus assumed, deliberately not a validation score. See [evidence tags](../explanation/evidence-tags.md).
 
 **Feedback-loop-first debugging** — the discipline `/dx-diagnose` enforces: build a tight, red-capable feedback loop that reproduces the failure *before* hypothesising about causes. See [diagnose a bug](../tutorials/diagnose-a-bug.md).
 
@@ -52,7 +56,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Promote** — what a discovery-entry skill does when it turns a finding into a proper change or effort container, giving it an identity file and a lifecycle. See [skills reference](skills.md).
 
-**Research (`research/<topic>.md`)** — gathered, provenance-stamped evidence — from the codebase or external sources — that informs framing and planning. Produced by `/dx-research`. See [research and frame](../explanation/research-and-frame.md).
+**Research (`research/<topic>.md`)** — gathered, provenance-stamped evidence — from the codebase or external sources — that informs framing and planning. Produced by `/dx-research`. Its provenance is stamped per *file* on one investigated topic; a **brief** records provenance per *claim* across a whole decision. See [research and frame](../explanation/research-and-frame.md).
 
 **Review gate** — a report-only quality checkpoint: `/dx-plan-review` before implementation and `/dx-impl-review` after. Gates only *report* findings; they never edit or act on them. See [skills reference](skills.md).
 

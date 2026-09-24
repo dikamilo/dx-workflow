@@ -28,6 +28,7 @@
       "title": "Knowledge",
       "description": "Discover and maintain standards, domain understanding, and lessons.",
       "skills": [
+        "dx-distill",
         "dx-standards-discover",
         "dx-standards-update",
         "dx-domain-discover",

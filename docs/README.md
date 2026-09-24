@@ -25,6 +25,7 @@ flowchart TD
     C --> I[Diagnose a bug]
     C --> J[Find refactors]
     C --> K[Brainstorm an idea]
+    K --> L[Distill a brief]
 ```
 
 1. **Understand it** — [Understanding the dx- workflow](explanation/workflow-overview.md).
@@ -47,6 +48,7 @@ Hands-on, start-to-finish walkthroughs with realistic you↔agent conversations.
 | [Build and maintain standards](tutorials/build-standards.md) | Seed and grow your project's rulebook |
 | [Build and maintain domain language](tutorials/build-domain-language.md) | Seed and sharpen the project glossary |
 | [Brainstorm an idea](tutorials/brainstorm-an-idea.md) | Diverge on a raw idea with `/dx-brainstorm` before committing to it |
+| [Distill a brief](tutorials/distill-a-brief.md) | Turn messy raw material into an evidence-tagged brief with `/dx-distill` |
 | [Diagnose a bug](tutorials/diagnose-a-bug.md) | Feedback-loop-first debugging with `/dx-diagnose` |
 | [Find refactoring opportunities](tutorials/find-refactors.md) | Scan for deepening opportunities and promote them |
 | [Review and triage](tutorials/review-and-triage.md) | Run the two review gates and act on their findings |
@@ -62,6 +64,7 @@ Conceptual background on how the workflow is designed and why.
 | [Efforts and changes](explanation/efforts-and-changes.md) | The two-level container model |
 | [The knowledge layer](explanation/knowledge-layer.md) | Standards, lessons, and the glossary |
 | [Research and frame](explanation/research-and-frame.md) | The two upstream artifacts and the interview |
+| [Evidence tags](explanation/evidence-tags.md) | Why a brief records provenance per claim, and why Coverage isn't a score |
 | [Divergent and convergent work](explanation/divergent-vs-convergent.md) | Why `/dx-brainstorm` diverges before any container converges on a plan |
 | [Plans and vertical slices](explanation/plan-and-slices.md) | Multi-phase plans and the `## Progress` contract |
 | [Handoff scaling](explanation/handoff-scaling.md) | Scaling plan questions to what upstream settled |

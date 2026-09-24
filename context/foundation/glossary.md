@@ -12,11 +12,15 @@
 
 **Frame**: The problem-framing document for a Change or Effort — the real problem, who/what it affects, alternatives considered, and what's out of scope. Answers "what is the right problem?", not the solution. Optional; a Change may skip it, never skips a Plan. _Avoid_: Plan, Research.
 
-**Research**: An investigation recorded with provenance (topic, kind, source, and either a code reference or a citation), one file per topic. A deliberate act, not something auto-produced by another skill. _Avoid_: Frame, Diagnosis.
+**Research**: An investigation recorded with provenance (topic, kind, source, and either a code reference or a citation), one file per topic. A deliberate act, not something auto-produced by another skill. _Avoid_: Frame, Diagnosis, Brief (provenance per claim across a decision, not per file on a topic).
 
 **Diagnosis**: A feedback-loop-first bug investigation — build a reproducing loop first, then hypothesize, instrument, and fix; when non-trivial, promotes into a defect-type Change. _Avoid_: Research (investigation without a symptom to chase).
 
 **Brainstorm**: A divergent conversation about whether an idea is worth building at all, held before any container exists and recorded at a Change or Effort root — the alternatives weighed, the priced do-nothing and why it lost, the routing conclusion, and what is explicitly not being done. Deciding to build nothing is one of its valid terminal outcomes. _Avoid_: Research (an investigation recorded with provenance, not a divergent conversation), Frame (frames the problem for work already deemed worth doing).
+
+**Brief**: The recorded ground a decision stands on — its scope, rules, decisions, and open risks — in which every substantive claim carries an evidence tag naming the kind of source it came from and a path that can be reopened, and the claims nothing supports are named as assumptions rather than quietly asserted. Project-level and durable: it outlives any one Change, and is refreshed by superseding rows rather than rewritten. _Avoid_: Research (provenance per file on one topic, not per claim across a decision), Frame (settles one container's problem; a Brief belongs to no container), Brainstorm (argues whether to build at all; a Brief records what is known either way).
+
+**Evidence Tag**: The marker on a claim in a Brief naming what kind of source backs it — interview, data, document, product, benchmark, synthetic, or assumption — and the basis of the Coverage arithmetic that reports how much of a Brief is sourced rather than assumed. _Avoid_: Provenance (Research's per-file frontmatter), Citation.
 
 **Standard**: A normative, prescriptive rule that is project-wide and stable, matched into a Plan's checklist by domain and topic. _Avoid_: Lesson, Glossary.
 

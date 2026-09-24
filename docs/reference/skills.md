@@ -23,10 +23,10 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
   ```
 
 ### `/dx-new`
-- **Invoke:** user or model (by name, no auto-fire) — `/dx-new [idea or effort/slice]`
+- **Invoke:** user or model (by name, no auto-fire) — `/dx-new [idea or effort/slice] [brief…]`
 - **Purpose:** the entry point and router — pick the container level (change vs effort vs a child slice) and create its identity file; see [efforts and changes](../explanation/efforts-and-changes.md).
-- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md` plus that effort's `effort.md` `## Notes` (for the refactor-effort marker that decides the slice's `type`); accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill, or (from `/dx-refactor-discover`'s promote-many path) an argument opening with `## Refactor opportunities (from /dx-refactor-discover)`, parsed as a multi-finding effort seed. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here.
-- **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled; for a multi-finding effort seed, also `## Notes`'s refactor-effort marker and one `context/efforts/<id>/research/<topic>.md` per promoted finding (provenance frontmatter + the finding's full entry, with its `Sketch:` line if `/dx-refactor-discover` explored it).
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md` plus that effort's `effort.md` `## Notes` (for the refactor-effort marker that decides the slice's `type`); accepts a pre-seeded `diagnosis.md` or refactor finding from a discovery skill, or (from `/dx-refactor-discover`'s promote-many path) an argument opening with `## Refactor opportunities (from /dx-refactor-discover)`, parsed as a multi-finding effort seed. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here. Also picks up any brief under `context/foundation/briefs/` named anywhere in the argument — a bare slug, a filename, or a full path, one or several, no flag and no fixed position — and strips those names before deriving the slug; a name that doesn't resolve is never guessed at, it lists the directory and asks.
+- **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled; for a multi-finding effort seed, also `## Notes`'s refactor-effort marker and one `context/efforts/<id>/research/<topic>.md` per promoted finding (provenance frontmatter + the finding's full entry, with its `Sketch:` line if `/dx-refactor-discover` explored it); for any brief named, one prose `Briefs: <paths>` line in the container's `## Notes` — a pointer only, nothing copied and no frontmatter field added.
 - **Prints next:**
   ```text
   Change:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-plan <id>
@@ -38,6 +38,19 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ---
 
 ## Upstream
+
+### `/dx-distill`
+- **Invoke:** user — `/dx-distill [topic] [paths to any raw material] [--quick]`
+- **Purpose:** run a discovery conversation toward a decision and record the ground it stands on as a brief, where every substantive claim carries an evidence tag and a source path; see [distill a brief](../tutorials/distill-a-brief.md) and [evidence tags](../explanation/evidence-tags.md).
+- **Reads:** `context/foundation/` (guard that it is scaffolded), whatever raw material you point it at (paths must resolve — an unresolvable one is asked about, never guessed at), `foundation/research/` and `foundation/lessons.md`, `context/standards/`, open and archived containers, the codebase, `foundation/glossary.md`, and the user; the `untrusted-content` reference before reading any material and the `interview` reference for the questioning loop, plus its own collocated `references/evidence-tags.md`, `skeptic-prompt.md`, and `brief-template.md`. An existing `<slug>.md` is read as a refresh, not overwritten.
+- **Writes:** `context/foundation/briefs/<slug>.md` (500–900 words; header block with `Emphasis detected`, `Evidence basis`, `Coverage`, and `Sources`, then only the sections the material actually reaches) plus its companion `context/foundation/briefs/<slug>.interview.md`, the record the `[INTERVIEW]` claims cite. Nothing else — no container, no promotion, no copies of your material. A refresh supersedes rows rather than deleting or renumbering them.
+- **Prints next:**
+  ```text
+  Brief written: context/foundation/briefs/<slug>.md
+  Collection plan: <k> entries waiting for material     # omit when none
+  Next: /dx-new <idea> <slug>                           # if this is worth building
+    or: /dx-distill <slug> --refresh                    # once the collection plan fills
+  ```
 
 ### `/dx-research`
 - **Invoke:** user — `/dx-research [container-id topic [--url=…] [--kind=codebase|external]]`
@@ -55,7 +68,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-frame`
 - **Invoke:** user — `/dx-frame [change-id or effort-id]`
 - **Purpose:** settle the WHAT before the HOW — interview on problem framing, alternatives, and (when user-facing) user cases so planning can jump straight to solution design; run again on one of an effort's slices to add just that slice's own user cases; see [research and frame](../explanation/research-and-frame.md).
-- **Reads:** `change.md`/`effort.md` (notes `type` and, for a change, `effort:`), every `research/<topic>.md`, `diagnosis.md`, `brainstorm.md` (settled context — deepens its conclusion instead of reopening it), `foundation/glossary.md`; in slice mode, also the parent effort's `frame.md` in full; may invoke `/dx-domain` on a clashing term.
+- **Reads:** `change.md`/`effort.md` (notes `type` and, for a change, `effort:`), every `research/<topic>.md`, `diagnosis.md`, `brainstorm.md` (settled context — deepens its conclusion instead of reopening it), any brief the container's `## Notes` names under `foundation/briefs/` (its tagged claims are sourced evidence, not something to re-interview; its open questions and collection plan are what is still unsettled), `foundation/glossary.md`; in slice mode, also the parent effort's `frame.md` in full; may invoke `/dx-domain` on a clashing term.
 - **Writes:** `context/{changes|efforts}/<id>/frame.md` (real problem, who/what it affects, alternatives, out of scope, plus an optional user cases section for user-facing work); in slice mode, a change's own smaller `frame.md` holding only `## User cases`, additive to the parent's; sets container `updated`.
 - **Prints next:**
   ```text
@@ -71,7 +84,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-plan`
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
-- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md` (this change's own **and** the parent effort's, read as a union — a slice's `## User cases` extends rather than replaces the parent's), `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions; always loads the `design-lenses` reference while writing the solution design; loads `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` when the change touches that concern.
+- **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md` (this change's own **and** the parent effort's, read as a union — a slice's `## User cases` extends rather than replaces the parent's), `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), every brief named in `## Notes` under `foundation/briefs/` (the parent effort's `## Notes` too when `effort:` is set — a tagged claim is cited rather than re-derived, non-goals are closed scope, and the brief's riskiest assumptions, kill criteria, and open questions carry into `## Priors & gotchas`; `untrusted-content` gates any brief carrying claims sourced from outside the repo), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions; always loads the `design-lenses` reference while writing the solution design; loads `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` when the change touches that concern.
 - **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, a `## Progress` section with all boxes `[ ]`, and — only when relevant — `## Data model`/`## API & contracts`/`## Failure modes & reversibility`); when `frame.md` has a `## User cases` section and the repo already has a test setup, adds a task per phase asserting the user case it implements (never introduces a test framework itself); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
