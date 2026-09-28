@@ -66,3 +66,28 @@ Then it asked which candidates to promote and which proposals to accept, in one 
 ## Verdict
 
 Cases 5, 7, A, E, C and D behave as planned on this bed. The "not a lens restated" guard carried the quiet-run case: without it, Bed 1 would have printed a duplication Proposal. That guard is the part most worth watching in a cold session.
+
+# Phase 2 manual checks: amendments and existing rules
+
+## The runs
+
+- **Skill:** `skills/dx-refactor-discover/SKILL.md` at `104e1fa` (this repo), read directly. Phase 2 changes only §3's Proposal step (read the target, new vs amendment, extend or tighten only).
+- **Candidate input:** Phase 1's Bed 1 candidates #1–#7, reused as the scan is unchanged. Each bed's standard changes were re-applied to that set.
+- **Beds:** Bed 1 is the clean clone. Bed 4 is the clone with only the `- **Rule / Policy**` bullet removed from `global/architecture-building-blocks.md`. Bed 5 is the clone with a **planted** rule, `## Open a fresh client per operation`, added to `backend/tenant-isolation.md`. The code already follows it at 13 request-path `createDb` sites (`max: 1`, ended in `finally`). Beds 4 and 5 were edited with the user's authorization (the permission classifier refused the first attempt) and restored with `git checkout`. `git status` on the bed is clean.
+- **Deviations:** as in Phase 1, run inline by the agent that wrote the change, so these runs show the text *can* produce the behavior. Bed 5's rule was not written by the team, so case F is tested against a rule planted for the check. The out-of-scope branch of "read the target" (a target file a scoped run didn't load) was not exercised: every plausible target for this code (`global/`, `backend/`) is always loaded.
+
+## Per case
+
+- **2.5 Case B (already covered), Bed 1.** Phase 1's Bed 2 Proposal cause (a decision re-derived at each site, Candidates 1, 2, 4) was checked against its target, `architecture-building-blocks.md`. § Rule / Policy ("one named business decision, as a pure function of its inputs") already states it, so there was no Proposal. #1 and #2 appear only as their standard-driven candidates. #4 (tenant-before-app check order) and #7 (edge admission order) share a topic next to `authorization.md` § Check in this order, but that is 2 Candidates, below the bar. #5 stands alone. No Proposal and no "none found" line. **Holds.**
+- **2.4 Case 6 (amendment), Bed 4.** With § Rule / Policy gone, #1 is still standard-driven: `allocate.ts`, `settle.ts` and `cancel.ts` restate `limit − open − settled` inline, while `limits.ts:34` holds the pure version. That breaks § Application service ("no business rules"). #2 and #4 are authorization checks, which § Application service allows, so they become lens candidates. The shared cause across 1, 2 and 4 isn't stated: § Start simple says *when* to extract ("logic repeats") but names no home for a shared decision. The cause falls within the Domain role list's topic, so it becomes an amendment, where Bed 2 (file absent) gave `new rule in backend/domain-rules.md`:
+  ```
+  Standard Proposal — amend global/architecture-building-blocks.md § Domain (DDD)
+    Rule: A decision more than one caller needs (does it fit the quota, is the permit valid, does this hold belong to the caller's scope) is one named pure function; application services and routes call it and never restate its predicate or check order.
+    Cause: each use case and route re-derives the decision it needs from raw rows — Candidates 1, 2, 4
+  ```
+  It adds a role and loosens nothing. It also comes out close to the deleted bullet. **Holds.**
+- **2.6 Case F (revisit stays separate), Bed 5.** A lens would flag the connection lifecycle copied at 13 request-path sites (a handshake on every request, two on `GET /api/audit`). The code follows the planted rule, so it gets no candidate, and the cost earns the single line `revisit backend/tenant-isolation.md § Open a fresh client per operation? — every request pays a new connection handshake at 13 sites (two on GET /api/audit)`. Code the rule shields produces no candidates, so no cause involving it can reach the bar. A "share a pooled client" amendment would loosen it and is excluded anyway. #3 is still compatible with the rule. The rest matches Bed 1: no Proposal. **Holds.** Caveat: with a planted rule, this mostly checks the routing (shielded code → revisit line, never a Proposal) rather than judgment.
+
+## Verdict
+
+Cases 6, B and F behave as planned on this bed. Two things are left unexercised: the out-of-scope read, and a case F against a rule the team actually wrote. Bed 4 also showed that removing one rule can move a candidate to another rule (#1 to § Application service) instead of making it a lens candidate. The skill handled that, but Phase 1's Bed 2 notes assumed the lens fallback.

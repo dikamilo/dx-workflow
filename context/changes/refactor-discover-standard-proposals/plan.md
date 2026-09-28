@@ -87,13 +87,13 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 
 ### Phase 2: Amendments and existing rules
 #### Automated
-- [ ] 2.1 `dx-refactor-discover/SKILL.md` §3 extended via `skill-creator` (covered-rule check incl. out-of-scope target file, new vs amendment, extend/tighten only)
-- [ ] 2.2 Amendment example added to `docs/tutorials/find-refactors.md`
-- [ ] 2.3 `npm run lint:skills` passes
+- [x] 2.1 `dx-refactor-discover/SKILL.md` §3 extended via `skill-creator` (covered-rule check incl. out-of-scope target file, new vs amendment, extend/tighten only) — 104e1fa
+- [x] 2.2 Amendment example added to `docs/tutorials/find-refactors.md` — 104e1fa
+- [x] 2.3 `npm run lint:skills` passes — 104e1fa
 #### Manual
-- [ ] 2.4 Case 6: a cause next to an existing standard yields `amend <path> § <rule>`, not a new rule
-- [ ] 2.5 Case B: a cause an in-scope standard already states surfaces only as a standard-driven Candidate, with no Proposal
-- [ ] 2.6 Case F: a standard protecting code at a cost still gets only the `revisit` line, and no loosening amendment is proposed
+- [x] 2.4 Case 6: a cause next to an existing standard yields `amend <path> § <rule>`, not a new rule
+- [x] 2.5 Case B: a cause an in-scope standard already states surfaces only as a standard-driven Candidate, with no Proposal
+- [x] 2.6 Case F: a standard protecting code at a cost still gets only the `revisit` line, and no loosening amendment is proposed
 
 ### Phase 3: Second promotion path in the design doc and explanation pages, changeset
 #### Automated
