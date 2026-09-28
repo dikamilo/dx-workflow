@@ -3,13 +3,13 @@
 In this tutorial you will start with **no concrete target** — just "find me some refactor
 opportunities" — and let `/dx-refactor-discover` scan the codebase, surface a short list of
 **design problems worth fixing**, and promote the ones you pick into real work. By the end you will have
-seen both branches: promoting **one** finding into a `type: refactor` change, and promoting **many**
+seen both branches: promoting **one** candidate into a `type: refactor` change, and promoting **many**
 into an effort. You will use the running example `config-loader` — a wide pass-through wrapper that is
 a textbook shallow module. No prior dx- experience is needed.
 
 The key idea: refactoring is **not a separate workflow**. A refactor flows through the exact same
 change lifecycle as a feature — it just carries `type: refactor`, which flips on a behavior-preserving
-gate. This skill only *discovers and hands off*; it never plans or edits code. And its findings are
+gate. This skill only *discovers and hands off*; it never plans or edits code. And its candidates are
 **ephemeral** — there is no debt register, no report file. Anything you don't promote or record as a
 lesson leaves no trace. See [efforts and changes](../explanation/efforts-and-changes.md) for the model
 the promoted work lands in.
@@ -33,7 +33,7 @@ Run the skill with no argument to sweep the whole tree, or scope it to a path to
 ```
 
 > **dx-refactor-discover** starts with no concrete target. First it loads its vocabulary — it invokes
-> `dx-references` with topic `module-design` so every finding is phrased in those terms (**deep vs
+> `dx-references` with topic `module-design` so every candidate is phrased in those terms (**deep vs
 > shallow** modules, **seams**, **leverage and locality**, **adapters**, **dependency category**, the
 > **deletion test**), not vague "component / service / boundary" talk — that reference's
 > **rejected framings** list says which words stay out. It reads `foundation/glossary.md` for naming, and it reads
@@ -59,7 +59,7 @@ Run the skill with no argument to sweep the whole tree, or scope it to a path to
 >   unrelated reasons, coupling that makes a single edit ripple.
 
 The two lenses do different jobs, and it's worth being clear which is which. `design-lenses` decides
-what gets **found**; `module-design` decides how it gets **said**. Every finding is written in module
+what gets **found**; `module-design` decides how it gets **said**. Every candidate is written in module
 terms no matter which lens turned it up — you will see a single-responsibility problem reported as
 "this module changes for two unrelated reasons; the seam belongs between them", never as "violates
 SRP". A principle name is a diagnosis, and a diagnosis is not a win: it tells you the lens, not the
@@ -71,12 +71,12 @@ allowed to be found. Recent churn is where a deepening pays back soonest, so it 
 if the log turns out to be scattered with no clear hot spot, the skill widens the net instead.
 Nothing is maintained for this — the ordering is derived from the log at run time.
 
-Nothing is written to disk yet. The scan produces a set of candidate findings, which it presents
+Nothing is written to disk yet. The scan produces a set of candidates, which it presents
 inline in the next step.
 
-## Step 2 — Read the findings
+## Step 2 — Read the candidates
 
-The skill presents its findings **inline as markdown** — no HTML, no report file, no clipboard. A
+The skill presents its candidates **inline as markdown** — no HTML, no report file, no clipboard. A
 concise numbered list, one tight entry per candidate. Crucially, it does **not** design interfaces
 yet — that's a job for planning. Each entry gives you just enough to decide.
 
@@ -130,9 +130,45 @@ where a refactor tends to stall. Note too that no entry says "cleaner code": eve
 into a concrete consequence in `module-design` terms, so it survives the handoff into a change.
 
 Neither axis is a running order, which is why the list closes with a one-sentence **top pick**. A
-`Strong` finding in a file nobody has touched in a year is worth less than a `Worth exploring` one in
+`Strong` candidate in a file nobody has touched in a year is worth less than a `Worth exploring` one in
 a hot path, so the skill ends with a read rather than a menu. Here it picks `config-loader`, and
 that's the one we'll drive from here.
+
+### When the project has standards
+
+The lenses above are universal. If your project keeps its own rulebook in `context/standards/`, the scan checks the code against that too, without you naming the standard. Say `src/billing` was written before the team adopted `context/standards/backend/architecture.md`, and you scope a run there:
+
+```text
+/dx-refactor-discover src/billing
+```
+
+> **dx-refactor-discover** invokes `dx-references` with `knowledge-layer` and matches `context/standards/` to the scope by its *domain × topic* rule — `global/` plus the areas `src/billing` belongs to (here, `backend/`). An unscoped run would take every standard that applies somewhere in the tree. From those it keeps only the **structural rules existing code can be checked against**: where a unit lives, what it may depend on, one unit per role. A rule like "describe a plan in building blocks" is about writing new work, and a formatting rule is a style nit, so neither has anything to find in old code.
+>
+> Alongside the lens candidates, the list now carries one like this:
+>
+> **2. Move environment reads to the edge**  ·  `Worth exploring`
+> - **What & where** — 6 sites, e.g. `src/billing/invoice.ts`, `src/billing/tax.ts`, `src/billing/dunning.ts`
+> - **Why it's tangled** — each use case reads `process.env` inline, so none of them runs without the real environment, and a renamed variable is six edits. Locality: config is read in one place, and the use cases take typed values a test can pass in. Standard: `backend/architecture.md` § Configuration.
+> - **Shape: before → after** — 6 inline env reads → 1 config module at the edge, values passed in
+> - **Proposed deepening** — read and validate the config once at startup; pass the values down.
+> - **Dependency category** — in-process.
+>
+> Under the top pick it adds one line:
+>
+> ```text
+> revisit backend/architecture.md § Repositories? — every aggregate has a port with one adapter
+> ```
+
+Four things are different about a standard-driven candidate:
+
+- **One per broken rule, not one per site.** Six files break the Configuration rule, so you get one entry with a count and a few examples, not six. If you promote it, the change plans the whole migration.
+- **The standard is taken as correct.** Code that follows a standard gets no lens candidate, even where a lens would call it shallow. When that looks costly, you get the single `revisit …?` line above. Whether to change the standard is your call.
+- **Overlaps merge.** If a module breaks a rule and also trips a lens, it appears once, as the standard-driven candidate carrying the lens's win.
+- **No empty layers in a standard's name.** A candidate that would add a layer with no second use, such as a port with one adapter, is capped at `Speculative` with its deletion-test result stated. If a loaded standard says minimal implementation wins, it is dropped.
+
+The vocabulary rule bends in one place only. A standard-driven candidate may use the standard's role names for *where things sit* ("the use case reads the environment"), but its *win* is still said in `module-design` terms, like the locality above. Citing the rule tells you which rule. It doesn't tell you what fixing it buys.
+
+Rejecting one works like any other candidate (Step 4). A lesson phrased "don't migrate X to rule Y because Z" makes the next run skip it.
 
 ---
 
@@ -199,10 +235,10 @@ came back, so you know how wide the comparison actually was. And if your reply t
 agents re-spawned; reconciling designs built on a superseded framing produces a shape nobody chose.
 
 Note what this step still doesn't do: it writes no `plan.md` and edits no code. It produces interface
-*sketches* for one candidate you already chose. Designing across all five findings before you'd picked
+*sketches* for one candidate you already chose. Designing across all five candidates before you'd picked
 would be the waste — which is why the scan itself stops at `Shape: before → after`.
 
-Now the two branches. What you type next depends on whether you pick **one** finding or **many**.
+Now the two branches. What you type next depends on whether you pick **one** candidate or **many**.
 
 ---
 
@@ -214,12 +250,12 @@ You decide `config-loader` is the single thing worth doing now.
 
 > **dx-refactor-discover** creates the change **directly** — this is its own deliverable, not a chain
 > into `/dx-plan`. It invokes `dx-references` with `change-md` for the exact schema, writes
-> `context/changes/config-loader/change.md` stamped `type: refactor`, and captures the finding as the
+> `context/changes/config-loader/change.md` stamped `type: refactor`, and captures the candidate as the
 > change's seed research write-up (or `frame.md` if it reads more like a framing than research). Then
 > it prints — and stops:
 >
 > ```text
-> Change created: context/changes/config-loader/change.md   (type: refactor, seeded with the finding)
+> Change created: context/changes/config-loader/change.md   (type: refactor, seeded with the candidate)
 > Next: /dx-plan config-loader
 > ```
 
@@ -241,7 +277,7 @@ archived_at: null
 ## Notes
 ```
 
-And the finding it captured, seeded so `/dx-plan` inherits the full context instead of a bare slug:
+And the candidate it captured, seeded so `/dx-plan` inherits the full context instead of a bare slug:
 
 ```markdown
 # Research: config-loader is a shallow pass-through
@@ -275,12 +311,12 @@ Follow [ship a change](./ship-a-change.md) from its plan step onward: `/dx-plan`
 Instead, suppose you want to tackle **several** modules as a coordinated push. Decomposing into an
 effort, a roadmap, and one child change per module is a multi-step flow owned by other skills — so the
 skill does **not** fold all of that in here. But it won't make you re-type what you just picked. It
-composes a **seed summary** — the full entry for each finding you promoted — and prints it as the
+composes a **seed summary** — the full entry for each candidate you promoted — and prints it as the
 literal argument to hand to `/dx-new`, so the handoff carries the detail, not just a slug.
 
 > **You:** promote #1 and #2
 
-Because you picked more than one, the skill doesn't repeat Step 3's yes/no per finding. It asks a
+Because you picked more than one, the skill doesn't repeat Step 3's yes/no per candidate. It asks a
 single batched question first:
 
 > **dx-refactor-discover:** sketch any of these before promoting? *none* / *all* / *specific ones* —
@@ -291,7 +327,7 @@ single batched question first:
 
 The skill runs Step 3's frame → spawn → compare → stop-and-ask once for `config-loader`, waits for
 your reply, and only then — never before that reply lands — would it move on to a second selected
-finding. Here there's only one to sketch, so it composes the seed summary next:
+candidate. Here there's only one to sketch, so it composes the seed summary next:
 >
 > ```text
 > Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
@@ -319,15 +355,15 @@ You then drive the handoff yourself. `/dx-new` recognizes the `## Refactor oppor
 it doesn't slugify the whole blob as a short idea — it sizes the seed as an **effort**, writes
 `context/efforts/<effort-id>/effort.md` with a `## Goal` citing the `Start with:` line and a `## Notes`
 marker (`Refactor effort — findings promoted from /dx-refactor-discover.`), and then writes one
-`research/<topic>.md` per numbered finding — provenance frontmatter plus that finding's full entry,
+`research/<topic>.md` per numbered candidate — provenance frontmatter plus that candidate's full entry,
 `Sketch:` line included only where Step 3 ran. It prints its own `Next:` pointing at `/dx-roadmap`.
 `/dx-roadmap` turns those research files into roadmap slices — **one slice per module deepening** —
 with no edit of its own, since it already reads "every `research/<topic>.md`" as candidate material.
 Each slice's child change comes from `/dx-new <effort-id> <slice-n>`, which reads the effort's `## Notes`
 marker and stamps `type: refactor` instead of the default `feature`, then inherits the whole
-`research/` set — including sibling findings' files, not just its own. The `Start with:` line rides
+`research/` set — including sibling candidates' files, not just its own. The `Start with:` line rides
 along for `/dx-roadmap`'s sequencing: it has to put the slices in some order, and which one goes first
-is the one judgement it can't re-derive from the findings. See [run an effort](./run-an-effort.md) for
+is the one judgement it can't re-derive from the candidates. See [run an effort](./run-an-effort.md) for
 that full flow.
 
 The skill printed the commands and **stopped**. It never ran `/dx-new` for you — no dx- skill
@@ -338,7 +374,7 @@ auto-chains.
 ## Step 4 — Record a "no" so the next run skips it
 
 Not every candidate should be deepened, and some *shouldn't be re-suggested ever*. If you reject a
-finding with a **load-bearing reason** — the module is shallow *on purpose* — the skill offers to
+candidate with a **load-bearing reason** — the module is shallow *on purpose* — the skill offers to
 record it as a lesson, so the next scan skips it instead of resurfacing it.
 
 Say you reject #3, the `Cache` seam, because that thinness is deliberate:
@@ -355,7 +391,7 @@ Say you reject #3, the `Cache` seam, because that thinness is deliberate:
 Running `/dx-lesson` records "don't re-deepen `Cache` — shallow on purpose; we swap backends there" in
 `foundation/lessons.md`. Because Step 1 reads that file at the start of every scan, the next
 `/dx-refactor-discover` run will skip `Cache` automatically. A rejection *without* a durable reason —
-"not now" — leaves no trace, exactly like an unpromoted finding. See
+"not now" — leaves no trace, exactly like an unpromoted candidate. See
 [the knowledge layer](../explanation/knowledge-layer.md) for how lessons feed back into future runs.
 
 ## What you built
@@ -363,16 +399,16 @@ Running `/dx-lesson` records "don't re-deepen `Cache` — shallow on purpose; we
 Which artifacts exist on disk depends on the branch you took — the scan itself writes nothing:
 
 - **Branch A (pick one):** `context/changes/config-loader/change.md` at `status: new`, stamped
-  `type: refactor`, plus a seeded `research/…md` (or `frame.md`) carrying the finding — and, if you
+  `type: refactor`, plus a seeded `research/…md` (or `frame.md`) carrying the candidate — and, if you
   took Step 3, the chosen interface sketch alongside it. Ready for `/dx-plan config-loader`.
 - **Branch B (pick many):** nothing yet — you were handed a seed-summary argument to paste into
   `/dx-new`, which creates the effort, its `## Notes` refactor-effort marker, and one
-  `research/<topic>.md` per finding. The roadmap slices and child changes appear only once you run
+  `research/<topic>.md` per candidate. The roadmap slices and child changes appear only once you run
   `/dx-roadmap` and `/dx-new <effort-id> <slice-n>`.
 - **Either branch, if you recorded a no:** one new entry in `foundation/lessons.md` that keeps future
   scans from re-suggesting the rejected module.
 
-The findings list itself is gone — ephemeral by design. Only what you promoted or recorded persists.
+The candidates list itself is gone — ephemeral by design. Only what you promoted or recorded persists.
 
 ## Where to next
 

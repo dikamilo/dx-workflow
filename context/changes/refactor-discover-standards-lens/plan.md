@@ -84,9 +84,9 @@ Demoable: promote one and promote many on the bed, and the rule reaches `researc
 
 ### Phase 1: Cheap test (go/no-go)
 #### Manual
-- [x] 1.1 User picks a target project + area with a building-blocks-style structural standard in its `context/standards/`
-- [x] 1.2 Today's `/dx-refactor-discover <area> — also check <standard path>` run; output captured
-- [x] 1.3 Verdict recorded in `research/cheap-test.md`: go (few, useful, per-rule) or no-go (flood / noise → stop the slice, revisit the effort)
+- [x] 1.1 User picks a target project + area with a building-blocks-style structural standard in its `context/standards/` — 4572222
+- [x] 1.2 Today's `/dx-refactor-discover <area> — also check <standard path>` run; output captured — 4572222
+- [x] 1.3 Verdict recorded in `research/cheap-test.md`: go (few, useful, per-rule) or no-go (flood / noise → stop the slice, revisit the effort) — 4572222
 
 ### Phase 2: Standards lens in the scan
 #### Automated
