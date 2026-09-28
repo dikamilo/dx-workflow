@@ -116,11 +116,11 @@ All entries converge on the same two-level model and the same change lifecycle:
 A. small idea:    new → change → research? → frame? → plan → implement → review
 B. large idea:    new → effort → research → frame → roadmap → (per slice) new → plan → implement
 C. bug:           diagnose → cause → (trivial: fix) | (non-trivial: new + diagnosis.md → plan → implement)
-D. refactor find: refactor-discover → findings → pick one (→ new change) or many (→ new effort + roadmap)
+D. refactor find: refactor-discover → candidates → pick one (→ new change) or many (→ new effort + roadmap)
 E. raw idea:      brainstorm → (nothing worth building | already covered) | (change | effort) + brainstorm.md
 ```
 
-(C), (D) and (E) are **discovery-entry skills** — `diagnose`, `refactor-discover` and `brainstorm` — that promote a finding into a standard container and then get out of the way (§9). (E) is the only entry whose terminal outcome can be *no container at all*, and it is the step **before** (A)/(B) when nobody has yet decided the work is worth doing.
+(C), (D) and (E) are **discovery-entry skills** — `diagnose`, `refactor-discover` and `brainstorm` — that promote a candidate into a standard container and then get out of the way (§9). (E) is the only entry whose terminal outcome can be *no container at all*, and it is the step **before** (A)/(B) when nobody has yet decided the work is worth doing.
 
 ---
 
@@ -225,7 +225,7 @@ Every parsed format with more than one consumer has exactly one canonical defini
 | `effort.md` frontmatter + roadmap `- change:` lines | `effort-md.md` | `roadmap`, `new`, `archive` (§7.2) |
 | `archived_at` derivation | `effort-md.md` / rule 9 (§14) | `archive` (writes it), `roadmap` (reads it to derive slice/effort completion) |
 | Seed artifacts at a container root (`diagnosis.md`, `brainstorm.md`) | `dx-diagnose` / `dx-brainstorm` — each owns its own shape, collocated, not a shared reference | `plan`, `frame`, `roadmap` (read as settled upstream context) |
-| Effort-level refactor seed (`## Notes` marker + one `research/<topic>.md` per finding) | `new` (writes both, from `refactor-discover`'s promote-many seed summary) | `roadmap` (reads every `research/<topic>.md` as a candidate slice, no edit of its own), `new` child-creation (reads the marker to stamp `type: refactor`) |
+| Effort-level refactor seed (`## Notes` marker + one `research/<topic>.md` per candidate) | `new` (writes both, from `refactor-discover`'s promote-many seed summary) | `roadmap` (reads every `research/<topic>.md` as a candidate slice, no edit of its own), `new` child-creation (reads the marker to stamp `type: refactor`) |
 | Brief (`foundation/briefs/<slug>.md` + `<slug>.interview.md`) — evidence tags, id series, Coverage line | `dx-distill` — owns its own shape, collocated (same precedent as `diagnosis.md`/`brainstorm.md`) | `new` (resolves the briefs named in its argument into the container's `## Notes`), `frame`, `plan` (read those briefs as settled upstream context) |
 
 ---
@@ -276,7 +276,7 @@ flowchart TD
     domain["domain"] -- "writes on triggers (clash, fuzzy, resolved)" --> glossary
 ```
 
-The full contract (matching heuristics, lesson entry shape, promotion criteria, glossary entry shape) lives in the **`knowledge-layer`** reference (loaded via `dx-references`) on demand by `dx-plan`, `dx-impl-review`, `dx-standards-update`, `dx-lesson`, `dx-domain`, and `dx-refactor-discover`.
+The full contract (matching heuristics, lesson entry shape, promotion criteria, glossary entry shape) lives in the **`knowledge-layer`** reference (loaded via `dx-references`) on demand by `dx-plan`, `dx-impl-review`, `dx-standards-update`, `dx-lesson`, `dx-domain`, and `dx-refactor-discover` — which, besides skipping rejections recorded in `lessons.md`, reads the standards its matching picks for the scanned scope as a source of refactor candidates (§9).
 
 ### Minimalist fallback
 If three registers ever feels like overhead, collapse standards + lessons into one `context/standards/` tree where each entry carries `source: discovered | learned` (the consumption logic is identical), and keep the glossary separate (it is a different shape — terms, not rules). Start with three — the consumption differs enough to be worth the separation — but the collapse is a one-step simplification if it isn't.
@@ -285,7 +285,7 @@ If three registers ever feels like overhead, collapse standards + lessons into o
 
 ## 9. Discovery-entry skills: `diagnose`, `refactor-discover` and `brainstorm`
 
-All three are **discovery entries** — you start from a symptom, a hunting instinct, or a raw idea rather than a known target. Each produces a finding, then **promotes it into a standard container and gets out of the way.** None writes a durable register; the finding lives inside the container it spawns and archives with it.
+All three are **discovery entries** — you start from a symptom, a hunting instinct, or a raw idea rather than a known target. Each produces a candidate, then **promotes it into a standard container and gets out of the way.** None writes a durable register; the candidate lives inside the container it spawns and archives with it.
 
 ### `diagnose` (model-invoked)
 Feedback-loop-first. The skill is: **build a tight, red-capable feedback loop before any hypothesis.** Phases: build loop → reproduce + minimise → hypothesise (3–5 ranked, falsifiable) → instrument → fix → regression test → cleanup.
@@ -296,12 +296,12 @@ Feedback-loop-first. The skill is: **build a tight, red-capable feedback loop be
 `diagnosis.md` is read by `plan` exactly the way `research.md` is — a bug-fix change is just a change whose "research" is a diagnosis. Triggers: "it's broken / slow / throwing / failing." Reachable mid-`implement` or from `impl-review` on a regression.
 
 ### `refactor-discover` (user-invoked)
-Run with no concrete target — "find me refactor opportunities." Scans the codebase through two references (both loaded via `dx-references`): `module-design` (deep vs shallow modules, seams, deletion test), which is the primary lens **and** the sole vocabulary every finding is phrased in, and `design-lenses` (SRP and the rest of SOLID, KISS, YAGNI, DRY, coupling, orthogonality), which widens what gets found without adding a second way to say it. Presents findings **inline** (markdown, no HTML), and you pick. Before promoting, each pick can optionally be **designed twice** — 3–4 built-in `Plan` subagents in parallel, each under a forcing constraint stated as *where the seam goes* (collapse to 1–3 entry points, move contract out of the interface, split the seam by caller, ports & adapters), compared on depth/locality/seam placement and closed with an opinionated pick — two designs sharing an entry point count as one. Picking exactly one candidate keeps the plain yes/no; picking more than one gets a single batched question (*none* / *all* / *specific ones*, recommending the top pick) and then the same explore-and-confirm loop runs once per selected finding, sequentially — never more than one finding's sub-agent batch in flight at a time. The winning sketch(es) ride into the promoted container's seed so `plan` doesn't re-derive them; the skill still writes no `plan.md` and edits no code. Then:
+Run with no concrete target — "find me refactor opportunities." Scans the codebase through two references (both loaded via `dx-references`): `module-design` (deep vs shallow modules, seams, deletion test), which is the primary lens **and** the vocabulary every candidate is phrased in, and `design-lenses` (SRP and the rest of SOLID, KISS, YAGNI, DRY, coupling, orthogonality), which widens what gets found without adding a second way to say it. A third source is the project's own `context/standards/`: the skill loads `knowledge-layer` and uses its *domain × topic* matching to pick the standards that bear on the scope (`global/` plus the scoped code's areas; every applicable standard on an unscoped run), and keeps only the structural rules existing code can be checked against — never plan-authoring or style rules. The standard is taken as correct: each broken rule is **one** candidate (a site count, a few representative sites, a `<standard path> § <rule>` citation), ranked with the lens candidates on the same terms. Code that follows a standard gets no lens candidate (at most one "revisit this standard?" line under the list); a module that breaks a rule and trips a lens is one standard-driven candidate carrying the lens's win; a candidate whose after-shape adds a layer with no second use is capped at `Speculative`, or dropped where a loaded standard says minimal implementation wins. The one exception to the single vocabulary: a standard-driven candidate may name *where things sit* with the standard's roles — its *win* is still said in `module-design` terms. Presents candidates **inline** (markdown, no HTML), and you pick. Before promoting, each pick can optionally be **designed twice** — 3–4 built-in `Plan` subagents in parallel, each under a forcing constraint stated as *where the seam goes* (collapse to 1–3 entry points, move contract out of the interface, split the seam by caller, ports & adapters), compared on depth/locality/seam placement and closed with an opinionated pick — two designs sharing an entry point count as one. Picking exactly one candidate keeps the plain yes/no; picking more than one gets a single batched question (*none* / *all* / *specific ones*, recommending the top pick) and then the same explore-and-confirm loop runs once per selected candidate, sequentially — never more than one candidate's sub-agent batch in flight at a time. The winning sketch(es) ride into the promoted container's seed so `plan` doesn't re-derive them; the skill still writes no `plan.md` and edits no code. Then:
 
-- **one** → spawn a single change (`type: refactor`) seeded with that finding as its research/frame.
-- **many** → hand the picks to `new` as a seed summary (a `## Refactor opportunities` heading `new` detects and parses, not a short idea); `new` writes the effort plus one `research/<topic>.md` per finding and a `## Notes` marker recording it's a refactor effort, then `roadmap` decomposes the research files into slices — one per finding, no edit of its own needed — and each slice becomes a child refactor-change stamped from that marker (§7.6).
+- **one** → spawn a single change (`type: refactor`) seeded with that candidate as its research/frame. A standard-driven candidate's seed carries a `Standard:` line naming the path and rule.
+- **many** → hand the picks to `new` as a seed summary (a `## Refactor opportunities` heading `new` detects and parses, not a short idea); `new` writes the effort plus one `research/<topic>.md` per candidate (keeping each one's `Sketch:` and `Standard:` lines) and a `## Notes` marker recording it's a refactor effort, then `roadmap` decomposes the research files into slices — one per candidate, no edit of its own needed — and each slice becomes a child refactor-change stamped from that marker (§7.6).
 
-A candidate **rejected with a load-bearing reason** → offered as a **lesson** ("don't re-deepen X because Y") so the next run doesn't re-suggest it. Rejected ephemerally or selected → no durable trace. **No `foundation/architecture-debt.md` register** — refactor findings are ephemeral work items, not stable reference knowledge, and a shared register would create stale-entry and parallel-write hazards that fight the workflow's derive-don't-maintain principle.
+A candidate **rejected with a load-bearing reason** → offered as a **lesson** ("don't re-deepen X because Y") — or, for a standard-driven one, "don't migrate X to rule Y because Z" — so the next run doesn't re-suggest it. Rejected ephemerally or selected → no durable trace. **No `foundation/architecture-debt.md` register** — refactor candidates are ephemeral work items, not stable reference knowledge, and a shared register would create stale-entry and parallel-write hazards that fight the workflow's derive-don't-maintain principle.
 
 ### `brainstorm` (user-invoked)
 
@@ -314,7 +314,7 @@ Runs on a raw idea **before** `new`, when nobody has yet decided the work is wor
 
 `brainstorm.md` carries what neither research nor a frame has a home for: the alternatives weighed, why the do-nothing lost, and what is explicitly *not* being done. It is read as **settled context** by `plan`, `frame`, and `roadmap` (§7.6) — which is why running `/dx-frame` on top of a brainstorm deepens the conclusion instead of colliding with it, and why the artifact is deliberately not `frame.md`.
 
-This makes the three a clean set: discovery-entry skills that promote a finding into a standard container, then hand off to the normal workflow.
+This makes the three a clean set: discovery-entry skills that promote a candidate into a standard container, then hand off to the normal workflow.
 
 ---
 

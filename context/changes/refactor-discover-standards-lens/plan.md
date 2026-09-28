@@ -105,13 +105,13 @@ Demoable: promote one and promote many on the bed, and the rule reaches `researc
 
 ### Phase 3: Standard rides into the seed
 #### Automated
-- [ ] 3.1 `dx-refactor-discover/SKILL.md` §5 + `Done when` template carry the optional `Standard:` line
-- [ ] 3.2 `dx-new/SKILL.md` keeps `Standard:` verbatim in the per-Candidate research file (via `skill-creator`); rename applied; heading literal and `## Notes` marker unchanged
-- [ ] 3.3 `docs/reference/skills.md` (`/dx-new`) and the promote-many example in `docs/tutorials/find-refactors.md` updated
-- [ ] 3.4 `npm run lint:skills` passes
+- [x] 3.1 `dx-refactor-discover/SKILL.md` §5 + `Done when` template carry the optional `Standard:` line — 4b392c5
+- [x] 3.2 `dx-new/SKILL.md` keeps `Standard:` verbatim in the per-Candidate research file (via `skill-creator`); rename applied; heading literal and `## Notes` marker unchanged — 4b392c5
+- [x] 3.3 `docs/reference/skills.md` (`/dx-new`) and the promote-many example in `docs/tutorials/find-refactors.md` updated — 4b392c5
+- [x] 3.4 `npm run lint:skills` passes — 4b392c5
 #### Manual
-- [ ] 3.5 Case 4 / 8: promote one → seed `research/<topic>.md` names the standard path + rule; promote many → `/dx-new "<seed>"` writes each standard-driven Candidate's research file with its `Standard:` line
-- [ ] 3.6 Case 4: rejecting a standard-driven Candidate with a reason offers `/dx-lesson` with the "don't migrate X to rule Y because Z" phrasing
+- [x] 3.5 Case 4 / 8: promote one → seed `research/<topic>.md` names the standard path + rule; promote many → `/dx-new "<seed>"` writes each standard-driven Candidate's research file with its `Standard:` line
+- [x] 3.6 Case 4: rejecting a standard-driven Candidate with a reason offers `/dx-lesson` with the "don't migrate X to rule Y because Z" phrasing
 
 ### Phase 4: Design doc, explanation pages, changeset
 #### Automated

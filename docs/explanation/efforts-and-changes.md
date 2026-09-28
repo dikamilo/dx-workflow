@@ -198,13 +198,13 @@ change lifecycle. There are four shapes:
 A. small idea:    new → change → research? → frame? → plan → implement → review
 B. large idea:    new → effort → research → frame → roadmap → (per slice) new → plan → implement
 C. bug:           diagnose → cause → (trivial: fix) | (non-trivial: new + diagnosis.md → plan → implement)
-D. refactor find: refactor-discover → findings → pick one (→ new change) or many (→ new effort + roadmap)
+D. refactor find: refactor-discover → candidates → pick one (→ new change) or many (→ new effort + roadmap)
 E. raw idea:      brainstorm → (nothing) | (already covered) | (one change + brainstorm.md) | (an effort + brainstorm.md)
 ```
 
 Shapes C, D, and E start at a **discovery** skill (`/dx-diagnose`,
 `/dx-refactor-discover`, `/dx-brainstorm`) that investigates first and then
-promotes its finding into a standard container — one change, or an effort with
+promotes its candidate into a standard container — one change, or an effort with
 a roadmap — and gets out of the way. Whatever the entry, the destination is
 always a change or an effort, and the change lifecycle downstream is identical.
 

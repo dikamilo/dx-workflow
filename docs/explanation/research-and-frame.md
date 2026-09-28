@@ -188,11 +188,13 @@ described and framed with the same words `/dx-refactor-discover` used to find it
 the handoff.
 
 That holds even though `/dx-refactor-discover` now scans through **two** lenses. It also loads
-`design-lenses` — SRP, DRY, coupling, and the rest — but only to widen what it *finds*; every finding is
+`design-lenses` — SRP, DRY, coupling, and the rest — but only to widen what it *finds*; every candidate is
 still written in `module-design` terms. A single-responsibility problem arrives as "this module changes
 for two unrelated reasons; the seam belongs between them", not as the principle it violates. That is
-deliberate: `/dx-research` and `/dx-frame` load `module-design` and not `design-lenses`, so a finding
+deliberate: `/dx-research` and `/dx-frame` load `module-design` and not `design-lenses`, so a candidate
 phrased in principle-names would arrive downstream in a vocabulary nobody there has loaded.
+
+There is one exception, and it comes from the third thing the scan reads: the project's own `context/standards/`. A candidate driven by a broken structural rule may name *where things sit* with that standard's roles ("the application service imports the schema"), because those roles are already the project's language and the seed cites the standard by path and rule. Its *win* is still said in `module-design` terms, so the reason to do the work reaches `/dx-research` and `/dx-frame` in words they have loaded.
 
 One more thing can ride in on that seed. If you took `/dx-refactor-discover`'s optional design-it-twice
 step, the winning interface sketch and the trade-offs that decided it are written into the seed research
@@ -200,11 +202,11 @@ file too. So a refactor change can arrive with part of its solution space alread
 the point: the alternatives were weighed when the code was freshest in view, and `/dx-plan` inherits
 that judgement instead of re-deriving it.
 
-That holds at the effort level too. Promoting **many** findings at once no longer collapses them into
-one printed blob — `/dx-new` writes one `research/<topic>.md` per finding at the effort root, each
-carrying that finding's own chosen sketch if design-it-twice ran for it. A child change spawned from
+That holds at the effort level too. Promoting **many** candidates at once no longer collapses them into
+one printed blob — `/dx-new` writes one `research/<topic>.md` per candidate at the effort root, each
+carrying that candidate's own chosen sketch if design-it-twice ran for it. A child change spawned from
 any slice inherits the whole set in place, the same "nothing copied" mechanic as a single change's
-research — so a slice's `/dx-plan` sees its own finding's sketch alongside its siblings', not just a
+research — so a slice's `/dx-plan` sees its own candidate's sketch alongside its siblings', not just a
 single collapsed seed.
 
 ## Trade-offs and what was deliberately left out

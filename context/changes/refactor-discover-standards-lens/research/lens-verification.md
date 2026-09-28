@@ -73,3 +73,21 @@ Dropped:
 ## Verdict
 
 All six cases behave as planned on this bed. The main caveat is that the runner wrote the skill change, so these runs show the text *can* produce the behavior, not that a cold session *will*. Case 2 is verified at the selection level only.
+
+# Phase 3 manual checks: the `Standard:` line through promotion
+
+## The run
+
+- **Skills:** `skills/dx-refactor-discover/SKILL.md` §5 and `skills/dx-new/SKILL.md` at `4b392c5` (this repo), read directly. The installed copies are still the pre-change versions.
+- **Bed:** the same clean clone. The Phase 2 candidate list above was the input: no fresh scan, since Phase 3 changes only the promote paths.
+- **Deviations:** run inline by the implementing agent, which also wrote both skill changes, so the same bias as Phase 2 applies. `dx-new`'s parse was carried out by hand-following its text (a small script copying the entries), not by a cold session. §4 (design it twice) was skipped, so no `Sketch:` line was exercised alongside `Standard:`. All bed artifacts were removed afterwards, and the bed is clean.
+
+## Per case
+
+- **3.5 promote one (case 4 / 8).** Picked #3. Wrote `context/changes/quota-env-at-edge/change.md` (`type: refactor`) and seed `research/quota-env-reads.md`, whose body ends `**Standard:** context/standards/global/architecture-building-blocks.md § Configuration`. **Holds.**
+- **3.5 promote many (case 4 / 8).** Picked #1, #2, #3. The seed summary carried a `Standard:` line on all three (between `Proposed:` and where `Sketch:` would sit). `/dx-new "<seed>"` produced `context/efforts/refactor-quota-remaining/` with `effort.md` (`## Notes` marker byte-identical to the string `dx-new`'s slice path checks) and `research/{quota-remaining,permit-validity,quota-env-reads}.md`, each keeping its `Standard:` line verbatim. **Holds.**
+- **3.6 reject (case 4).** Rejecting #2 with a load-bearing reason offered `/dx-lesson` phrased "don't migrate permit-validity checks to building-blocks § Rule / Policy because each caller's extra axis is separate audit evidence". The skip itself was already shown by Phase 2 case 7. **Holds.**
+
+## Verdict
+
+Both promote paths carry the rule through to `research/<topic>.md`, and the rejection offer uses the migrate phrasing. The caveat: these runs show the text produces the behavior when followed. A cold `dx-new` session parsing the seed was not run.
