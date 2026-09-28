@@ -79,7 +79,7 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 - [x] 1.4 `npm run lint:skills` passes — b9eaeea
 #### Manual
 - [x] 1.5 Case 5: three Candidates sharing an uncovered cause → one Proposal citing them plus the `/dx-standards-update` command; running it in the same session writes the rule without pushback that it is "a one-off"
-- [ ] 1.6 Case 7: on a project with an empty `context/standards/`, lens Candidates alone yield a new-rule Proposal — **open:** not run on a real empty `context/standards/` (bed change refused by the permission classifier); paper run in `research/proposal-verification.md`
+- [x] 1.6 Case 7: on a project with an empty `context/standards/`, lens Candidates alone yield a new-rule Proposal
 - [x] 1.7 Case A: a run with no shared cause prints Candidates only, with no Proposal and no "none found" line
 - [x] 1.8 Case E: one Candidate with many sites and an uncovered cause → no Proposal
 - [x] 1.9 Case C: declining with a reason offers `/dx-lesson`; with that lesson recorded, the re-run does not propose it
