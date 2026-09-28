@@ -4,7 +4,7 @@ title: Standard Proposals
 type: feature
 effort: refactor-discover-standards
 slice: 2
-status: implementing
+status: implemented
 created: 2026-09-28
 updated: 2026-09-28
 archived_at: null
