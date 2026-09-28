@@ -7,13 +7,13 @@ argument-hint: [area or path]
 
 # dx-refactor-discover
 
-Start with no concrete target — "find me refactor opportunities." Scan the codebase for **design problems worth fixing** — shallow modules to turn deep, whatever the wider design lenses surface, and code that breaks the project's own structural standards — present them **inline as markdown**, and promote whichever the user picks into a normal container. This skill discovers and hands off — it can sketch alternative interfaces for whichever candidates the user picks, but it writes no `plan.md` and edits no code.
+Start with no concrete target — "find me refactor opportunities." Scan the codebase for **design problems worth fixing** — shallow modules to turn deep, whatever the wider design lenses surface, and code that breaks the project's own structural standards — present them **inline as markdown**, and promote whichever the user picks into a normal container. This skill discovers and hands off — it can sketch alternative interfaces for whichever candidates the user picks, but it writes no `plan.md` and edits no code. When several candidates share a cause no rule covers, it proposes the missing standard, but never writes one.
 
 **Guard.** If `context/` isn't scaffolded (no `changes/` or `efforts/`), stop and tell the user to run `/dx-init`. The candidates this run produces are **ephemeral** — there is no debt register; anything not promoted or recorded as a lesson leaves no trace.
 
 ## 1 — Load the vocabulary and the rulebook
 
-Invoke `dx-references` with topic `module-design` — its terms (deep vs shallow, seam, leverage and locality, adapter, dependency category, the deletion test) are how every candidate is phrased, and its `## Rejected framings` says which words stay out. Read `foundation/glossary.md` for naming (a one-line habit — no section) and `foundation/lessons.md` so you **skip anything a prior run already rejected** — "don't re-deepen X because Y" and "don't migrate X to rule Y because Z" alike.
+Invoke `dx-references` with topic `module-design` — its terms (deep vs shallow, seam, leverage and locality, adapter, dependency category, the deletion test) are how every candidate is phrased, and its `## Rejected framings` says which words stay out. Read `foundation/glossary.md` for naming (a one-line habit — no section) and `foundation/lessons.md` so you **skip anything a prior run already rejected** — "don't re-deepen X because Y", "don't migrate X to rule Y because Z" and "don't propose rule X because Z" alike.
 
 Invoke `dx-references` with `knowledge-layer` and match `context/standards/` to the scope by its *domain × topic* rule: a scoped run takes `global/` plus the areas the scoped code belongs to; an unscoped run takes every standard that applies somewhere in the tree. From those, keep only the **structural rules existing code can be checked against** — where a unit lives, what it may depend on, one unit per role. A rule about how to write plans or new work, or a style nit, has nothing to find in old code.
 
@@ -49,7 +49,17 @@ Markdown only — no HTML, no report file. A concise numbered list; each candida
 
 **The scan stays at shape level.** `Shape: before → after` is as far as a candidate goes here. Designing interfaces across N candidates spends the effort before the user has said which one matters; that happens after the pick, in §4.
 
-**Close with a top pick** — one sentence: which candidate to tackle first and why. The strength tag ranks confidence, not sequence; a `Strong` candidate in a file nobody touches is worth less than a `Worth exploring` one in a hot path. Under it, at most one `revisit <standard path> § <rule>?` line when a standard shielded code at a cost that looks real. Then ask which the user wants to promote.
+**Close with a top pick** — one sentence: which candidate to tackle first and why. The strength tag ranks confidence, not sequence; a `Strong` candidate in a file nobody touches is worth less than a `Worth exploring` one in a hot path. Under it, at most one `revisit <standard path> § <rule>?` line when a standard shielded code at a cost that looks real.
+
+**Then look across the whole list for a missing rule.** A cause shared by **at least three distinct candidates** that no rule covers is a rule this codebase doesn't have yet. Propose it as a **Standard Proposal**. Count candidates, not sites: one candidate with twenty sites is still one data point. A proposal names a project rule checkable in this code (where a unit lives, what it may depend on, how a recurring job is done). It is never a lens restated ("keep modules deep" is already the lens's job), and never a layer with no second use. When no cause clears the bar, print nothing: no proposal and no "none found" line. A proposal on every run is one nobody reads.
+
+```
+Standard Proposal — new rule in <layer>/<topic>.md
+  Rule: <one prescriptive line, "do this">
+  Cause: <the shared cause> — Candidates <n>, <n>, <n>
+```
+
+Then ask which candidates the user wants to promote and which proposals they accept. One reply covers both. The candidates behind a proposal are its recurrence evidence, so an accepted one goes straight to `/dx-standards-update` (the `knowledge-layer` promotion paths).
 
 ## 4 — Design it twice for the pick (opt-in)
 
@@ -81,11 +91,11 @@ Present the survivors **sequentially**, compare them on **depth, locality, and s
 
 - **One** → create the change directly, the same way `dx-diagnose` self-contains its own promotion: write `context/changes/<slug>/change.md` stamped `type: refactor`, with the candidate captured as its seed `research/<topic>.md` (or `frame.md` if it reads more like a framing than a research write-up) — a standard-driven one keeps its `Standard: <path> § <rule>` line, so `/dx-plan` matches the rule it is fixing. If §4 ran, wait for the user's reply to the stop-and-ask before writing anything — the sketch that goes into the seed, with the trade-offs that decided it, is the one the user confirmed, not the opinionated pick on its own. That confirmed sketch is what stops the exploration being thrown away; `/dx-plan` reads it as upstream context. Invoke `dx-references` with `change-md` for the exact schema. This is this skill's own deliverable, not a chain into `/dx-plan` — that stays the printed next command.
 - **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here. But don't make the user re-type what they just picked: compose a **seed summary**, the full entry (what & where, why, shape, proposed deepening, strength tag, dependency category) for each promoted candidate — plus its `Standard:` line if standard-driven, and the chosen sketch for any candidate §4 explored — under a heading that names `/dx-refactor-discover` as the source. Print it as the literal argument to hand to `/dx-new` so the handoff carries the detail, not just a slug. Carry the top pick into it as a closing line — `/dx-roadmap` sequences the slices, and the read on which one goes first is the thing it can't re-derive.
-- **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" — or, for a standard-driven candidate, "don't migrate X to rule Y because Z" — so the next run skips it. Rejected ephemerally or selected → no durable trace.
+- **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" — or, for a standard-driven candidate, "don't migrate X to rule Y because Z" — so the next run skips it. A Standard Proposal declined with a reason gets the same offer: "don't propose rule X because Z". Rejected ephemerally or selected → no durable trace.
 
 ## Done when
 
-Candidates have been presented inline, the user has chosen, and — if they took the §4 offer — the alternatives have been compared and one picked. For a single promoted change, the container now exists — print what was created and the next command. For everything else, print the exact command and **stop** — never run it:
+Candidates (and any Standard Proposals) have been presented inline, the user has chosen, and — if they took the §4 offer — the alternatives have been compared and one picked. For a single promoted change, the container now exists — print what was created and the next command. For everything else, print the exact command and **stop** — never run it:
 
 ```
 Promoted one: Change created: context/changes/<slug>/change.md   (type: refactor, seeded with the candidate)
@@ -104,7 +114,10 @@ Promote many: Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
               2. ...
               Start with: <which one first, and why>
 
-Record a no:  /dx-lesson                (don't re-deepen X because Y / don't migrate X to rule Y because Z)
+Propose a rule: Next: /dx-standards-update   (run in this session, since the accepted proposal lives in the conversation;
+                                           printed alongside any promotion command above)
+
+Record a no:  /dx-lesson                (don't re-deepen X because Y / don't migrate X to rule Y because Z / don't propose rule X because Z)
 ```
 
 Stop. Do not chain into another skill.

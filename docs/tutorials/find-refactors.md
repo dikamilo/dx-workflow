@@ -170,6 +170,43 @@ The vocabulary rule bends in one place only. A standard-driven candidate may use
 
 Rejecting one works like any other candidate (Step 4). A lesson phrased "don't migrate X to rule Y because Z" makes the next run skip it.
 
+### When several candidates share a cause
+
+Sometimes the candidates are symptoms of one rule the project never wrote down. Say an unscoped run over a service with an empty `context/standards/` comes back with these among its candidates:
+
+> **3. Deepen `payments-gateway`**: `src/payments/gateway.ts` builds its own `fetch` wrapper with a hand-rolled timeout and retry loop.
+>
+> **5. Collapse `geo-lookup`**: `src/geo/lookup.ts` does the same, with a different timeout and no retry.
+>
+> **6. Narrow `webhook-sender`**: `src/hooks/send.ts` has a third copy, which swallows non-2xx responses.
+
+Each one is a real candidate in its own right. Together they point at a cause no rule covers, so after the top pick the skill adds:
+
+> ```text
+> Standard Proposal — new rule in backend/http.md
+>   Rule: Outbound HTTP goes through src/net/client.ts; no module builds its own client, timeout or retry.
+>   Cause: each integration re-implements transport policy — Candidates 3, 5, 6
+> ```
+>
+> Then it asks which candidates you want to promote and which proposals you accept.
+
+The bar is **at least three distinct candidates**. It counts candidates, not sites, so one candidate with twenty sites never produces a proposal on its own. The proposal is also a rule you can check in this code (where outbound HTTP lives), never a lens restated like "keep modules deep", and it never asks for a layer with no second use. On most runs no cause clears the bar. When that happens the skill prints no proposal at all, not even a "none found" line.
+
+Answer both in one reply:
+
+> **You:** promote #3, and accept the proposal.
+
+> **dx-refactor-discover** creates the change for #3 (Branch A below) and prints both next commands without running either:
+>
+> ```text
+> Next: /dx-plan payments-gateway
+> Next: /dx-standards-update   (run in this session)
+> ```
+
+Run `/dx-standards-update` right away, in the same session. The accepted proposal lives in the conversation, and a `/clear` in between loses it. The skill writes the rule into `context/standards/backend/http.md`. It doesn't push back that the rule is "a one-off", because the three candidates behind the proposal are the recurrence a standard needs. This is the second way into `context/standards/`, next to a lesson graduating. See [the knowledge layer](../explanation/knowledge-layer.md).
+
+From the next run on, code that builds its own client breaks a written rule and shows up as a standard-driven candidate, like the one in the previous section.
+
 ---
 
 ## Step 3 — Design the pick twice (optional)
@@ -398,12 +435,12 @@ Say you reject #3, the `Cache` seam, because that thinness is deliberate:
 > and offers:
 >
 > ```text
-> /dx-lesson                (don't re-deepen X because Y / don't migrate X to rule Y because Z)
+> /dx-lesson                (don't re-deepen X because Y / don't migrate X to rule Y because Z / don't propose rule X because Z)
 > ```
 
 Running `/dx-lesson` records "don't re-deepen `Cache` — shallow on purpose; we swap backends there" in
 `foundation/lessons.md`. Because Step 1 reads that file at the start of every scan, the next
-`/dx-refactor-discover` run will skip `Cache` automatically. A rejection *without* a durable reason —
+`/dx-refactor-discover` run will skip `Cache` automatically. A Standard Proposal works the same way. Decline it with a reason ("we keep per-integration clients on purpose, because each vendor's SLA differs") and the skill offers the same `/dx-lesson`, recorded as "don't propose rule X because Z". The next run then won't propose it again. A rejection *without* a durable reason —
 "not now" — leaves no trace, exactly like an unpromoted candidate. See
 [the knowledge layer](../explanation/knowledge-layer.md) for how lessons feed back into future runs.
 
@@ -418,6 +455,7 @@ Which artifacts exist on disk depends on the branch you took — the scan itself
   `/dx-new`, which creates the effort, its `## Notes` refactor-effort marker, and one
   `research/<topic>.md` per candidate. The roadmap slices and child changes appear only once you run
   `/dx-roadmap` and `/dx-new <effort-id> <slice-n>`.
+- **If you accepted a Standard Proposal and ran `/dx-standards-update`:** the new rule in `context/standards/`, written by that skill. `/dx-refactor-discover` itself never writes a standard.
 - **Either branch, if you recorded a no:** one new entry in `foundation/lessons.md` that keeps future
   scans from re-suggesting the rejected module.
 
