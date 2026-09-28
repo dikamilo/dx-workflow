@@ -24,6 +24,8 @@
 
 **Standard**: A normative, prescriptive rule that is project-wide and stable, matched into a Plan's checklist by domain and topic. _Avoid_: Lesson, Glossary.
 
+**Standard Proposal**: An unwritten, ephemeral proposal for a new Standard or an amendment to an existing one, drawn from a cause shared by several Candidates; it becomes a Standard only once the user records it through the standards-writing Skill. _Avoid_: Standard (written and normative), Lesson (a record of what happened, not a proposed rule).
+
 **Lesson**: An append-only record of scar tissue ("this broke") or a load-bearing decision ("we chose X over Y because Z"); recurring Lessons graduate into a Standard. _Avoid_: Standard (prescriptive, not cautionary/decisional), ADR (a decision-with-rationale is a Lesson here, not a separate register).
 
 **Glossary**: The ubiquitous-language document itself — domain terms and their definitions only, never a spec, rationale, or implementation detail. _Avoid_: Standard, Lesson.
@@ -36,7 +38,9 @@
 
 **Review-triage**: The sole skill that acts on a Finding from Plan-review or Impl-review — fix, skip, accept, or record as a Lesson. _Avoid_: Plan-review, Impl-review (both stay report-only).
 
-**Finding**: A discrete, stably-numbered item in a review report, carrying a location, detail, recommended fix, and resolution status; never renumbered or deleted. _Avoid_: Issue, Bug.
+**Finding**: A discrete, stably-numbered item in a review report, carrying a location, detail, recommended fix, and resolution status; never renumbered or deleted. _Avoid_: Issue, Bug, Candidate (ephemeral, unnumbered, from a Discovery Entry).
+
+**Candidate**: A ranked, ephemeral item a Discovery Entry presents for the user to promote into a Change or Effort, or drop — it has no stable number or resolution status and leaves no trace unless promoted or recorded as a Lesson. _Avoid_: Finding (a durable review-report item).
 
 **Deep Module**: A unit with a lot of functionality hidden behind a small interface — the good default for design. _Avoid_: Shallow Module.
 
@@ -54,6 +58,6 @@
 
 **Skill**: A discrete, invokable unit of the workflow, named `dx-<x>`, one of three invocation shapes: user-invoked (runs only when typed), model-invoked (fires when its trigger is recognized), or user-invoked *and* explicitly model-callable by another skill's instruction (named invocation, never opportunistically auto-fired). _Avoid_: Command, Agent.
 
-**Discovery Entry**: A Skill that starts from a symptom rather than a request, produces a Finding, and promotes it into a Change or Effort rather than keeping its own durable register. _Avoid_: Entry point, Bootstrap.
+**Discovery Entry**: A Skill that starts from a symptom rather than a request, produces a Candidate, and promotes it into a Change or Effort rather than keeping its own durable register. _Avoid_: Entry point, Bootstrap.
 
 **Changeset**: A `@changesets/cli` artifact — a markdown file under `.changeset/` recording an intended semver bump and its rationale for a pending PR touching `skills/`; consumed by CI to version-and-release, unrelated to the dx workflow's own Change. _Avoid_: Change (the dx workflow's shippable unit — same root word, different concept).

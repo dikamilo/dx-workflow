@@ -23,8 +23,10 @@ Three markdown artifacts that look alike (rules/terms) but do different jobs and
 ```
 Two flavors: **cautionary** ("this broke because…") and **decisional** ("we chose X over Y because Z", incl. a rejected refactor: "don't re-deepen X — it's shallow on purpose because Y"). Both live here; there is no separate decision register.
 
-## Promotion: lesson → standard
-When a lesson stops being "this one time" and becomes "how we do it here" — it recurs across changes — `dx-standards-update` promotes it into `context/standards/`. That is the only promotion path.
+## Promotion into a standard
+A rule enters `context/standards/` through `dx-standards-update`, once it is "how we do it here" and not "this one time". There are two paths, and each carries its own recurrence evidence:
+- **A lesson graduates.** It recurs across changes.
+- **A Standard Proposal is accepted.** `dx-refactor-discover` drew it from a cause shared by at least three distinct candidates, and those candidates are the recurrence. It goes straight to `dx-standards-update` without becoming a lesson first.
 
 ## Glossary entry shape
 ```markdown
