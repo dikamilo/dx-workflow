@@ -115,8 +115,8 @@ Demoable: promote one and promote many on the bed, and the rule reaches `researc
 
 ### Phase 4: Design doc, explanation pages, changeset
 #### Automated
-- [ ] 4.1 `DESIGN.md` §8/§9 updated (consumer line true, standards source, vocabulary exception, finding → Candidate)
-- [ ] 4.2 `docs/explanation/{research-and-frame,knowledge-layer,efforts-and-changes}.md` updated
-- [ ] 4.3 No remaining "sole vocabulary" / "only phrasing vocabulary" claim without the exception (grep over `skills/`, `DESIGN.md`, `docs/`)
-- [ ] 4.4 `.changeset/*.md` added (`minor`, one-line summary of the standards lens)
-- [ ] 4.5 `npm run lint:skills` passes
+- [x] 4.1 `DESIGN.md` §8/§9 updated (consumer line true, standards source, vocabulary exception, finding → Candidate) — 04a4b4c
+- [x] 4.2 `docs/explanation/{research-and-frame,knowledge-layer,efforts-and-changes}.md` updated — 04a4b4c
+- [x] 4.3 No remaining "sole vocabulary" / "only phrasing vocabulary" claim without the exception (grep over `skills/`, `DESIGN.md`, `docs/`) — 04a4b4c
+- [x] 4.4 `.changeset/*.md` added (`minor`, one-line summary of the standards lens) — 04a4b4c
+- [x] 4.5 `npm run lint:skills` passes — 04a4b4c

@@ -4,7 +4,7 @@ title: Standards lens
 type: feature
 effort: refactor-discover-standards
 slice: 1
-status: implementing
+status: implemented
 created: 2026-09-28
 updated: 2026-09-28
 archived_at: null
