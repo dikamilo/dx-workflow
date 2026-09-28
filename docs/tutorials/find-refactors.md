@@ -351,12 +351,25 @@ candidate. Here there's only one to sketch, so it composes the seed summary next
 > Start with: config-loader — hottest path in the tree and no adapter work needed.
 > ```
 
+Had you also promoted the standard-driven candidate from [When the project has standards](#when-the-project-has-standards), its entry would carry one extra line naming the rule it breaks:
+
+```text
+3. **Move environment reads to the edge** — src/billing/invoice.ts, tax.ts, dunning.ts (6 sites)
+   Why: each use case reads process.env inline, so none runs without the real environment.
+        Locality: config is read in one place; use cases take typed values a test can pass in
+   Shape: 6 inline env reads → 1 config module at the edge, values passed in
+   Proposed: read and validate config once at startup; pass the values down (Worth exploring, in-process)
+   Standard: context/standards/backend/architecture.md § Configuration
+```
+
+`/dx-new` keeps that `Standard:` line verbatim in the candidate's research file, so `/dx-plan` for that slice knows which rule the migration serves. Promoting it alone (Branch A) puts the same line in the change's seed `research/<topic>.md`.
+
 You then drive the handoff yourself. `/dx-new` recognizes the `## Refactor opportunities` heading, so
 it doesn't slugify the whole blob as a short idea — it sizes the seed as an **effort**, writes
 `context/efforts/<effort-id>/effort.md` with a `## Goal` citing the `Start with:` line and a `## Notes`
 marker (`Refactor effort — findings promoted from /dx-refactor-discover.`), and then writes one
 `research/<topic>.md` per numbered candidate — provenance frontmatter plus that candidate's full entry,
-`Sketch:` line included only where Step 3 ran. It prints its own `Next:` pointing at `/dx-roadmap`.
+`Sketch:` line included only where Step 3 ran, `Standard:` line only on a standard-driven candidate. It prints its own `Next:` pointing at `/dx-roadmap`.
 `/dx-roadmap` turns those research files into roadmap slices — **one slice per module deepening** —
 with no edit of its own, since it already reads "every `research/<topic>.md`" as candidate material.
 Each slice's child change comes from `/dx-new <effort-id> <slice-n>`, which reads the effort's `## Notes`
@@ -385,7 +398,7 @@ Say you reject #3, the `Cache` seam, because that thinness is deliberate:
 > and offers:
 >
 > ```text
-> /dx-lesson                (don't re-deepen X because Y)
+> /dx-lesson                (don't re-deepen X because Y / don't migrate X to rule Y because Z)
 > ```
 
 Running `/dx-lesson` records "don't re-deepen `Cache` — shallow on purpose; we swap backends there" in

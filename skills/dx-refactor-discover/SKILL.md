@@ -79,9 +79,9 @@ Present the survivors **sequentially**, compare them on **depth, locality, and s
 
 ## 5 — Promote the pick
 
-- **One** → create the change directly, the same way `dx-diagnose` self-contains its own promotion: write `context/changes/<slug>/change.md` stamped `type: refactor`, with the candidate captured as its seed `research/<topic>.md` (or `frame.md` if it reads more like a framing than a research write-up). If §4 ran, wait for the user's reply to the stop-and-ask before writing anything — the sketch that goes into the seed, with the trade-offs that decided it, is the one the user confirmed, not the opinionated pick on its own. That confirmed sketch is what stops the exploration being thrown away; `/dx-plan` reads it as upstream context. Invoke `dx-references` with `change-md` for the exact schema. This is this skill's own deliverable, not a chain into `/dx-plan` — that stays the printed next command.
-- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here. But don't make the user re-type what they just picked: compose a **seed summary**, the full entry (what & where, why, shape, proposed deepening, strength tag, dependency category) for each promoted candidate — plus the chosen sketch for any candidate §4 explored — under a heading that names `/dx-refactor-discover` as the source. Print it as the literal argument to hand to `/dx-new` so the handoff carries the detail, not just a slug. Carry the top pick into it as a closing line — `/dx-roadmap` sequences the slices, and the read on which one goes first is the thing it can't re-derive.
-- **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" so the next run skips it. Rejected ephemerally or selected → no durable trace.
+- **One** → create the change directly, the same way `dx-diagnose` self-contains its own promotion: write `context/changes/<slug>/change.md` stamped `type: refactor`, with the candidate captured as its seed `research/<topic>.md` (or `frame.md` if it reads more like a framing than a research write-up) — a standard-driven one keeps its `Standard: <path> § <rule>` line, so `/dx-plan` matches the rule it is fixing. If §4 ran, wait for the user's reply to the stop-and-ask before writing anything — the sketch that goes into the seed, with the trade-offs that decided it, is the one the user confirmed, not the opinionated pick on its own. That confirmed sketch is what stops the exploration being thrown away; `/dx-plan` reads it as upstream context. Invoke `dx-references` with `change-md` for the exact schema. This is this skill's own deliverable, not a chain into `/dx-plan` — that stays the printed next command.
+- **Many** → decomposing into an effort + roadmap + several child changes is already a multi-step flow owned by other skills (`dx-new` for the effort, `dx-roadmap` for the slices, `dx-new` again per slice) — print the commands and let the user drive it, don't fold all of that in here. But don't make the user re-type what they just picked: compose a **seed summary**, the full entry (what & where, why, shape, proposed deepening, strength tag, dependency category) for each promoted candidate — plus its `Standard:` line if standard-driven, and the chosen sketch for any candidate §4 explored — under a heading that names `/dx-refactor-discover` as the source. Print it as the literal argument to hand to `/dx-new` so the handoff carries the detail, not just a slug. Carry the top pick into it as a closing line — `/dx-roadmap` sequences the slices, and the read on which one goes first is the thing it can't re-derive.
+- **Rejected with a load-bearing reason** → offer `/dx-lesson` to record "don't re-deepen X because Y" — or, for a standard-driven candidate, "don't migrate X to rule Y because Z" — so the next run skips it. Rejected ephemerally or selected → no durable trace.
 
 ## Done when
 
@@ -99,11 +99,12 @@ Promote many: Next: /dx-new "<seed summary>"   →  /dx-roadmap <effort-id>
                  Why: <shallow/tangled reason + the cashed-out win, in module-design terms>
                  Shape: <before → after>
                  Proposed: <the move> (<Strong|Worth exploring|Speculative>, <dependency category>)
+                 Standard: <context/standards/… path> § <rule it breaks>   (only on a standard-driven candidate)
                  Sketch: <the chosen interface and why it won>   (only if §4 explored this one)
               2. ...
               Start with: <which one first, and why>
 
-Record a no:  /dx-lesson                (don't re-deepen X because Y)
+Record a no:  /dx-lesson                (don't re-deepen X because Y / don't migrate X to rule Y because Z)
 ```
 
 Stop. Do not chain into another skill.

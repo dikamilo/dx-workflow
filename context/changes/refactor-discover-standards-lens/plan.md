@@ -90,18 +90,18 @@ Demoable: promote one and promote many on the bed, and the rule reaches `researc
 
 ### Phase 2: Standards lens in the scan
 #### Automated
-- [ ] 2.1 `dx-refactor-discover/SKILL.md` §1–§3 updated via `skill-creator` (knowledge-layer load, structural-rule filter, per-rule Candidate, standard-wins, overlap merge, minimal-implementation guard, rejected-migration skip, vocabulary exception)
-- [ ] 2.2 finding → Candidate rename across `dx-refactor-discover/SKILL.md`; seed heading literal unchanged (grep confirms)
-- [ ] 2.3 `design-lenses.md:3` states the exception
-- [ ] 2.4 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for the lens and the rename
-- [ ] 2.5 `npm run lint:skills` passes
+- [x] 2.1 `dx-refactor-discover/SKILL.md` §1–§3 updated via `skill-creator` (knowledge-layer load, structural-rule filter, per-rule Candidate, standard-wins, overlap merge, minimal-implementation guard, rejected-migration skip, vocabulary exception) — 7903fd8
+- [x] 2.2 finding → Candidate rename across `dx-refactor-discover/SKILL.md`; seed heading literal unchanged (grep confirms) — 7903fd8
+- [x] 2.3 `design-lenses.md:3` states the exception — 7903fd8
+- [x] 2.4 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for the lens and the rename — 7903fd8
+- [x] 2.5 `npm run lint:skills` passes — 7903fd8
 #### Manual
-- [ ] 2.6 Case 1: scoped run on the Phase 1 bed, standard **not** named, surfaces one Candidate per broken rule with a count + representative sites + `<path> § <rule>`, ranked with lens Candidates
-- [ ] 2.7 Case 2: unscoped run loads applicable standards only; a plan-authoring or style-only rule produces nothing
-- [ ] 2.8 Case 3: code that follows a standard a lens would call shallow gets no lens Candidate (at most the one-line revisit note)
-- [ ] 2.9 Case 5: a rule requiring a single-adapter layer yields no Candidate or a `Speculative` one, never a "build the layer" `Strong`
-- [ ] 2.10 Case 6: a module both breaking a rule and tripping a lens appears once, citing the rule and stating the lens win
-- [ ] 2.11 Case 7: with a "don't migrate X to rule Y because Z" lesson in `lessons.md`, the re-run skips it
+- [x] 2.6 Case 1: scoped run on the Phase 1 bed, standard **not** named, surfaces one Candidate per broken rule with a count + representative sites + `<path> § <rule>`, ranked with lens Candidates
+- [x] 2.7 Case 2: unscoped run loads applicable standards only; a plan-authoring or style-only rule produces nothing
+- [x] 2.8 Case 3: code that follows a standard a lens would call shallow gets no lens Candidate (at most the one-line revisit note)
+- [x] 2.9 Case 5: a rule requiring a single-adapter layer yields no Candidate or a `Speculative` one, never a "build the layer" `Strong`
+- [x] 2.10 Case 6: a module both breaking a rule and tripping a lens appears once, citing the rule and stating the lens win
+- [x] 2.11 Case 7: with a "don't migrate X to rule Y because Z" lesson in `lessons.md`, the re-run skips it
 
 ### Phase 3: Standard rides into the seed
 #### Automated
