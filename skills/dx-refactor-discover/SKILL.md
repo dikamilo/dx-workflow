@@ -53,8 +53,10 @@ Markdown only — no HTML, no report file. A concise numbered list; each candida
 
 **Then look across the whole list for a missing rule.** A cause shared by **at least three distinct candidates** that no rule covers is a rule this codebase doesn't have yet. Propose it as a **Standard Proposal**. Count candidates, not sites: one candidate with twenty sites is still one data point. A proposal names a project rule checkable in this code (where a unit lives, what it may depend on, how a recurring job is done). It is never a lens restated ("keep modules deep" is already the lens's job), and never a layer with no second use. When no cause clears the bar, print nothing: no proposal and no "none found" line. A proposal on every run is one nobody reads.
 
+**Read the target before proposing.** Open the standard file the rule would land in, and the loaded standards in its layer, even when a scoped run left that file out of §1. Skipping this is how a run proposes a rule that already exists. If a rule there already states the cause, there is no proposal: its violations are already standard-driven candidates. If the cause falls within an existing standard's topic, the proposal **amends** that standard. Otherwise it proposes a new rule in the best-fit `<layer>/<topic>.md`. An amendment only extends or tightens a rule so it covers the recurring cause, and never loosens one. A standard that shields code at a cost still gets only the `revisit` line above, which never turns into a proposal.
+
 ```
-Standard Proposal — new rule in <layer>/<topic>.md
+Standard Proposal — new rule in <layer>/<topic>.md        (or: amend <path> § <rule>)
   Rule: <one prescriptive line, "do this">
   Cause: <the shared cause> — Candidates <n>, <n>, <n>
 ```

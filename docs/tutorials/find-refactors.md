@@ -207,6 +207,19 @@ Run `/dx-standards-update` right away, in the same session. The accepted proposa
 
 From the next run on, code that builds its own client breaks a written rule and shows up as a standard-driven candidate, like the one in the previous section.
 
+A shared cause doesn't always need a new file. Before it proposes anything, the skill reads the standard the rule would land in, even one a scoped run didn't load. Go back to the `src/billing` project with `backend/architecture.md`. Say three candidates each call the feature-flag SDK inline in a use case (`flags.isEnabled("new-tax")`), so none of them runs without the vendor client. The Configuration rule covers environment reads but says nothing about flags. The cause falls within that rule's topic, so the proposal extends it instead of starting a new file:
+
+> ```text
+> Standard Proposal — amend backend/architecture.md § Configuration
+>   Rule: Feature flags are read at the edge like environment values; use cases take the resolved flag as a parameter.
+>   Cause: use cases query the flag SDK inline — Candidates 2, 4, 7
+> ```
+
+Two nearby cases produce no proposal:
+
+- **The rule already says it.** If the three candidates all read `process.env` inline, Configuration already states the cause. They show up as the one standard-driven candidate from the previous section, and nothing is proposed.
+- **The rule looks costly.** An amendment only extends or tightens a rule, and never loosens one. When `§ Repositories` forces a port with one adapter on every aggregate, you still get only the `revisit …?` line. Whether to relax the standard is your call, not a proposal.
+
 ---
 
 ## Step 3 — Design the pick twice (optional)
