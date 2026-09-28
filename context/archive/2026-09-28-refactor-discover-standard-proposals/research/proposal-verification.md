@@ -10,7 +10,7 @@ git_commit: n/a (external test bed)
 
 ## The runs
 
-- **Skill:** `skills/dx-refactor-discover/SKILL.md` and `skills/dx-references/references/knowledge-layer.md` at `b9eaeea` (this repo), read directly. The installed copies are the pre-change versions, so they were not used. `/dx-standards-update` was followed from `skills/dx-standards-update/SKILL.md` (unchanged), loading the `b9eaeea` `knowledge-layer.md`.
+- **Skill:** `skills/dx-refactor-discover/SKILL.md` and `skills/dx-references/references/knowledge-layer.md` at `c897948` (this repo), read directly. The installed copies are the pre-change versions, so they were not used. `/dx-standards-update` was followed from `skills/dx-standards-update/SKILL.md` (unchanged), loading the `c897948` `knowledge-layer.md`.
 - **Invocation:** `/dx-refactor-discover apps/web/src` (the quota use cases plus the `app/api` routes that call them).
 - **Candidate input:** the quota candidates #1–#5 are the ones slice 1 found on this bed (`refactor-discover-standards-lens/research/lens-verification.md`); Phase 1 changes only the end of §3, §1's lessons skip, §5 and `Done when`, so the scan of `quota/` was not redone. The `app/api` routes were scanned fresh for this run.
 - **Beds:** Bed 1 is the clean clone with its full standards. Bed 3 is the clone with the whole `context/standards/` tree moved out. Bed 2 is the same clone with `global/architecture-building-blocks.md` moved out, which removes the rule behind candidates #1 and #2 while every other standard stays loaded. Everything written to the bed was removed afterwards, and `git status` on the bed is clean.
@@ -71,7 +71,7 @@ Cases 5, 7, A, E, C and D behave as planned on this bed. The "not a lens restate
 
 ## The runs
 
-- **Skill:** `skills/dx-refactor-discover/SKILL.md` at `104e1fa` (this repo), read directly. Phase 2 changes only §3's Proposal step (read the target, new vs amendment, extend or tighten only).
+- **Skill:** `skills/dx-refactor-discover/SKILL.md` at `60ee316` (this repo), read directly. Phase 2 changes only §3's Proposal step (read the target, new vs amendment, extend or tighten only).
 - **Candidate input:** Phase 1's Bed 1 candidates #1–#7, reused as the scan is unchanged. Each bed's standard changes were re-applied to that set.
 - **Beds:** Bed 1 is the clean clone. Bed 4 is the clone with only the `- **Rule / Policy**` bullet removed from `global/architecture-building-blocks.md`. Bed 5 is the clone with a **planted** rule, `## Open a fresh client per operation`, added to `backend/tenant-isolation.md`. The code already follows it at 13 request-path `createDb` sites (`max: 1`, ended in `finally`). Beds 4 and 5 were edited with the user's authorization (the permission classifier refused the first attempt) and restored with `git checkout`. `git status` on the bed is clean.
 - **Deviations:** as in Phase 1, run inline by the agent that wrote the change, so these runs show the text *can* produce the behavior. Bed 5's rule was not written by the team, so case F is tested against a rule planted for the check. The out-of-scope branch of "read the target" (a target file a scoped run didn't load) was not exercised: every plausible target for this code (`global/`, `backend/`) is always loaded.

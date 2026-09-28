@@ -10,7 +10,7 @@ git_commit: n/a (external test bed)
 
 ## The run
 
-- **Skill:** `skills/dx-refactor-discover/SKILL.md` at `7903fd8` (this repo), read directly. The installed copy was still the pre-change version, so it was not used.
+- **Skill:** `skills/dx-refactor-discover/SKILL.md` at `cb0395e` (this repo), read directly. The installed copy was still the pre-change version, so it was not used.
 - **Invocation:** `/dx-refactor-discover apps/web/src/quota`. No standard named.
 - **Deviations:** run inline by the implementing agent, which also wrote the skill change, so it knew every case being checked. That bias is stronger than in Phase 1. Stopped at the pick; nothing promoted. Case 2 (unscoped) covers standards selection and rule classification only. No full-tree scan was run.
 
@@ -78,7 +78,7 @@ All six cases behave as planned on this bed. The main caveat is that the runner 
 
 ## The run
 
-- **Skills:** `skills/dx-refactor-discover/SKILL.md` §5 and `skills/dx-new/SKILL.md` at `4b392c5` (this repo), read directly. The installed copies are still the pre-change versions.
+- **Skills:** `skills/dx-refactor-discover/SKILL.md` §5 and `skills/dx-new/SKILL.md` at `e7e50fa` (this repo), read directly. The installed copies are still the pre-change versions.
 - **Bed:** the same clean clone. The Phase 2 candidate list above was the input: no fresh scan, since Phase 3 changes only the promote paths.
 - **Deviations:** run inline by the implementing agent, which also wrote both skill changes, so the same bias as Phase 2 applies. `dx-new`'s parse was carried out by hand-following its text (a small script copying the entries), not by a cold session. §4 (design it twice) was skipped, so no `Sketch:` line was exercised alongside `Standard:`. All bed artifacts were removed afterwards, and the bed is clean.
 

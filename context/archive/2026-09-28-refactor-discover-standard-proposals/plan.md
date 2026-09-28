@@ -73,10 +73,10 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 
 ### Phase 1: New-rule Proposal end to end
 #### Automated
-- [x] 1.1 `dx-refactor-discover/SKILL.md` §1/§3/§5/`Done when` updated via `skill-creator` (≥3 bar, silence, Proposal shape, guards, decline → lesson, lessons skip, printed `/dx-standards-update`) — b9eaeea
-- [x] 1.2 `knowledge-layer.md` promotion section names both paths, and the recurrence criterion accepts a Proposal — b9eaeea
-- [x] 1.3 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for new-rule Proposals — b9eaeea
-- [x] 1.4 `npm run lint:skills` passes — b9eaeea
+- [x] 1.1 `dx-refactor-discover/SKILL.md` §1/§3/§5/`Done when` updated via `skill-creator` (≥3 bar, silence, Proposal shape, guards, decline → lesson, lessons skip, printed `/dx-standards-update`) — c897948
+- [x] 1.2 `knowledge-layer.md` promotion section names both paths, and the recurrence criterion accepts a Proposal — c897948
+- [x] 1.3 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for new-rule Proposals — c897948
+- [x] 1.4 `npm run lint:skills` passes — c897948
 #### Manual
 - [x] 1.5 Case 5: three Candidates sharing an uncovered cause → one Proposal citing them plus the `/dx-standards-update` command; running it in the same session writes the rule without pushback that it is "a one-off"
 - [x] 1.6 Case 7: on a project with an empty `context/standards/`, lens Candidates alone yield a new-rule Proposal
@@ -87,9 +87,9 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 
 ### Phase 2: Amendments and existing rules
 #### Automated
-- [x] 2.1 `dx-refactor-discover/SKILL.md` §3 extended via `skill-creator` (covered-rule check incl. out-of-scope target file, new vs amendment, extend/tighten only) — 104e1fa
-- [x] 2.2 Amendment example added to `docs/tutorials/find-refactors.md` — 104e1fa
-- [x] 2.3 `npm run lint:skills` passes — 104e1fa
+- [x] 2.1 `dx-refactor-discover/SKILL.md` §3 extended via `skill-creator` (covered-rule check incl. out-of-scope target file, new vs amendment, extend/tighten only) — 60ee316
+- [x] 2.2 Amendment example added to `docs/tutorials/find-refactors.md` — 60ee316
+- [x] 2.3 `npm run lint:skills` passes — 60ee316
 #### Manual
 - [x] 2.4 Case 6: a cause next to an existing standard yields `amend <path> § <rule>`, not a new rule
 - [x] 2.5 Case B: a cause an in-scope standard already states surfaces only as a standard-driven Candidate, with no Proposal
@@ -97,8 +97,8 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 
 ### Phase 3: Second promotion path in the design doc and explanation pages, changeset
 #### Automated
-- [x] 3.1 `DESIGN.md` §8 (prose + lifecycle diagram) and §9 updated — ad19bd5
-- [x] 3.2 `docs/explanation/knowledge-layer.md` (diagram, prose, l.188) and `docs/tutorials/build-standards.md:135` updated — ad19bd5
-- [x] 3.3 No remaining "only promotion path" claim (grep over `skills/`, `DESIGN.md`, `docs/`) — ad19bd5
-- [x] 3.4 `.changeset/*.md` added (`minor`, one-line summary of Standard Proposals) — ad19bd5
-- [x] 3.5 `npm run lint:skills` passes — ad19bd5
+- [x] 3.1 `DESIGN.md` §8 (prose + lifecycle diagram) and §9 updated — c800626
+- [x] 3.2 `docs/explanation/knowledge-layer.md` (diagram, prose, l.188) and `docs/tutorials/build-standards.md:135` updated — c800626
+- [x] 3.3 No remaining "only promotion path" claim (grep over `skills/`, `DESIGN.md`, `docs/`) — c800626
+- [x] 3.4 `.changeset/*.md` added (`minor`, one-line summary of Standard Proposals) — c800626
+- [x] 3.5 `npm run lint:skills` passes — c800626

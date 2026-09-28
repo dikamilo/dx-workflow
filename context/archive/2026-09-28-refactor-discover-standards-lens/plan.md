@@ -84,17 +84,17 @@ Demoable: promote one and promote many on the bed, and the rule reaches `researc
 
 ### Phase 1: Cheap test (go/no-go)
 #### Manual
-- [x] 1.1 User picks a target project + area with a building-blocks-style structural standard in its `context/standards/` — 4572222
-- [x] 1.2 Today's `/dx-refactor-discover <area> — also check <standard path>` run; output captured — 4572222
-- [x] 1.3 Verdict recorded in `research/cheap-test.md`: go (few, useful, per-rule) or no-go (flood / noise → stop the slice, revisit the effort) — 4572222
+- [x] 1.1 User picks a target project + area with a building-blocks-style structural standard in its `context/standards/` — 479fe52
+- [x] 1.2 Today's `/dx-refactor-discover <area> — also check <standard path>` run; output captured — 479fe52
+- [x] 1.3 Verdict recorded in `research/cheap-test.md`: go (few, useful, per-rule) or no-go (flood / noise → stop the slice, revisit the effort) — 479fe52
 
 ### Phase 2: Standards lens in the scan
 #### Automated
-- [x] 2.1 `dx-refactor-discover/SKILL.md` §1–§3 updated via `skill-creator` (knowledge-layer load, structural-rule filter, per-rule Candidate, standard-wins, overlap merge, minimal-implementation guard, rejected-migration skip, vocabulary exception) — 7903fd8
-- [x] 2.2 finding → Candidate rename across `dx-refactor-discover/SKILL.md`; seed heading literal unchanged (grep confirms) — 7903fd8
-- [x] 2.3 `design-lenses.md:3` states the exception — 7903fd8
-- [x] 2.4 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for the lens and the rename — 7903fd8
-- [x] 2.5 `npm run lint:skills` passes — 7903fd8
+- [x] 2.1 `dx-refactor-discover/SKILL.md` §1–§3 updated via `skill-creator` (knowledge-layer load, structural-rule filter, per-rule Candidate, standard-wins, overlap merge, minimal-implementation guard, rejected-migration skip, vocabulary exception) — cb0395e
+- [x] 2.2 finding → Candidate rename across `dx-refactor-discover/SKILL.md`; seed heading literal unchanged (grep confirms) — cb0395e
+- [x] 2.3 `design-lenses.md:3` states the exception — cb0395e
+- [x] 2.4 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for the lens and the rename — cb0395e
+- [x] 2.5 `npm run lint:skills` passes — cb0395e
 #### Manual
 - [x] 2.6 Case 1: scoped run on the Phase 1 bed, standard **not** named, surfaces one Candidate per broken rule with a count + representative sites + `<path> § <rule>`, ranked with lens Candidates
 - [x] 2.7 Case 2: unscoped run loads applicable standards only; a plan-authoring or style-only rule produces nothing
@@ -105,18 +105,18 @@ Demoable: promote one and promote many on the bed, and the rule reaches `researc
 
 ### Phase 3: Standard rides into the seed
 #### Automated
-- [x] 3.1 `dx-refactor-discover/SKILL.md` §5 + `Done when` template carry the optional `Standard:` line — 4b392c5
-- [x] 3.2 `dx-new/SKILL.md` keeps `Standard:` verbatim in the per-Candidate research file (via `skill-creator`); rename applied; heading literal and `## Notes` marker unchanged — 4b392c5
-- [x] 3.3 `docs/reference/skills.md` (`/dx-new`) and the promote-many example in `docs/tutorials/find-refactors.md` updated — 4b392c5
-- [x] 3.4 `npm run lint:skills` passes — 4b392c5
+- [x] 3.1 `dx-refactor-discover/SKILL.md` §5 + `Done when` template carry the optional `Standard:` line — e7e50fa
+- [x] 3.2 `dx-new/SKILL.md` keeps `Standard:` verbatim in the per-Candidate research file (via `skill-creator`); rename applied; heading literal and `## Notes` marker unchanged — e7e50fa
+- [x] 3.3 `docs/reference/skills.md` (`/dx-new`) and the promote-many example in `docs/tutorials/find-refactors.md` updated — e7e50fa
+- [x] 3.4 `npm run lint:skills` passes — e7e50fa
 #### Manual
 - [x] 3.5 Case 4 / 8: promote one → seed `research/<topic>.md` names the standard path + rule; promote many → `/dx-new "<seed>"` writes each standard-driven Candidate's research file with its `Standard:` line
 - [x] 3.6 Case 4: rejecting a standard-driven Candidate with a reason offers `/dx-lesson` with the "don't migrate X to rule Y because Z" phrasing
 
 ### Phase 4: Design doc, explanation pages, changeset
 #### Automated
-- [x] 4.1 `DESIGN.md` §8/§9 updated (consumer line true, standards source, vocabulary exception, finding → Candidate) — 04a4b4c
-- [x] 4.2 `docs/explanation/{research-and-frame,knowledge-layer,efforts-and-changes}.md` updated — 04a4b4c
-- [x] 4.3 No remaining "sole vocabulary" / "only phrasing vocabulary" claim without the exception (grep over `skills/`, `DESIGN.md`, `docs/`) — 04a4b4c
-- [x] 4.4 `.changeset/*.md` added (`minor`, one-line summary of the standards lens) — 04a4b4c
-- [x] 4.5 `npm run lint:skills` passes — 04a4b4c
+- [x] 4.1 `DESIGN.md` §8/§9 updated (consumer line true, standards source, vocabulary exception, finding → Candidate) — f2724a6
+- [x] 4.2 `docs/explanation/{research-and-frame,knowledge-layer,efforts-and-changes}.md` updated — f2724a6
+- [x] 4.3 No remaining "sole vocabulary" / "only phrasing vocabulary" claim without the exception (grep over `skills/`, `DESIGN.md`, `docs/`) — f2724a6
+- [x] 4.4 `.changeset/*.md` added (`minor`, one-line summary of the standards lens) — f2724a6
+- [x] 4.5 `npm run lint:skills` passes — f2724a6

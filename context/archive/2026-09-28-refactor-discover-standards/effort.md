@@ -1,10 +1,10 @@
 ---
 effort_id: refactor-discover-standards
 title: dx-refactor-discover works with the project's own standards
-status: scoped
+status: archived
 created: 2026-09-28
 updated: 2026-09-28
-archived_at: null
+archived_at: 2026-09-28
 ---
 
 ## Goal
