@@ -113,13 +113,7 @@ a term the moment it clashes or turns out to be vague) **write** it.
 
 Two boundaries do most of the work of keeping these three artifacts honest.
 
-**A lesson is the anteroom to a standard.** A lesson starts life as "this one
-time." When it stops being a one-off and becomes "how we do it here" — it keeps
-recurring across changes — `/dx-standards-update` **promotes** it into
-`context/standards/`. That is the *only* promotion path. Nothing else moves a
-lesson into the rulebook, and nothing demotes a standard back. The direction is
-always lessons → standards, and it happens only when generality has been proven by
-repetition.
+**A lesson is the anteroom to a standard.** A lesson starts life as "this one time." When it stops being a one-off and becomes "how we do it here" — it keeps recurring across changes — `/dx-standards-update` **promotes** it into `context/standards/`. That is one of two promotion paths. The other is an accepted **Standard Proposal** from `/dx-refactor-discover`: a cause shared by at least three distinct refactor candidates that no rule covers. It goes straight to `/dx-standards-update` without becoming a lesson first, because those candidates are already the recurrence a lesson would have to build up. Either way a rule enters the rulebook only when generality has been proven by repetition, and nothing demotes a standard back.
 
 **A decision-with-rationale is a lesson, not an ADR.** dx- has **no ADR
 register** — no `decisions/` folder, no numbered architecture-decision records.
@@ -148,6 +142,7 @@ flowchart TD
   I --> R["dx-impl-review: check standards-compliance"]:::step
   R -- "recurring finding" --> LS["dx-lesson appends"]:::step
   LS -- "if it generalizes" --> SU["dx-standards-update promotes"]:::step
+  RD["dx-refactor-discover"]:::step -- "Standard Proposal (≥3 candidates)" --> SU
   SU -.-> S
 
   classDef src fill:#eef,stroke:#88a
@@ -185,7 +180,7 @@ lesson ("don't re-deepen X because Y", or "don't migrate X to rule Y because Z")
 durable trace a "nothing worth building" or "already covered" outcome leaves, since
 those ramps write no file at all.
 
-Standards are not only matched into plans. `/dx-refactor-discover` loads the same *domain × topic* matching to pick the standards that bear on the area it scans, keeps the structural rules existing code can be checked against, and reports code that breaks one as a refactor candidate: one per broken rule, citing the standard's path and rule. It treats the standard as correct and never proposes changing it. When a standard shields code at a real cost, it prints one "revisit this standard?" line, and whether to edit the standard stays your call through `/dx-standards-update`.
+Standards are not only matched into plans. `/dx-refactor-discover` loads the same *domain × topic* matching to pick the standards that bear on the area it scans, keeps the structural rules existing code can be checked against, and reports code that breaks one as a refactor candidate: one per broken rule, citing the standard's path and rule. It treats the standard as correct and never proposes loosening it. When a standard shields code at a real cost, it prints one "revisit this standard?" line, and whether to edit the standard stays your call through `/dx-standards-update`. A Standard Proposal may extend or tighten an existing standard (`amend <path> § <rule>`) or add a new rule, when at least three candidates share a cause no rule covers — see the second promotion path above.
 
 ## Trade-offs and what was deliberately left out
 

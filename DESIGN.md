@@ -244,7 +244,7 @@ Three artifacts, all markdown, all in `foundation/` or `standards/`. They look s
 | In a plan | Matched into a **Standards to apply** checklist | Surfaced as **Priors & gotchas** | Read for naming & verbosity (one-line habit) |
 
 ### The distinction that matters
-- A **lesson** is the anteroom to a standard. `standards-update` is the promotion path when a lesson stops being "this one time" and becomes "how we do it here." A **rejected refactor opportunity** ("don't re-deepen the config loader — it's shallow on purpose because we swap backends") is a lesson, not an ADR. A **decision with rationale** ("we chose X over Y because Z") is likewise a lesson: the workflow has no separate decision register, and folding choices into `lessons.md` keeps one append-only home for "things a future change should not relitigate."
+- A **lesson** is the anteroom to a standard. `standards-update` is the promotion path when a lesson stops being "this one time" and becomes "how we do it here." It is one of two: an accepted **Standard Proposal** from `refactor-discover` (a cause shared by at least three distinct candidates that no rule covers) goes straight to `standards-update` without becoming a lesson first, because those candidates are already the recurrence evidence (§9). A **rejected refactor opportunity** ("don't re-deepen the config loader — it's shallow on purpose because we swap backends") is a lesson, not an ADR. A **decision with rationale** ("we chose X over Y because Z") is likewise a lesson: the workflow has no separate decision register, and folding choices into `lessons.md` keeps one append-only home for "things a future change should not relitigate."
 - The **glossary** is *never* a spec, scratch pad, or home for implementation decisions — it is a glossary and nothing else. Every skill **reads** it as a one-line habit; only `domain-discover` and `domain` **write** it.
 
 ### The lifecycle (how each skill reads/writes them)
@@ -273,6 +273,7 @@ flowchart TD
 
     diagnose["diagnose"] -- "may append a lesson" --> lessons
     refactordiscover["refactor-discover"] -- "rejected-with-reason candidate" --> lesson
+    refactordiscover -- "Standard Proposal (≥3 Candidates)" --> standardsupdate
     domain["domain"] -- "writes on triggers (clash, fuzzy, resolved)" --> glossary
 ```
 
@@ -300,6 +301,8 @@ Run with no concrete target — "find me refactor opportunities." Scans the code
 
 - **one** → spawn a single change (`type: refactor`) seeded with that candidate as its research/frame. A standard-driven candidate's seed carries a `Standard:` line naming the path and rule.
 - **many** → hand the picks to `new` as a seed summary (a `## Refactor opportunities` heading `new` detects and parses, not a short idea); `new` writes the effort plus one `research/<topic>.md` per candidate (keeping each one's `Sketch:` and `Standard:` lines) and a `## Notes` marker recording it's a refactor effort, then `roadmap` decomposes the research files into slices — one per candidate, no edit of its own needed — and each slice becomes a child refactor-change stamped from that marker (§7.6).
+
+Under the top pick and any "revisit" line, the skill looks across the whole candidate set for a cause shared by **at least three distinct candidates** (counted as candidates, not sites) that no rule covers. Each such cause becomes one **Standard Proposal**: a prescriptive one-line rule, a target (a new rule in `<layer>/<topic>.md`, or `amend <path> § <rule>` when the cause falls within an existing standard's topic) and the candidates it is drawn from. Before proposing, it reads the target standard file even when a scoped run didn't load it; a cause a rule already states gets no proposal, since its violations are already standard-driven candidates. An amendment only extends or tightens a rule, never loosens one — loosening stays the separate "revisit" line. A proposal is a project rule checkable in this code, never a lens restated and never a layer with no second use. No cause clears the bar → nothing is printed. The user accepts proposals in the same reply as the picks; an accepted one prints `/dx-standards-update` to run in the same session (the second promotion path, §8), and the skill never writes `context/standards/` itself. A proposal declined with a reason is offered as a lesson ("don't propose rule X because Z"), which the next run skips. Proposals are ephemeral, like candidates.
 
 A candidate **rejected with a load-bearing reason** → offered as a **lesson** ("don't re-deepen X because Y") — or, for a standard-driven one, "don't migrate X to rule Y because Z" — so the next run doesn't re-suggest it. Rejected ephemerally or selected → no durable trace. **No `foundation/architecture-debt.md` register** — refactor candidates are ephemeral work items, not stable reference knowledge, and a shared register would create stale-entry and parallel-write hazards that fight the workflow's derive-don't-maintain principle.
 

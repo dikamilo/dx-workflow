@@ -97,8 +97,8 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 
 ### Phase 3: Second promotion path in the design doc and explanation pages, changeset
 #### Automated
-- [ ] 3.1 `DESIGN.md` §8 (prose + lifecycle diagram) and §9 updated
-- [ ] 3.2 `docs/explanation/knowledge-layer.md` (diagram, prose, l.188) and `docs/tutorials/build-standards.md:135` updated
-- [ ] 3.3 No remaining "only promotion path" claim (grep over `skills/`, `DESIGN.md`, `docs/`)
-- [ ] 3.4 `.changeset/*.md` added (`minor`, one-line summary of Standard Proposals)
-- [ ] 3.5 `npm run lint:skills` passes
+- [x] 3.1 `DESIGN.md` §8 (prose + lifecycle diagram) and §9 updated
+- [x] 3.2 `docs/explanation/knowledge-layer.md` (diagram, prose, l.188) and `docs/tutorials/build-standards.md:135` updated
+- [x] 3.3 No remaining "only promotion path" claim (grep over `skills/`, `DESIGN.md`, `docs/`)
+- [x] 3.4 `.changeset/*.md` added (`minor`, one-line summary of Standard Proposals)
+- [x] 3.5 `npm run lint:skills` passes

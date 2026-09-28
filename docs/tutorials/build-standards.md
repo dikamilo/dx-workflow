@@ -132,7 +132,7 @@ checklist. One prescriptive heading, edited into the right file — no append-on
 This is the maintenance loop that keeps standards alive. A **lesson** in `foundation/lessons.md` records
 something that happened once — a scar, a decision. Most lessons stay lessons. But when the same lesson
 keeps recurring, it has stopped being "this one time" and become "how we do it here." That is the moment
-it graduates into a standard — and **lesson → standard is the only promotion path in dx-.**
+it graduates into a standard. That is one of the two promotion paths in dx-; the other is a Standard Proposal accepted from `/dx-refactor-discover` (see [find refactors](find-refactors.md)).
 
 Say `foundation/lessons.md` has an entry that keeps biting you:
 
