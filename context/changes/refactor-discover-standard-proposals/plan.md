@@ -73,17 +73,17 @@ Through `skill-creator`, extend §3: the covered-rule check (read the target fil
 
 ### Phase 1: New-rule Proposal end to end
 #### Automated
-- [ ] 1.1 `dx-refactor-discover/SKILL.md` §1/§3/§5/`Done when` updated via `skill-creator` (≥3 bar, silence, Proposal shape, guards, decline → lesson, lessons skip, printed `/dx-standards-update`)
-- [ ] 1.2 `knowledge-layer.md` promotion section names both paths, and the recurrence criterion accepts a Proposal
-- [ ] 1.3 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for new-rule Proposals
-- [ ] 1.4 `npm run lint:skills` passes
+- [x] 1.1 `dx-refactor-discover/SKILL.md` §1/§3/§5/`Done when` updated via `skill-creator` (≥3 bar, silence, Proposal shape, guards, decline → lesson, lessons skip, printed `/dx-standards-update`) — b9eaeea
+- [x] 1.2 `knowledge-layer.md` promotion section names both paths, and the recurrence criterion accepts a Proposal — b9eaeea
+- [x] 1.3 `docs/reference/skills.md` and `docs/tutorials/find-refactors.md` updated for new-rule Proposals — b9eaeea
+- [x] 1.4 `npm run lint:skills` passes — b9eaeea
 #### Manual
-- [ ] 1.5 Case 5: three Candidates sharing an uncovered cause → one Proposal citing them plus the `/dx-standards-update` command; running it in the same session writes the rule without pushback that it is "a one-off"
-- [ ] 1.6 Case 7: on a project with an empty `context/standards/`, lens Candidates alone yield a new-rule Proposal
-- [ ] 1.7 Case A: a run with no shared cause prints Candidates only, with no Proposal and no "none found" line
-- [ ] 1.8 Case E: one Candidate with many sites and an uncovered cause → no Proposal
-- [ ] 1.9 Case C: declining with a reason offers `/dx-lesson`; with that lesson recorded, the re-run does not propose it
-- [ ] 1.10 Case D: promoting Candidates and accepting a Proposal prints both next commands and runs neither
+- [x] 1.5 Case 5: three Candidates sharing an uncovered cause → one Proposal citing them plus the `/dx-standards-update` command; running it in the same session writes the rule without pushback that it is "a one-off"
+- [ ] 1.6 Case 7: on a project with an empty `context/standards/`, lens Candidates alone yield a new-rule Proposal — **open:** not run on a real empty `context/standards/` (bed change refused by the permission classifier); paper run in `research/proposal-verification.md`
+- [x] 1.7 Case A: a run with no shared cause prints Candidates only, with no Proposal and no "none found" line
+- [x] 1.8 Case E: one Candidate with many sites and an uncovered cause → no Proposal
+- [x] 1.9 Case C: declining with a reason offers `/dx-lesson`; with that lesson recorded, the re-run does not propose it
+- [x] 1.10 Case D: promoting Candidates and accepting a Proposal prints both next commands and runs neither
 
 ### Phase 2: Amendments and existing rules
 #### Automated
