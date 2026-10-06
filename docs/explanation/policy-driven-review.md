@@ -14,7 +14,7 @@ dx- splits the two jobs along that line.
 
 **`/dx-review` holds the mechanism.** It is the same for every review: resolving the policy ID and the target, refusing archived work, reading the glossary, applying your custom instructions, fanning out subagents, writing the report, confirming before it overwrites a report with open findings, invoking `/dx-diagnose` on a regression, offering a lesson or a standard update, and printing the next commands.
 
-**A Policy holds the criteria.** A Policy is a Markdown file at `context/workflow/review-policies/<policy-id>.md`, and its file name is its ID. It declares which targets it accepts, its preconditions, what to load, its dimensions and the tag its findings carry, any extra checks, what a pass sets, and extra `Next:` lines. The built-in `implementation` Policy is the post-implementation gate: its preconditions require a finished `## Progress`, its four dimensions are Plan-Drift, Safety, Patterns and Standards, its extra check is the behavior-preserving gate for `type: refactor`, and its `## On pass` sets `status: reviewed`.
+**A Policy holds the criteria.** A Policy is a Markdown file at `context/workflow/review-policies/<policy-id>.md`, and its file name is its ID. It declares which targets it accepts, its preconditions, what to load, its dimensions and the tag its findings carry, any extra checks, what a pass sets, and extra `Next:` lines. Two Policies ship built in. `plan` is the optional pre-implementation gate: it needs a Change with a `plan.md`, reviews Substance, Feasibility, Architectural fitness and Standards-fit, and sets no status. `implementation` is the post-implementation gate: its preconditions require a finished `## Progress`, its four dimensions are Plan-Drift, Safety, Patterns and Standards, its extra check is the behavior-preserving gate for `type: refactor`, and its `## On pass` sets `status: reviewed`.
 
 So a new kind of review is a new file, not a new skill. You copy `policy-template.md`, write your dimensions, and run `/dx-review <your-id> <change-id>`. Triage needs no change either: `/dx-review-triage <container-id> <policy-id>` reads `reviews/<policy-id>.md`, and decides from each finding's location what to load and whether a fix gets committed, instead of branching on a fixed list of review types.
 
@@ -34,9 +34,9 @@ Today only container runs exist. The `explore` and `both` values are already par
 
 ## Shipped once, then yours
 
-`/dx-init` copies the built-in Policy and the two templates into your project, and only the files that are missing. From then on they are yours: edit `implementation.md` to tighten a dimension, delete a check that doesn't apply, add Policies beside it. A re-run of `/dx-init` never overwrites them.
+`/dx-init` copies the built-in Policies and the two templates into your project, and only the files that are missing. From then on they are yours: edit `implementation.md` or `plan.md` to tighten a dimension, delete a check that doesn't apply, add Policies beside it. A re-run of `/dx-init` never overwrites them.
 
-The other side of that is deliberate: **a fix to a shipped Policy never reaches your copy on its own.** When a dx- release improves `implementation.md`, your project keeps running the version it copied. To pick the fix up, compare your copy with the one in the new release and merge it by hand. The alternative — updating Policies in place on upgrade — would silently discard the edits that make Policies worth owning.
+The other side of that is deliberate: **a fix to a shipped Policy never reaches your copy on its own.** When a dx- release improves a built-in Policy, your project keeps running the version it copied; and a project that predates a new built-in, like `plan.md`, doesn't have it until you re-run `/dx-init`, which seeds only the missing files. To pick the fix up, compare your copy with the one in the new release and merge it by hand. The alternative — updating Policies in place on upgrade — would silently discard the edits that make Policies worth owning.
 
 ## Nothing lints a Policy
 
@@ -55,7 +55,7 @@ In exchange, the set of reviews grows with your project rather than with the ski
 ## Related
 
 - [Write a review policy](../tutorials/write-a-review-policy.md) — add a `security` Policy and run it end to end.
-- [Review and triage](../tutorials/review-and-triage.md) — the built-in `implementation` review and the triage loop.
+- [Review and triage](../tutorials/review-and-triage.md) — the built-in `plan` and `implementation` reviews and the triage loop.
 - [Directory layout](directory-layout.md) — where `context/workflow/review-policies/` sits.
 - [The knowledge layer](knowledge-layer.md) — why a Policy is not a Standard: a Standard is a rule your code follows, a Policy defines what one review checks.
 - [Skills reference](../reference/skills.md) — `/dx-review`, `/dx-review-triage` and `/dx-init`.

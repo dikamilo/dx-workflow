@@ -80,7 +80,7 @@ context/
 │   ├── diagnosis.md           # optional; when promoted from /dx-diagnose
 │   ├── brainstorm.md          # optional; when promoted from /dx-brainstorm
 │   ├── plan.md                # owns ## Progress; carries matched Standards + Lessons
-│   └── reviews/               # <policy-id>.md per review Policy run; plan-review.md
+│   └── reviews/               # <policy-id>.md per review Policy run (plan.md, implementation.md)
 └── archive/<YYYY-MM-DD>-<id>/ # archives both efforts and changes
 ```
 

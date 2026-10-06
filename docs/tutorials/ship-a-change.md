@@ -124,7 +124,7 @@ option — never a batch form.
 >
 > ```text
 > Plan written: context/changes/oauth-login/plan.md
-> Next: /dx-plan-review oauth-login   — optional pre-implementation gate
+> Next: /dx-review plan oauth-login   — optional pre-implementation gate
 >   or: /dx-implement oauth-login     (/dx-tdd oauth-login for defect/test-first)
 > ```
 
@@ -187,7 +187,7 @@ resume from the first `- [ ]` and flip boxes as work lands. For why plans are sh
 [the plan and its slices](../explanation/plan-and-slices.md); for why the interview front-loads framing
 when no `frame.md` exists, see [handoff scaling](../explanation/handoff-scaling.md).
 
-> **Optional gate.** The `Next:` line offers `/dx-plan-review` — a report-only second opinion on the
+> **Optional gate.** The `Next:` line offers `/dx-review plan` — a report-only second opinion on the
 > plan *before* you write code. It is worth it for risky or expensive work. This change is small, so we
 > go straight to implementation.
 

@@ -89,7 +89,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Prints next:**
   ```text
   Plan written: context/changes/<change-id>/plan.md
-  Next: /dx-plan-review <change-id>   — optional pre-implementation gate
+  Next: /dx-review plan <change-id>   — optional pre-implementation gate
     or: /dx-implement <change-id>     (/dx-tdd <change-id> for defect/test-first)
   ```
 
@@ -126,8 +126,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ### `/dx-review`
 - **Invoke:** user — `/dx-review <policy-id> [container-id] [instructions…]`
-- **Purpose:** run the review a **Policy** defines on a change or effort, and **report**. The Policy file holds the criteria (preconditions, what to load, dimensions, extra checks, what a pass sets, next steps), and the skill holds the mechanism. `/dx-review implementation <change-id>` is the post-implementation gate. Text after the container ID is a custom instruction that steers the run. See [policy-driven review](../explanation/policy-driven-review.md) and [write a review policy](../tutorials/write-a-review-policy.md).
-- **Reads:** the Policy at `context/workflow/review-policies/<policy-id>.md` and `report-template.md` beside it (both seeded by `/dx-init`), whatever the Policy's `## Load` names, `foundation/glossary.md`, and `foundation/lessons.md` when deciding what to offer for a recurring finding. It refuses an unknown policy ID (listing the available IDs), a run with no `review-policies/` (pointing at `/dx-init`), a target the Policy doesn't accept, an archived container, and a failing Policy precondition.
+- **Purpose:** run the review a **Policy** defines on a change or effort, and **report**. The Policy file holds the criteria (preconditions, what to load, dimensions, extra checks, what a pass sets, next steps), and the skill holds the mechanism. `/dx-review plan <change-id>` is the optional pre-implementation gate (substance, feasibility, architectural fitness, standards-fit) and `/dx-review implementation <change-id>` the post-implementation gate. Text after the container ID is a custom instruction that steers the run. See [policy-driven review](../explanation/policy-driven-review.md) and [write a review policy](../tutorials/write-a-review-policy.md).
+- **Reads:** the Policy at `context/workflow/review-policies/<policy-id>.md` and `report-template.md` beside it (both seeded by `/dx-init`), whatever the Policy's `## Load` names, `foundation/glossary.md`, and `foundation/lessons.md` when deciding what to offer for a recurring finding. It refuses an unknown policy ID (listing the available IDs and noting that re-running `/dx-init` seeds any missing built-in Policy), a run with no `review-policies/` (pointing at `/dx-init`), a target the Policy doesn't accept, an archived container, and a failing Policy precondition.
 - **Writes:** `context/{changes|efforts}/<container-id>/reviews/<policy-id>.md`, overwritten on each re-run after a confirmation if it still holds PENDING findings. The report has one verdict line per Policy dimension, plus findings tagged as the Policy declares. On a pass it applies the Policy's `## On pass` (`implementation` sets `change.md` `status: reviewed`), except when custom instructions left a dimension unchecked. It invokes `/dx-diagnose` on a regression and never fixes the work it reviews. For a recurring or non-obvious finding it offers `/dx-lesson`, or `/dx-standards-update` when the finding repeats an existing lesson or exposes a gap in a standard. It never writes either itself.
 - **Prints next:**
   ```text
@@ -139,7 +139,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-review-triage`
 - **Invoke:** user — `/dx-review-triage <container-id> [policy-id]`
 - **Purpose:** the sole skill that **acts** on a review finding — walk one review report finding by finding and apply the fixes you confirm; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** the report at `reviews/<policy-id>.md` in the change or effort (resumes at the first `Resolution: PENDING`). With no policy ID it uses the only report there, or asks which one when there are several. `plan` falls back to the legacy `reviews/plan-review.md` that `/dx-plan-review` still writes; a legacy `reviews/impl-review.md` is never read — it points at `/dx-review implementation <container-id>` instead. Loads the report schema from `context/workflow/review-policies/report-template.md` (the `review-report` reference for `plan-review.md`), and for each pending finding only what its **Location** names — a plan section, or a `file:line` plus enough surrounding code to judge the fix. Refuses an archived container.
+- **Reads:** the report at `reviews/<policy-id>.md` in the change or effort (resumes at the first `Resolution: PENDING`). With no policy ID it uses the only report there, or asks which one when there are several. A legacy `reviews/plan-review.md` or `reviews/impl-review.md` is never read — it points at `/dx-review plan <container-id>` or `/dx-review implementation <container-id>` instead. Loads the report schema from `context/workflow/review-policies/report-template.md`, and for each pending finding only what its **Location** names — a plan section, or a `file:line` plus enough surrounding code to judge the fix. Refuses an archived container.
 - **Writes:** the fixes you confirm, and each finding's `Resolution:` line updated in place. A fix that touched files outside `context/` is committed on its own as `fix(<container-id>): <finding title> (review)`; a fix that touched only `context/` artifacts (such as `plan.md`) is left uncommitted. Never commits the report file.
 - **Prints next:**
   ```text
@@ -147,7 +147,6 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
   Next: /dx-review <policy-id> <container-id>   — re-review after fixes
     or: <each line of the Policy's ## Next>
   ```
-  For the legacy `plan-review.md`, the lines are `/dx-plan-review <container-id>` (re-review) or `/dx-implement <container-id>`.
 
 ---
 
@@ -278,7 +277,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `/dx-archive`
 - **Invoke:** user or model (by name, no auto-fire) — `/dx-archive [change-id or effort-id]`
 - **Purpose:** retire a finished change or effort — move its folder to `context/archive/` and stamp it archived. No registry; the archive is just where done work lives; see [ship a change](../tutorials/ship-a-change.md).
-- **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, every `reviews/*.md` report except the legacy `impl-review.md` (warns on any `Resolution: PENDING`, naming `/dx-review-triage <id> <policy-id>`, and asks whether to archive anyway); the `change-md`/`effort-md` reference for the schema.
+- **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, every `reviews/*.md` report except the legacy `impl-review.md` and `plan-review.md` (warns on any `Resolution: PENDING`, naming `/dx-review-triage <id> <policy-id>`, and asks whether to archive anyway); the `change-md`/`effort-md` reference for the schema.
 - **Writes:** moves the folder to `context/archive/<today>-<id>/` (prefers `git mv`); stamps the identity file `status: archived` with `archived_at` set and `updated` bumped.
 - **Prints next:**
   ```text
@@ -293,7 +292,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `dx-references`
 - **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
 - **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the thirteen topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
+- **Reads:** `references/<topic>.md` for one of the twelve topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 

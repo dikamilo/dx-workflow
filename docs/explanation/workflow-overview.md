@@ -68,7 +68,7 @@ flowchart TD
   new --> research["/dx-research?"]
   research --> frame["/dx-frame?"]
   frame --> plan["/dx-plan"]
-  plan --> planreview["/dx-plan-review?"]
+  plan --> planreview["/dx-review plan?"]
   planreview --> triage1["/dx-review-triage?"]
   triage1 --> impl["/dx-implement<br/>or /dx-tdd"]
   impl --> implreview["/dx-review implementation"]
@@ -77,7 +77,7 @@ flowchart TD
 ```
 
 Named in order: `/dx-init` (once per project) → `/dx-new` → `/dx-research?` → `/dx-frame?` →
-`/dx-plan` → `/dx-plan-review?` → `/dx-review-triage?` → `/dx-implement` or `/dx-tdd` →
+`/dx-plan` → `/dx-review plan?` → `/dx-review-triage?` → `/dx-implement` or `/dx-tdd` →
 `/dx-review implementation` → `/dx-review-triage?` → `/dx-archive`.
 
 - **`/dx-init`** scaffolds `context/`, seeds the review Policies, and writes the rollback principle into your project's `CLAUDE.md`. You run it once.
@@ -91,7 +91,7 @@ Named in order: `/dx-init` (once per project) → `/dx-new` → `/dx-research?` 
   [research and framing](research-and-frame.md).
 - **`/dx-plan`** writes `plan.md` with phases and a `## Progress` checklist. If you skipped framing,
   it front-loads the framing questions itself.
-- **`/dx-plan-review`** is an optional pre-implementation gate that reads the plan and reports findings. **`/dx-review implementation`** is the post-implementation gate that also checks standards compliance. It runs the built-in `implementation` Policy: `/dx-review` holds the review mechanism, and a Policy file in `context/workflow/review-policies/` holds what a review checks, so a new kind of review is a new Policy rather than a new skill. See [policy-driven review](policy-driven-review.md). Both gates are **report-only** — they never edit code.
+- **`/dx-review plan`** is an optional pre-implementation gate that reads the plan and reports findings. **`/dx-review implementation`** is the post-implementation gate that also checks standards compliance. They run the built-in `plan` and `implementation` Policies: `/dx-review` holds the review mechanism, and a Policy file in `context/workflow/review-policies/` holds what a review checks, so a new kind of review is a new Policy rather than a new skill. See [policy-driven review](policy-driven-review.md). Both gates are **report-only** — they never edit code.
 - **`/dx-review-triage`** is the one skill that turns a gate's findings into actual changes. It is
   optional because a clean review has nothing to triage. See [review and triage](../tutorials/review-and-triage.md).
 - **`/dx-implement`** and **`/dx-tdd`** are siblings that share one `## Progress` section, so a

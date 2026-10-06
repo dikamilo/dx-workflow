@@ -60,9 +60,9 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Research (`research/<topic>.md`)** — gathered, provenance-stamped evidence — from the codebase or external sources — that informs framing and planning. Produced by `/dx-research`. Its provenance is stamped per *file* on one investigated topic; a **brief** records provenance per *claim* across a whole decision. See [research and frame](../explanation/research-and-frame.md).
 
-**Review gate** — a report-only quality checkpoint: `/dx-plan-review` before implementation and `/dx-review implementation` (the built-in `implementation` Policy) after. Gates only *report* findings; they never edit or act on them. See [skills reference](skills.md).
+**Review gate** — a report-only quality checkpoint: `/dx-review plan` (the built-in `plan` Policy) before implementation and `/dx-review implementation` (the built-in `implementation` Policy) after. Gates only *report* findings; they never edit or act on them. See [skills reference](skills.md).
 
-**Review triage** — the step, run via `/dx-review-triage`, that decides what to do with each review finding (fix now, defer to a lesson, or dismiss). It is the sole skill that acts on a finding from any review report — a Policy's `reviews/<policy-id>.md` or a `plan-review.md`. See [review and triage](../tutorials/review-and-triage.md).
+**Review triage** — the step, run via `/dx-review-triage`, that decides what to do with each review finding (fix now, defer to a lesson, or dismiss). It is the sole skill that acts on a finding from any review report — a Policy's `reviews/<policy-id>.md` (a legacy `plan-review.md` or `impl-review.md` is no longer read). See [review and triage](../tutorials/review-and-triage.md).
 
 **Roadmap (`roadmap.md`)** — an effort's ordered list of vertical slices, each mapping to exactly one child change. Produced by `/dx-roadmap`. See [efforts and changes](../explanation/efforts-and-changes.md).
 

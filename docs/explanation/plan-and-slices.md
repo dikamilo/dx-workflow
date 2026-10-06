@@ -58,7 +58,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
   interface, an external call or migration). `/dx-plan` gates them with a one-line relevance trigger
   before interviewing, so a trivial change carries none of them. A section is **omitted entirely**
   when it doesn't apply — never written as `N/A` — because the silence itself is what
-  `/dx-plan-review` checks: a wrongly-absent section is exactly as reachable in review as a
+  `/dx-review plan` checks: a wrongly-absent section is exactly as reachable in review as a
   present-but-wrong one.
 - **Standards to apply** is a checklist, not a narrative. `/dx-plan` matches your `context/standards/`
   files by domain and topic and pulls only the relevant ones in. The implementer follows the list;
