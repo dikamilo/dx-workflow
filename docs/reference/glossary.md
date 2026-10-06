@@ -4,7 +4,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Archive** — the act of moving a finished change or effort folder to `context/archive/<date>-<id>/` and stamping `archived_at` in its `change.md` (status becomes `archived`). Done by `/dx-archive`. See [directory layout](../explanation/directory-layout.md).
 
-**Behavior-preserving gate** — the extra impl-review check on a `refactor`-type change: it verifies the change altered structure only, leaving observable behavior identical. See [find refactors](../tutorials/find-refactors.md).
+**Behavior-preserving gate** — the extra check the `implementation` review Policy runs on a `refactor`-type change: it verifies the change altered structure only, leaving observable behavior identical. See [find refactors](../tutorials/find-refactors.md).
 
 **Brainstorm (`brainstorm.md`)** — the record of a divergent conversation held *before* a container exists, about whether an idea is worth building at all: the alternatives weighed, the priced do-nothing and why it lost, the routing conclusion, and what is explicitly not being done. Produced by `/dx-brainstorm`; read as settled context by `/dx-frame`, `/dx-plan`, and `/dx-roadmap`. Deciding to build nothing is a valid terminal outcome that writes no file. See [skills reference](skills.md).
 
@@ -14,7 +14,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Container** — the general term for either level of work: a change or an effort. Both carry a `.md` identity file and a status lifecycle; discovery-entry skills *promote* findings into one. See [efforts and changes](../explanation/efforts-and-changes.md).
 
-**Context (`context/`)** — the root folder that holds all file-derived workflow state in an adopting project. It has exactly five top-level folders: `foundation/`, `standards/`, `efforts/`, `changes/`, and `archive/`. See [directory layout](../explanation/directory-layout.md).
+**Context (`context/`)** — the root folder that holds all file-derived workflow state in an adopting project. It has exactly six top-level folders: `foundation/`, `standards/`, `workflow/`, `efforts/`, `changes/`, and `archive/`. See [directory layout](../explanation/directory-layout.md).
 
 **Deep vs shallow module** — the module-design vocabulary used when hunting refactors: a module's *depth* is the functionality it hides divided by the interface it exposes. Deep is good (much hidden, narrow interface); a shallow module like `config-loader` is a wide pass-through that exposes almost as much as it hides. See [find refactors](../tutorials/find-refactors.md).
 
@@ -50,6 +50,8 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Plan (`plan.md`)** — the solution design, the HOW: the phased approach to building a change, plus the `## Progress` section it owns. Written by `/dx-plan`, flipping the change to `status: planned`. See [plan and slices](../explanation/plan-and-slices.md).
 
+**Policy (`context/workflow/review-policies/<policy-id>.md`)** — the user-editable definition of one kind of review: its preconditions, what it loads, the dimensions it checks, what a pass sets, and which targets it accepts. The file name is its ID, so `implementation.md` runs as `/dx-review implementation <change-id>`. `/dx-init` seeds the built-in `implementation` Policy and never overwrites a copy you edited. A new kind of review is a new Policy, not a new skill. See [policy-driven review](../explanation/policy-driven-review.md).
+
 **Priors & gotchas** — the section of a `plan.md` fed by matched lessons: the known traps and hard-won cautions relevant to this change, surfaced before you start building. See [plan and slices](../explanation/plan-and-slices.md).
 
 **Progress (`## Progress`)** — the checkbox section inside `plan.md` that is the single source of truth for execution state: `- [ ]` pending, `- [x]` done with ` — <short-sha>` appended when a step lands. Resume is the first `- [ ]` in document order. See [plan and slices](../explanation/plan-and-slices.md).
@@ -58,9 +60,9 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Research (`research/<topic>.md`)** — gathered, provenance-stamped evidence — from the codebase or external sources — that informs framing and planning. Produced by `/dx-research`. Its provenance is stamped per *file* on one investigated topic; a **brief** records provenance per *claim* across a whole decision. See [research and frame](../explanation/research-and-frame.md).
 
-**Review gate** — a report-only quality checkpoint: `/dx-plan-review` before implementation and `/dx-impl-review` after. Gates only *report* findings; they never edit or act on them. See [skills reference](skills.md).
+**Review gate** — a report-only quality checkpoint: `/dx-plan-review` before implementation and `/dx-review implementation` (the built-in `implementation` Policy) after. Gates only *report* findings; they never edit or act on them. See [skills reference](skills.md).
 
-**Review triage** — the step, run via `/dx-review-triage`, that decides what to do with each review finding (fix now, defer to a lesson, or dismiss). It is the sole skill that acts on a plan-review or impl-review finding. See [review and triage](../tutorials/review-and-triage.md).
+**Review triage** — the step, run via `/dx-review-triage`, that decides what to do with each review finding (fix now, defer to a lesson, or dismiss). It is the sole skill that acts on a finding from any review report — a Policy's `reviews/<policy-id>.md` or a `plan-review.md`. See [review and triage](../tutorials/review-and-triage.md).
 
 **Roadmap (`roadmap.md`)** — an effort's ordered list of vertical slices, each mapping to exactly one child change. Produced by `/dx-roadmap`. See [efforts and changes](../explanation/efforts-and-changes.md).
 

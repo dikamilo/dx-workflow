@@ -155,7 +155,7 @@ glossary is now populated, every later skill that reads it for naming pulls from
   inventing "payout" and "charge step".
 - `/dx-implement` and `/dx-tdd` name types and functions with the canonical terms, so the code matches
   the plan.
-- `/dx-impl-review` reads the same glossary and flags naming that drifts from it.
+- `/dx-review` reads the same glossary and flags naming that drifts from it.
 
 One extraction pass plus a live discipline, and plans, code, and reviews all speak the same language.
 That consistency is the whole point — see [the knowledge layer](../explanation/knowledge-layer.md) for

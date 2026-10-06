@@ -350,9 +350,7 @@ test suite green *before* and *after*, so the deepening can't silently change be
 loads `module-design`, so the interview reasons about the new seam in the right vocabulary. See
 [the plan and its slices](../explanation/plan-and-slices.md) for how that gate shapes the phases.
 
-From here it is the **normal change lifecycle** — nothing about refactor work is special downstream.
-Follow [ship a change](./ship-a-change.md) from its plan step onward: `/dx-plan` → optional
-`/dx-plan-review` → `/dx-implement` → `/dx-impl-review` → `/dx-archive`.
+From here it is the **normal change lifecycle**. Follow [ship a change](./ship-a-change.md) from its plan step onward: `/dx-plan` → optional `/dx-plan-review` → `/dx-implement` → `/dx-review implementation` → `/dx-archive`. The one refactor-specific step downstream is in the review: the `implementation` Policy sees `type: refactor`, loads `module-design`, and verifies the behavior-preserving gate held — tests green before and after, and the structure actually improved.
 
 ---
 

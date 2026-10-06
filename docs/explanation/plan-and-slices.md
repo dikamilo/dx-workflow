@@ -36,7 +36,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 <conditional — present only when the change actually touches that concern>
 
 ## Standards to apply
-> Matched from context/standards/ by domain + topic. A checklist the implementer follows and impl-review verifies.
+> Matched from context/standards/ by domain + topic. A checklist the implementer follows and `/dx-review implementation` verifies.
 - [ ] <standard>: <one-line how it applies here>
 
 ## Priors & gotchas
@@ -62,7 +62,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
   present-but-wrong one.
 - **Standards to apply** is a checklist, not a narrative. `/dx-plan` matches your `context/standards/`
   files by domain and topic and pulls only the relevant ones in. The implementer follows the list;
-  `/dx-impl-review` verifies against the same list. It is the contract between planning and review.
+  `/dx-review implementation` verifies against the same list. It is the contract between planning and review.
 - **Priors & gotchas** surfaces the relevant lines from `foundation/lessons.md` — decisions and scar
   tissue that a new change should not relitigate. If a past change learned "don't re-deepen the config
   loader, it is shallow on purpose," that lesson lands here so the implementer doesn't undo it.

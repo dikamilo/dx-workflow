@@ -146,7 +146,7 @@ account creation in this change (scope decided in the interview).
   unwind.
 
 ## Standards to apply
-> Matched from context/standards/ by domain + topic. A checklist the implementer follows and impl-review verifies.
+> Matched from context/standards/ by domain + topic. A checklist the implementer follows and `/dx-review implementation` verifies.
 - [ ] auth/sessions: reuse the existing session issuer — never mint a parallel token path
 - [ ] coding-style: route handlers stay thin; provider calls live in a service module
 
@@ -236,7 +236,7 @@ Nothing chained. You run the command again to do the next phase:
 > `status: implemented` and prints:
 >
 > ```text
-> Next: /dx-impl-review oauth-login          # all phases done
+> Next: /dx-review implementation oauth-login   # all phases done
 > ```
 
 > **TDD variant.** For a defect or any test-first phase you would run `/dx-tdd oauth-login` instead —
@@ -245,52 +245,46 @@ Nothing chained. You run the command again to do the next phase:
 
 ## Step 4 — Review what you built
 
-`/dx-impl-review` is the post-implementation gate. It compares what was actually built against the plan
-and **reports** — it reviews, it never quietly fixes the code it is checking. Run it:
+`/dx-review implementation` is the post-implementation gate. It compares what was actually built against the plan and **reports** — it reviews, it never quietly fixes the code it is checking. `implementation` is the name of a review **Policy** that `/dx-init` seeded into `context/workflow/review-policies/`; the Policy says what to check, and `/dx-review` runs it. Run it:
 
 ```text
-/dx-impl-review oauth-login
+/dx-review implementation oauth-login
 ```
 
-> **dx-impl-review** reads `plan.md` (with its Standards and Priors), pulls the diff for the commits
-> that landed the change, and reviews on four dimensions — **plan-drift** (did we build what we
-> planned?), **safety** (data loss, secrets, missing boundary checks), **patterns** (sound structure,
-> no leaky interfaces), and **standards compliance**. It writes
-> `context/changes/oauth-login/reviews/impl-review.md`, opening with a per-dimension verdict block, and
-> prints the same to screen.
+> **dx-review** loads the `implementation` Policy, confirms every `## Progress` box is checked, reads `plan.md` (with its Standards and Priors), pulls the diff for the commits that landed the change, and reviews on the Policy's four dimensions — **plan-drift** (did we build what we planned?), **safety** (data loss, secrets, missing boundary checks), **patterns** (sound structure, no leaky interfaces), and **standards** compliance. It writes `context/changes/oauth-login/reviews/implementation.md`, opening with a per-dimension verdict block, and prints the same to screen.
 
 The review file it wrote:
 
 ```markdown
+# Review: implementation — oauth-login
+
 ## Verdicts
 - Plan-Drift: PASS
 - Safety: PASS
 - Patterns: PASS
 - Standards: WARNING
 
-### F1 — Provider call reaches slightly past the service seam [Standards]
+## Findings
+
+### F1 — Provider call reaches slightly past the service seam [Standards: Consider]
 - **Location:** routes/auth/google/callback.ts
-- **Detail:** The callback decodes the Google ID token inline instead of going through the
-  OAuth service module, so a little provider logic leaks into the route handler.
+- **Detail:** The callback decodes the Google ID token inline instead of going through the OAuth service module, so a little provider logic leaks into the route handler.
+- **Why it matters:** The next provider would copy the pattern, and the handler stops being thin.
 - **Fix:** Move the token-decode into the service; keep the handler thin per coding-style.
 - **Resolution:** PENDING
 ```
 
-> **dx-impl-review** finds no blocker — the change does what the plan intended and is safe — so it sets
-> `change.md` to `status: reviewed`. It also offers to record the leaky-seam observation as a lesson
-> for future changes. Then it prints:
+> **dx-review** finds no `Blocker` — the change does what the plan intended and is safe — so, as the Policy's `## On pass` says, it sets `change.md` to `status: reviewed`. It also offers to record the leaky-seam observation as a lesson for future changes. Then it prints:
 >
 > ```text
-> Review written: context/changes/oauth-login/reviews/impl-review.md
-> Next: /dx-review-triage oauth-login impl   — triage findings and apply fixes
->   or: /dx-lesson                           # a finding worth recording — offered above
->   or: /dx-archive oauth-login              # passed — retire the change
+> Review written: context/changes/oauth-login/reviews/implementation.md
+> Next: /dx-review-triage oauth-login implementation   — triage findings and apply fixes
+>   or: /dx-lesson — record a finding worth keeping, if one was offered above
+>   or: /dx-standards-update — graduate a lesson or amend a standard, if one was offered above
+>   or: /dx-archive oauth-login — if the change passed, retire it
 > ```
 
-The verdict is a pass with a single low-severity `Consider`. If it had turned up findings you wanted to
-act on, you would run `/dx-review-triage oauth-login impl` — the one skill that rewrites a finding's
-`Resolution` and applies the fix. See [review and triage](./review-and-triage.md) for that loop. Here
-we accept the minor note as-is and move on to archive.
+The verdict is a pass with a single low-severity `Consider`. If it had turned up findings you wanted to act on, you would run `/dx-review-triage oauth-login implementation` — the one skill that rewrites a finding's `Resolution` and applies the fix. See [review and triage](./review-and-triage.md) for that loop. Here we accept the minor note as-is and move on to archive.
 
 ## Step 5 — Archive it
 
@@ -301,9 +295,7 @@ where finished work lives:
 /dx-archive oauth-login
 ```
 
-> **dx-archive** resolves `oauth-login` to a change, checks `reviews/impl-review.md` for any finding
-> still marked `Resolution: PENDING` (F1 is, so it names the count and asks whether to archive anyway —
-> you confirm), then stamps the record `status: archived` with `archived_at: 2026-07-11` and `git mv`s
+> **dx-archive** resolves `oauth-login` to a change, checks every report under `reviews/` for any finding still marked `Resolution: PENDING` (F1 in `implementation.md` is, so it names the count, points at `/dx-review-triage oauth-login implementation`, and asks whether to archive anyway — you confirm), then stamps the record `status: archived` with `archived_at: 2026-07-11` and `git mv`s
 > the whole folder to `context/archive/2026-07-11-oauth-login/` so history follows. It prints:
 >
 > ```text
@@ -320,7 +312,7 @@ On disk, one change moved cleanly through every status and came to rest in the a
 - `context/archive/2026-07-11-oauth-login/change.md` — `status: archived`, `archived_at` set, having
   passed through `new → planned → implementing → implemented → reviewed → archived`.
 - `.../plan.md` — the solution design, its `## Progress` boxes all `- [x]` with commit SHAs.
-- `.../reviews/impl-review.md` — the four-dimension verdict and its one finding.
+- `.../reviews/implementation.md` — the four-dimension verdict and its one finding.
 - Two Conventional Commits in your git history: `feat(oauth-login): OAuth service + start route (p1)`
   and `feat(oauth-login): Callback + session (p2)`.
 

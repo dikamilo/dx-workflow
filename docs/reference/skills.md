@@ -15,8 +15,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-init`
 - **Invoke:** user — `/dx-init`
 - **Purpose:** scaffold the `context/` state tree and seed baseline standards so the rest of the workflow has somewhere to read and write; see [initialize a project](../tutorials/initialize-a-project.md).
-- **Reads:** existing `context/` (to stay idempotent), the skill's bundled `assets/standards/global/*.md`, the project's root `CLAUDE.md`.
-- **Writes:** `context/{foundation,standards,efforts,changes,archive}/` with the three global standards copied in and empty `glossary.md`/`lessons.md` headers; appends the user-confirmed rollback principle to root `CLAUDE.md`.
+- **Reads:** existing `context/` (to stay idempotent), the skill's bundled `assets/standards/global/*.md` and `assets/review-policies/*.md`, the project's root `CLAUDE.md`.
+- **Writes:** `context/{foundation,standards,efforts,changes,archive,workflow/review-policies}/` with the three global standards copied in, empty `glossary.md`/`lessons.md` headers, and the review Policy files copied into `context/workflow/review-policies/` — the built-in `implementation` Policy plus `policy-template.md` and `report-template.md`. Copies only files that are missing, so a re-run never overwrites an edited Policy (and never delivers a fix to a shipped one either). Appends the user-confirmed rollback principle to root `CLAUDE.md`. Prints a created/present status per artifact, listing each review Policy file.
 - **Prints next:**
   ```text
   Next: /dx-new <idea>   — create a change or effort and start the workflow.
@@ -116,7 +116,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Writes:** the phase's code; flips its `## Progress` boxes to `- [x]` with the commit's short SHA appended; flips `change.md` to `status: implementing`, then `status: implemented` when every box is done. Never auto-rollback on failure.
 - **Prints next:**
   ```text
-  Next: /dx-impl-review <change-id>          # all phases done
+  Next: /dx-review implementation <change-id>   # all phases done
   Next: /dx-implement <change-id>            # more phases remain — runs the next one
   ```
 
@@ -127,7 +127,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Writes:** failing test then minimal production code per behavior; flips `## Progress` boxes with SHA; sets `change.md` `status: implementing` → `implemented`. Hands pure-scaffolding phases to `/dx-implement`.
 - **Prints next:**
   ```text
-  Next: /dx-impl-review <change-id>          # all phases done
+  Next: /dx-review implementation <change-id>   # all phases done
   Next: /dx-tdd <change-id>                  # more phases remain — next one test-first
   Next: /dx-implement <change-id>            # ...or drive the next phase standard
   ```
@@ -138,7 +138,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ### `/dx-review`
 - **Invoke:** user — `/dx-review <policy-id> [container-id] [instructions…]`
-- **Purpose:** run the review a **Policy** defines on a change or effort, and **report**. The Policy file holds the criteria (preconditions, what to load, dimensions, extra checks, what a pass sets, next steps), and the skill holds the mechanism. `/dx-review implementation <change-id>` is the post-implementation gate. Text after the container ID is a custom instruction that steers the run.
+- **Purpose:** run the review a **Policy** defines on a change or effort, and **report**. The Policy file holds the criteria (preconditions, what to load, dimensions, extra checks, what a pass sets, next steps), and the skill holds the mechanism. `/dx-review implementation <change-id>` is the post-implementation gate. Text after the container ID is a custom instruction that steers the run. See [policy-driven review](../explanation/policy-driven-review.md) and [write a review policy](../tutorials/write-a-review-policy.md).
 - **Reads:** the Policy at `context/workflow/review-policies/<policy-id>.md` and `report-template.md` beside it (both seeded by `/dx-init`), whatever the Policy's `## Load` names, `foundation/glossary.md`, and `foundation/lessons.md` when deciding what to offer for a recurring finding. It refuses an unknown policy ID (listing the available IDs), a run with no `review-policies/` (pointing at `/dx-init`), a target the Policy doesn't accept, an archived container, and a failing Policy precondition.
 - **Writes:** `context/{changes|efforts}/<container-id>/reviews/<policy-id>.md`, overwritten on each re-run after a confirmation if it still holds PENDING findings. The report has one verdict line per Policy dimension, plus findings tagged as the Policy declares. On a pass it applies the Policy's `## On pass` (`implementation` sets `change.md` `status: reviewed`), except when custom instructions left a dimension unchecked. It invokes `/dx-diagnose` on a regression and never fixes the work it reviews. For a recurring or non-obvious finding it offers `/dx-lesson`, or `/dx-standards-update` when the finding repeats an existing lesson or exposes a gap in a standard. It never writes either itself.
 - **Prints next:**
@@ -149,16 +149,17 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
   ```
 
 ### `/dx-review-triage`
-- **Invoke:** user — `/dx-review-triage [change-id] [plan|impl]`
-- **Purpose:** the sole skill that **acts** on a review finding — walk a plan-review or impl-review report finding by finding and apply the fixes you confirm; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** the `review-report` reference, `reviews/plan-review.md` **or** `reviews/impl-review.md` (resumes at the first `Resolution: PENDING`), and for impl the diff scope plus the files each pending finding names; for plan, `plan.md`.
-- **Writes:** edits to `plan.md` (plan-review) or the shipped code (impl-review), each finding's `Resolution:` line updated in place; commits code fixes as `fix(<change-id>): <finding title> (review)`. Never commits the report file.
+- **Invoke:** user — `/dx-review-triage <container-id> [policy-id]`
+- **Purpose:** the sole skill that **acts** on a review finding — walk one review report finding by finding and apply the fixes you confirm; see [review and triage](../tutorials/review-and-triage.md).
+- **Reads:** the report at `reviews/<policy-id>.md` in the change or effort (resumes at the first `Resolution: PENDING`). With no policy ID it uses the only report there, or asks which one when there are several. `plan` falls back to the legacy `reviews/plan-review.md` that `/dx-plan-review` still writes; a legacy `reviews/impl-review.md` is never read — it points at `/dx-review implementation <container-id>` instead. Loads the report schema from `context/workflow/review-policies/report-template.md` (the `review-report` reference for `plan-review.md`), and for each pending finding only what its **Location** names — a plan section, or a `file:line` plus enough surrounding code to judge the fix. Refuses an archived container.
+- **Writes:** the fixes you confirm, and each finding's `Resolution:` line updated in place. A fix that touched files outside `context/` is committed on its own as `fix(<container-id>): <finding title> (review)`; a fix that touched only `context/` artifacts (such as `plan.md`) is left uncommitted. Never commits the report file.
 - **Prints next:**
   ```text
   Triaged <report file>: <n> fixed, <n> skipped, <n> accepted, <n> dismissed
-  Next: /dx-plan-review <change-id>   or  /dx-implement <change-id>   (plan-review triaged)
-    or: /dx-impl-review <change-id>   or  /dx-archive <change-id>     (impl-review triaged)
+  Next: /dx-review <policy-id> <container-id>   — re-review after fixes
+    or: <each line of the Policy's ## Next>
   ```
+  For the legacy `plan-review.md`, the lines are `/dx-plan-review <container-id>` (re-review) or `/dx-implement <container-id>`.
 
 ---
 
@@ -289,7 +290,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `/dx-archive`
 - **Invoke:** user or model (by name, no auto-fire) — `/dx-archive [change-id or effort-id]`
 - **Purpose:** retire a finished change or effort — move its folder to `context/archive/` and stamp it archived. No registry; the archive is just where done work lives; see [ship a change](../tutorials/ship-a-change.md).
-- **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, `reviews/impl-review.md` (warns on any `Resolution: PENDING`); the `change-md`/`effort-md` reference for the schema.
+- **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, every `reviews/*.md` report except the legacy `impl-review.md` (warns on any `Resolution: PENDING`, naming `/dx-review-triage <id> <policy-id>`, and asks whether to archive anyway); the `change-md`/`effort-md` reference for the schema.
 - **Writes:** moves the folder to `context/archive/<today>-<id>/` (prefers `git mv`); stamps the identity file `status: archived` with `archived_at` set and `updated` bumped.
 - **Prints next:**
   ```text

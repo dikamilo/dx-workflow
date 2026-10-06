@@ -6,27 +6,16 @@ on what they find. By the end you will have two review reports on disk, each wit
 `Resolution:` line, and you will have applied real fixes to the plan and to the shipped code. No prior
 dx- experience is needed.
 
-**The one architecture to hold onto:** the two review gates, `/dx-plan-review` and `/dx-impl-review`,
-are **report-only**. They read, analyze, and write a findings file — they never edit your plan or your
-code. A separate skill, `/dx-review-triage`, is the *single* place that acts on a finding: it applies
-fixes, one at a time, only on your confirmation. That split is deliberate. A reviewer that never
-touches what it reviews stays honest and simple; the one tool that does mutate things is small and
-focused. You will see the gate write, then the triage act, four times in this walkthrough.
+**The one architecture to hold onto:** the two review gates, `/dx-plan-review` and `/dx-review implementation`, are **report-only**. They read, analyze, and write a findings file — they never edit your plan or your code. A separate skill, `/dx-review-triage`, is the *single* place that acts on a finding: it applies fixes, one at a time, only on your confirmation. That split is deliberate. A reviewer that never touches what it reviews stays honest and simple; the one tool that does mutate things is small and focused. You will see the gate write, then the triage act, four times in this walkthrough.
 
 Two more facts that make the rest click:
 
-- A review report is **one file, always overwritten** — `reviews/plan-review.md` or
-  `reviews/impl-review.md`. No dates in the name. Re-running a gate reflects the plan or code *as it
-  stands now*, so a stale review would just be noise.
-- **Findings are the unit of state.** Each has a stable ID (`F1`, `F2`, …) that never renumbers, and a
-  `Resolution:` line that starts `PENDING`. Only `/dx-review-triage` ever rewrites that line. That is
-  how work resumes: re-running triage picks up at the first `PENDING` finding in document order — the
-  same rule `## Progress` uses for its first `- [ ]`.
+- A review report is **one file, always overwritten** — `reviews/plan-review.md` for the plan gate, and `reviews/<policy-id>.md` for a `/dx-review` run, so `reviews/implementation.md` here. No dates in the name. Re-running a gate reflects the plan or code *as it stands now*, so a stale review would just be noise.
+- **Findings are the unit of state.** Each has a stable ID (`F1`, `F2`, …) that never renumbers, and a `Resolution:` line that starts `PENDING`. Only `/dx-review-triage` ever rewrites that line. That is how work resumes: re-running triage picks up at the first `PENDING` finding in document order — the same rule `## Progress` uses for its first `- [ ]`.
 
 ## Prerequisites
 
-- The dx- skills are installed and you have a project open in Claude Code with `/dx-init` already run.
-  If not, start with [initialize a project](./initialize-a-project.md).
+- The dx- skills are installed and you have a project open in Claude Code with `/dx-init` already run, so `context/workflow/review-policies/` holds the built-in `implementation` Policy. If not, start with [initialize a project](./initialize-a-project.md).
 - A change that is **planned** (for Steps 1–2) and, by Steps 3–4, **implemented**. This tutorial picks
   up `oauth-login` right after [ship a change](./ship-a-change.md) has planned it — do that walkthrough
   first if you want a real plan to review. The review loop works on any change with a `plan.md`.
@@ -111,9 +100,7 @@ The `Next:` line makes the choice explicit: triage the findings, or proceed as-i
 
 ## Step 2 — Triage the plan-review
 
-`/dx-review-triage` is the one skill that acts on findings. Its second argument names which report —
-`plan` here, since a plan-review and an impl-review can both carry open findings on the same change at
-once. Run it:
+`/dx-review-triage` is the one skill that acts on findings. Its second argument names which report — `plan` here, since a plan-review and an `implementation` review can both carry open findings on the same change at once. Run it:
 
 ```text
 /dx-review-triage oauth-login plan
@@ -153,8 +140,8 @@ once. Run it:
 >
 > ```text
 > Triaged plan-review.md: 1 fixed, 1 skipped, 0 accepted, 0 dismissed
-> Next: /dx-plan-review oauth-login   or  /dx-implement oauth-login   (plan-review triaged)
->   or: /dx-impl-review oauth-login   or  /dx-archive oauth-login     (impl-review triaged)
+> Next: /dx-plan-review oauth-login   — re-review after fixes
+>   or: /dx-implement oauth-login
 > ```
 
 The report now records what you decided:
@@ -176,72 +163,69 @@ state.
 
 ## Step 3 — Gate the implementation
 
-Assume you have now built the change — `/dx-implement oauth-login` ran every phase and flipped
-`change.md` to `status: implemented`. (If you need that part, it is Step 3 of
-[ship a change](./ship-a-change.md).) Now run the post-implementation gate:
+Assume you have now built the change — `/dx-implement oauth-login` ran every phase and flipped `change.md` to `status: implemented`. (If you need that part, it is Step 3 of [ship a change](./ship-a-change.md).) Now run the post-implementation gate:
 
 ```text
-/dx-impl-review oauth-login
+/dx-review implementation oauth-login
 ```
 
-> **dx-impl-review** reads `plan.md` (with its Standards and Priors), pulls the `git diff` for the
-> commits that landed the change, and diffs *built-vs-plan* across four dimensions — fanning out
-> `Explore` subagents to keep its own context clean:
+`/dx-review` runs whatever review a **Policy** defines. `implementation` is the Policy `/dx-init` seeded at `context/workflow/review-policies/implementation.md`: it holds what this gate checks, and `/dx-review` holds the mechanics of running it. (To see why the two are split, read [policy-driven review](../explanation/policy-driven-review.md).)
+
+> **dx-review** loads the `implementation` Policy and checks its preconditions — `oauth-login` has a `plan.md` and no unchecked `- [ ]` left in `## Progress`. (Had a box still been open, it would refuse and point at `/dx-implement oauth-login`.) Following the Policy's `## Load`, it reads `plan.md` (with its Standards and Priors) and pulls the `git diff` for the commits that landed the change. Then it diffs *built-vs-plan* across the Policy's four dimensions — fanning out `Explore` subagents to keep its own context clean:
 >
-> - **Plan-Drift** — is what's in the diff what the plan planned? Skipped items, intent mismatches,
->   unplanned scope.
+> - **Plan-Drift** — is what's in the diff what the plan planned? Skipped items, intent mismatches, unplanned scope.
 > - **Safety** — data loss, destructive ops, missing boundary checks, hardcoded secrets, injection.
 > - **Patterns** — sound structure, no leaky interfaces, consistent with sibling code.
-> - **Standards-compliance** — did it follow the plan's matched **Standards to apply**?
+> - **Standards** — did it follow the plan's matched **Standards to apply**?
 >
-> It writes `context/changes/oauth-login/reviews/impl-review.md` and prints the same to screen.
+> It writes `context/changes/oauth-login/reviews/implementation.md` and prints the same to screen.
 
-The impl-review report **opens with a per-dimension Verdicts block** (that is what distinguishes it
-from a plan-review's single verdict line), then lists findings tagged by dimension name:
+The report **opens with a per-dimension Verdicts block** — one line per dimension the Policy declares, which is what distinguishes it from a plan-review's single verdict line — then lists findings tagged with both the dimension and the severity:
 
 ```markdown
+# Review: implementation — oauth-login
+
 ## Verdicts
 - Plan-Drift: PASS
 - Safety: WARNING
 - Patterns: PASS
 - Standards: PASS
 
-### F1 — Callback logs the raw Google ID token on error [Safety]
+## Findings
+
+### F1 — Callback logs the raw Google ID token on error [Safety: Consider]
 - **Location:** routes/auth/google/callback.ts:48
-- **Detail:** The `catch` block logs the full error object, which includes the raw ID token. That
-  puts a bearer credential into application logs — a data-exposure risk if logs are shipped anywhere.
+- **Detail:** The `catch` block logs the full error object, which includes the raw ID token.
+- **Why it matters:** That puts a bearer credential into application logs — a data-exposure risk if logs are shipped anywhere.
 - **Fix:** Log the error message and a redacted token id only; never the raw token.
 - **Resolution:** PENDING
 ```
 
-> **dx-impl-review** finds no blocker, so it sets `change.md` to `status: reviewed`. Because the
-> token-logging mistake is the kind of thing a future change would trip on again, it **offers** — never
-> auto-writes — to record it as a lesson via `/dx-lesson`, showing the proposed one-liner for you to
-> confirm. Then it prints and stops:
+> **dx-review** finds no `Blocker`, which is what the Policy's `## On pass` calls a pass, so it sets `change.md` to `status: reviewed`. Because the token-logging mistake is the kind of thing a future change would trip on again, it **offers** — never auto-writes — to record it as a lesson via `/dx-lesson`, showing the proposed one-liner for you to confirm. (Had the finding repeated a lesson already in `foundation/lessons.md`, it would offer to graduate that lesson into a standard via `/dx-standards-update` instead.) Then it prints the triage line, the Policy's `## Next` lines, and stops:
 >
 > ```text
-> Review written: context/changes/oauth-login/reviews/impl-review.md
-> Next: /dx-review-triage oauth-login impl   — triage findings and apply fixes
->   or: /dx-lesson                           # a finding worth recording — offered above
->   or: /dx-archive oauth-login              # passed — retire the change
+> Review written: context/changes/oauth-login/reviews/implementation.md
+> Next: /dx-review-triage oauth-login implementation   — triage findings and apply fixes
+>   or: /dx-lesson — record a finding worth keeping, if one was offered above
+>   or: /dx-standards-update — graduate a lesson or amend a standard, if one was offered above
+>   or: /dx-archive oauth-login — if the change passed, retire it
 > ```
 
-Same shape as Step 1: the gate wrote one file and changed nothing else. The `WARNING` on Safety is a
-finding you will want to act on, so triage is next.
+Same shape as Step 1: the gate wrote one file and changed nothing else. The `WARNING` on Safety is a finding you will want to act on, so triage is next.
 
-## Step 4 — Triage the impl-review
+You can also steer a run: anything typed after the change ID is a custom instruction, as in `/dx-review implementation oauth-login focus on the callback`. An instruction narrows the run but never skips a precondition, and a dimension it leaves unchecked is reported `N/A` — so such a run doesn't count as a pass and won't set `status: reviewed`.
 
-Same skill, same five options — but with one important difference: **impl-review fixes touch shipped
-code, so each applied fix gets committed.** Run it:
+## Step 4 — Triage the implementation review
+
+Same skill, same five options — but with one important difference: **this fix touches shipped code, so it gets committed.** Triage decides that per fix, from the files it changed: a fix outside `context/` is committed, a fix to `plan.md` or another `context/` file is not. Run it:
 
 ```text
-/dx-review-triage oauth-login impl
+/dx-review-triage oauth-login implementation
 ```
 
-> **dx-review-triage** loads `reviews/impl-review.md` and the diff scope it reviews, finds the first
-> `PENDING` finding — **F1**, the Safety WARNING — and offers the same five options:
+> **dx-review-triage** loads `reviews/implementation.md`, finds the first `PENDING` finding — **F1**, the Safety finding — and loads what its **Location** names: `callback.ts` and enough of the surrounding code to judge the fix. It offers the same five options:
 >
-> **F1 — Callback logs the raw Google ID token on error [Safety]**
+> **F1 — Callback logs the raw Google ID token on error [Safety: Consider]**
 > 1. **Fix now** — apply the suggested fix (shows before/after) **(recommended)**
 > 2. **Fix differently**
 > 3. **Skip**
@@ -257,8 +241,7 @@ code, so each applied fix gets committed.** Run it:
 > + logger.error("oauth callback failed", { message: err.message, tokenId: redact(token) });
 > ```
 >
-> On your confirm it applies the fix and — because this is shipped code — **commits it on its own**,
-> using the same Conventional Commit shape `dx-implement` uses, tagged `(review)`:
+> On your confirm it applies the fix and — because it touched a file outside `context/` — **commits it on its own**, using the same Conventional Commit shape `dx-implement` uses, tagged `(review)`:
 >
 > ```text
 > fix(oauth-login): Callback logs the raw Google ID token on error (review)
@@ -267,15 +250,14 @@ code, so each applied fix gets committed.** Run it:
 > It rewrites F1 to `Resolution: FIXED`, reaches the end, and prints:
 >
 > ```text
-> Triaged impl-review.md: 1 fixed, 0 skipped, 0 accepted, 0 dismissed
-> Next: /dx-plan-review oauth-login   or  /dx-implement oauth-login   (plan-review triaged)
->   or: /dx-impl-review oauth-login   or  /dx-archive oauth-login     (impl-review triaged)
+> Triaged implementation.md: 1 fixed, 0 skipped, 0 accepted, 0 dismissed
+> Next: /dx-review implementation oauth-login   — re-review after fixes
+>   or: /dx-lesson — record a finding worth keeping, if one was offered above
+>   or: /dx-standards-update — graduate a lesson or amend a standard, if one was offered above
+>   or: /dx-archive oauth-login — if the change passed, retire it
 > ```
 
-Two things to note. The applied *code* fix was committed; **the report file itself is never
-committed** — like `plan.md`, it is working state you commit on your own schedule. And if a fix would
-contradict something the plan or a standard states elsewhere, triage **stops and says so** rather than
-silently picking a side — you resolve the conflict, not the tool.
+Two things to note. The applied *code* fix was committed; **the report file itself is never committed** — like `plan.md`, it is working state you commit on your own schedule. And if a fix would contradict something the plan or a standard states elsewhere, triage **stops and says so** rather than silently picking a side — you resolve the conflict, not the tool.
 
 ## Step 5 — Close the change
 
@@ -285,9 +267,7 @@ With the findings resolved, retire the change:
 /dx-archive oauth-login
 ```
 
-> **dx-archive** first checks `reviews/impl-review.md` for any finding still marked
-> `Resolution: PENDING` — if one were, it names the count and asks whether to archive anyway. Here F1 is
-> `FIXED`, so it stamps the record `status: archived` and `git mv`s the folder into `context/archive/`.
+> **dx-archive** first checks every report under `reviews/` for any finding still marked `Resolution: PENDING` — if one were, it names the count and the report, points at `/dx-review-triage oauth-login <policy-id>`, and asks whether to archive anyway. Here F2 in `plan-review.md` is `SKIPPED` and F1 in `implementation.md` is `FIXED`, so it stamps the record `status: archived` and `git mv`s the folder into `context/archive/`.
 
 That `PENDING` check is why triage matters before archive: the gate can pass a change to `reviewed`
 while individual findings still sit open, and archive is your last prompt to deal with them.
@@ -298,8 +278,7 @@ On disk, the `oauth-login` change now carries its full review history:
 
 - `context/changes/oauth-login/reviews/plan-review.md` — two findings, `F1: FIXED` and `F2: SKIPPED`,
   closing with a `revise` verdict.
-- `.../reviews/impl-review.md` — a four-dimension Verdicts block (Safety `WARNING`) and its one
-  finding, `F1: FIXED`.
+- `.../reviews/implementation.md` — a four-dimension Verdicts block (Safety `WARNING`) and its one finding, `F1: FIXED`.
 - An edited `plan.md` (Phase 2 rollback added, not committed) and one extra commit in git history:
   `fix(oauth-login): Callback logs the raw Google ID token on error (review)`.
 
@@ -313,6 +292,7 @@ on your confirmation.
   Promote it once and every future plan-review checks against it automatically.
 - [Ship a change](./ship-a-change.md) — the full change lifecycle these two gates sit inside; return
   to it to see where review fits end to end.
+- [Write a review policy](./write-a-review-policy.md) — add your own kind of review next to `implementation`, and run it with the same `/dx-review` and `/dx-review-triage`.
 
 ## Related
 
@@ -321,6 +301,6 @@ on your confirmation.
   the plan *against*: vertical slices and `## Progress`.
 - [The knowledge layer](../explanation/knowledge-layer.md) — standards and lessons, the catalog both
   gates match findings against and where triage can promote one.
-- [Diagnose a bug](./diagnose-a-bug.md) — where an impl-review that surfaces a real regression hands off.
-- [Skills reference](../reference/skills.md) — the exact Reads/Writes/Prints of `/dx-plan-review`,
-  `/dx-impl-review`, and `/dx-review-triage`.
+- [Diagnose a bug](./diagnose-a-bug.md) — where an implementation review that surfaces a real regression hands off: `/dx-review` invokes `/dx-diagnose` on it directly.
+- [Policy-driven review](../explanation/policy-driven-review.md) — why the review criteria live in a Policy file and the mechanism lives in `/dx-review`.
+- [Skills reference](../reference/skills.md) — the exact Reads/Writes/Prints of `/dx-plan-review`, `/dx-review`, and `/dx-review-triage`.

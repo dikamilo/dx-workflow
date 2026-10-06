@@ -26,6 +26,7 @@ flowchart TD
     C --> J[Find refactors]
     C --> K[Brainstorm an idea]
     K --> L[Distill a brief]
+    F --> M[Write a review policy]
 ```
 
 1. **Understand it** — [Understanding the dx- workflow](explanation/workflow-overview.md).
@@ -52,6 +53,7 @@ Hands-on, start-to-finish walkthroughs with realistic you↔agent conversations.
 | [Diagnose a bug](tutorials/diagnose-a-bug.md) | Feedback-loop-first debugging with `/dx-diagnose` |
 | [Find refactoring opportunities](tutorials/find-refactors.md) | Scan for deepening opportunities and promote them |
 | [Review and triage](tutorials/review-and-triage.md) | Run the two review gates and act on their findings |
+| [Write a review policy](tutorials/write-a-review-policy.md) | Add your own kind of review as a Policy file and run it with `/dx-review` |
 
 ## Explanations — *understand why*
 
@@ -69,6 +71,7 @@ Conceptual background on how the workflow is designed and why.
 | [Plans and vertical slices](explanation/plan-and-slices.md) | Multi-phase plans and the `## Progress` contract |
 | [Handoff scaling](explanation/handoff-scaling.md) | Scaling plan questions to what upstream settled |
 | [Implement vs TDD](explanation/implement-vs-tdd.md) | The two implementer siblings |
+| [Policy-driven review](explanation/policy-driven-review.md) | Why review criteria live in a Policy file you own, and the mechanism in `/dx-review` |
 
 ## Reference — *look it up*
 
