@@ -56,4 +56,4 @@ Every dimension gets one line in the report's `## Verdicts`. A section left out 
 
 ## Custom instructions
 
-Anything typed after the policy ID and the container ID is a custom instruction, e.g. `/dx-review implementation my-change focus on the migration`. Instructions narrow or steer the run. They never skip a precondition or the target check, and a dimension they leave unchecked is reported `N/A`, not `PASS`.
+Anything typed after the policy ID and the container ID is a custom instruction, e.g. `/dx-review implementation my-change focus on the migration`. Instructions narrow or steer the run. They never skip a precondition or the target check, and a dimension they leave unchecked is reported `N/A`, not `PASS`. A run that leaves any dimension unchecked this way never applies `## On pass`.

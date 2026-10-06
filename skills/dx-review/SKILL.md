@@ -23,7 +23,7 @@ Fan out to built-in `Explore`/`general-purpose` subagents so the main context st
 If any dimension turns up a regression (behavior that used to work and now doesn't), don't just log it as a finding: invoke `dx-diagnose` on it directly.
 
 ## 3 — Write and report
-Write the report to `reviews/<policy-id>.md` in the container, following the report template, with one Verdicts line per Policy dimension and findings tagged the way the Policy declares. Follow the template's overwrite rule: if the existing report still holds `PENDING` findings, confirm before overwriting it. Print the verdicts and findings to screen. If the run passes as the Policy's `## On pass` defines, do what that section says.
+Write the report to `reviews/<policy-id>.md` in the container, following the report template, with one Verdicts line per Policy dimension and findings tagged the way the Policy declares. Follow the template's overwrite rule: if the existing report still holds `PENDING` findings, confirm before overwriting it. Print the verdicts and findings to screen. If the run passes as the Policy's `## On pass` defines, do what that section says. The exception is a run where custom instructions left a dimension unchecked: it has not passed the whole gate, so skip `## On pass` and say why.
 
 ## 4 — Offer a lesson (don't auto-write)
 If a finding is **recurring or non-obvious**, the kind a future change would trip on again, offer to capture it via `/dx-lesson`. Show the proposed one-liner and let the user confirm. Never append to `foundation/lessons.md` yourself.
