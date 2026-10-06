@@ -36,6 +36,8 @@
 
 **Impl-review**: The post-implementation gate that reports findings on plan-drift, safety, patterns, and Standards compliance against finished work; never edits code itself. _Avoid_: Plan-review, Review-triage.
 
+**Policy**: The user-editable definition of one kind of review — what it checks, which targets it accepts (a Change or Effort, the repo or chosen folders, or both), and how it reports — identified by its file name; a new kind of review is a new Policy, not a new Skill. _Avoid_: Standard (a normative project rule, not a review definition), Review type, Rulebook.
+
 **Review-triage**: The sole skill that acts on a Finding from Plan-review or Impl-review — fix, skip, accept, or record as a Lesson. _Avoid_: Plan-review, Impl-review (both stay report-only).
 
 **Finding**: A discrete, stably-numbered item in a review report, carrying a location, detail, recommended fix, and resolution status; never renumbered or deleted. _Avoid_: Issue, Bug, Candidate (ephemeral, unnumbered, from a Discovery Entry).
