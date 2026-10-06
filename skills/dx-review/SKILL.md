@@ -25,8 +25,13 @@ If any dimension turns up a regression (behavior that used to work and now doesn
 ## 3 — Write and report
 Write the report to `reviews/<policy-id>.md` in the container, following the report template, with one Verdicts line per Policy dimension and findings tagged the way the Policy declares. Follow the template's overwrite rule: if the existing report still holds `PENDING` findings, confirm before overwriting it. Print the verdicts and findings to screen. If the run passes as the Policy's `## On pass` defines, do what that section says. The exception is a run where custom instructions left a dimension unchecked: it has not passed the whole gate, so skip `## On pass` and say why.
 
-## 4 — Offer a lesson (don't auto-write)
-If a finding is **recurring or non-obvious**, the kind a future change would trip on again, offer to capture it via `/dx-lesson`. Show the proposed one-liner and let the user confirm. Never append to `foundation/lessons.md` yourself.
+## 4 — Offer a lesson or a standard update (don't auto-write)
+Read `foundation/lessons.md`, then make at most one offer per finding:
+- **It repeats an existing lesson.** That is the recurrence a standard needs, so offer to graduate that lesson via `/dx-standards-update` instead of adding a near-duplicate lesson.
+- **It exposes a gap in a standard:** the standard is silent on a case its own rule plainly covers, or it contradicts what the project consistently does. Offer to amend that standard via `/dx-standards-update`.
+- **Otherwise, if it is recurring or non-obvious,** the kind a future change would trip on again, offer to capture it via `/dx-lesson`. A single occurrence is not yet a rule.
+
+Show the proposed one-liner and let the user confirm. Never write `foundation/lessons.md` or `context/standards/` yourself.
 
 ## Done when
 The report exists, its findings are printed, and any `## On pass` effect is applied. Print the following and stop. Do not chain, and do not fix:

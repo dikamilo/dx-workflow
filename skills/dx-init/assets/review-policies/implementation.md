@@ -37,4 +37,5 @@ A pass means no unresolved `Blocker` finding. On a pass, set `change.md` `status
 
 ## Next
 - `/dx-lesson` — record a finding worth keeping, if one was offered above
+- `/dx-standards-update` — graduate a lesson or amend a standard, if one was offered above
 - `/dx-archive <change-id>` — if the change passed, retire it
