@@ -35,7 +35,7 @@ Never auto-rollback or revert (root `CLAUDE.md` rollback principle). A red test 
 When every `## Progress` box is `- [x]`: set `change.md` `status: implemented`, `updated: <today>`, then suggest the review gate. Otherwise there are more phases — suggest the next one. Print one line and stop (no auto-chain):
 
 ```
-Next: /dx-impl-review <change-id>          # all phases done
+Next: /dx-review implementation <change-id>   # all phases done
 Next: /dx-tdd <change-id>                  # more phases remain — next one test-first
 Next: /dx-implement <change-id>            # ...or drive the next phase standard
 ```

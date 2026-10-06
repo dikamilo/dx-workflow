@@ -15,7 +15,7 @@ An **optional pre-implementation gate**. Where `dx-implement` asks "did we build
 - `plan.md` fully, plus the `change.md` (note `type`) and any `research/`, `frame.md`, `diagnosis.md` it draws on.
 - The `plan-template` reference (invoke `dx-references` with `plan-template`) — so you know the shape a sound plan should have.
 - `context/standards/` and the `knowledge-layer` reference (invoke `dx-references` with `knowledge-layer`) — you need the matching heuristic and the real catalog yourself to catch a standard the plan's own checklist missed, not just re-check what it already listed.
-- The `review-report` reference (invoke `dx-references` with `review-report`) — the finding-ID/`Resolution` schema and file convention shared with `impl-review` and `review-triage`.
+- The `review-report` reference (invoke `dx-references` with `review-report`) — the finding-ID/`Resolution` schema and file convention shared with `review-triage`.
 - `foundation/glossary.md` — a one-line habit: judge naming against the project's established terms.
 - **Conditional topics, gated on the change — not on which headers `plan.md` already has** (the same
   triggers `dx-plan` step 2 uses, checked against the diff scope, `change.md`'s `type`, and

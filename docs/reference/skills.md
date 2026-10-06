@@ -136,19 +136,6 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ## Review & triage
 
-### `/dx-impl-review`
-- **Invoke:** user — `/dx-impl-review [change-id]`
-- **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift (including any conditional `plan.md` sections), safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md` (with Standards and Priors, and any `## Data model`/`## API & contracts`/`## Failure modes & reversibility` sections), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
-- **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus findings tagged `[<Dimension>: <Severity>]`; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
-- **Prints next:**
-  ```text
-  Review written: context/changes/<change-id>/reviews/impl-review.md
-  Next: /dx-review-triage <change-id> impl   — triage findings and apply fixes
-    or: /dx-lesson                           # a finding worth recording — offered above
-    or: /dx-archive <change-id>              # passed — retire the change
-  ```
-
 ### `/dx-review`
 - **Invoke:** user — `/dx-review <policy-id> [container-id] [instructions…]`
 - **Purpose:** run the review a **Policy** defines on a change or effort, and **report**. The Policy file holds the criteria (preconditions, what to load, dimensions, extra checks, what a pass sets, next steps), and the skill holds the mechanism. `/dx-review implementation <change-id>` is the post-implementation gate. Text after the container ID is a custom instruction that steers the run.

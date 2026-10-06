@@ -11,7 +11,7 @@
 <the chosen solution in a few sentences — what and why, drawn from the interview>
 
 ## Standards to apply
-> Matched from context/standards/ by domain + topic. A checklist the implementer follows and impl-review verifies.
+> Matched from context/standards/ by domain + topic. A checklist the implementer follows and `/dx-review implementation` verifies.
 - [ ] <standard>: <one-line how it applies here>
 
 ## Priors & gotchas

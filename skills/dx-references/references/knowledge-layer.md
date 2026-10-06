@@ -1,13 +1,13 @@
 # Knowledge layer — standards, lessons & glossary
 
-Three markdown artifacts that look alike (rules/terms) but do different jobs and have different lifecycles. Loaded by `dx-plan`, `dx-impl-review`, `dx-standards-update`, `dx-lesson`, `dx-domain`, `dx-refactor-discover`. **No ADR register** — a decision-with-rationale is a lesson; a rule everyone follows is a standard.
+Three markdown artifacts that look alike (rules/terms) but do different jobs and have different lifecycles. Loaded by `dx-plan`, the `implementation` review Policy (via `dx-review`), `dx-standards-update`, `dx-lesson`, `dx-domain`, `dx-refactor-discover`. **No ADR register** — a decision-with-rationale is a lesson; a rule everyone follows is a standard.
 
 | | **Standards** (`context/standards/`) | **Lessons** (`foundation/lessons.md`) | **Glossary** (`foundation/glossary.md`) |
 |---|---|---|---|
 | Job | Normative baseline — the rulebook | Scar tissue + load-bearing decisions | Ubiquitous language — the terms |
 | Tone | "do this" | "this broke" / "we chose X over Y because Z" | "X means Y" |
 | Scope | Project-wide, stable | Specific finding, append-only | Project-wide, grows as terms crystallize |
-| Origin | `dx-standards-discover/-update` | `dx-impl-review`, `dx-diagnose`, rejected refactor, recorded decision | `dx-domain-discover`, `dx-domain` |
+| Origin | `dx-standards-discover/-update` | `dx-review`, `dx-diagnose`, rejected refactor, recorded decision | `dx-domain-discover`, `dx-domain` |
 | Lifecycle | Catalog, edited in place | Append-only; recurring ones **graduate** to a standard | Glossary-only, edited in place |
 | In a plan | Matched → "Standards to apply" checklist | Surfaced → "Priors & gotchas" | Read for naming (one-line habit) |
 
