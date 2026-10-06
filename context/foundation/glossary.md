@@ -32,17 +32,19 @@
 
 **Interview**: The one-question-at-a-time questioning discipline that walks a decision tree with concrete options until every branch resolves, used during Framing and solution design. _Avoid_: Form, batched questionnaire.
 
-**Plan-review**: The optional pre-implementation gate that reports findings on a Plan's substance, feasibility, architectural fit, and Standards-fit; never edits the Plan itself. _Avoid_: Impl-review, Review-triage.
+**Plan-review**: The optional pre-implementation gate that reports findings on a Plan's substance, feasibility, architectural fit, and Standards-fit; never edits the Plan itself. _Avoid_: Implementation review, Review-triage.
 
-**Impl-review**: The post-implementation gate that reports findings on plan-drift, safety, patterns, and Standards compliance against finished work; never edits code itself. _Avoid_: Plan-review, Review-triage.
+**Implementation review**: The post-implementation gate — a review of a finished Change under the built-in `implementation` Policy — that reports findings on plan-drift, safety, patterns, and Standards compliance; never edits code itself. _Avoid_: Impl-review (the retired skill's name), Plan-review, Review-triage.
 
-**Policy**: The user-editable definition of one kind of review — what it checks, which targets it accepts (a Change or Effort, the repo or chosen folders, or both), and how it reports — identified by its file name; a new kind of review is a new Policy, not a new Skill. _Avoid_: Standard (a normative project rule, not a review definition), Review type, Rulebook.
+**Policy**: The user-editable definition of one kind of review — what it checks and which targets it accepts (a Change or Effort, an Explore run, or both) — identified by its file name; its output follows from the target, never declared separately: a Change or Effort gets a report of Findings, an Explore run presents Candidates. A new kind of review is a new Policy, not a new Skill. _Avoid_: Standard (a normative project rule, not a review definition), Review type, Rulebook.
 
-**Review-triage**: The sole skill that acts on a Finding from Plan-review or Impl-review — fix, skip, accept, or record as a Lesson. _Avoid_: Plan-review, Impl-review (both stay report-only).
+**Explore run**: A review run over the whole repo or chosen folders with no Change or Effort as its target; it presents Candidates rather than writing a report. _Avoid_: Repo-wide review, Free exploration, `Explore` subagent (a built-in agent any skill may fan out to, not a run mode).
+
+**Review-triage**: The sole skill that acts on a Finding from any review report — fix, skip, accept, or record as a Lesson. _Avoid_: Plan-review, Implementation review (every review stays report-only).
 
 **Finding**: A discrete, stably-numbered item in a review report, carrying a location, detail, recommended fix, and resolution status; never renumbered or deleted. _Avoid_: Issue, Bug, Candidate (ephemeral, unnumbered, from a Discovery Entry).
 
-**Candidate**: A ranked, ephemeral item a Discovery Entry presents for the user to promote into a Change or Effort, or drop — it has no stable number or resolution status and leaves no trace unless promoted or recorded as a Lesson. _Avoid_: Finding (a durable review-report item).
+**Candidate**: A ranked, ephemeral item a Discovery Entry or an Explore run presents for the user to promote into a Change or Effort, or drop — it has no stable number or resolution status and leaves no trace unless promoted or recorded as a Lesson. _Avoid_: Finding (a durable review-report item).
 
 **Deep Module**: A unit with a lot of functionality hidden behind a small interface — the good default for design. _Avoid_: Shallow Module.
 
