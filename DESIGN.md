@@ -36,7 +36,7 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 - **Question-scaling from upstream artifacts** — don't re-ask what a frame/research doc (or a parent effort) already settled (§7.4).
 - Implementer "siblings" (`implement` / `tdd`) sharing one Progress section so they interleave.
 - Explicit handoff schemas between skills, no conversation-memory coupling.
-- **`plan-review` and `review` as skill-based gates** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/workflow/review-policies/` (the post-implementation gate is the built-in `implementation` Policy), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
+- **`review` as the skill-based gate** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/workflow/review-policies/` (the pre-implementation gate is the built-in `plan` Policy, the post-implementation gate the built-in `implementation` Policy), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
 
 ### The knowledge layer
 - **Standards layer** at `context/standards/{global,frontend,backend,testing}/`, plus `standards-discover` and `standards-update` skills.
@@ -66,13 +66,13 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 
 A dedicated agent earns its keep in only two cases: a **hard, harness-enforced capability constraint** (read-only / write-limited) that a prompt alone can't guarantee, and **moving large reused instructions out of the main context**. Neither justifies the cost here:
 
-- `review` and `plan-review` already ran perfectly as **skills** — the reviewer/verifier roles do not need a separate persona or a hard tool restriction.
+- `review` (under its `plan` and `implementation` Policies) already ran perfectly as **skills** — the reviewer/verifier roles do not need a separate persona or a hard tool restriction.
 - `research` is what the built-in `Explore` subagent is for — spawn it with a prompt, no agent file needed.
 - Every dedicated agent adds maintenance surface and one more routing/selection decision — a cost with no offsetting benefit here.
 
 **Decision:** ship skills only. When the workflow needs fan-out or a constrained pass, it spawns built-in `Explore`/`general-purpose` subagents inline. If a future role ever proves it *must not* be violable by the model (e.g. a verifier caught editing files it should only check), that is the single criterion that would justify promoting it to a dedicated agent — but we start from zero and add only on observed need.
 
-**Known limitation this accepts:** because `plan-review`/`review` are skills, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above). `review-triage` is the deliberate escape valve for this constraint: findings need to turn into edits *somewhere*, so that somewhere is a separate skill, keeping both review gates pure.
+**Known limitation this accepts:** because `review` is a skill, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above). `review-triage` is the deliberate escape valve for this constraint: findings need to turn into edits *somewhere*, so that somewhere is a separate skill, keeping both review gates pure.
 
 This keeps the workflow a **single artifact type** (skills), simpler to ship, install, reason about, and document.
 
@@ -136,7 +136,7 @@ E. raw idea:      brainstorm → (nothing worth building | already covered) | (c
     └── dx-references/             # shared reference docs, loaded on demand via a topic argument
         ├── SKILL.md               # invocable loader: takes a `topic`, reads references/<topic>.md, returns it
         └── references/<topic>.md  # change-md, effort-md, progress-format, plan-template, interview,
-                                    # module-design, knowledge-layer, review-report, …
+                                    # module-design, knowledge-layer, …
 ```
 
 Skill directories don't get individually listed here — that list is exactly the kind of thing that must be derived, not maintained (§14 rule 9): it grows every time a skill is added, and a hand-kept copy would drift immediately. `docs/reference/skills.md` is the maintained inventory; `ls skills/` is the ground truth.
@@ -222,7 +222,7 @@ Every parsed format with more than one consumer has exactly one canonical defini
 | Format | Canonical source | Consumers |
 |---|---|---|
 | `## Progress` checkbox rows | `progress-format.md` | `plan` (creates), `implement`, `tdd` (write), `review-triage`, `archive` (read) |
-| `Resolution: PENDING` schema | `report-template.md` (Policy reports); `review-report.md` for the legacy `plan-review.md` until slice 2 of `policy-driven-review` | `review`, `plan-review` (write), `review-triage` (only writer of resolutions), `archive` (reads for PENDING) |
+| `Resolution: PENDING` schema | `report-template.md` | `review` (write), `review-triage` (only writer of resolutions), `archive` (reads for PENDING) |
 | Review Policy (`context/workflow/review-policies/<policy-id>.md`) — `targets`, preconditions, loads, dimensions, on-pass, next | `policy-template.md`, seeded beside it by `init` from `dx-init/assets/review-policies/` | `review` (applies it as written); the user (edits or adds Policies) |
 | Policy report (`reviews/<policy-id>.md`) — Verdicts block, finding format, overwrite rule | `report-template.md`, seeded beside the Policies by `init` | `review` (writes), `review-triage` (resolves findings), `archive` (warns on PENDING) |
 | `change.md` frontmatter | `change-md.md` | every change-lifecycle skill (§7.1) |

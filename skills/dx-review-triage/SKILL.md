@@ -7,22 +7,20 @@ argument-hint: "<container-id> [policy-id]"
 
 # dx-review-triage
 
-Turn a review report's findings into decisions — and, when you say so, into edits. Every review (`dx-review`, `dx-plan-review`) only analyzes and reports; this is the one place that **acts** on a finding, one finding at a time, only on your confirmation.
+Turn a review report's findings into decisions — and, when you say so, into edits. Every review (`dx-review`) only analyzes and reports; this is the one place that **acts** on a finding, one finding at a time, only on your confirmation.
 
 **Guard.** Resolve `<container-id>` under `context/changes/` or `context/efforts/`. If it resolves under `context/archive/` instead, refuse: archived work is done. If `reviews/` is missing or holds no report, point at `/dx-review <policy-id> <container-id>`.
 
 ## 1 — Resolve which report
 
 A report lives at `reviews/<policy-id>.md`, one per Policy, always the current review because a re-run overwrites it.
-- **A policy ID given** → `reviews/<policy-id>.md`. For `plan`, fall back to the legacy `reviews/plan-review.md` that `dx-plan-review` still writes. If the file is missing, name it and list the reports that exist.
+- **A policy ID given** → `reviews/<policy-id>.md`. If the file is missing, name it and list the reports that exist.
 - **No policy ID** → exactly one report → use it; several → ask which, since each can carry open findings at once.
 
-A legacy `reviews/impl-review.md` is never read and doesn't count as a report: if it is all there is, say it's superseded and point at `/dx-review implementation <container-id>`.
+A legacy `reviews/impl-review.md` or `reviews/plan-review.md` is never read and doesn't count as a report: if one is all there is, say it's superseded and point at `/dx-review implementation <container-id>` or `/dx-review plan <container-id>` respectively.
 
 ## Load first
-The report's schema — the finding/`Resolution` format, the resume rule, the never-commit rule:
-- a Policy report → `context/workflow/review-policies/report-template.md` (missing → `/dx-init`);
-- the legacy `plan-review.md` → the `review-report` reference (invoke `dx-references` with `review-report`).
+The report's schema — the finding/`Resolution` format, the resume rule, the never-commit rule — is `context/workflow/review-policies/report-template.md` (missing → `/dx-init`).
 
 ## 2 — Walk findings in order
 
@@ -56,5 +54,3 @@ Triaged <report file>: <n> fixed, <n> skipped, <n> accepted, <n> dismissed
 Next: /dx-review <policy-id> <container-id>   — re-review after fixes
   or: <each line of the Policy's ## Next>
 ```
-
-For the legacy `plan-review.md`, the lines are `/dx-plan-review <container-id>` (re-review) or `/dx-implement <container-id>`.

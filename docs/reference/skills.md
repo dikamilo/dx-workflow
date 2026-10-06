@@ -93,18 +93,6 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
     or: /dx-implement <change-id>     (/dx-tdd <change-id> for defect/test-first)
   ```
 
-### `/dx-plan-review`
-- **Invoke:** user — `/dx-plan-review [change-id]`
-- **Purpose:** an optional pre-implementation gate asking "will this plan actually work?" across substance, feasibility, architectural fitness, and standards-fit — **report only, never edits**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md`, `change.md`, its `research/`/`frame.md`/`diagnosis.md`, `context/standards/`, `foundation/glossary.md`, the `plan-template`/`knowledge-layer`/`review-report` references, and — gated on the change, same triggers as `/dx-plan` — any of the `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` references.
-- **Writes:** `context/changes/<change-id>/reviews/plan-review.md` — a concise `[Blocker]`/`[Consider]` findings list with a **sound/revise/rethink** verdict. Leaves `plan.md` and code untouched.
-- **Prints next:**
-  ```text
-  Plan review: context/changes/<change-id>/reviews/plan-review.md
-  Next: /dx-review-triage <change-id> plan   — triage findings and apply fixes to plan.md
-    or: /dx-implement <change-id>  (/dx-tdd <change-id> for defect/test-first) — proceed as-is
-  ```
-
 ---
 
 ## Implementation

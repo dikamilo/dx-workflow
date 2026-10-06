@@ -1,6 +1,6 @@
 # `plan.md` — shape
 
-`plan.md` is the solution design for one change. It carries the matched knowledge layer, the phase breakdown, and owns `## Progress` (see `progress-format`). Written by `dx-plan`, read by `dx-plan-review` and the implementers.
+`plan.md` is the solution design for one change. It carries the matched knowledge layer, the phase breakdown, and owns `## Progress` (see `progress-format`). Written by `dx-plan`, read by `/dx-review plan` and the implementers.
 
 ## Sections
 

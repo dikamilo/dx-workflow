@@ -12,6 +12,6 @@ Create or modify any `dx-<x>` skill through the `skill-creator` skill, not by ha
 
 ## Accuracy
 - **Guard clause first.** Every skill that touches `context/` opens with a guard: resolve the id/path, and if it's missing or archived, say so and name the correct next command — don't proceed on a bad assumption.
-- **Read-vs-write separation for review gates.** A skill that reports findings (`dx-plan-review`, `dx-review`) never edits what it's reviewing; only `dx-review-triage` applies fixes, one finding at a time, on confirmation. Don't collapse this split for convenience — it's what keeps a reviewer's output trustworthy.
+- **Read-vs-write separation for review gates.** A skill that reports findings (`dx-review`) never edits what it's reviewing; only `dx-review-triage` applies fixes, one finding at a time, on confirmation. Don't collapse this split for convenience — it's what keeps a reviewer's output trustworthy.
 - **Naming consistency.** Skills that write or judge naming read `foundation/glossary.md` first (a one-line habit, not a section) so terminology stays consistent across the whole skill set.
 - **Completion criteria for multi-step skills.** Any skill with more than one phase states a `## Done when` (or equivalent) condition, so both the model and the user can verify the skill actually finished rather than stopped early.
