@@ -36,7 +36,7 @@ Skip either question outright if `frame.md` or `effort.md`'s `## Goal` already s
 
 ## 4 — Order, confirm, then write
 
-Topologically sort candidates by dependency, then use the tie-break bias to order same-eligibility slices, placing the chosen lead slice first among them. Show the resulting numbered list (name → one-line why-here) and ask the user to confirm before writing — proceed / reorder or edit (free text) / cancel.
+Topologically sort candidates by dependency, then use the tie-break bias to order same-eligibility slices, placing the chosen lead slice first among them. Print the resulting order as a table — `#`, change id, why-here, depends on — as plain output *before* any question; never ask the user to confirm what they haven't seen. Then ask to confirm before writing — proceed / reorder or edit (free text) / cancel.
 
 Once confirmed, write `roadmap.md` in the `effort-md` shape (invoke `dx-references` with `effort-md`): each slice names exactly one child change id (the id `dx-new` will create, e.g. `payments-schema`, using glossary vocabulary), its one-line `why`, and a `next` line spelling out `` `/dx-new <effort-id> <slice-n>` `` verbatim so it can be copy-pasted straight from the file. Do **not** write a maintained checklist: effort progress is **derived** by scanning each child change for `archived_at`, never a hand-checked box. There is nothing to flip here.
 
