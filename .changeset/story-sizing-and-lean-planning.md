@@ -1,0 +1,5 @@
+---
+"dx-workflow": minor
+---
+
+Cut story and planning overhead found in a second sessions review. `/dx-new` now defaults to a single change and uses an effort only when slices can each ship alone or run in parallel; `/dx-roadmap` folds a slice that only hardens or extends another into a phase, and makes the lead slice the tracer (one happy path, one negative test). `/dx-plan` decides by default and asks only what truly needs a human, recording its own decisions under a new `## Assumptions` section; it reads at most one prior plan (cited as `Reuse from:`), makes phase 1 the tracer with hardening in later phases, names the affected test files per phase with one full-suite run in the final phase and one Standards checklist per plan, and warns and offers to move extras to a later change when a plan outgrows one shippable unit. `/dx-implement` runs only the test files a phase names and keeps the full run for the final phase. `dx-new` and `dx-plan` note that the next command can run in the same session (skills still never auto-chain), and `dx-references` reuses a topic already loaded in the session.
