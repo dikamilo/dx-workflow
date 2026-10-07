@@ -4,7 +4,7 @@ title: Cut story and planning overhead found in the second sessions review
 type: feature
 effort: null
 slice: null
-status: planned
+status: implemented
 created: 2026-10-07
 updated: 2026-10-07
 archived_at: null

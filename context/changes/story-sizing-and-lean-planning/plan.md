@@ -66,38 +66,38 @@ Depends on: 4
 
 ### Phase 1: Default a story to one change; tracer-first slicing
 #### Automated
-- [ ] 1.1 `npm run lint:skills` passes
-- [ ] 1.2 `grep -n "ship alone" skills/dx-new/SKILL.md skills/dx-roadmap/SKILL.md` hits both files
+- [x] 1.1 `npm run lint:skills` passes — 149be30
+- [x] 1.2 `grep -n "ship alone" skills/dx-new/SKILL.md skills/dx-roadmap/SKILL.md` hits both files — 149be30
 #### Manual
-- [ ] 1.3 (agent-runnable) Sandbox: `/dx-new` on a large idea whose parts are strictly serial creates one change, not an effort
-- [ ] 1.4 (agent-runnable) Sandbox: `/dx-roadmap` on an effort whose second slice only hardens the first folds it into a phase and says so
+- [x] 1.3 (agent-runnable) Sandbox: `/dx-new` on a large idea whose parts are strictly serial creates one change, not an effort — 149be30
+- [x] 1.4 (agent-runnable) Sandbox: `/dx-roadmap` on an effort whose second slice only hardens the first folds it into a phase and says so — 149be30
 
 ### Phase 2: Lean `dx-plan`: default-and-proceed, one sibling, scope cap, tracer phase
 #### Automated
-- [ ] 2.1 `npm run lint:skills` passes
-- [ ] 2.2 `grep -n "Assumptions\|Reuse from" skills/dx-references/references/plan-template.md` hits both
+- [x] 2.1 `npm run lint:skills` passes — 260a04b
+- [x] 2.2 `grep -n "Assumptions\|Reuse from" skills/dx-references/references/plan-template.md` hits both — 260a04b
 #### Manual
-- [ ] 2.3 (agent-runnable) Sandbox: `/dx-plan` on a change with an implementation-placement choice records it under `## Assumptions` without asking, and still asks about a planted product-intent choice only the user can make
-- [ ] 2.4 (agent-runnable) Sandbox: `/dx-plan` with several sibling plans present reads only the nearest and writes a `Reuse from:` line
-- [ ] 2.5 (agent-runnable) Sandbox: `/dx-plan` on an oversized request warns and offers to move extras to a later change
-- [ ] 2.6 (agent-runnable) Sandbox: the plan's phase 1 is a happy path plus one negative test; hardening sits in later phases
+- [x] 2.3 (agent-runnable) Sandbox: `/dx-plan` on a change with an implementation-placement choice records it under `## Assumptions` without asking, and still asks about a planted product-intent choice only the user can make — 260a04b
+- [x] 2.4 (agent-runnable) Sandbox: `/dx-plan` with several sibling plans present reads only the nearest and writes a `Reuse from:` line — 260a04b
+- [x] 2.5 (agent-runnable) Sandbox: `/dx-plan` on an oversized request warns and offers to move extras to a later change — 260a04b
+- [x] 2.6 (agent-runnable) Sandbox: the plan's phase 1 is a happy path plus one negative test; hardening sits in later phases — 260a04b
 
 ### Phase 3: `dx-implement` honours scoped test runs
 #### Automated
-- [ ] 3.1 `npm run lint:skills` passes
+- [x] 3.1 `npm run lint:skills` passes — 1e8dc26
 #### Manual
-- [ ] 3.2 (agent-runnable) Sandbox: `/dx-implement --manual` on a scratch plan with named test files runs only those and not the full suite until the final phase
+- [x] 3.2 (agent-runnable) Sandbox: `/dx-implement --manual` on a scratch plan with named test files runs only those and not the full suite until the final phase — 1e8dc26
 
 ### Phase 4: Same-session hand-off between phases (S5)
 #### Automated
-- [ ] 4.1 `npm run lint:skills` passes
-- [ ] 4.2 `grep -rn "auto-chain" skills/dx-new/SKILL.md skills/dx-plan/SKILL.md` still shows the stop rule intact
+- [x] 4.1 `npm run lint:skills` passes — 929a189
+- [x] 4.2 `grep -rn "auto-chain" skills/dx-new/SKILL.md skills/dx-plan/SKILL.md` still shows the stop rule intact — 929a189
 #### Manual
-- [ ] 4.3 (user-only) The same-session wording in the docs reads as permission, not as an instruction to chain
+- [x] 4.3 (user-only) The same-session wording in the docs reads as permission, not as an instruction to chain — ticked on say-so
 
 ### Phase 5: Ship
 #### Automated
-- [ ] 5.1 `.changeset/*.md` exists and covers S1–S6, R2, R7
-- [ ] 5.2 `npm run lint:skills` passes
+- [x] 5.1 `.changeset/*.md` exists and covers S1–S6, R2, R7 — 6c6dd0d
+- [x] 5.2 `npm run lint:skills` passes — 6c6dd0d
 #### Manual
-- [ ] 5.3 (user-only) The docs diff reads correctly for the user-facing behaviour changes
+- [x] 5.3 (user-only) The docs diff reads correctly for the user-facing behaviour changes — ticked on say-so
