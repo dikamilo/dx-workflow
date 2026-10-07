@@ -5,13 +5,13 @@ targets: both
 Does the testing strategy match the problem class of the code under test? This is not a test-quality review of naming or coverage, except for the pathological cases below. Every judgement derives from classifying the **production code**, never from the test alone. Heuristics, not dogma: a justified deviation is flagged with its trade-off, and the user decides.
 
 ## Preconditions
-- A container run needs a Change or Effort whose work touched tests. Otherwise say there is nothing to review.
+- A container run needs a Change or Effort whose work touched tests, found from its commits, diff or the SHAs in `plan.md` `## Progress`. Otherwise say there is nothing to review.
 - An Explore run needs test files in scope. With none, say so and stop.
 - Where a project standard on testing contradicts a heuristic here, the **standard wins** and the finding is flagged as such.
 
 ## Load
 - Tests **and** the production code they exercise. The production code is what gets classified.
-- Container run: a Change reviews the tests it touched plus the production code they exercise; an Effort takes the union over its child changes.
+- Container run: a Change reviews the tests it touched (from its commits, diff or `plan.md` `## Progress` SHAs) plus the production code they exercise. An Effort takes the union over its child changes: `context/changes/*` whose `change.md` has `effort: <id>`, plus `context/archive/<date>-*` children. Review only those tests, never the rest of the repo. The report carries one Verdicts line per dimension, findings tagged `[<Dimension>: <Severity>]`, and a `## Reviewed` list of every unit checked.
 - Explore run: discover test files under the scope and pair each with its code under test.
 - Invoke `dx-references` with `knowledge-layer` and match any testing standards.
 - Rules are stack-neutral; examples are illustrative only.

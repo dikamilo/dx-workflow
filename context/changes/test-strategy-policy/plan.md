@@ -97,12 +97,12 @@ Additive; nothing is removed.
 
 ### Phase 2: Promote many — generic seed heading
 #### Automated
-- [x] 2.1 `dx-new` parses `## <Policy> candidates (from /dx-review <policy-id>)` (via skill-creator)
-- [x] 2.2 `dx-review` prints the seed summary with a `Start with:` line for several picks
-- [x] 2.3 `npm run lint:skills` passes
+- [x] 2.1 `dx-new` parses `## <Policy> candidates (from /dx-review <policy-id>)` (via skill-creator) — 77fb7cb
+- [x] 2.2 `dx-review` prints the seed summary with a `Start with:` line for several picks — 77fb7cb
+- [x] 2.3 `npm run lint:skills` passes — 77fb7cb
 #### Manual
-- [x] 2.4 Sandbox: promoting several Candidates, then running the printed `/dx-new` argument, creates an effort with the Notes marker and one `research/<topic>.md` per entry
-- [x] 2.5 Sandbox: `/dx-new <effort> 1` on that effort inherits the Policy's default `type`; the refactor-discover seed heading still produces `type: refactor` unchanged
+- [x] 2.4 Sandbox: promoting several Candidates, then running the printed `/dx-new` argument, creates an effort with the Notes marker and one `research/<topic>.md` per entry — 77fb7cb
+- [x] 2.5 Sandbox: `/dx-new <effort> 1` on that effort inherits the Policy's default `type`; the refactor-discover seed heading still produces `type: refactor` unchanged — 77fb7cb
 
 ### Phase 3: Container run of `test-strategy` and regression of the built-ins
 #### Automated
