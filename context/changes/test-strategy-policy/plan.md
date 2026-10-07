@@ -106,12 +106,12 @@ Additive; nothing is removed.
 
 ### Phase 3: Container run of `test-strategy` and regression of the built-ins
 #### Automated
-- [ ] 3.1 Container-run gate handling in `dx-review`; `test-strategy` Load/Preconditions scope the run (via skill-creator)
-- [ ] 3.2 `npm run lint:skills` passes
+- [x] 3.1 Container-run gate handling in `dx-review`; `test-strategy` Load/Preconditions scope the run (via skill-creator)
+- [x] 3.2 `npm run lint:skills` passes
 #### Manual
-- [ ] 3.3 Sandbox: `/dx-review test-strategy <change-id>` writes `reviews/test-strategy.md` with three Verdicts lines, compound tags and a `## Reviewed` list, scoped to the change's touched tests; `/dx-review-triage <id> test-strategy` walks it (UC3)
-- [ ] 3.4 Sandbox: an effort run covers the union of its child changes
-- [ ] 3.5 Sandbox regression: `/dx-review implementation <id>` and `/dx-review plan <id>` behave as before (Progress guard, `status: reviewed`, lesson offer, Verdicts)
+- [x] 3.3 Sandbox: `/dx-review test-strategy <change-id>` writes `reviews/test-strategy.md` with three Verdicts lines, compound tags and a `## Reviewed` list, scoped to the change's touched tests; `/dx-review-triage <id> test-strategy` walks it (UC3)
+- [x] 3.4 Sandbox: an effort run covers the union of its child changes
+- [x] 3.5 Sandbox regression: `/dx-review implementation <id>` and `/dx-review plan <id>` behave as before (Progress guard, `status: reviewed`, lesson offer, Verdicts)
 
 ### Phase 4: Docs, changeset, dogfood
 #### Automated
