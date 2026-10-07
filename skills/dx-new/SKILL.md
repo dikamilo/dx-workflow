@@ -30,8 +30,8 @@ Derive a kebab-case slug from the idea (`Add Google sign-in` → `oauth-login`).
 
 Infer from size and clarity; when it's a coin-flip, ask one question and stop.
 
-- **Small / clear → a change.** A single shippable unit. Create `context/changes/<id>/change.md`. Set `type` (feature | defect | refactor | migration — default feature), `effort: null`, `slice: null`, `status: new`, plus every other field the schema defines. Invoke `dx-references` with topic `change-md` for the exact shape.
-- **Large / decomposes into slices → an effort.** Work that *produces* changes. Create `context/efforts/<id>/effort.md` with a one-paragraph `## Goal`, `status: new`, plus every other field the schema defines. Invoke `dx-references` with topic `effort-md` for the exact shape.
+- **A change is the default.** A single shippable unit. Create `context/changes/<id>/change.md`. Set `type` (feature | defect | refactor | migration — default feature), `effort: null`, `slice: null`, `status: new`, plus every other field the schema defines. Invoke `dx-references` with topic `change-md` for the exact shape.
+- **An effort only when the slices can each ship alone, or run in parallel.** "Large" by itself is not a reason; serial work that hardens or extends earlier work is phases of one plan, not slices. An effort *produces* changes. Create `context/efforts/<id>/effort.md` with a one-paragraph `## Goal`, `status: new`, plus every other field the schema defines. Invoke `dx-references` with topic `effort-md` for the exact shape.
 
 Never nest a change inside a change. Large work is an effort that spawns flat child changes.
 
@@ -54,4 +54,4 @@ Effort:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-roa
 Child change: Next: /dx-frame <slug>   → /dx-plan <slug>    (frame optional — adds this slice's own user cases)
 ```
 
-Stop. Do not chain into another skill.
+Stop. Do not chain into another skill. (The next command can run in this same session — no `/clear` needed.)

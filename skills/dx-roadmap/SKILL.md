@@ -21,6 +21,8 @@ Decompose the goal into candidate slices — don't order or write them yet, just
 
 - **Feature effort** — each slice cuts end-to-end through every layer it touches (schema → api → ui), narrow but complete. Not "all the schema, then all the api."
 - **Refactor effort** (from `dx-refactor-discover`) — one slice per module deepening.
+- A slice must be able to ship alone. A candidate that only hardens or extends another is folded into that slice as a phase — tell the user which and why.
+- The lead slice is the tracer: one happy path and one negative test, end to end.
 - For each candidate, note its dependencies: which other candidates (if any) it needs in place first.
 
 Don't pad the count — a two-slice effort is fine. If it wants only one slice, it should have been a plain change; say so.
