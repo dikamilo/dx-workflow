@@ -32,7 +32,7 @@ Invoke `dx-references` with `start-check` and run it before the phase: work bran
 **Done when** every `#### Automated` row in the phase is `- [x]` on a green suite and the slice is demoable. Do **not** renumber, delete, or duplicate Progress rows. `dx-tdd` and `dx-implement` are siblings writing this same section, so phases interleave freely — one may be TDD, the next standard.
 
 ## On failure
-Never auto-rollback or revert (root `CLAUDE.md` rollback principle). A red test at commit time means the code isn't done, not that work should be discarded — fix the code (never the test) until green, or stop and report and let the user decide. If the cause isn't obvious after a quick look — no one-line explanation, or a fix attempt didn't stick — invoke `dx-diagnose` instead of guessing further fixes.
+Never auto-rollback or revert (the workflow's rollback principle: the user confirms). A red test at commit time means the code isn't done, not that work should be discarded — fix the code (never the test) until green, or stop and report and let the user decide. If the cause isn't obvious after a quick look — no one-line explanation, or a fix attempt didn't stick — invoke `dx-diagnose` instead of guessing further fixes.
 
 ## Completion
 When every `## Progress` box is `- [x]`: set `change.md` `status: implemented`, `updated: <today>`, then suggest the review gate. Otherwise there are more phases — suggest the next one. Print one line and stop (no auto-chain):

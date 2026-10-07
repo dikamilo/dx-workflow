@@ -50,7 +50,7 @@ Skipped on `--manual`. The coordinator never works in the user's checkout. Run e
 **Done when** every pending phase is ticked, the work branch is fast-forwarded, and worktrees are cleaned or reported. Close with `Next:` naming the work branch (see *Completion*).
 
 ## On failure
-Never auto-rollback or revert (root `CLAUDE.md` rollback principle). Stop, report what failed and why, and let the user decide. Most failures are a small fix, not a reason to discard work. If the cause isn't obvious after a quick look — no one-line explanation, or a fix attempt didn't stick — invoke `dx-diagnose` instead of guessing further fixes.
+Never auto-rollback or revert (the workflow's rollback principle: the user confirms). Stop, report what failed and why, and let the user decide. Most failures are a small fix, not a reason to discard work. If the cause isn't obvious after a quick look — no one-line explanation, or a fix attempt didn't stick — invoke `dx-diagnose` instead of guessing further fixes.
 
 ## Completion
 When every `## Progress` box is `- [x]`: set `change.md` `status: implemented`, `updated: <today>`, then suggest the review gate. Otherwise there are more phases — suggest the next one. Print one line and stop (no auto-chain); in auto mode also name the work branch the commits landed on:

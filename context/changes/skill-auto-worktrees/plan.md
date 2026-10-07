@@ -117,8 +117,8 @@ User cases: `frame.md` lists 8, but the repo's only test setup for skills is `np
 
 ### Phase 5: Docs and changeset
 #### Automated
-- [ ] 5.1 `docs/reference/skills.md`, the two explanation pages, `initialize-a-project.md` and `DESIGN.md` mention the worktree behavior, the tags and the `.gitignore` step (grep)
-- [ ] 5.2 A tutorial and an explanation page for worktree isolation exist and are linked from `docs/README.md`
-- [ ] 5.3 One `.changeset/*.md` covers this change; `npm run lint:skills` passes
+- [x] 5.1 `docs/reference/skills.md`, the two explanation pages, `initialize-a-project.md` and `DESIGN.md` mention the worktree behavior, the tags and the `.gitignore` step (grep) — ec4b558
+- [x] 5.2 A tutorial and an explanation page for worktree isolation exist and are linked from `docs/README.md` — ec4b558
+- [x] 5.3 One `.changeset/*.md` covers this change; `npm run lint:skills` passes — ec4b558
 #### Manual
-- [ ] 5.4 (user-only) Docs read correctly and the in-repo `.worktrees/` trade-off is stated plainly
+- [x] 5.4 (user-only) Docs read correctly and the in-repo `.worktrees/` trade-off is stated plainly — ticked on say-so
