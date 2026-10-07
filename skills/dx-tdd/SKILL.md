@@ -17,6 +17,9 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation, t
 - `foundation/glossary.md` — a one-line habit: name tests and interfaces with the project's established terms. If naming this phase surfaces a clash, a fuzzy term, or a term that finally resolves, invoke `dx-domain` before continuing.
 - The plan's **Standards to apply** checklist and **Priors & gotchas** — these bind this phase.
 
+## Start check
+Invoke `dx-references` with `start-check` and run it before the phase: work branch, context commit, stopped-run guard.
+
 ## The phase
 1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase, and it is a **vertical slice** — end-to-end and demoable, not a horizontal layer. If `change.md`'s `status` is still `planned`, flip it to `implementing` (`updated: <today>`) before you start — the lifecycle field should show work underway, not just planned. If the phase genuinely can't be driven by a failing test (pure scaffolding, config, infra wiring), say so and hand it to `/dx-implement` — don't fake a test.
 2. **Red → green → refactor**, behavior by behavior — each `#### Automated` row is one trip round the loop:
