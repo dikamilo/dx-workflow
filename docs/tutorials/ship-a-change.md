@@ -171,14 +171,14 @@ Demoable: a real Google login ends with an authenticated session.
 - [ ] 1.1 Unit tests for the OAuth client config pass
 - [ ] 1.2 `GET /auth/google` redirects with a valid PKCE challenge (integration test)
 #### Manual
-- [ ] 1.3 Hitting /auth/google in a browser reaches Google's consent screen
+- [ ] 1.3 (user-only) Hitting /auth/google in a browser reaches Google's consent screen
 
 ### Phase 2: Callback + session
 #### Automated
 - [ ] 2.1 Callback exchanges code and issues a session (integration test)
 - [ ] 2.2 Existing-user email match is covered by tests
 #### Manual
-- [ ] 2.3 End-to-end Google login lands on an authenticated page
+- [ ] 2.3 (user-only) End-to-end Google login lands on an authenticated page
 ```
 
 Each phase is a **vertical slice** — something demoable end to end, not a horizontal "all the routes,
@@ -193,18 +193,18 @@ when no `frame.md` exists, see [handoff scaling](../explanation/handoff-scaling.
 
 ## Step 3 — Implement it, one phase at a time
 
-`/dx-implement` runs **exactly one phase per invocation** — never the whole plan. It resumes from the
+`/dx-implement` by default runs **all remaining phases** on subagents and commits each one; pass `--manual` to run **exactly one phase per invocation** instead (see the [reference](../reference/skills.md)). This walkthrough uses `--manual` to show one phase at a time. It resumes from the
 first `- [ ]` in `## Progress`, does that phase, verifies it, and commits. Run it:
 
 ```text
-/dx-implement oauth-login
+/dx-implement oauth-login --manual
 ```
 
 > **dx-implement** sees `change.md` at `status: planned` and flips it to `implementing`. The first
 > `- [ ]` is `1.1`, so **Phase 1** is its target. It builds the OAuth client config and the
 > `GET /auth/google` start route, following the plan's **Standards to apply** and **Priors & gotchas**.
 > It runs the phase's `#### Automated` checks; each one that genuinely passes flips `- [ ]` to `- [x]`.
-> (`#### Manual` boxes wait for a human to confirm.) It commits the phase as one Conventional Commit —
+> (`#### Manual` rows labelled `(agent-runnable)` it runs itself; `(user-only)` ones wait for you.) It commits the phase as one Conventional Commit —
 > `feat(oauth-login): OAuth service + start route (p1)` — then appends that commit's short SHA to every
 > row that landed. More phases remain, so it prints:
 >
@@ -220,13 +220,13 @@ Progress after Phase 1 — the automated boxes are ticked and SHA-stamped, the m
 - [x] 1.1 Unit tests for the OAuth client config pass — a1b2c3d
 - [x] 1.2 `GET /auth/google` redirects with a valid PKCE challenge (integration test) — a1b2c3d
 #### Manual
-- [ ] 1.3 Hitting /auth/google in a browser reaches Google's consent screen
+- [ ] 1.3 (user-only) Hitting /auth/google in a browser reaches Google's consent screen
 ```
 
 Nothing chained. You run the command again to do the next phase:
 
 ```text
-/dx-implement oauth-login
+/dx-implement oauth-login --manual
 ```
 
 > **dx-implement** resumes at the first remaining `- [ ]` — Phase 1's manual box `1.3`, which you

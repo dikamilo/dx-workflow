@@ -123,6 +123,13 @@ You now have the facts. What you still lack is a decision: *which* problem are y
 >
 > **You:** 1
 >
+> Before Q3, it prints the candidate user cases as a table so you can see what you're confirming:
+>
+> | Who | Trigger | Outcome | Source |
+> |---|---|---|---|
+> | New visitor | Clicks the Google button | Account created and signed in | discovered here |
+> | Returning user | Clicks the Google button | Signed in to the existing account | discovered here |
+>
 > **Q3.** Which sign-in flows does this need to cover?
 > 1. New signup and returning login, both via the Google button — the two flows the friction problem
 >    actually names **(recommended)**

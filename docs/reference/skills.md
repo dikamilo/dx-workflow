@@ -67,7 +67,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ### `/dx-frame`
 - **Invoke:** user — `/dx-frame [change-id or effort-id]`
-- **Purpose:** settle the WHAT before the HOW — interview on problem framing, alternatives, and (when user-facing) user cases so planning can jump straight to solution design; run again on one of an effort's slices to add just that slice's own user cases; see [research and frame](../explanation/research-and-frame.md).
+- **Purpose:** settle the WHAT before the HOW — interview on problem framing, alternatives, and (when user-facing) user cases — printing the candidate user cases as a table (who, trigger, outcome, source) before asking you to confirm or edit — so planning can jump straight to solution design; run again on one of an effort's slices to add just that slice's own user cases; see [research and frame](../explanation/research-and-frame.md).
 - **Reads:** `change.md`/`effort.md` (notes `type` and, for a change, `effort:`), every `research/<topic>.md`, `diagnosis.md`, `brainstorm.md` (settled context — deepens its conclusion instead of reopening it), any brief the container's `## Notes` names under `foundation/briefs/` (its tagged claims are sourced evidence, not something to re-interview; its open questions and collection plan are what is still unsettled), `foundation/glossary.md`; in slice mode, also the parent effort's `frame.md` in full; may invoke `/dx-domain` on a clashing term.
 - **Writes:** `context/{changes|efforts}/<id>/frame.md` (real problem, who/what it affects, alternatives, out of scope, plus an optional user cases section for user-facing work); in slice mode, a change's own smaller `frame.md` holding only `## User cases`, additive to the parent's; sets container `updated`.
 - **Prints next:**
@@ -85,7 +85,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Invoke:** user — `/dx-plan [change-id]`
 - **Purpose:** interview and write the solution design, matching standards and priors; owns the `## Progress` section — never skipped, but scales down for trivial work; see [plans and slices](../explanation/plan-and-slices.md).
 - **Reads:** `change.md`, all upstream `research/` (change- and effort-scoped plus `foundation/research/`; `untrusted-content` reference gates any `kind: external` one), `frame.md` (this change's own **and** the parent effort's, read as a union — a slice's `## User cases` extends rather than replaces the parent's), `diagnosis.md`, `brainstorm.md` (its resolved unknowns and rejected scope scale the interview down), every brief named in `## Notes` under `foundation/briefs/` (the parent effort's `## Notes` too when `effort:` is set — a tagged claim is cited rather than re-derived, non-goals are closed scope, and the brief's riskiest assumptions, kill criteria, and open questions carry into `## Priors & gotchas`; `untrusted-content` gates any brief carrying claims sourced from outside the repo), `context/standards/`, `foundation/lessons.md`, `foundation/glossary.md`; may `Explore` for prior decisions; always loads the `design-lenses` reference while writing the solution design; loads `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` when the change touches that concern.
-- **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases, a `## Progress` section with all boxes `[ ]`, and — only when relevant — `## Data model`/`## API & contracts`/`## Failure modes & reversibility`); when `frame.md` has a `## User cases` section and the repo already has a test setup, adds a task per phase asserting the user case it implements (never introduces a test framework itself); flips `change.md` to `status: planned`.
+- **Writes:** `context/changes/<change-id>/plan.md` (matched standards, priors, vertical-slice phases each with a `Depends on:` line (independent, disjoint-file phases can run in parallel by default under `/dx-implement`), a `## Progress` section with all boxes `[ ]` and every `#### Manual` row labelled `(agent-runnable)` or `(user-only)` — checks pushed to Automated first, then `agent-runnable`, and — only when relevant — `## Data model`/`## API & contracts`/`## Failure modes & reversibility`); when `frame.md` has a `## User cases` section and the repo already has a test setup, adds a task per phase asserting the user case it implements (never introduces a test framework itself); flips `change.md` to `status: planned`.
 - **Prints next:**
   ```text
   Plan written: context/changes/<change-id>/plan.md
@@ -98,10 +98,10 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ## Implementation
 
 ### `/dx-implement`
-- **Invoke:** user — `/dx-implement [change-id]`
-- **Purpose:** execute **one** pending phase of the plan, verify it, and commit — resuming from `## Progress`; see [implement vs TDD](../explanation/implement-vs-tdd.md).
+- **Invoke:** user — `/dx-implement [change-id] [--manual]`
+- **Purpose:** execute the pending phases of the plan, verify them, and commit — resuming from `## Progress`; by default coordinator mode runs every pending phase on subagents in dependency order, concurrently where phases are independent (subagents never commit or touch Progress; the coordinator flips boxes and commits per phase, sequentially, and stops on any red check); see [implement vs TDD](../explanation/implement-vs-tdd.md).
 - **Reads:** `plan.md` fully (resumes at the first `- [ ]`), its `research/`/`frame.md`/`diagnosis.md` (`untrusted-content` reference gates any `kind: external` research), the plan's Standards and Priors, `foundation/glossary.md`, and the `progress-format`/`plan-template` references.
-- **Writes:** the phase's code; flips its `## Progress` boxes to `- [x]` with the commit's short SHA appended; flips `change.md` to `status: implementing`, then `status: implemented` when every box is done. Never auto-rollback on failure.
+- **Writes:** the phase's code; flips its `## Progress` boxes to `- [x]` with the commit's short SHA appended; runs `(agent-runnable)` Manual rows itself and ticks them on evidence, stops at `(user-only)` rows (bare say-so ticks are recorded ` — ticked on say-so`); flips `change.md` to `status: implementing`, then `status: implemented` when every box is done. Never auto-rollback on failure. On a fully ticked plan plus a follow-up request, points at `/dx-new` rather than improvising.
 - **Prints next:**
   ```text
   Next: /dx-review implementation <change-id>   # all phases done
@@ -112,7 +112,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Invoke:** user — `/dx-tdd [change-id]`
 - **Purpose:** the red-green sibling of `/dx-implement` — execute one phase test-first (failing test before code), then commit; see [implement vs TDD](../explanation/implement-vs-tdd.md).
 - **Reads:** same as `/dx-implement` — `plan.md`, its upstream, Standards and Priors, `foundation/glossary.md`, the `progress-format`/`plan-template` references.
-- **Writes:** failing test then minimal production code per behavior; flips `## Progress` boxes with SHA; sets `change.md` `status: implementing` → `implemented`. Hands pure-scaffolding phases to `/dx-implement`.
+- **Writes:** failing test then minimal production code per behavior; flips `## Progress` boxes with SHA; sets `change.md` `status: implementing` → `implemented`. Applies the same Manual-row label rule as `/dx-implement`. Hands pure-scaffolding phases to `/dx-implement`.
 - **Prints next:**
   ```text
   Next: /dx-review implementation <change-id>   # all phases done
@@ -164,7 +164,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-roadmap`
 - **Invoke:** user — `/dx-roadmap [effort-id]`
 - **Purpose:** decompose an effort into an ordered list of vertical slices, each mapping to one child change — decomposes but does not create the changes; see [efforts and changes](../explanation/efforts-and-changes.md) and [run an effort](../tutorials/run-an-effort.md).
-- **Reads:** `effort.md` (its `## Goal`), the effort's `research/`, `frame.md`, and `brainstorm.md` (its capability split is raw material for the slices), `foundation/glossary.md`; runs a short anchor interview to settle slice ordering.
+- **Reads:** `effort.md` (its `## Goal`), the effort's `research/`, `frame.md`, and `brainstorm.md` (its capability split is raw material for the slices), `foundation/glossary.md`; runs a short anchor interview to settle slice ordering, then prints the ordered slices as a table (`#`, change id, why-here, depends on) before asking you to confirm.
 - **Writes:** `context/efforts/<effort-id>/roadmap.md` — numbered slices, each naming one child change id, a one-line `why`, and a verbatim `/dx-new <effort-id> <slice-n>` line; flips `effort.md` to `status: scoped`. No maintained checklist — progress is derived.
 - **Prints next:**
   ```text
@@ -299,9 +299,9 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ## Plumbing
 
 ### `dx-references`
-- **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
-- **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the twelve topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `untrusted-content`. (There is no `model-policy` topic.)
+- **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic> [<topic>...]`, **not** a slash command you type.
+- **Purpose:** load one or more shared reference documents by topic (several in one call; any unknown topic is reported with the available list) so several skills read one canonical copy instead of deep-linking each other's files.
+- **Reads:** `references/<topic>.md` for each named topic, from the twelve: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 

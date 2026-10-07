@@ -66,7 +66,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 - **Priors & gotchas** surfaces the relevant lines from `foundation/lessons.md` — decisions and scar
   tissue that a new change should not relitigate. If a past change learned "don't re-deepen the config
   loader, it is shallow on purpose," that lesson lands here so the implementer doesn't undo it.
-- **Phases** is the ordered breakdown of the work, cut into slices (next section).
+- **Phases** is the ordered breakdown of the work, cut into slices (next section). Each phase carries a `Depends on:` line (`none` or phase numbers); phases with no unmet dependency and disjoint files can run in parallel by default under `/dx-implement` (not with `--manual`). Serial work stays serial.
 - **Progress** is the live execution record (the section after that).
 
 ## Vertical slices, not horizontal layers
@@ -110,7 +110,8 @@ and [run an effort](../tutorials/run-an-effort.md) for it in practice.
 #### Automated
 - [x] 1.1 Migration applies cleanly — abc1234
 #### Manual
-- [ ] 1.2 Feature works in UI
+- [ ] 1.2 (agent-runnable) Feature works in UI
+- [ ] 1.3 (user-only) Copy reads well
 ```
 
 The rules are few and exact:
@@ -120,8 +121,7 @@ The rules are few and exact:
 - **Completion = `count([x]) / count([ ] + [x])`.** How-done-is-this is *counted* from the section, never
   stored separately.
 - **`#### Automated` vs `#### Manual`.** Automated steps are agent-verifiable — a test passes, a build
-  succeeds, a migration applies. Manual steps need a human to confirm — "feature works in the UI." Splitting
-  them tells the implementer which boxes it may check itself and which it must hand to you.
+  succeeds, a migration applies. Manual rows carry a label: `(agent-runnable)` rows the agent can drive and observe itself (a sandbox run, a CLI call) and ticks on evidence; `(user-only)` rows need a human's eyes — "copy reads well." `/dx-plan` pushes checks toward Automated, then `agent-runnable`, so the plan is verifiable end to end and `user-only` is left for what truly needs you. A `user-only` row ticked on your bare say-so is recorded ` — ticked on say-so`.
 - **Append the short SHA when a step lands.** Flip `- [ ]` to `- [x]` and add ` — abc1234`, the commit that
   landed it. That ties each finished step to a point in history.
 - **Never renumber or delete landed rows.** Step numbers are stable references. Follow-up work becomes new
@@ -140,13 +140,13 @@ Mid-flight, `oauth-login`'s Progress might read like this:
 - [x] 1.1 Migration applies cleanly — abc1234
 - [x] 1.2 Callback exchanges code for token — abc1234
 #### Manual
-- [x] 1.3 Sign-in redirects and sets a session — abc1234
+- [x] 1.3 (agent-runnable) Sign-in redirects and sets a session — abc1234
 
 ### Phase 2: Google button + account linking
 #### Automated
 - [ ] 2.1 Existing account links by email
 #### Manual
-- [ ] 2.2 Button renders and completes sign-in
+- [ ] 2.2 (user-only) Button renders and completes sign-in
 ```
 
 Phase 1 is fully checked; the first `- [ ]` is `2.1`, so that is exactly where the next `/dx-implement`

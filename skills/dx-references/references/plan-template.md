@@ -20,6 +20,7 @@
 
 ## Phases
 ### Phase N: <name>   — vertical slice where practical
+Depends on: <none | phase numbers — phases with no unmet dependency and disjoint files may run in parallel>
 <what this phase delivers end-to-end>
 
 ## Progress

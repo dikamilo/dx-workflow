@@ -1,7 +1,7 @@
 ---
 name: dx-new
 description: Start a new piece of work — creates a change or an effort and points you at the next step.
-argument-hint: [idea or effort/slice] [brief...]
+argument-hint: "[idea or effort/slice] [brief...]"
 ---
 
 # dx-new — the entry point and router

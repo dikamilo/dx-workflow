@@ -120,7 +120,7 @@ Now turn the framed effort into an ordered sequence of slices.
 >
 > **You:** 1
 >
-> It topologically sorts the candidates, applies the bias, shows the numbered list for you to confirm
+> It topologically sorts the candidates, applies the bias, prints the ordered slices as a table (`#`, change id, why-here, depends on), then asks you to confirm
 > (proceed / reorder / cancel), then writes `roadmap.md` and flips `effort.md` to `status: scoped`.
 
 The written `context/efforts/payments-v2/roadmap.md` looks like this:

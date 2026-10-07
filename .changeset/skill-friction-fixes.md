@@ -1,0 +1,5 @@
+---
+"dx-workflow": minor
+---
+
+Four fixes from the sessions review. `/dx-plan` labels every Manual check `(agent-runnable)` or `(user-only)` and aims for a plan the agent can verify end to end; `/dx-implement` and `/dx-tdd` run `agent-runnable` rows themselves and tick them on evidence, and a `user-only` row ticked on bare say-so is recorded `— ticked on say-so`. `/dx-plan` gives each phase a `Depends on:` line so independent phases can be separated, and `/dx-implement <change-id>` now runs every pending phase on subagents in dependency order by default (independent phases concurrently, the coordinator owns Progress and the per-phase commits); `--manual` restores one phase per invocation, and a fully ticked plan with a follow-up request now points at `/dx-new`. `dx-references` accepts several space-separated topics in one call, and `dx-plan`, `dx-implement` and `dx-tdd` batch the topics they always load together. `/dx-roadmap` and `/dx-frame` print the slice order and the user cases as a table before asking you to confirm.

@@ -9,10 +9,10 @@ phase.
 
 ## One phase per invocation
 
-Both skills execute **exactly one phase** of `context/changes/oauth-login/plan.md` per run — never the whole
+`/dx-tdd`, and `/dx-implement --manual`, execute **exactly one phase** of `context/changes/oauth-login/plan.md` per run — never the whole
 plan. A phase is a vertical slice, end-to-end and demoable, described by the plan and tracked by a block of
 `## Progress` rows. You run the skill, it does one phase, it prints a `Next:` line, and it stops. You run it
-again for the next phase. Nothing auto-chains. (See [plan and slices](plan-and-slices.md) for how phases get
+again for the next phase. Nothing auto-chains. (`/dx-implement` by default is the exception: a coordinator runs all pending phases on subagents, concurrently where the plan's `Depends on:` lines allow, and commits each phase itself; `--manual` gives one phase per invocation. `/dx-tdd` has no coordinator mode and always runs one phase.) (See [plan and slices](plan-and-slices.md) for how phases get
 carved up in the first place.)
 
 Because each invocation is scoped to one phase, the *choice* of sibling is also per-phase. There is no
@@ -33,7 +33,7 @@ frontmatter always reflects where the change actually is.
 
 **Verify before you check a box.** Each phase carries `#### Automated` checks (tests, build, migration) and
 sometimes `#### Manual` checks. A `- [ ]` flips to `- [x]` **only** when its check genuinely passes.
-`#### Manual` boxes need a human to confirm. And critically — **fail loud**: if a check is red, missing, or
+Each `#### Manual` row is labelled: the skill runs `(agent-runnable)` rows itself and ticks them on evidence, and stops at `(user-only)` rows for you (a bare say-so tick is recorded ` — ticked on say-so`). And critically — **fail loud**: if a check is red, missing, or
 skipped, the skill stops and reports. It never quietly marks a box done. A green Progress section means the
 work is really green.
 
