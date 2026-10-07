@@ -95,5 +95,7 @@ Skills **never auto-chain**. Each finishes its one job, prints a `Next:` suggest
 what runs next. Nothing is auto-rolled-back on failure; you confirm first. All state is plain markdown under
 `context/`, so you can always read, edit, and reason about exactly where you are.
 
+Running the next command in the same session is fine — no `/clear` needed between steps — and whether to chain is still your call; the skills themselves never auto-chain.
+
 For the full design rationale (aimed at people working *on* the skills, not just using them), see
 [`../DESIGN.md`](../DESIGN.md).
