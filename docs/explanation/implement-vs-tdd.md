@@ -37,6 +37,8 @@ Each `#### Manual` row is labelled: the skill runs `(agent-runnable)` rows itsel
 skipped, the skill stops and reports. It never quietly marks a box done. A green Progress section means the
 work is really green.
 
+**Scoped test runs.** `/dx-implement` runs only the test files a phase names (its `Tests:` line or Automated rows), not the whole suite. The one full-suite run belongs to the final phase's Automated row, and an unscoped run mid-plan needs a stated reason in the report. (`/dx-tdd` is unchanged.)
+
 **One commit per phase.** When a phase lands it becomes a single Conventional Commit:
 
 ```text
