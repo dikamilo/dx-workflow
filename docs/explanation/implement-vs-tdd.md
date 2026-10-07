@@ -9,10 +9,10 @@ phase.
 
 ## One phase per invocation
 
-Both skills execute **exactly one phase** of `context/changes/oauth-login/plan.md` per run — never the whole
+`/dx-tdd`, and `/dx-implement --manual`, execute **exactly one phase** of `context/changes/oauth-login/plan.md` per run — never the whole
 plan. A phase is a vertical slice, end-to-end and demoable, described by the plan and tracked by a block of
 `## Progress` rows. You run the skill, it does one phase, it prints a `Next:` line, and it stops. You run it
-again for the next phase. Nothing auto-chains. (`/dx-implement --auto` is the explicit exception: a coordinator runs all pending phases on subagents, concurrently where the plan's `Depends on:` lines allow, and commits each phase itself. `/dx-tdd` has no `--auto`.) (See [plan and slices](plan-and-slices.md) for how phases get
+again for the next phase. Nothing auto-chains. (`/dx-implement` by default is the exception: a coordinator runs all pending phases on subagents, concurrently where the plan's `Depends on:` lines allow, and commits each phase itself; `--manual` gives one phase per invocation. `/dx-tdd` has no coordinator mode and always runs one phase.) (See [plan and slices](plan-and-slices.md) for how phases get
 carved up in the first place.)
 
 Because each invocation is scoped to one phase, the *choice* of sibling is also per-phase. There is no

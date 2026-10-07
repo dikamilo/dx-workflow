@@ -193,11 +193,11 @@ when no `frame.md` exists, see [handoff scaling](../explanation/handoff-scaling.
 
 ## Step 3 — Implement it, one phase at a time
 
-`/dx-implement` runs **exactly one phase per invocation** — never the whole plan (unless you pass `--auto`, which runs all remaining phases on subagents and commits each one; see the [reference](../reference/skills.md)). It resumes from the
+`/dx-implement` by default runs **all remaining phases** on subagents and commits each one; pass `--manual` to run **exactly one phase per invocation** instead (see the [reference](../reference/skills.md)). This walkthrough uses `--manual` to show one phase at a time. It resumes from the
 first `- [ ]` in `## Progress`, does that phase, verifies it, and commits. Run it:
 
 ```text
-/dx-implement oauth-login
+/dx-implement oauth-login --manual
 ```
 
 > **dx-implement** sees `change.md` at `status: planned` and flips it to `implementing`. The first
@@ -226,7 +226,7 @@ Progress after Phase 1 — the automated boxes are ticked and SHA-stamped, the m
 Nothing chained. You run the command again to do the next phase:
 
 ```text
-/dx-implement oauth-login
+/dx-implement oauth-login --manual
 ```
 
 > **dx-implement** resumes at the first remaining `- [ ]` — Phase 1's manual box `1.3`, which you
