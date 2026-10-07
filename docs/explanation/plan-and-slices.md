@@ -66,8 +66,17 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 - **Priors & gotchas** surfaces the relevant lines from `foundation/lessons.md` — decisions and scar
   tissue that a new change should not relitigate. If a past change learned "don't re-deepen the config
   loader, it is shallow on purpose," that lesson lands here so the implementer doesn't undo it.
-- **Phases** is the ordered breakdown of the work, cut into slices (next section). Each phase carries a `Depends on:` line (`none` or phase numbers); phases with no unmet dependency and disjoint files can run in parallel by default under `/dx-implement` (not with `--manual`). Serial work stays serial.
+- **Phases** is the ordered breakdown of the work, cut into slices (next section). Each phase carries a `Depends on:` line (`none` or phase numbers); phases with no unmet dependency and disjoint files can run in parallel by default under `/dx-implement` (not with `--manual`). Serial work stays serial. A phase that changes dependencies is never parallel-safe, so `/dx-plan` gives it a `Depends on:` that serializes it. For each group of phases that can run concurrently, `/dx-plan` also adds one **integration phase** that depends on every member (next section).
 - **Progress** is the live execution record (the section after that).
+
+## Tags and the integration phase
+
+When a plan has a parallel group, `/dx-plan` tags every `#### Automated` row so `/dx-implement` knows where it can run:
+
+- `(isolated)` — needs only the phase's own source tree: typecheck, lint, pure unit tests. It runs inside that phase's worktree, in parallel with its siblings.
+- `(integrated)` — needs ports, a dev server, a database, another phase's code, or e2e. It runs only on the merged tree. An `agent-runnable` Manual row that drives a running app counts as `(integrated)` too.
+
+Group members carry only `(isolated)` rows. The group's `(integrated)` rows live in a synthetic integration phase that `Depends on:` every member, so it runs exactly once after the merge. A serial plan has no group: it gets no integration phase, and tags are optional. The reason for the split is in [worktree isolation](worktree-isolation.md).
 
 ## Vertical slices, not horizontal layers
 
@@ -224,6 +233,7 @@ running anything.
 
 ## Related
 
+- [Worktree isolation](worktree-isolation.md) — what the `(isolated)`/`(integrated)` tags are for.
 - [Implement vs TDD](implement-vs-tdd.md) — the two skills that consume `## Progress` and how to choose between them.
 - [Handoff scaling](handoff-scaling.md) — why upstream artifacts shrink the plan interview, and the question-count tiers.
 - [Efforts and changes](efforts-and-changes.md) — the two-level model; vertical slices at the effort scale.

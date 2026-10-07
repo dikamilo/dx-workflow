@@ -1,6 +1,6 @@
 # Initialize a project with dx-
 
-In this tutorial you will run `/dx-init` once against a real repo and watch it lay down the `context/` state tree that every other dx- skill reads and writes. By the end you will have the six workflow folders on disk, three seeded global standards, the built-in review Policy, empty knowledge files ready to fill, and a root `CLAUDE.md` that carries the workflow's safety principle — plus your very first work item. No prior dx- experience needed.
+In this tutorial you will run `/dx-init` once against a real repo and watch it lay down the `context/` state tree that every other dx- skill reads and writes. By the end you will have the six workflow folders on disk, three seeded global standards, the built-in review Policy, empty knowledge files ready to fill, a managed dx- block in your agent instructions file, and a `.worktrees/` entry in `.gitignore` — plus your very first work item. No prior dx- experience needed.
 
 ## Prerequisites
 
@@ -47,12 +47,17 @@ Open Claude Code in your project and run:
 > context/config/review-policies/sessions.md           created
 > context/config/templates/review-policy.md    created
 > context/config/templates/review-report.md    created
-> CLAUDE.md                               updated (rollback principle added)
+> CLAUDE.md                               updated (dx:workflow block added)
+> .gitignore                              updated (.worktrees/ added)
 > ```
 >
-> It creates the six top-level folders (`foundation/`, `standards/`, `config/`, `efforts/`, `changes/`, `archive/`), seeds the three global standards and the review Policy files by copying its bundled assets, leaves `standards/{frontend,backend,testing}/` empty for `/dx-standards-discover` to fill, and writes a one-line header into each of `foundation/glossary.md` and `foundation/lessons.md`. It also ensures
-> the root `CLAUDE.md` states the **user-confirmed rollback** principle: on failure, never
-> auto-rollback — stop, analyze the root cause, and ask before reverting anything. Then it stops and
+> It creates the six top-level folders (`foundation/`, `standards/`, `config/`, `efforts/`, `changes/`, `archive/`), copies the review Policy files from its bundled assets, leaves `standards/{frontend,backend,testing}/` empty for `/dx-standards-discover` to fill, and writes a one-line header into each of `foundation/glossary.md` and `foundation/lessons.md`. A few details worth knowing:
+>
+> - **Standards are seeded once.** It copies the three global standards only when `context/standards/` did not exist before the run. On a project that already has the folder it copies nothing and asks which shipped standards you want to add, so a re-run never brings back a standard you deleted.
+> - **A managed block, not your whole file.** It writes a one-line pointer to the workflow between `<!-- dx:workflow:start -->` and `<!-- dx:workflow:end -->` markers. The block goes into `AGENTS.md` when that file exists and `CLAUDE.md` is absent or only points at it (for example `@AGENTS.md`); otherwise into `CLAUDE.md`, created if needed. Everything outside the markers stays yours, and a re-run replaces the block in place instead of adding a second one.
+> - **`.worktrees/` is git-ignored.** It adds that line to `.gitignore` (creating the file if absent, never duplicating an existing entry). `/dx-implement` auto mode keeps its git worktrees there, and it stops and points you back at `/dx-init` if the entry is missing. See [worktree isolation](../explanation/worktree-isolation.md).
+>
+> Then it stops and
 > prints:
 >
 > ```text
@@ -203,7 +208,8 @@ After this session your project has, on disk:
 - Empty `standards/{frontend,backend,testing}/` folders, ready for `/dx-standards-discover`.
 - The review Policy files in `context/config/review-policies/`: the built-in `plan.md`, `implementation.md` and `test-strategy.md` and `sessions.md` Policies, and the `review-policy.md` and `review-report.md` templates in `context/config/templates/`.
 - Header-only knowledge files: `context/foundation/glossary.md` and `context/foundation/lessons.md`.
-- A root `CLAUDE.md` carrying the user-confirmed rollback principle and a pointer to the dx- workflow.
+- A managed `<!-- dx:workflow:start/end -->` block with a pointer to the dx- workflow, in `AGENTS.md` or `CLAUDE.md`.
+- A `.worktrees/` line in `.gitignore`.
 - Your first change scaffolded at `context/changes/oauth-login/` (`status: new`).
 
 ## Where to next
