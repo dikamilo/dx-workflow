@@ -12,7 +12,7 @@ phase.
 `/dx-tdd`, and `/dx-implement --manual`, execute **exactly one phase** of `context/changes/oauth-login/plan.md` per run — never the whole
 plan. A phase is a vertical slice, end-to-end and demoable, described by the plan and tracked by a block of
 `## Progress` rows. You run the skill, it does one phase, it prints a `Next:` line, and it stops. You run it
-again for the next phase. Nothing auto-chains. (`/dx-implement` by default is the exception: a coordinator runs all pending phases on subagents, concurrently where the plan's `Depends on:` lines allow, and commits each phase itself; `--manual` gives one phase per invocation. `/dx-tdd` has no coordinator mode and always runs one phase.) (See [plan and slices](plan-and-slices.md) for how phases get
+again for the next phase. Nothing auto-chains. (`/dx-implement` by default is the exception: a coordinator runs all pending phases on subagents inside its own git worktree, concurrently where the plan's `Depends on:` lines allow, and commits each phase itself; `--manual` gives one phase per invocation in your current checkout. `/dx-tdd` has no coordinator mode and always runs one phase in your current checkout.) (See [plan and slices](plan-and-slices.md) for how phases get
 carved up in the first place.)
 
 Because each invocation is scoped to one phase, the *choice* of sibling is also per-phase. There is no
@@ -48,15 +48,19 @@ Progress row that landed in that commit (` — abc1234`). Rows are never renumbe
 follow-ups are added as new boxes. A manual-only phase with no code diff commits nothing and leaves its rows
 SHA-less.
 
+**Same start check.** Before any phase work, both siblings (and `--manual`) run the shared `start-check`: resolve the work branch (your current non-default branch, a branch you name, or it asks on the default branch — it never invents a name), then commit the change's uncommitted `context/` files on it. If a stopped auto run left a kept `.worktrees/<change-id>*` worktree, `/dx-tdd` and `--manual` stop and point at `/dx-implement`, because their commits aren't on your work branch yet and resuming here would run on code missing the ticked phases; auto mode reattaches instead.
+
 **Never auto-rollback.** If something fails, the skill stops and reports — it does not revert your work. Most
 failures are a one-line fix, not a reason to throw away a phase. If the cause isn't obvious after a quick
 look, it escalates to [`/dx-diagnose`](../tutorials/diagnose-a-bug.md) rather than guessing at more fixes.
-This mirrors the rollback principle written into every dx- project's `CLAUDE.md`.
+This is the workflow's own rollback principle: nothing is reverted without you.
 
 Because the Progress contract is shared byte-for-byte, a phase driven by `/dx-tdd` and the next phase driven
 by `/dx-implement` leave an indistinguishable record. That is the whole point.
 
-## Where they diverge: the inner loop
+## Where they diverge: the inner loop and the workspace
+
+One difference is the workspace. `/dx-implement` auto mode never works in your checkout: it runs in a worktree and fast-forwards your work branch when everything is green (see [worktree isolation](worktree-isolation.md)). `/dx-tdd` and `/dx-implement --manual` run their one phase right in your checkout, so you can watch the red-green loop. Choose `/dx-tdd` when you want to drive the loop; choose auto mode when you want the plan run without touching your tree.
 
 ### `/dx-implement` — standard
 
@@ -134,6 +138,7 @@ layer of guessing where a one-word command already does the job.
 
 ## Related
 
+- [Worktree isolation](worktree-isolation.md) — why auto mode runs in a worktree and what it keeps on a stop.
 - [Plan and slices](plan-and-slices.md) — how a plan's phases, `type`, and conditional gates are shaped
   before you implement.
 - [The knowledge layer](knowledge-layer.md) — the standards and lessons that bind each phase you implement.

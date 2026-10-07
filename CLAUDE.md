@@ -1,8 +1,6 @@
 # dx — maintainer orientation
 
-This repo authors the `dx-` skill set. `DESIGN.md` is the source of truth for behavior; this file orients anyone working **on** the skills. (It is not installed with the skills — each skill ships standalone via skills.sh. The workflow's own rollback principle is written into each *target project's* `CLAUDE.md` by `dx-init`.)
-
-This project uses the dx- SDLC framework; workflow state lives under `context/`.
+This repo authors the `dx-` skill set. `DESIGN.md` is the source of truth for behavior; this file orients anyone working **on** the skills. (It is not installed with the skills — each skill ships standalone via skills.sh. Target projects get only a one-line dx- pointer from `dx-init`; the never-auto-rollback principle lives in the skills themselves.)
 
 ## Layout
 
@@ -42,3 +40,7 @@ Any PR touching `skills/**` must carry a changeset per change/slice it contains 
 Merging to `main` runs the release job, which opens/updates a "Version Packages" PR bumping `package.json` and generating `CHANGELOG.md`; merging that PR is the actual version release. Turning the gate job into a required branch-protection check is a manual follow-up in GitHub Settings, not something this workflow configures.
 
 See `DESIGN.md` §4 for the two-level model (effort ⊃ change) and the full skill lifecycle/entry shapes.
+
+<!-- dx:workflow:start -->
+This project uses the dx- SDLC framework; workflow state lives under `context/`.
+<!-- dx:workflow:end -->

@@ -80,7 +80,7 @@ Named in order: `/dx-init` (once per project) → `/dx-new` → `/dx-research?` 
 `/dx-plan` → `/dx-review plan?` → `/dx-review-triage?` → `/dx-implement` or `/dx-tdd` →
 `/dx-review implementation` → `/dx-review-triage?` → `/dx-archive`.
 
-- **`/dx-init`** scaffolds `context/`, seeds the review Policies, and writes the rollback principle into your project's `CLAUDE.md`. You run it once.
+- **`/dx-init`** scaffolds `context/`, seeds the review Policies, writes a managed dx- pointer block into your `AGENTS.md` or `CLAUDE.md`, and git-ignores `.worktrees/`. You run it once.
 - **`/dx-new`** is the universal entry point. It creates the container for a piece of work and
   routes between the two levels (see below). `/dx-brainstorm` can run *before* `/dx-new`, when it
   isn't yet decided that the idea is worth building at all — concluding "build nothing" is a

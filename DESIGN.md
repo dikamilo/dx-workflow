@@ -45,7 +45,7 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 - **Domain glossary** at `foundation/glossary.md` — ubiquitous language, glossary-only, no implementation detail. Seeded for brownfield by `domain-discover`, sharpened ongoing by `domain`, **read as a one-line habit by every skill, written only by the two domain skills.** Cuts verbosity and improves naming.
 
 ### Disciplines & vocabulary
-- **User-confirmed rollback** as a hard, stated principle in the root `CLAUDE.md`: never auto-rollback on failure.
+- **User-confirmed rollback** as a hard, stated principle of this project (in its root `CLAUDE.md`): never auto-rollback on failure — including a failed merge or conflict resolver in `/dx-implement` auto mode. `dx-init` does not write it into target projects.
 - **Feedback-loop-first debugging** as a model-invoked `diagnose` skill (§9).
 - **Interview** as a reusable reference (the `interview` topic, loaded via `dx-references`) that `dx-frame` and `dx-plan` pull in — one question at a time, recommended answer each, decision-tree resolution (§10).
 - **Deep-module design vocabulary** as a reference (the `module-design` topic via `dx-references`) — module / interface / depth / seam / deletion test — loaded by `dx-research`/`dx-frame`/`dx-plan` when the work is a refactor (§11).
@@ -128,7 +128,7 @@ E. raw idea:      brainstorm → (nothing worth building | already covered) | (c
 
 ```
 <engineering-group>/               # the dx- skill set (plugin root)
-├── CLAUDE.md                      # root orientation + rollback principle + skill index
+├── CLAUDE.md                      # root orientation (incl. the never-auto-rollback principle) + skill index
 └── skills/
     ├── dx-<skill>/SKILL.md        # one directory per skill — current list derives from `ls`; see docs/reference/skills.md
     ├── dx-init/assets/            # seeded into a target project, missing-only: standards/ and
@@ -203,6 +203,8 @@ status: new           # new → scoped → in-progress → done → archived
 - [ ] 1.2 Feature works in UI
 ```
 Resume = first `- [ ]` in document order. Completion = `count([x]) / count( [ ]+[x] )`. Multiple implementer skills (implement/tdd) write this identically. Each phase should be a **vertical slice** where practical — end-to-end and demoable — not a horizontal layer pass.
+
+**Worktree isolation (auto mode).** Every `dx-implement` and `dx-tdd` start runs the shared `start-check` reference: resolve the work branch (the current non-default branch, a branch the user names, or ask — never a hardcoded name), commit the change's `context/` files, and stop the one-phase modes (`--manual`, `dx-tdd`) if a stopped auto run left a kept worktree. `dx-implement` auto mode then runs in a coordinator worktree `.worktrees/<change-id>` on scratch branch `<work-branch>--wt` and fast-forwards the work branch on success; only a group of phases that run concurrently gets sibling worktrees `.worktrees/<change-id>--p<N>`, merged back in dependency order (a resolver agent edits only conflicted files). The coordinator is the sole writer of `context/` (Progress, commits, `handoff.md`), which stays in the main checkout. `dx-plan` tags each `#### Automated` row `(isolated)` (runs in the subagent worktree) or `(integrated)` (runs once on the merged tree) and emits an integration phase per parallel group. Worktrees are kept on any stop and removed only on full success; nothing is auto-rolled-back. `--manual` and `dx-tdd` keep one phase in the current checkout with no worktree.
 
 ### 7.4 Handoff scaling (question count vs. upstream artifacts)
 Principle: *every artifact passed in — including a parent effort's — is a decision already made; don't re-ask it.* `plan` reads every available research file (change-scoped, parent-effort, `foundation/research/`, and `diagnosis.md` / `brainstorm.md` when present) as gathered context; it never re-spawns agents to find what a research file already mapped. The exact question-scaling table (upstream provided → questions to ask) lives in the `interview` reference (loaded via `dx-references`), which is the more current copy.
@@ -363,6 +365,8 @@ Ship three files under `context/standards/global/` (each ~20–30 lines):
 - **`conventions.md`** — predictable structure, env vars over secrets, minimal deps, feature flags, changelog.
 
 `frontend/`, `backend/`, `testing/` ship **empty**. `standards-discover` populates them per-project from the actual codebase + config, so no inherited opinions land where they don't fit.
+
+`init` seeds these three files only when `context/standards/` did not exist before the run; on an existing context it copies nothing and asks which shipped standards to add, so a re-run never resurrects a standard the project deleted. It writes a one-line dx- pointer inside a managed `<!-- dx:workflow:start/end -->` block in `AGENTS.md` (when it exists and `CLAUDE.md` is absent or only points at it) or `CLAUDE.md`; a re-run replaces the block in place. It no longer writes the rollback principle into the target project. It also ensures `.gitignore` lists `.worktrees/`.
 
 `init` also seeds `context/config/review-policies/` with the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies plus `templates/review-policy.md` and `templates/review-report.md`, copying only missing files. They are user-owned once seeded, so a fix to a shipped Policy or template never reaches an existing copy, and a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed compares both templates by hand.
 

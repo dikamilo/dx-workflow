@@ -19,6 +19,7 @@ flowchart TD
     B --> C[Ship your first change]
     C --> D[Frame & research]
     C --> E[Run a bigger effort]
+    C --> W[Run parallel phases in worktrees]
     C --> F[Review & triage]
     B --> G[Build standards]
     B --> H[Build domain language]
@@ -48,6 +49,7 @@ Hands-on, start-to-finish walkthroughs with realistic you↔agent conversations.
 | [Ship your first change](tutorials/ship-a-change.md) | Take a change from `/dx-new` to `/dx-archive` end to end |
 | [Use frame and research](tutorials/frame-and-research.md) | Prepare a fuzzy change with the two optional upstream steps |
 | [Run a bigger effort](tutorials/run-an-effort.md) | Decompose large work into vertical slices with a roadmap |
+| [Run parallel phases in worktrees](tutorials/run-parallel-phases-in-worktrees.md) | Run `/dx-implement` in git worktrees, merge a parallel group, and resume a stopped run |
 | [Build and maintain standards](tutorials/build-standards.md) | Seed and grow your project's rulebook |
 | [Build and maintain domain language](tutorials/build-domain-language.md) | Seed and sharpen the project glossary |
 | [Brainstorm an idea](tutorials/brainstorm-an-idea.md) | Diverge on a raw idea with `/dx-brainstorm` before committing to it |
@@ -75,6 +77,7 @@ Conceptual background on how the workflow is designed and why.
 | [Plans and vertical slices](explanation/plan-and-slices.md) | Multi-phase plans and the `## Progress` contract |
 | [Handoff scaling](explanation/handoff-scaling.md) | Scaling plan questions to what upstream settled |
 | [Implement vs TDD](explanation/implement-vs-tdd.md) | The two implementer siblings |
+| [Worktree isolation](explanation/worktree-isolation.md) | Why auto mode runs in git worktrees, the `(isolated)`/`(integrated)` check split, and the in-repo `.worktrees/` trade-off |
 | [Policy-driven review](explanation/policy-driven-review.md) | Why review criteria live in a Policy file you own, and the mechanism in `/dx-review` |
 
 ## Reference — *look it up*

@@ -49,7 +49,7 @@ If a term clashes with the glossary, is vague/overloaded, or finally gets pinned
 
 Follow that shape. Author `## Data model`, `## API & contracts`, and/or `## Failure modes &
 reversibility` for whichever topics step 2 loaded — omit the rest entirely, never `N/A`. Each phase
-a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Give each phase a `Depends on:` line (`none` or phase numbers); cut independent work into disjoint files so phases can run in parallel, but serial work stays serial — don't force parallelism or horizontal slices.
+a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Give each phase a `Depends on:` line (`none` or phase numbers); cut independent work into disjoint files so phases can run in parallel, but serial work stays serial — don't force parallelism or horizontal slices. A phase that changes dependencies is never parallel-safe: give it a `Depends on:` that serializes it. For each group of phases that can run concurrently, add one integration phase `Depends on:` every member (rules in `progress-format`); a serial plan gets none.
 
 If any `## User cases` section is present — this change's own `frame.md`, the parent effort's, or both;
 treat the two as a union, not a replacement — check whether the repo already has a test setup for the
@@ -67,6 +67,8 @@ Activate the conditional characteristic for `change.md`'s `type`:
 ## 5 — Own `## Progress` (invoke `dx-references` with `progress-format`)
 
 Write the `## Progress` section once, all boxes `[ ]`, one `### Phase N` per phase. This is the execution single-source-of-truth `dx-implement`/`dx-tdd` will flip.
+
+In a plan with a parallel group, tag every `#### Automated` row `(isolated)` or `(integrated)`: members get only `(isolated)` rows, the integration phase holds the group's `(integrated)` rows, including `agent-runnable` Manual rows that drive a running app.
 
 Label every `#### Manual` row `(agent-runnable)` or `(user-only)`. Aim for a plan the agent can verify end to end: push each check to `#### Automated` first, then `agent-runnable`; keep `user-only` for what truly needs a human.
 
