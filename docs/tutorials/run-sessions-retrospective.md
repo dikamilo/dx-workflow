@@ -6,7 +6,7 @@ In this tutorial you will run the built-in `sessions` review on your current age
 
 ## Prerequisites
 
-- A project where `/dx-init` has run and `context/workflow/review-policies/sessions.md` exists. If it doesn't (a project seeded before this Policy), re-run `/dx-init`: it adds missing files and overwrites nothing. Your copy of `policy-template.md` is not refreshed, so compare it with the shipped one by hand to see `promote: off`.
+- A project where `/dx-init` has run and `context/config/review-policies/sessions.md` exists. If it doesn't (a project seeded before this Policy), re-run `/dx-init`: it adds missing files and overwrites nothing. Your copy of `review-policy.md` is not refreshed, so compare it with the shipped one by hand to see `promote: off`.
 - A session worth reviewing. The current one is the default, so run this after some real work.
 
 ## Step 1 — Run it

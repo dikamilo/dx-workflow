@@ -16,7 +16,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Container** — the general term for either level of work: a change or an effort. Both carry a `.md` identity file and a status lifecycle; discovery-entry skills *promote* findings into one. See [efforts and changes](../explanation/efforts-and-changes.md).
 
-**Context (`context/`)** — the root folder that holds all file-derived workflow state in an adopting project. It has exactly six top-level folders: `foundation/`, `standards/`, `workflow/`, `efforts/`, `changes/`, and `archive/`. See [directory layout](../explanation/directory-layout.md).
+**Context (`context/`)** — the root folder that holds all file-derived workflow state in an adopting project. It has exactly six top-level folders: `foundation/`, `standards/`, `config/`, `efforts/`, `changes/`, and `archive/`. See [directory layout](../explanation/directory-layout.md).
 
 **Deep vs shallow module** — the module-design vocabulary used when hunting refactors: a module's *depth* is the functionality it hides divided by the interface it exposes. Deep is good (much hidden, narrow interface); a shallow module like `config-loader` is a wide pass-through that exposes almost as much as it hides. See [find refactors](../tutorials/find-refactors.md).
 
@@ -54,7 +54,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Plan (`plan.md`)** — the solution design, the HOW: the phased approach to building a change, plus the `## Progress` section it owns. Written by `/dx-plan`, flipping the change to `status: planned`. See [plan and slices](../explanation/plan-and-slices.md).
 
-**Policy (`context/workflow/review-policies/<policy-id>.md`)** — the user-editable definition of one kind of review: its preconditions, what it loads, the dimensions it checks, optional `## Questions` gates and `## Candidates` fields, what a pass sets, and which targets it accepts. The file name is its ID, so `implementation.md` runs as `/dx-review implementation <change-id>`. `/dx-init` seeds the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies and never overwrites a copy you edited. A new kind of review is a new Policy, not a new skill. See [policy-driven review](../explanation/policy-driven-review.md).
+**Policy (`context/config/review-policies/<policy-id>.md`)** — the user-editable definition of one kind of review: its preconditions, what it loads, the dimensions it checks, optional `## Questions` gates and `## Candidates` fields, what a pass sets, and which targets it accepts. The file name is its ID, so `implementation.md` runs as `/dx-review implementation <change-id>`. `/dx-init` seeds the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies and never overwrites a copy you edited. A new kind of review is a new Policy, not a new skill. See [policy-driven review](../explanation/policy-driven-review.md).
 
 **Priors & gotchas** — the section of a `plan.md` fed by matched lessons: the known traps and hard-won cautions relevant to this change, surfaced before you start building. See [plan and slices](../explanation/plan-and-slices.md).
 

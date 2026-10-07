@@ -6,7 +6,7 @@ In this tutorial you will run the built-in `test-strategy` review over a folder 
 
 ## Prerequisites
 
-- A project where `/dx-init` has run and `context/workflow/review-policies/test-strategy.md` exists. If it doesn't (a project seeded before this Policy), re-run `/dx-init`: it adds missing files and overwrites nothing. Your copies of `policy-template.md` and `report-template.md` are not refreshed, so compare them with the shipped ones by hand.
+- A project where `/dx-init` has run and `context/config/review-policies/test-strategy.md` exists. If it doesn't (a project seeded before this Policy), re-run `/dx-init`: it adds missing files and overwrites nothing. Your copies of `review-policy.md` and `review-report.md` are not refreshed, so compare them with the shipped ones by hand.
 - A folder with tests in it. This tutorial uses `src/billing`, which holds a `price.ts` calculation, an `Invoice` class and their tests.
 - Familiarity with [review and triage](./review-and-triage.md) helps but isn't required: an Explore run has no report to triage.
 

@@ -14,9 +14,9 @@ dx- splits the two jobs along that line.
 
 **`/dx-review` holds the mechanism.** It is the same for every review: resolving the policy ID and the target, refusing archived work, reading the glossary, applying your custom instructions, fanning out subagents, writing the report, confirming before it overwrites a report with open findings, invoking `/dx-diagnose` on a regression, offering a lesson or a standard update, and printing the next commands.
 
-**A Policy holds the criteria.** A Policy is a Markdown file at `context/workflow/review-policies/<policy-id>.md`, and its file name is its ID. It declares which targets it accepts, its preconditions, what to load, its dimensions and the tag its findings carry, any extra checks, what a pass sets, and extra `Next:` lines. Three Policies ship built in. `plan` is the optional pre-implementation gate: it needs a Change with a `plan.md`, reviews Substance, Feasibility, Architectural fitness and Standards-fit, and sets no status. `implementation` is the post-implementation gate: its preconditions require a finished `## Progress`, its four dimensions are Plan-Drift, Safety, Patterns and Standards, its extra check is the behavior-preserving gate for `type: refactor`, and its `## On pass` sets `status: reviewed`. `test-strategy` is the hybrid: it accepts a container or a folder, and asks whether the testing strategy matches the problem class of the code under test (`Strategy-fit`, plus `Frontend & e2e` and `Pathological tests`, which are general-knowledge heuristics rather than researched rules).
+**A Policy holds the criteria.** A Policy is a Markdown file at `context/config/review-policies/<policy-id>.md`, and its file name is its ID. It declares which targets it accepts, its preconditions, what to load, its dimensions and the tag its findings carry, any extra checks, what a pass sets, and extra `Next:` lines. Three Policies ship built in. `plan` is the optional pre-implementation gate: it needs a Change with a `plan.md`, reviews Substance, Feasibility, Architectural fitness and Standards-fit, and sets no status. `implementation` is the post-implementation gate: its preconditions require a finished `## Progress`, its four dimensions are Plan-Drift, Safety, Patterns and Standards, its extra check is the behavior-preserving gate for `type: refactor`, and its `## On pass` sets `status: reviewed`. `test-strategy` is the hybrid: it accepts a container or a folder, and asks whether the testing strategy matches the problem class of the code under test (`Strategy-fit`, plus `Frontend & e2e` and `Pathological tests`, which are general-knowledge heuristics rather than researched rules).
 
-So a new kind of review is a new file, not a new skill. You copy `policy-template.md`, write your dimensions, and run `/dx-review <your-id> <change-id>`. Triage needs no change either: `/dx-review-triage <container-id> <policy-id>` reads `reviews/<policy-id>.md`, and decides from each finding's location what to load and whether a fix gets committed, instead of branching on a fixed list of review types.
+So a new kind of review is a new file, not a new skill. You copy `review-policy.md`, write your dimensions, and run `/dx-review <your-id> <change-id>`. Triage needs no change either: `/dx-review-triage <container-id> <policy-id>` reads `reviews/<policy-id>.md`, and decides from each finding's location what to load and whether a fix gets committed, instead of branching on a fixed list of review types.
 
 The split also keeps reviews honest about what they promised. Since the mechanism is shared, every Policy gets the same guarantees for free — a report in one shape, findings that never renumber, a refusal instead of a guess, and no edits to the work under review.
 
@@ -50,11 +50,11 @@ There is deliberately no default answer. A gate you skip, or one nobody is prese
 
 `/dx-init` copies the built-in Policies and the two templates into your project, and only the files that are missing. From then on they are yours: edit `implementation.md`, `plan.md`, `test-strategy.md` or `sessions.md` to tighten a dimension, delete a check that doesn't apply, add Policies beside it. A re-run of `/dx-init` never overwrites them.
 
-The other side of that is deliberate: **a fix to a shipped Policy never reaches your copy on its own.** When a dx- release improves a built-in Policy, your project keeps running the version it copied; and a project that predates a new built-in, like `plan.md`, `test-strategy.md` or `sessions.md`, doesn't have it until you re-run `/dx-init`, which seeds only the missing files. The same goes for the two templates: a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed keeps templates that don't document them, so compare `policy-template.md` and `report-template.md` with the shipped ones by hand. To pick the fix up, compare your copy with the one in the new release and merge it by hand. The alternative — updating Policies in place on upgrade — would silently discard the edits that make Policies worth owning.
+The other side of that is deliberate: **a fix to a shipped Policy never reaches your copy on its own.** When a dx- release improves a built-in Policy, your project keeps running the version it copied; and a project that predates a new built-in, like `plan.md`, `test-strategy.md` or `sessions.md`, doesn't have it until you re-run `/dx-init`, which seeds only the missing files. The same goes for the two templates: a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed keeps templates that don't document them, so compare `review-policy.md` and `review-report.md` with the shipped ones by hand. To pick the fix up, compare your copy with the one in the new release and merge it by hand. The alternative — updating Policies in place on upgrade — would silently discard the edits that make Policies worth owning.
 
 ## Nothing lints a Policy
 
-The skills themselves pass through a lint gate before every release. Policies don't: they are files in your project, not part of the skill set, so nothing checks their shape mechanically. `policy-template.md` is the only guardrail, which is why it spells out every section and heading.
+The skills themselves pass through a lint gate before every release. Policies don't: they are files in your project, not part of the skill set, so nothing checks their shape mechanically. `review-policy.md` is the only guardrail, which is why it spells out every section and heading.
 
 `/dx-review` still refuses the cases it can see — a missing or invalid `targets`, an unknown ID, a failing precondition. A Policy that is well-formed but vague, though, simply produces a vague review. When a review starts missing things, read the Policy before you suspect the skill.
 
@@ -62,7 +62,7 @@ The skills themselves pass through a lint gate before every release. Policies do
 
 - **Upgrades are manual for Policies.** You trade automatic fixes for edits that stick.
 - **No mechanical check of your Policies.** The template carries the shape; you carry its correctness.
-- **One more folder.** `context/workflow/` exists only to hold review Policies and their templates, alongside `foundation/` and `standards/`.
+- **One more folder.** `context/config/` exists only to hold review Policies (`review-policies/`) and their templates (`templates/`), alongside `foundation/` and `standards/`.
 
 In exchange, the set of reviews grows with your project rather than with the skill set, and the criteria for every review sit in a file you can read, diff and change.
 
@@ -72,6 +72,6 @@ In exchange, the set of reviews grows with your project rather than with the ski
 - [Review and triage](../tutorials/review-and-triage.md) — the built-in `plan` and `implementation` reviews and the triage loop.
 - [Review a folder with test-strategy](../tutorials/review-a-folder-with-test-strategy.md) — an Explore run, its gates and promotion, end to end.
 - [Run the sessions retrospective](../tutorials/run-sessions-retrospective.md) — a report-only Explore run.
-- [Directory layout](directory-layout.md) — where `context/workflow/review-policies/` sits.
+- [Directory layout](directory-layout.md) — where `context/config/review-policies/` sits.
 - [The knowledge layer](knowledge-layer.md) — why a Policy is not a Standard: a Standard is a rule your code follows, a Policy defines what one review checks.
 - [Skills reference](../reference/skills.md) — `/dx-review`, `/dx-review-triage` and `/dx-init`.

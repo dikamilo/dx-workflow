@@ -1,10 +1,10 @@
 # Write a review policy
 
-In this tutorial you will add a second kind of review to your project — a `security` review — by writing one Markdown file, then run it on the `oauth-login` change and triage what it finds. You won't write or install a skill: `/dx-review` runs any **Policy** it finds in `context/workflow/review-policies/`, so a new kind of review is a new file. By the end you will have a `security.md` Policy, a `reviews/security.md` report written by it, and a triaged finding.
+In this tutorial you will add a second kind of review to your project — a `security` review — by writing one Markdown file, then run it on the `oauth-login` change and triage what it finds. You won't write or install a skill: `/dx-review` runs any **Policy** it finds in `context/config/review-policies/`, so a new kind of review is a new file. By the end you will have a `security.md` Policy, a `reviews/security.md` report written by it, and a triaged finding.
 
 ## Prerequisites
 
-- A project where `/dx-init` has run, so `context/workflow/review-policies/` holds `implementation.md`, `policy-template.md` and `report-template.md` (and the other built-in Policies, `plan.md`, `test-strategy.md` and `sessions.md`). If your copy of `policy-template.md` predates the `## Questions` and `## Candidates` sections used in Step 6, compare it with the shipped one by hand: `/dx-init` never overwrites it. If the folder is missing (an older project), re-run `/dx-init` — it adds missing files and touches nothing else. See [initialize a project](./initialize-a-project.md).
+- A project where `/dx-init` has run, so `context/config/review-policies/` holds `implementation.md` and the other built-in Policies (`plan.md`, `test-strategy.md` and `sessions.md`), and `context/config/templates/` holds `review-policy.md` and `review-report.md`. If your copy of `review-policy.md` predates the `## Questions` and `## Candidates` sections used in Step 6, compare it with the shipped one by hand: `/dx-init` never overwrites it. If the folder is missing (an older project), re-run `/dx-init` — it adds missing files and touches nothing else. See [initialize a project](./initialize-a-project.md).
 - A change that is built: this tutorial reuses `oauth-login` from [ship a change](./ship-a-change.md), at `status: implemented` or `reviewed` but not yet archived — `/dx-review` refuses archived work. If you followed that tutorial to the end, run this one before its archive step, or use any built change of your own.
 - Familiarity with one review-and-triage round. If you haven't run one yet, do [review and triage](./review-and-triage.md) first — this tutorial reuses that loop with your own criteria.
 
@@ -13,16 +13,17 @@ In this tutorial you will add a second kind of review to your project — a `sec
 A Policy's file name is its ID. Copy the template under the name you want to type:
 
 ```text
-cp context/workflow/review-policies/policy-template.md context/workflow/review-policies/security.md
+cp context/config/templates/review-policy.md context/config/review-policies/security.md
 ```
 
-List the folder. `/dx-review` treats every `.md` here as a Policy except those whose name ends in `-template.md`, so you now have two Policy IDs, `implementation` and `security`:
+List the folder. `/dx-review` treats every `.md` here as a Policy, so `security` now sits beside the built-in Policy IDs, such as `implementation`:
 
 ```text
-context/workflow/review-policies/
+context/config/review-policies/
 ├── implementation.md
-├── policy-template.md
-├── report-template.md
+├── plan.md
+├── sessions.md
+├── test-strategy.md
 └── security.md
 ```
 
@@ -79,7 +80,7 @@ You left out `## Extra checks` and `## On pass` on purpose: a missing optional s
 /dx-review security oauth-login
 ```
 
-> **dx-review** resolves `security` to `context/workflow/review-policies/security.md`, reads `targets: container`, and resolves `oauth-login` to `context/changes/oauth-login/`. Both preconditions hold — there is a `plan.md`, and the change is `reviewed`. It loads the plan and the diff, plus `report-template.md` and the glossary, which it always reads. Then it fans out subagents over your three dimensions and writes `context/changes/oauth-login/reviews/security.md`:
+> **dx-review** resolves `security` to `context/config/review-policies/security.md`, reads `targets: container`, and resolves `oauth-login` to `context/changes/oauth-login/`. Both preconditions hold — there is a `plan.md`, and the change is `reviewed`. It loads the plan and the diff, plus `review-report.md` and the glossary, which it always reads. Then it fans out subagents over your three dimensions and writes `context/changes/oauth-login/reviews/security.md`:
 >
 > ```markdown
 > # Review: security — oauth-login
@@ -177,7 +178,7 @@ The full walkthrough of an Explore run, from scope to promotion, is in [run test
 
 ## What you built
 
-- `context/workflow/review-policies/security.md` — a Policy with three dimensions, run as `/dx-review security <container-id>`.
+- `context/config/review-policies/security.md` — a Policy with three dimensions, run as `/dx-review security <container-id>`.
 - `context/changes/oauth-login/reviews/security.md` — its report, with F1 `FIXED`, next to the `implementation` report.
 - One commit, `fix(oauth-login): returnTo redirect target is not checked against an allow-list (review)`.
 
@@ -194,4 +195,4 @@ The Policy is yours: edit it whenever your security bar changes, and the next ru
 
 - [Review and triage](./review-and-triage.md) — the built-in `implementation` review and the triage loop, step by step.
 - [Skills reference](../reference/skills.md) — `/dx-review`, `/dx-review-triage` and `/dx-init`, with exact reads, writes and `Next:` lines.
-- [Directory layout](../explanation/directory-layout.md) — where `context/workflow/` sits among the other folders.
+- [Directory layout](../explanation/directory-layout.md) — where `context/config/` sits among the other folders.

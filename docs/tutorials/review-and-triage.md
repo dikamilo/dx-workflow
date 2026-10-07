@@ -15,7 +15,7 @@ Two more facts that make the rest click:
 
 ## Prerequisites
 
-- The dx- skills are installed and you have a project open in Claude Code with `/dx-init` already run, so `context/workflow/review-policies/` holds the built-in `implementation` Policy. If not, start with [initialize a project](./initialize-a-project.md).
+- The dx- skills are installed and you have a project open in Claude Code with `/dx-init` already run, so `context/config/review-policies/` holds the built-in `implementation` Policy. If not, start with [initialize a project](./initialize-a-project.md).
 - A change that is **planned** (for Steps 1–2) and, by Steps 3–4, **implemented**. This tutorial picks
   up `oauth-login` right after [ship a change](./ship-a-change.md) has planned it — do that walkthrough
   first if you want a real plan to review. The review loop works on any change with a `plan.md`.
@@ -174,7 +174,7 @@ Assume you have now built the change — `/dx-implement oauth-login` ran every p
 /dx-review implementation oauth-login
 ```
 
-`/dx-review` runs whatever review a **Policy** defines. `implementation` is the Policy `/dx-init` seeded at `context/workflow/review-policies/implementation.md`: it holds what this gate checks, and `/dx-review` holds the mechanics of running it. (To see why the two are split, read [policy-driven review](../explanation/policy-driven-review.md).)
+`/dx-review` runs whatever review a **Policy** defines. `implementation` is the Policy `/dx-init` seeded at `context/config/review-policies/implementation.md`: it holds what this gate checks, and `/dx-review` holds the mechanics of running it. (To see why the two are split, read [policy-driven review](../explanation/policy-driven-review.md).)
 
 > **dx-review** loads the `implementation` Policy and checks its preconditions — `oauth-login` has a `plan.md` and no unchecked `- [ ]` left in `## Progress`. (Had a box still been open, it would refuse and point at `/dx-implement oauth-login`.) Following the Policy's `## Load`, it reads `plan.md` (with its Standards and Priors) and pulls the `git diff` for the commits that landed the change. Then it diffs *built-vs-plan* across the Policy's four dimensions — fanning out `Explore` subagents to keep its own context clean:
 >

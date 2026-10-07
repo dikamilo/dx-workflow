@@ -245,7 +245,7 @@ Nothing chained. You run the command again to do the next phase:
 
 ## Step 4 — Review what you built
 
-`/dx-review implementation` is the post-implementation gate. It compares what was actually built against the plan and **reports** — it reviews, it never quietly fixes the code it is checking. `implementation` is the name of a review **Policy** that `/dx-init` seeded into `context/workflow/review-policies/`; the Policy says what to check, and `/dx-review` runs it. Run it:
+`/dx-review implementation` is the post-implementation gate. It compares what was actually built against the plan and **reports** — it reviews, it never quietly fixes the code it is checking. `implementation` is the name of a review **Policy** that `/dx-init` seeded into `context/config/review-policies/`; the Policy says what to check, and `/dx-review` runs it. Run it:
 
 ```text
 /dx-review implementation oauth-login
