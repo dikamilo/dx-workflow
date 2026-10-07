@@ -10,6 +10,8 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Brief (`foundation/briefs/<slug>.md`)** — the recorded ground a decision stands on: its scope, rules, decisions, and open risks, with every substantive claim carrying an [evidence tag](../explanation/evidence-tags.md) and a source path, and the unsupported ones named as assumptions rather than quietly asserted. Written by `/dx-distill` alongside a companion `<slug>.interview.md`; read as settled context by `/dx-new`, `/dx-frame`, and `/dx-plan`. Unlike a frame it belongs to no container and outlives any one change; unlike research its provenance is per claim, not per file. See [distill a brief](../tutorials/distill-a-brief.md).
 
+**Candidate** — one ephemeral, numbered entry an Explore run presents inline: the fields its Policy's `## Candidates` declares plus a strength tag (`Strong | Worth exploring | Speculative`), with a site count where one rule is broken in many places. It has no stable number and no resolution status, and it is a file only if you promote it. Container runs produce Findings instead. See [policy-driven review](../explanation/policy-driven-review.md).
+
 **Change** — one shippable unit of work, the atomic container of the workflow; its identity and metadata live in `change.md`. A change moves `new → planned → implementing → implemented → reviewed → archived`. See [efforts and changes](../explanation/efforts-and-changes.md).
 
 **Container** — the general term for either level of work: a change or an effort. Both carry a `.md` identity file and a status lifecycle; discovery-entry skills *promote* findings into one. See [efforts and changes](../explanation/efforts-and-changes.md).
@@ -25,6 +27,8 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 **Effort** — larger work that does not fit in one change; its identity lives in `effort.md`, and it decomposes into child changes via a roadmap. An effort moves `new → scoped → in-progress → done → archived`. See [efforts and changes](../explanation/efforts-and-changes.md).
 
 **Evidence tag** — the marker on a claim in a brief naming what kind of source backs it: `[INTERVIEW]`, `[DATA]`, `[DOCUMENT]`, `[PRODUCT]`, `[BENCHMARK]`, `[SYNTHETIC]`, or `[ASSUMPTION]`. The tags name a *kind* of source, not a quality ranking, and they feed the brief's **Coverage** line — an arithmetic of what is sourced versus assumed, deliberately not a validation score. See [evidence tags](../explanation/evidence-tags.md).
+
+**Explore run** — a `/dx-review` run over the repo or chosen folders rather than a container, for a Policy whose `targets` is `explore` or `both`. It presents ranked Candidates inline, writes no `reviews/` report, and ends with one question about which to promote. See [run test-strategy on a folder](../tutorials/review-a-folder-with-test-strategy.md).
 
 **Feedback-loop-first debugging** — the discipline `/dx-diagnose` enforces: build a tight, red-capable feedback loop that reproduces the failure *before* hypothesising about causes. See [diagnose a bug](../tutorials/diagnose-a-bug.md).
 
@@ -50,7 +54,7 @@ This glossary defines the vocabulary of the **dx- workflow itself** — the term
 
 **Plan (`plan.md`)** — the solution design, the HOW: the phased approach to building a change, plus the `## Progress` section it owns. Written by `/dx-plan`, flipping the change to `status: planned`. See [plan and slices](../explanation/plan-and-slices.md).
 
-**Policy (`context/workflow/review-policies/<policy-id>.md`)** — the user-editable definition of one kind of review: its preconditions, what it loads, the dimensions it checks, what a pass sets, and which targets it accepts. The file name is its ID, so `implementation.md` runs as `/dx-review implementation <change-id>`. `/dx-init` seeds the built-in `implementation` Policy and never overwrites a copy you edited. A new kind of review is a new Policy, not a new skill. See [policy-driven review](../explanation/policy-driven-review.md).
+**Policy (`context/workflow/review-policies/<policy-id>.md`)** — the user-editable definition of one kind of review: its preconditions, what it loads, the dimensions it checks, optional `## Questions` gates and `## Candidates` fields, what a pass sets, and which targets it accepts. The file name is its ID, so `implementation.md` runs as `/dx-review implementation <change-id>`. `/dx-init` seeds the built-in `plan`, `implementation` and `test-strategy` Policies and never overwrites a copy you edited. A new kind of review is a new Policy, not a new skill. See [policy-driven review](../explanation/policy-driven-review.md).
 
 **Priors & gotchas** — the section of a `plan.md` fed by matched lessons: the known traps and hard-won cautions relevant to this change, surfaced before you start building. See [plan and slices](../explanation/plan-and-slices.md).
 

@@ -4,7 +4,7 @@ In this tutorial you will add a second kind of review to your project — a `sec
 
 ## Prerequisites
 
-- A project where `/dx-init` has run, so `context/workflow/review-policies/` holds `implementation.md`, `policy-template.md` and `report-template.md`. If the folder is missing (an older project), re-run `/dx-init` — it adds missing files and touches nothing else. See [initialize a project](./initialize-a-project.md).
+- A project where `/dx-init` has run, so `context/workflow/review-policies/` holds `implementation.md`, `policy-template.md` and `report-template.md` (and the other built-in Policies, `plan.md` and `test-strategy.md`). If your copy of `policy-template.md` predates the `## Questions` and `## Candidates` sections used in Step 6, compare it with the shipped one by hand: `/dx-init` never overwrites it. If the folder is missing (an older project), re-run `/dx-init` — it adds missing files and touches nothing else. See [initialize a project](./initialize-a-project.md).
 - A change that is built: this tutorial reuses `oauth-login` from [ship a change](./ship-a-change.md), at `status: implemented` or `reviewed` but not yet archived — `/dx-review` refuses archived work. If you followed that tutorial to the end, run this one before its archive step, or use any built change of your own.
 - Familiarity with one review-and-triage round. If you haven't run one yet, do [review and triage](./review-and-triage.md) first — this tutorial reuses that loop with your own criteria.
 
@@ -149,6 +149,32 @@ Then mistype the ID:
 
 Neither run wrote anything. A run you want to narrow rather than refuse takes a custom instruction after the change ID, as in `/dx-review security oauth-login only the callback route`. An instruction never skips a precondition, and a dimension it leaves unchecked is reported `N/A`.
 
+## Step 6 — Let it explore and ask (optional)
+
+So far `security` reviews one built change. Two more template sections let a Policy review a folder and ask you questions mid-run. Change the frontmatter to `targets: both` and add the sections to `security.md`:
+
+```markdown
+## Questions
+- **Trust boundary** — `after: scan`, `when:` a route reads user input, `blocks:` the Input verdict for that route. "I treat `routes/auth/google/start.ts` as the trust boundary. Is it?"
+
+## Candidates
+- Fields: **what & where** · **the risk** · **proposed change** (with a strength tag `Strong | Worth exploring | Speculative`).
+- `type: defect`
+```
+
+- **`## Questions`** declares gates. Each says when it fires (`after: scan` or `analysis`), what triggers it (`when:`) and what it holds back (`blocks:`). A stage's questions arrive as one round, and nothing they block is judged until you answer. There is no default: if you skip a gate, that unit is reported `unconfirmed` with its assumption and no verdict. Container runs ask them too.
+- **`## Candidates`** is required once `targets` includes `explore`. It declares the fields of each Candidate an Explore run shows, the `type` a promoted change gets, and optionally `facets:` and `recency: off`.
+
+Run it over a folder instead of a change:
+
+```text
+/dx-review security routes/auth
+```
+
+> **dx-review** prints the interpreted scope (`routes/auth`, no container), asks the `Trust boundary` round, then presents numbered Candidates and asks which to promote. It writes no `reviews/` file.
+
+The full walkthrough of an Explore run, from scope to promotion, is in [run test-strategy on a folder](./review-a-folder-with-test-strategy.md).
+
 ## What you built
 
 - `context/workflow/review-policies/security.md` — a Policy with three dimensions, run as `/dx-review security <container-id>`.
@@ -159,6 +185,7 @@ The Policy is yours: edit it whenever your security bar changes, and the next ru
 
 ## Where to next
 
+- [Review a folder with test-strategy](./review-a-folder-with-test-strategy.md) — an Explore run end to end, with gates and promotion.
 - [Policy-driven review](../explanation/policy-driven-review.md) — why the review criteria live in a file you own, and what that trades away.
 - [Build standards](./build-standards.md) — when a security finding keeps coming back, it belongs in a standard that every plan matches.
 

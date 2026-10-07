@@ -27,6 +27,7 @@ flowchart TD
     C --> K[Brainstorm an idea]
     K --> L[Distill a brief]
     F --> M[Write a review policy]
+    F --> N[Review a folder with test-strategy]
 ```
 
 1. **Understand it** — [Understanding the dx- workflow](explanation/workflow-overview.md).
@@ -54,6 +55,7 @@ Hands-on, start-to-finish walkthroughs with realistic you↔agent conversations.
 | [Find refactoring opportunities](tutorials/find-refactors.md) | Scan for deepening opportunities and promote them |
 | [Review and triage](tutorials/review-and-triage.md) | Run the two review gates and act on their findings |
 | [Write a review policy](tutorials/write-a-review-policy.md) | Add your own kind of review as a Policy file and run it with `/dx-review` |
+| [Review a folder with test-strategy](tutorials/review-a-folder-with-test-strategy.md) | Run an Explore review over a folder, answer its gates and promote a Candidate |
 
 ## Explanations — *understand why*
 

@@ -487,5 +487,6 @@ The candidates list itself is gone — ephemeral by design. Only what you promot
   behavior-preserving gate and loads module-design in the plan.
 - [The knowledge layer](../explanation/knowledge-layer.md) — how a recorded lesson stops the next scan
   from re-suggesting a rejected module.
+- [Review a folder with test-strategy](./review-a-folder-with-test-strategy.md) — a `/dx-review` Explore run uses the same promote-one and promote-many shape, with a different seed heading (`## <Policy> candidates (from /dx-review <policy-id>)`).
 - [Diagnose a bug](./diagnose-a-bug.md) — the other discovery entry point: `/dx-diagnose` self-contains
   its promotion into a `type: defect` change, the same way this skill promotes a refactor.

@@ -106,18 +106,18 @@ Additive; nothing is removed.
 
 ### Phase 3: Container run of `test-strategy` and regression of the built-ins
 #### Automated
-- [x] 3.1 Container-run gate handling in `dx-review`; `test-strategy` Load/Preconditions scope the run (via skill-creator)
-- [x] 3.2 `npm run lint:skills` passes
+- [x] 3.1 Container-run gate handling in `dx-review`; `test-strategy` Load/Preconditions scope the run (via skill-creator) — 4ba3c29
+- [x] 3.2 `npm run lint:skills` passes — 4ba3c29
 #### Manual
-- [x] 3.3 Sandbox: `/dx-review test-strategy <change-id>` writes `reviews/test-strategy.md` with three Verdicts lines, compound tags and a `## Reviewed` list, scoped to the change's touched tests; `/dx-review-triage <id> test-strategy` walks it (UC3)
-- [x] 3.4 Sandbox: an effort run covers the union of its child changes
-- [x] 3.5 Sandbox regression: `/dx-review implementation <id>` and `/dx-review plan <id>` behave as before (Progress guard, `status: reviewed`, lesson offer, Verdicts)
+- [x] 3.3 Sandbox: `/dx-review test-strategy <change-id>` writes `reviews/test-strategy.md` with three Verdicts lines, compound tags and a `## Reviewed` list, scoped to the change's touched tests; `/dx-review-triage <id> test-strategy` walks it (UC3) — 28574c8
+- [x] 3.4 Sandbox: an effort run covers the union of its child changes — 28574c8
+- [x] 3.5 Sandbox regression: `/dx-review implementation <id>` and `/dx-review plan <id>` behave as before (Progress guard, `status: reviewed`, lesson offer, Verdicts) — 28574c8
 
 ### Phase 4: Docs, changeset, dogfood
 #### Automated
-- [ ] 4.1 Reference, tutorials, explanation and `DESIGN.md` updated (documentation skill); new test-strategy tutorial added
-- [ ] 4.2 Changeset (minor) added with the compare-both-templates note, the argument grammar and the `dx-new` seed heading
-- [ ] 4.3 `grep -rn 'not available yet' skills docs` returns nothing; `npm run lint:skills` passes
+- [x] 4.1 Reference, tutorials, explanation and `DESIGN.md` updated (documentation skill); new test-strategy tutorial added
+- [x] 4.2 Changeset (minor) added with the compare-both-templates note, the argument grammar and the `dx-new` seed heading
+- [x] 4.3 `grep -rn 'not available yet' skills docs` returns nothing; `npm run lint:skills` passes
 #### Manual
 - [ ] 4.4 `/dx-init` re-run in this repo seeds `test-strategy.md`; this repo's `policy-template.md` and `report-template.md` refreshed by hand
-- [ ] 4.5 Every child change touching `skills/**` has its own changeset (`review-policy-core`, `plan-policy`, this one)
+- [x] 4.5 Every child change touching `skills/**` has its own changeset (`review-policy-core`, `plan-policy`, this one)

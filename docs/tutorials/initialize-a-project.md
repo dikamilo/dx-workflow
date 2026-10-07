@@ -40,7 +40,9 @@ Open Claude Code in your project and run:
 > context/changes/                        created
 > context/archive/                        created
 > context/workflow/review-policies/       created
+> context/workflow/review-policies/plan.md               created
 > context/workflow/review-policies/implementation.md     created
+> context/workflow/review-policies/test-strategy.md      created
 > context/workflow/review-policies/policy-template.md    created
 > context/workflow/review-policies/report-template.md    created
 > CLAUDE.md                               updated (rollback principle added)
@@ -75,7 +77,7 @@ context/
 │   ├── backend/             # empty
 │   └── testing/             # empty
 ├── workflow/
-│   └── review-policies/     # seeded: implementation, policy-template, report-template
+│   └── review-policies/     # seeded: plan, implementation, test-strategy, policy-template, report-template
 ├── efforts/                 # large, multi-slice work
 ├── changes/                 # single shippable units
 └── archive/                 # finished work moves here
@@ -196,7 +198,7 @@ After this session your project has, on disk:
 - Three seeded global standards with real content: `context/standards/global/coding-style.md`,
   `minimal-implementation.md`, and `conventions.md`.
 - Empty `standards/{frontend,backend,testing}/` folders, ready for `/dx-standards-discover`.
-- The review Policy files in `context/workflow/review-policies/`: the built-in `implementation.md` Policy plus `policy-template.md` and `report-template.md`.
+- The review Policy files in `context/workflow/review-policies/`: the built-in `plan.md`, `implementation.md` and `test-strategy.md` Policies plus `policy-template.md` and `report-template.md`.
 - Header-only knowledge files: `context/foundation/glossary.md` and `context/foundation/lessons.md`.
 - A root `CLAUDE.md` carrying the user-confirmed rollback principle and a pointer to the dx- workflow.
 - Your first change scaffolded at `context/changes/oauth-login/` (`status: new`).

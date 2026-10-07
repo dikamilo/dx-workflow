@@ -297,6 +297,7 @@ on your confirmation.
 - [Ship a change](./ship-a-change.md) — the full change lifecycle these two gates sit inside; return
   to it to see where review fits end to end.
 - [Write a review policy](./write-a-review-policy.md) — add your own kind of review next to `implementation`, and run it with the same `/dx-review` and `/dx-review-triage`.
+- [Review a folder with test-strategy](./review-a-folder-with-test-strategy.md) — the third built-in Policy, which also runs over a folder with no change at all and presents Candidates instead of a report.
 
 ## Related
 

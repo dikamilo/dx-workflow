@@ -66,7 +66,7 @@ context/
 │   ├── backend/       # empty
 │   └── testing/       # empty
 ├── workflow/
-│   └── review-policies/   # SEED: implementation.md, policy-template.md, report-template.md
+│   └── review-policies/   # SEED: plan.md, implementation.md, test-strategy.md, policy-template.md, report-template.md
 ├── efforts/<effort-id>/
 │   ├── effort.md
 │   ├── research/              # shared upstream research (read by child changes)
@@ -90,7 +90,7 @@ context/
 |---|---|---|---|
 | `foundation/` | Project-wide memory: `glossary.md` (ubiquitous language), `lessons.md` (accrued warnings), durable `research/`, `briefs/` (decisions and the [evidence](evidence-tags.md) behind them), and optional `vision.md` / `roadmap.md` / `tech-stack.md`. | `/dx-domain-discover` and `/dx-domain` seed the glossary; `/dx-lesson` appends lessons; `/dx-research` writes durable research; `/dx-distill` writes briefs. | Long-lived. `lessons.md` is append-only. Read by nearly every plan. |
 | `standards/` | The prescriptive baseline — how code *should* be written. `global/` is seeded with three starter standards; `frontend/`, `backend/`, `testing/` start empty. | `/dx-init` seeds `global/`; `/dx-standards-discover` mines the rest; `/dx-standards-update` edits and promotes graduated lessons. | Long-lived. Grows as your conventions harden. Matched into every plan and checked at review. |
-| `workflow/` | `review-policies/` — one Policy file per kind of review (the built-in `implementation.md`, plus any you add), next to `policy-template.md` and `report-template.md`. See [policy-driven review](policy-driven-review.md). | `/dx-init` seeds the three files, copying only those that are missing; after that you edit and add Policies by hand. | Long-lived and user-owned. A re-run of `/dx-init` never overwrites your copies, so a fix to a shipped Policy doesn't reach them either. |
+| `workflow/` | `review-policies/` — one Policy file per kind of review (the built-ins `plan.md`, `implementation.md` and `test-strategy.md`, plus any you add), next to `policy-template.md` and `report-template.md`. See [policy-driven review](policy-driven-review.md). | `/dx-init` seeds the five files, copying only those that are missing; after that you edit and add Policies by hand. | Long-lived and user-owned. A re-run of `/dx-init` never overwrites your copies, so a fix to a shipped Policy doesn't reach them either. |
 | `efforts/` | One directory per **effort** (larger work spanning several changes). Holds `effort.md`, shared `research/` and `frame.md`, optional `brainstorm.md`, and a `roadmap.md` of vertical slices. | `/dx-new` creates the directory; `/dx-roadmap` decomposes it into slices. | Medium-lived. Spawns child changes; moves to `archive/` when done. |
 | `changes/` | One directory per **change** (a single shippable unit). Holds `change.md`, `research/`, optional `frame.md` / `diagnosis.md` / `brainstorm.md`, `plan.md` (which owns `## Progress`), and `reviews/`. | `/dx-new` creates it; `/dx-research`, `/dx-frame`, `/dx-plan`, `/dx-implement`, and the review skills fill it. | Short-lived. Active until shipped, then moves to `archive/`. |
 | `archive/` | Finished efforts and changes, each under a dated `<YYYY-MM-DD>-<id>/` directory. | `/dx-archive` moves a completed `changes/<id>/` or `efforts/<id>/` here and stamps `archived_at`. | Permanent, effectively read-only. Searched for prior art by `/dx-research` and `/dx-plan`. |

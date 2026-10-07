@@ -36,7 +36,7 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 - **Question-scaling from upstream artifacts** — don't re-ask what a frame/research doc (or a parent effort) already settled (§7.4).
 - Implementer "siblings" (`implement` / `tdd`) sharing one Progress section so they interleave.
 - Explicit handoff schemas between skills, no conversation-memory coupling.
-- **`review` as the skill-based gate** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/workflow/review-policies/` (the pre-implementation gate is the built-in `plan` Policy, the post-implementation gate the built-in `implementation` Policy), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
+- **`review` as the skill-based gate** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/workflow/review-policies/` (the pre-implementation gate is the built-in `plan` Policy, the post-implementation gate the built-in `implementation` Policy, and `test-strategy` a hybrid that runs on a container or as an **Explore run** over the repo or folders), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
 
 ### The knowledge layer
 - **Standards layer** at `context/standards/{global,frontend,backend,testing}/`, plus `standards-discover` and `standards-update` skills.
@@ -324,6 +324,11 @@ Runs on a raw idea **before** `new`, when nobody has yet decided the work is wor
 
 This makes the three a clean set: discovery-entry skills that promote a candidate into a standard container, then hand off to the normal workflow.
 
+### `review` Explore runs (a fourth entry, via a Policy)
+A Policy whose `targets` is `explore` or `both` joins the discovery entries when `review` runs over the repo or folders instead of a container: `/dx-review <policy-id> [container-id | paths…] [instructions…]`, arguments resolved positionally (container, then existing paths, then instructions; a container plus a path is refused as ambiguous; no container and no path asks what to review). It produces ephemeral **Candidates** (never a report or a `reviews/` file) and promotes through the same one/many route as `refactor-discover`, but generic: one Candidate → `changes/<slug>/change.md` with the Policy's default `type` plus a seed `research/<topic>.md` (`kind: codebase`); many → a seed block headed `## <Policy> candidates (from /dx-review <policy-id>)` that `new` parses into an effort with the Notes marker `Candidate effort — default slice type: <type>; promoted from /dx-review <policy-id>.` and one research file per entry. A rejection with a load-bearing reason is offered as a lesson, and `lessons.md` is read to skip earlier rejections. Recency from `git log` is the default prior unless the Policy sets `recency: off`. Mechanism in the skill, criteria in the Policy: the Policy's `## Candidates` declares only entry fields, the default `type`, optional `facets` and `recency`. Standard Proposals stay with `refactor-discover`.
+
+A Policy may also declare `## Questions`: stage-tied gates (`after: scan | analysis`, `when:`, `blocks:`) asked per stage as one batched round, in container and Explore runs alike. There are no defaults: an unanswered gate leaves its unit `unconfirmed`, reported with its assumption and no verdict. The report template's optional `## Reviewed` lists every unit checked. The built-in `test-strategy` Policy uses all of this (`Strategy-fit`, `Frontend & e2e`, `Pathological tests`, with three gates), and its last two dimensions are general-knowledge heuristics, not researched rules.
+
 ---
 
 ## 10. Interview (a reference loop, not a skill)
@@ -357,7 +362,7 @@ Ship three files under `context/standards/global/` (each ~20–30 lines):
 
 `frontend/`, `backend/`, `testing/` ship **empty**. `standards-discover` populates them per-project from the actual codebase + config, so no inherited opinions land where they don't fit.
 
-`init` also seeds `context/workflow/review-policies/` with the built-in `implementation` Policy plus `policy-template.md` and `report-template.md`, copying only missing files. They are user-owned once seeded, so a fix to a shipped Policy never reaches an existing copy.
+`init` also seeds `context/workflow/review-policies/` with the built-in `plan`, `implementation` and `test-strategy` Policies plus `policy-template.md` and `report-template.md`, copying only missing files. They are user-owned once seeded, so a fix to a shipped Policy or template never reaches an existing copy, and a project seeded before `## Questions`, `## Candidates` and `## Reviewed` existed compares both templates by hand.
 
 ---
 
