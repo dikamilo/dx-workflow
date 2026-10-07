@@ -21,11 +21,16 @@ A container run of `/dx-review <policy-id> <container-id>` writes its report to 
 - **Why it matters:** <the concrete impact if left unaddressed>
 - **Fix:** <recommended fix>
 - **Resolution:** PENDING
+
+## Reviewed
+(optional — present when the Policy reviews discrete units)
+- <unit> — <problem class> — <current strategy> — OK | MISMATCH | unconfirmed
 ```
 
 - `<tag>` takes the form the Policy's `## Dimensions` declares, e.g. `Safety: Blocker`. Severity is `Blocker` or `Consider`.
 - Mark a dimension `N/A` when there was nothing to check. Never report an unchecked dimension as `PASS`, because that misreports it as clean.
 - With no findings, write `None.` under `## Findings`.
+- `## Reviewed` lists every unit checked, not only mismatches, so clean coverage stays visible. Findings stay mismatch-only. A unit a Policy gate could not confirm is `unconfirmed`: state its assumption and give no verdict. Omit the section when the Policy reviews no discrete units. It is not a finding, carries no `Resolution`, and triage ignores it.
 
 ## Rules
 

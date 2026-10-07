@@ -5,7 +5,7 @@ A Policy defines one kind of review. `/dx-review` supplies the mechanism (resolv
 ## Creating a Policy
 
 - Copy this file to `context/workflow/review-policies/<policy-id>.md`. The file name is the policy ID, so `security.md` is run as `security`. Any `.md` here whose name ends in `-template.md` is not a Policy.
-- Run it with `/dx-review <policy-id> [container-id] [instructions…]`, and triage its report with `/dx-review-triage <container-id> <policy-id>`.
+- Run it with `/dx-review <policy-id> [container-id | paths…] [instructions…]`, and triage a container report with `/dx-review-triage <container-id> <policy-id>`.
 - You may edit a shipped Policy (such as `implementation.md`) in place. `/dx-init` copies only files that are missing, so it never overwrites your edits, and later fixes to a shipped Policy don't reach your copy either. To pick one up, compare your copy with the shipped one by hand.
 - Nothing lints a Policy. This template is the only guardrail, so keep to its sections and headings.
 
@@ -23,7 +23,7 @@ targets: container   # container | explore | both. Required.
 
 A run on a target the Policy doesn't accept is refused. The refusal names the Policy and the targets it accepts. A missing or invalid `targets` value also refuses the run, naming the field.
 
-**Output follows from the target and is never declared.** A container run always writes a report to `reviews/<policy-id>.md` in that container (see `report-template.md`). An Explore run shows its results inline as Candidates. Explore runs are not available yet, so a Policy that targets `explore` or `both` is refused for a run with no container.
+**Output follows from the target and is never declared.** A container run always writes a report to `reviews/<policy-id>.md` in that container (see `report-template.md`). An Explore run shows its results inline as Candidates and writes no report, so a Policy that targets `explore` or `both` must carry `## Candidates`.
 
 ## Body
 
@@ -45,6 +45,20 @@ A run on a target the Policy doesn't accept is refused. The refusal names the Po
 ## Extra checks
 <Optional. Checks outside the dimensions, such as a gate that applies only to one change type. Findings from them carry the tag of the closest dimension.>
 
+## Questions
+<Optional. Gates the review asks the user mid-run. Each entry: the question text plus
+- `after:` `scan` | `analysis` — the stage it fires at.
+- `when:` the observation that triggers it.
+- `blocks:` what cannot be judged until it is answered.
+There is no `default:`. A gate that goes unanswered (unattended run, or the user says "skip") leaves the affected unit `unconfirmed`: reported with its assumption and no verdict. Absent means no gates.>
+
+## Candidates
+<Required for `targets: explore | both`; an Explore run is refused without it. What an Explore run presents:
+- the entry fields of one Candidate (a list),
+- `type:` default change type on promotion: `feature | defect | refactor | migration`,
+- `facets:` optional fan-out hints,
+- `recency: off` optional; the default is to let recent `git log` churn pull attention first.>
+
 ## On pass
 <Optional. What a pass means (for example, no `Blocker` finding) and what to set when it happens.>
 
@@ -52,8 +66,8 @@ A run on a target the Policy doesn't accept is refused. The refusal names the Po
 <Optional. `or:` lines printed after the triage line, each a command plus a short comment.>
 ```
 
-Every dimension gets one line in the report's `## Verdicts`. A section left out means that step does nothing. `## Preconditions`, `## Load` and `## Dimensions` are always present, even if a section only says "none".
+Every dimension gets one line in the report's `## Verdicts`. A container run applies `## Questions` too. A section left out means that step does nothing. `## Preconditions`, `## Load` and `## Dimensions` are always present, even if a section only says "none".
 
 ## Custom instructions
 
-Anything typed after the policy ID and the container ID is a custom instruction, e.g. `/dx-review implementation my-change focus on the migration`. Instructions narrow or steer the run. They never skip a precondition or the target check, and a dimension they leave unchecked is reported `N/A`, not `PASS`. A run that leaves any dimension unchecked this way never applies `## On pass`.
+Arguments resolve positionally: the container ID, else the leading tokens that are existing repo paths (the scope), and the first token that is neither starts the instructions. A container plus a path is refused as ambiguous. Instructions are e.g. `/dx-review implementation my-change focus on the migration`, and may pre-answer a `## Questions` gate. Instructions narrow or steer the run. They never skip a precondition or the target check, and a dimension they leave unchecked is reported `N/A`, not `PASS`. A run that leaves any dimension unchecked this way never applies `## On pass`.
