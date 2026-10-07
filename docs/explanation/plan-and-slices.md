@@ -31,6 +31,10 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 
 ## Approach
 <the chosen solution in a few sentences — what and why, drawn from the interview>
+Reuse from: <prior plan or decision borrowed — omit when none>
+
+## Assumptions
+<decisions the agent took itself — omit when none>
 
 ## Data model / API & contracts / Failure modes & reversibility
 <conditional — present only when the change actually touches that concern>
@@ -46,6 +50,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 ## Phases
 ### Phase N: <name>   — vertical slice where practical
 <what this phase delivers end-to-end>
+Tests: <affected test files>
 
 ## Progress
 <the execution single-source-of-truth — see below>
@@ -53,6 +58,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 
 - **Approach** is the decision, in prose. It captures *what* solution was chosen and *why*, distilled from
   the plan interview. A reader should be able to understand the direction without reading the phases.
+- **Assumptions** is optional. `/dx-plan` decides by default and asks only what truly needs a human — a choice only you can make (product intent, scope, a trade-off that is yours to own) or one costly to reverse that upstream and the codebase don't settle. Every decision it takes itself, such as where a route lives or what a module is called, is recorded here so you can redirect it at review instead of answering a question per choice. Omitted entirely when there are none. `Reuse from:` under **Approach** points at the prior plan or decision the plan borrowed; `/dx-plan` reads only the nearest sibling plan for that, not every earlier one.
 - **Data model**, **API & contracts**, and **Failure modes & reversibility** are conditional — each
   appears only when the change actually touches that concern (a schema change, a caller-facing
   interface, an external call or migration). `/dx-plan` gates them with a one-line relevance trigger
@@ -66,7 +72,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 - **Priors & gotchas** surfaces the relevant lines from `foundation/lessons.md` — decisions and scar
   tissue that a new change should not relitigate. If a past change learned "don't re-deepen the config
   loader, it is shallow on purpose," that lesson lands here so the implementer doesn't undo it.
-- **Phases** is the ordered breakdown of the work, cut into slices (next section). Each phase carries a `Depends on:` line (`none` or phase numbers); phases with no unmet dependency and disjoint files can run in parallel by default under `/dx-implement` (not with `--manual`). Serial work stays serial. A phase that changes dependencies is never parallel-safe, so `/dx-plan` gives it a `Depends on:` that serializes it. For each group of phases that can run concurrently, `/dx-plan` also adds one **integration phase** that depends on every member (next section).
+- **Phases** is the ordered breakdown of the work, cut into slices (next section). Each phase carries a `Depends on:` line (`none` or phase numbers); phases with no unmet dependency and disjoint files can run in parallel by default under `/dx-implement` (not with `--manual`). Each phase also names the test files it affects, so it runs a scoped test run; the one full-suite run lives in the final phase, and `## Standards to apply` is stated once for the whole plan rather than per phase. Serial work stays serial. A phase that changes dependencies is never parallel-safe, so `/dx-plan` gives it a `Depends on:` that serializes it. For each group of phases that can run concurrently, `/dx-plan` also adds one **integration phase** that depends on every member (next section).
 - **Progress** is the live execution record (the section after that).
 
 ## Tags and the integration phase
@@ -91,6 +97,10 @@ A vertical slice is end-to-end and demoable. For `oauth-login`, a sliced plan lo
 Contrast the horizontal alternative: "Phase 1: all the schema. Phase 2: all the API. Phase 3: all the UI."
 That reads tidy but nothing works until the last phase lands. There is nothing to demo, nothing to test
 against a user-visible outcome, and no way to stop early with something shippable.
+
+Phase 1 is the **tracer**: one happy path and one negative test, end to end. Hardening such as idempotency, readback, and races goes in later phases, so the first slice proves the path before it is made robust.
+
+**Scope cap.** When a plan outgrows one shippable unit, `/dx-plan` warns and offers to move the extras to a later change via `/dx-new`; you decide.
 
 The vertical cut buys three things:
 
