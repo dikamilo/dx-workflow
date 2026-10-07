@@ -9,8 +9,7 @@ experience needed.
 ## When to use an effort instead of a change
 
 Most work is a **change** — one shippable unit that goes straight through the change lifecycle. Reach
-for an **effort** only when the work is genuinely too big for one shippable unit *and* it decomposes
-into smaller pieces that each stand on their own. "Rebuild the payments flow" is a whole system —
+for an **effort** only when the work decomposes into smaller pieces that can each ship alone or run in parallel — being large is not enough, and serial work that hardens or extends earlier work is phases of one change's plan. "Rebuild the payments flow" is a whole system —
 schema, API, and UI — that no single change should swallow. That is an effort.
 
 The reliable test: if you can't ship it in one reviewable change, but you *can* break it into a few

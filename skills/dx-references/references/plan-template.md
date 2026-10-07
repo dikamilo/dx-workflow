@@ -9,6 +9,11 @@
 
 ## Approach
 <the chosen solution in a few sentences — what and why, drawn from the interview>
+Reuse from: <prior plan or decision borrowed — omit when none>
+
+## Assumptions
+> Decisions the agent took itself rather than asking — redirect any at review. Omit when none.
+- <decision and why>
 
 ## Standards to apply
 > Matched from context/standards/ by domain + topic. A checklist the implementer follows and `/dx-review implementation` verifies.
@@ -22,10 +27,14 @@
 ### Phase N: <name>   — vertical slice where practical
 Depends on: <none | phase numbers — phases with no unmet dependency and disjoint files may run in parallel>
 <what this phase delivers end-to-end>
+Tests: <affected test files — the phase runs only these>
 
 ## Progress
 <see progress-format — the execution single-source-of-truth>
 ```
+
+## Stated once
+`## Standards to apply` is one checklist per plan — don't restate it per phase. The full-suite run is one `Automated` row in the final phase; every other phase's `Automated` rows name the affected test files (a scoped run), never an unscoped full run.
 
 ## Conditional sections by relevance
 Three sections sit right after `## Approach`, each populated only when the change actually touches

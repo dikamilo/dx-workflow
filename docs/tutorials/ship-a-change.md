@@ -99,18 +99,12 @@ option — never a batch form.
 >
 > **You:** 1
 
-> **dx-plan** asks one more design question:
->
-> **Q3.** Where should the OAuth callback route live?
-> 1. `routes/auth/google/callback.ts` — matches the existing `routes/auth/` structure **(recommended)**
-> 2. `api/oauth.ts` — one flat catch-all handler
->
-> **You:** 1
+> **dx-plan** decides placement itself — the callback route lives in `routes/auth/google/`, matching the existing `routes/auth/` structure — and records it under `## Assumptions` rather than asking. It asks only what needs you: a choice only you can make, or one costly to reverse that the codebase doesn't settle.
 
 > **dx-plan** loads `plan-failure-modes` — this change introduces an external call (Google's token
 > exchange) — and asks:
 >
-> **Q4.** If the Google token exchange fails partway (network error, invalid code), how should the
+> **Q3.** If the Google token exchange fails partway (network error, invalid code), how should the
 > callback behave?
 > 1. Fail closed — show a generic sign-in error and create no partial session; safe to retry **(recommended)**
 > 2. Retry the exchange automatically before failing
@@ -138,6 +132,9 @@ Add "Sign in with Google" using the OAuth 2.0 Authorization Code flow with PKCE.
 `routes/auth/google/` pair — one route to start the flow, one callback — exchanges the code for a
 profile, matches it to an existing user by verified email, and issues the app's normal session. No
 account creation in this change (scope decided in the interview).
+
+## Assumptions
+- Callback route lives in `routes/auth/google/`, matching the existing `routes/auth/` structure.
 
 ## Failure modes & reversibility
 - Google's token exchange can fail or time out; the callback fails closed with a generic sign-in

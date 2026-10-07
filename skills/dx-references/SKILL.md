@@ -6,6 +6,6 @@ arguments: topics
 argument-hint: "[topic...]"
 ---
 
-Topics: $ARGUMENTS (space-separated). Read `${CLAUDE_SKILL_DIR}/references/<topic>.md` for every topic, in one call, and use their contents to complete the current task.
+Topics: $ARGUMENTS (space-separated). Read `${CLAUDE_SKILL_DIR}/references/<topic>.md` for every topic, in one call, and use their contents to complete the current task. A topic already loaded earlier in this session is not re-read — reuse it.
 
 For any topic whose file does not exist, list the files in `${CLAUDE_SKILL_DIR}/references/` and report that topic as not found, naming the topics that are available. Still return the ones that were found.

@@ -38,6 +38,7 @@ full scaffold.
 prints a `Next:` line suggesting what usually comes next, and then **stops**. It does not run the
 next command, and it does not copy it to your clipboard — you decide and you type it. This keeps
 you in control of every transition and means there is no orchestrator to configure or debug.
+Running the next command in the same session is fine — no `/clear` needed — and chaining stays your call; the skills still never auto-chain.
 
 **3. A first-class knowledge layer.** Three kinds of durable knowledge get their own artifacts
 with their own lifecycles: **standards** (the rulebook, e.g. `context/standards/global/coding-style.md`),

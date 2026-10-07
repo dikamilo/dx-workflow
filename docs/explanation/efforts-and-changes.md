@@ -45,7 +45,7 @@ context/
 
 ## Why two levels and not one
 
-A single container — the change — works fine for most work. You have an idea,
+A single container — the change — is the default, and works fine for most work, including large work. You have an idea,
 you plan it, you implement it, you ship it. But a change **cannot host work that
 produces other changes**. Consider `payments-v2`: rebuilding the payments flow
 is too big to plan and ship as one unit. It needs to be split into slices
@@ -136,7 +136,7 @@ it looks at the idea and decides the level.
 
 - A small, clear idea becomes a **change** directly — `/dx-new oauth-login`
   makes a standalone (freeform) change with `effort: null`.
-- A large idea that needs splitting becomes an **effort** — `/dx-new` scaffolds
+- An idea becomes an **effort** only when its slices can each ship alone or run in parallel; being large is not enough, and serial work that hardens or extends earlier work stays phases of one change's plan. For an effort, `/dx-new` scaffolds
   `effort.md`, then you research, frame, and build a `roadmap.md` of slices.
 
 Once an effort has a roadmap, each slice becomes a **child change** with its own
