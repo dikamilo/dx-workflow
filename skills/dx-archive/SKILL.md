@@ -24,7 +24,7 @@ An effort is done only when **every child change is already archived**. Before m
 
 ## Review gate — unresolved findings
 
-For a **change**, check `reviews/impl-review.md`. If it has any finding with `Resolution: PENDING`, warn — "N unresolved impl-review finding(s) — /dx-review-triage <change-id> impl to address them first" — and ask whether to archive anyway. The user may override.
+Scan every `reviews/*.md` in the container except the legacy `impl-review.md` and `plan-review.md`, which triage no longer reads. For each report with any finding marked `Resolution: PENDING`, warn — "N unresolved finding(s) in reviews/<policy-id>.md — /dx-review-triage <id> <policy-id> to address them first" — and ask whether to archive anyway. The user may override.
 
 ## Move and stamp
 

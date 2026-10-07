@@ -1,0 +1,63 @@
+---
+name: dx-review
+description: Run a review defined by a Policy in context/config/review-policies/ on a change or effort, and report.
+disable-model-invocation: true
+argument-hint: "<policy-id> [container-id | paths…] [instructions…]"
+---
+
+# dx-review
+
+Run one review, on a container or as an **Explore run** over the repo or folders. The **Policy** at `context/config/review-policies/<policy-id>.md` holds the criteria: its preconditions, what to load, the dimensions and extra checks, what a pass sets, and the next steps. This skill holds the mechanism and applies the Policy as written. **Report only:** never edit what you're reviewing; an Explore run writes only a promoted Change's `change.md` and `research/` (nothing, under `promote: off`). Fixes belong to `/dx-review-triage`.
+
+**Guard.**
+- **Policy.** If `context/config/review-policies/` is missing, point at `/dx-init`. A policy ID is the name of any `.md` there. If the ID is unknown, name it, list the available IDs, and note that re-running `/dx-init` seeds any built-in Policy the project is missing. If the Policy's `targets` is missing or isn't one of `container | explore | both`, refuse and name the field.
+- **Arguments.** The first is the policy ID. The rest resolve positionally: a container ID (`context/changes/<id>/` or `context/efforts/<id>/`), else the leading tokens that are existing repo paths, and the first token that is neither starts the custom instructions. A container ID under `context/archive/` is refused: archived work is done. A container plus a path is refused as ambiguous. No container and no paths is an **Explore run** over the whole repo.
+- **Target.** `container` refuses an Explore run, `explore` refuses a container run, `both` accepts either; every refusal names the Policy and the targets it accepts. An Explore run on a Policy with no `## Candidates` is refused, naming the section.
+- **Input acquisition.** An Explore run with no container and no paths asks what to review before reading anything. Print the interpreted scope before the fan-out.
+- **Preconditions.** Check every precondition the Policy lists. A failing precondition refuses the run with the next command it names.
+
+## 1 — Load
+Load what the Policy's `## Load` names, with each conditional load gated on its trigger. Also load `context/config/templates/review-report.md` (missing → `/dx-init`) and `foundation/glossary.md`. The glossary is a one-line habit: judge naming against the project's terms, and if the work's naming clashes with it or settles a term, invoke `dx-domain`. Custom instructions narrow or steer the run, but they never skip a precondition, and a dimension they leave unchecked is reported `N/A`, not `PASS`.
+
+## 2 — Review
+Fan out to built-in `Explore`/`general-purpose` subagents so the main context stays clean, for example one per dimension or pair of dimensions. Give each one the Policy's text for its dimensions and let it read only the files it needs. Run the Policy's `## Extra checks` too.
+
+If any dimension turns up a regression (behavior that used to work and now doesn't), don't just log it as a finding: invoke `dx-diagnose` on it directly.
+
+**Questions.** Container runs and Explore runs alike: if the Policy has `## Questions`, review in stages: scan, ask the `after: scan` gates that triggered as **one** confirm-or-edit round, then analyse, then ask the `after: analysis` gates the same way. Put the round to the user as a plain message and **end the turn to wait for the reply**; don't assume an unanswered round means nobody is there. Judge nothing a round `blocks:` until it is answered. Only when the user says "skip", or the custom instructions say the run is unattended, does a gate leave its unit `unconfirmed`: list it with its assumption stated and **no verdict, no finding and no Candidate**, never a silent default. Custom instructions may pre-answer a gate.
+
+**Explore run.** Let the paths that keep showing up in recent `git log --oneline` pull attention first, unless the Policy sets `recency: off`. Fan out one `Explore` per facet the Policy's `## Candidates` names (else per area). Read `foundation/lessons.md` and skip anything a prior run rejected (not under `promote: off`). Produce one Candidate per broken rule, with a site count where it recurs, not one per site.
+
+## 3 — Write and report
+**Explore run.** Write no report and no `reviews/` file. Present a numbered, ranked list of Candidates, each with the Policy's entry fields and a strength tag (`Strong | Worth exploring | Speculative`), then the `Reviewed` list of every unit checked (including `OK` and `unconfirmed`), then a one-sentence **top pick**: the strength tag ranks confidence, not sequence. With `promote: off`, stop here and skip §4. Otherwise ask one question: which to promote. Promoting **one** writes `context/changes/<slug>/change.md` (invoke `dx-references` with `change-md`; `type` is the Policy's default) and a seed `research/<topic>.md` whose frontmatter is exactly `topic`, `kind: codebase`, `source` (the `/dx-review` command), `gathered` (today) and `git_commit` (`git rev-parse HEAD`), with the Candidate verbatim as the body. Promoting **several** prints the seed summary and stops: the heading `## <Policy> candidates (from /dx-review <policy-id>)` with `<policy-id>` exactly as typed, the chosen entries numbered, a `Type: <type>` line (the Policy's default) and a closing `Start with:` line naming the top pick. Rejecting one with a load-bearing reason offers `/dx-lesson`. Skip the rest of this section and §4.
+
+**Container run.**
+Write the report to `reviews/<policy-id>.md` in the container, following the report template, with one Verdicts line per Policy dimension and findings tagged the way the Policy declares. Follow the template's overwrite rule: if the existing report still holds `PENDING` findings, confirm before overwriting it. Print the verdicts and findings to screen. If the run passes as the Policy's `## On pass` defines, do what that section says. The exception is a run where custom instructions left a dimension unchecked: it has not passed the whole gate, so skip `## On pass` and say why.
+
+## 4 — Offer a lesson or a standard update (don't auto-write)
+Read `foundation/lessons.md`, then make at most one offer per finding:
+- **It repeats an existing lesson.** That is the recurrence a standard needs, so offer to graduate that lesson via `/dx-standards-update` instead of adding a near-duplicate lesson.
+- **It exposes a gap in a standard:** the standard is silent on a case its own rule plainly covers, or it contradicts what the project consistently does. Offer to amend that standard via `/dx-standards-update`.
+- **Otherwise, if it is recurring or non-obvious,** the kind a future change would trip on again, offer to capture it via `/dx-lesson`. A single occurrence is not yet a rule.
+
+Show the proposed one-liner and let the user confirm. Never write `foundation/lessons.md` or `context/standards/` yourself.
+
+## Done when
+**Explore run with `promote: off`:** the Candidates, `Reviewed` list and top pick are printed. Print nothing after them and chain nothing.
+
+**Other Explore run:** Candidates are presented and the user has chosen. Print and stop:
+
+```
+Promoted one: Change created: context/changes/<slug>/change.md   (type: <type>, seeded with the Candidate)
+              Next: /dx-plan <slug>
+Promote many: Next: /dx-new "<the printed seed block, heading through Start with:, verbatim>" → /dx-roadmap <effort-id>
+Record a no:  /dx-lesson
+```
+
+**Container run:** The report exists, its findings are printed, and any `## On pass` effect is applied. Print the following and stop. Do not chain, and do not fix:
+
+```
+Review written: context/<changes|efforts>/<container-id>/reviews/<policy-id>.md
+Next: /dx-review-triage <container-id> <policy-id>   — triage findings and apply fixes
+  or: <each line of the Policy's ## Next>
+```

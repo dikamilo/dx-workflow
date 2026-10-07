@@ -86,7 +86,7 @@ time you plan a change, they show up in the plan.
 > **dx-plan** matches the standards catalog against this change by **domain × topic** and grows a
 > `## Standards to apply` checklist in `context/changes/oauth-login/plan.md` — for a login feature that
 > pulls the relevant `frontend/` and `backend/` rules, not the whole catalog. `/dx-implement` then follows
-> that checklist as it writes code, and `/dx-impl-review` verifies the finished work against it.
+> that checklist as it writes code, and `/dx-review implementation` verifies the finished work against it.
 
 That is the payoff of Step 1: every rule you discovered now rides along into planning, implementation, and
 review without you quoting it. For how a plan is assembled and how slices inherit it, see

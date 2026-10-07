@@ -15,8 +15,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-init`
 - **Invoke:** user — `/dx-init`
 - **Purpose:** scaffold the `context/` state tree and seed baseline standards so the rest of the workflow has somewhere to read and write; see [initialize a project](../tutorials/initialize-a-project.md).
-- **Reads:** existing `context/` (to stay idempotent), the skill's bundled `assets/standards/global/*.md`, the project's root `CLAUDE.md`.
-- **Writes:** `context/{foundation,standards,efforts,changes,archive}/` with the three global standards copied in and empty `glossary.md`/`lessons.md` headers; appends the user-confirmed rollback principle to root `CLAUDE.md`.
+- **Reads:** existing `context/` (to stay idempotent), the skill's bundled `assets/standards/global/*.md` and `assets/review-policies/*.md`, the project's root `CLAUDE.md`.
+- **Writes:** `context/{foundation,standards,efforts,changes,archive,config/{review-policies,templates}}/` with the three global standards copied in, empty `glossary.md`/`lessons.md` headers, and the review Policy files copied into `context/config/review-policies/` — the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies plus `review-policy.md` and `review-report.md`. Copies only files that are missing, so a re-run never overwrites an edited Policy or template (and never delivers a fix to a shipped one either): a project seeded before `test-strategy` or `sessions` gets that Policy on a re-run but keeps its old templates, which don't document `## Questions`, `## Candidates`, `promote: off` or `## Reviewed`, so compare them with the shipped ones by hand. Appends the user-confirmed rollback principle to root `CLAUDE.md`. Prints a created/present status per artifact, listing each review Policy file.
 - **Prints next:**
   ```text
   Next: /dx-new <idea>   — create a change or effort and start the workflow.
@@ -25,8 +25,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 ### `/dx-new`
 - **Invoke:** user or model (by name, no auto-fire) — `/dx-new [idea or effort/slice] [brief…]`
 - **Purpose:** the entry point and router — pick the container level (change vs effort vs a child slice) and create its identity file; see [efforts and changes](../explanation/efforts-and-changes.md).
-- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md` plus that effort's `effort.md` `## Notes` (for the refactor-effort marker that decides the slice's `type`); accepts a pre-seeded `diagnosis.md` or refactor candidate from a discovery skill, or (from `/dx-refactor-discover`'s promote-many path) an argument opening with `## Refactor opportunities (from /dx-refactor-discover)`, parsed as a multi-candidate effort seed. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here. Also picks up any brief under `context/foundation/briefs/` named anywhere in the argument — a bare slug, a filename, or a full path, one or several, no flag and no fixed position — and strips those names before deriving the slug; a name that doesn't resolve is never guessed at, it lists the directory and asks.
-- **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled; for a multi-candidate effort seed, also `## Notes`'s refactor-effort marker and one `context/efforts/<id>/research/<topic>.md` per promoted candidate (provenance frontmatter + the candidate's full entry, with its `Standard:` line if it is standard-driven and its `Sketch:` line if `/dx-refactor-discover` explored it, both kept verbatim); for any brief named, one prose `Briefs: <paths>` line in the container's `## Notes` — a pointer only, nothing copied and no frontmatter field added.
+- **Reads:** `context/` (guard that it is scaffolded), `foundation/glossary.md` for naming, and for a slice `context/efforts/<effort-id>/roadmap.md` plus that effort's `effort.md` `## Notes` (for the refactor-effort or Candidate-effort marker that decides the slice's `type`); accepts a pre-seeded `diagnosis.md` or refactor candidate from a discovery skill, or (from `/dx-refactor-discover`'s promote-many path) an argument opening with `## Refactor opportunities (from /dx-refactor-discover)`, parsed as a multi-candidate effort seed. An argument opening with `## <Policy> candidates (from /dx-review <policy-id>)` (the promote-many output of a `/dx-review` Explore run) is parsed the same way: the effort slug comes from the closing `Start with:` line. A `dx-brainstorm` conclusion arrives as a container that already exists, so its change-vs-effort level is handed over rather than re-derived here. Also picks up any brief under `context/foundation/briefs/` named anywhere in the argument — a bare slug, a filename, or a full path, one or several, no flag and no fixed position — and strips those names before deriving the slug; a name that doesn't resolve is never guessed at, it lists the directory and asks.
+- **Writes:** `context/changes/<id>/change.md` (`status: new`) or `context/efforts/<id>/effort.md` (`status: new`), every frontmatter field filled; for a multi-candidate effort seed, also `## Notes`'s refactor-effort marker (or, for a `/dx-review` seed, `Candidate effort — default slice type: <type>; promoted from /dx-review <policy-id>.`, which slice creation reads the way it reads the refactor marker) and one `context/efforts/<id>/research/<topic>.md` per promoted candidate (provenance frontmatter + the candidate's full entry, with its `Standard:` line if it is standard-driven and its `Sketch:` line if `/dx-refactor-discover` explored it, both kept verbatim); for any brief named, one prose `Briefs: <paths>` line in the container's `## Notes` — a pointer only, nothing copied and no frontmatter field added.
 - **Prints next:**
   ```text
   Change:       Next: /dx-research <id> <topic>   → /dx-frame <id>   → /dx-plan <id>
@@ -89,20 +89,8 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Prints next:**
   ```text
   Plan written: context/changes/<change-id>/plan.md
-  Next: /dx-plan-review <change-id>   — optional pre-implementation gate
+  Next: /dx-review plan <change-id>   — optional pre-implementation gate
     or: /dx-implement <change-id>     (/dx-tdd <change-id> for defect/test-first)
-  ```
-
-### `/dx-plan-review`
-- **Invoke:** user — `/dx-plan-review [change-id]`
-- **Purpose:** an optional pre-implementation gate asking "will this plan actually work?" across substance, feasibility, architectural fitness, and standards-fit — **report only, never edits**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md`, `change.md`, its `research/`/`frame.md`/`diagnosis.md`, `context/standards/`, `foundation/glossary.md`, the `plan-template`/`knowledge-layer`/`review-report` references, and — gated on the change, same triggers as `/dx-plan` — any of the `plan-data-model`/`plan-api-contracts`/`plan-failure-modes` references.
-- **Writes:** `context/changes/<change-id>/reviews/plan-review.md` — a concise `[Blocker]`/`[Consider]` findings list with a **sound/revise/rethink** verdict. Leaves `plan.md` and code untouched.
-- **Prints next:**
-  ```text
-  Plan review: context/changes/<change-id>/reviews/plan-review.md
-  Next: /dx-review-triage <change-id> plan   — triage findings and apply fixes to plan.md
-    or: /dx-implement <change-id>  (/dx-tdd <change-id> for defect/test-first) — proceed as-is
   ```
 
 ---
@@ -116,7 +104,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Writes:** the phase's code; flips its `## Progress` boxes to `- [x]` with the commit's short SHA appended; flips `change.md` to `status: implementing`, then `status: implemented` when every box is done. Never auto-rollback on failure.
 - **Prints next:**
   ```text
-  Next: /dx-impl-review <change-id>          # all phases done
+  Next: /dx-review implementation <change-id>   # all phases done
   Next: /dx-implement <change-id>            # more phases remain — runs the next one
   ```
 
@@ -127,7 +115,7 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 - **Writes:** failing test then minimal production code per behavior; flips `## Progress` boxes with SHA; sets `change.md` `status: implementing` → `implemented`. Hands pure-scaffolding phases to `/dx-implement`.
 - **Prints next:**
   ```text
-  Next: /dx-impl-review <change-id>          # all phases done
+  Next: /dx-review implementation <change-id>   # all phases done
   Next: /dx-tdd <change-id>                  # more phases remain — next one test-first
   Next: /dx-implement <change-id>            # ...or drive the next phase standard
   ```
@@ -136,29 +124,37 @@ Each entry follows a fixed shape: **Invoke** (who fires it and the arguments), *
 
 ## Review & triage
 
-### `/dx-impl-review`
-- **Invoke:** user — `/dx-impl-review [change-id]`
-- **Purpose:** the post-implementation gate — compare what was built against the plan across plan-drift (including any conditional `plan.md` sections), safety, patterns, and standards compliance, and **report**; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** `plan.md` (with Standards and Priors, and any `## Data model`/`## API & contracts`/`## Failure modes & reversibility` sections), `change.md` `type`, the `git log`/`git diff` for the change's phases, `foundation/glossary.md`, and the `knowledge-layer`/`review-report`/`module-design` references.
-- **Writes:** `context/changes/<change-id>/reviews/impl-review.md` — a per-dimension PASS/WARNING/FAIL verdicts block plus findings tagged `[<Dimension>: <Severity>]`; sets `change.md` `status: reviewed` if it passes. Never fixes the code.
+### `/dx-review`
+- **Invoke:** user — `/dx-review <policy-id> [container-id | paths…] [instructions…]`
+- **Purpose:** run the review a **Policy** defines, and **report**. On a change or effort it is a container run that writes a report; over the repo or folders it is an **Explore run** that presents Candidates. The Policy file holds the criteria (preconditions, what to load, dimensions, extra checks, what a pass sets, next steps), and the skill holds the mechanism. `/dx-review plan <change-id>` is the optional pre-implementation gate (substance, feasibility, architectural fitness, standards-fit) and `/dx-review implementation <change-id>` the post-implementation gate. `/dx-review test-strategy <container-id | folder>` checks whether the testing strategy matches the problem class of the code under test. `/dx-review sessions [instructions…]` is a report-only retrospective over agent session transcripts (see below). Arguments resolve positionally: a container ID, else the leading tokens that are existing repo paths, and the first token that is neither starts the custom instructions, which steer the run and may pre-answer a gate. A container plus a path is refused as ambiguous, and no container and no path asks what to review. See [policy-driven review](../explanation/policy-driven-review.md) and [write a review policy](../tutorials/write-a-review-policy.md).
+- **Reads:** the Policy at `context/config/review-policies/<policy-id>.md` and `review-report.md` beside it (both seeded by `/dx-init`), whatever the Policy's `## Load` names, `foundation/glossary.md`, and `foundation/lessons.md` when deciding what to offer for a recurring finding. It refuses an unknown policy ID (listing the available IDs and noting that re-running `/dx-init` seeds any missing built-in Policy), a run with no `review-policies/` (pointing at `/dx-init`), a target the Policy doesn't accept, an Explore run on a Policy with no `## Candidates`, an archived container, and a failing Policy precondition. When the Policy has `## Questions`, a run (container or Explore) works in stages and asks each stage's triggered gates as one confirm-or-edit round, judging nothing a round `blocks:` until it is answered; a skipped or unanswerable gate leaves the unit `unconfirmed`, reported with its assumption and no verdict. Explore runs also read `git log` (recency prior, unless the Policy sets `recency: off`).
+- **Writes:** a container run writes `context/{changes|efforts}/<container-id>/reviews/<policy-id>.md`; an Explore run writes no report, and a Policy with `promote: off` writes nothing at all. Promoting **one** Candidate writes `context/changes/<slug>/change.md` (the Policy's default `type`) and a seed `research/<topic>.md`; promoting **several** prints a seed block headed `## <Policy> candidates (from /dx-review <policy-id>)` for `/dx-new`. The report file is overwritten on each re-run after a confirmation if it still holds PENDING findings. The report has one verdict line per Policy dimension, findings tagged as the Policy declares, and an optional `## Reviewed` list of every unit checked (`OK | MISMATCH | unconfirmed`). On a pass it applies the Policy's `## On pass` (`implementation` sets `change.md` `status: reviewed`), except when custom instructions left a dimension unchecked. It invokes `/dx-diagnose` on a regression and never fixes the work it reviews. For a recurring or non-obvious finding it offers `/dx-lesson`, or `/dx-standards-update` when the finding repeats an existing lesson or exposes a gap in a standard. It never writes either itself.
 - **Prints next:**
   ```text
-  Review written: context/changes/<change-id>/reviews/impl-review.md
-  Next: /dx-review-triage <change-id> impl   — triage findings and apply fixes
-    or: /dx-lesson                           # a finding worth recording — offered above
-    or: /dx-archive <change-id>              # passed — retire the change
+  Review written: context/<changes|efforts>/<container-id>/reviews/<policy-id>.md
+  Next: /dx-review-triage <container-id> <policy-id>   — triage findings and apply fixes
+    or: <each line of the Policy's ## Next>
   ```
+  An Explore run prints instead:
+  ```text
+  Promoted one: Change created: context/changes/<slug>/change.md   (type: <type>, seeded with the Candidate)
+                Next: /dx-plan <slug>
+  Promote many: Next: /dx-new "<the printed seed block, heading through Start with:, verbatim>" → /dx-roadmap <effort-id>
+  Record a no:  /dx-lesson
+  ```
+  An Explore run on a Policy with `## Candidates` `promote: off` (the built-in `sessions`) prints the ranked Candidates, the `Reviewed` list and a top pick, then stops: no promote question, no `Next:` line, no `/dx-lesson` or `/dx-standards-update` offer, no rejection-memory read.
+- **`sessions` Policy:** `targets: explore`, `promote: off`. It reads agent session transcripts (the current session by default; instructions may name a session, the last N, or all of this project's) only through `Explore` subagents, and runs eight lenses (Navigation, Automated checks, Coding standards, Global AGENTS.md, Tool economy, No-ops, Information access, Skill use), each with a `Use when` trigger; a lens with no evidence is `N/A` in `Reviewed`. Each Candidate carries `where: repo | user-global` and a descriptive `destination:` label that routes nothing. With no readable transcript only the static lenses run. Credentials and customer content are never reproduced. Seven lenses come from Matt Pocock's `retro`; `Skill use` is not from retro and is unsourced. See [run the sessions retrospective](../tutorials/run-sessions-retrospective.md).
 
 ### `/dx-review-triage`
-- **Invoke:** user — `/dx-review-triage [change-id] [plan|impl]`
-- **Purpose:** the sole skill that **acts** on a review finding — walk a plan-review or impl-review report finding by finding and apply the fixes you confirm; see [review and triage](../tutorials/review-and-triage.md).
-- **Reads:** the `review-report` reference, `reviews/plan-review.md` **or** `reviews/impl-review.md` (resumes at the first `Resolution: PENDING`), and for impl the diff scope plus the files each pending finding names; for plan, `plan.md`.
-- **Writes:** edits to `plan.md` (plan-review) or the shipped code (impl-review), each finding's `Resolution:` line updated in place; commits code fixes as `fix(<change-id>): <finding title> (review)`. Never commits the report file.
+- **Invoke:** user — `/dx-review-triage <container-id> [policy-id]`
+- **Purpose:** the sole skill that **acts** on a review finding — walk one review report finding by finding and apply the fixes you confirm; see [review and triage](../tutorials/review-and-triage.md).
+- **Reads:** the report at `reviews/<policy-id>.md` in the change or effort (resumes at the first `Resolution: PENDING`). With no policy ID it uses the only report there, or asks which one when there are several. A legacy `reviews/plan-review.md` or `reviews/impl-review.md` is never read — it points at `/dx-review plan <container-id>` or `/dx-review implementation <container-id>` instead. Loads the report schema from `context/config/templates/review-report.md`, and for each pending finding only what its **Location** names — a plan section, or a `file:line` plus enough surrounding code to judge the fix. Refuses an archived container.
+- **Writes:** the fixes you confirm, and each finding's `Resolution:` line updated in place. A fix that touched files outside `context/` is committed on its own as `fix(<container-id>): <finding title> (review)`; a fix that touched only `context/` artifacts (such as `plan.md`) is left uncommitted. Never commits the report file.
 - **Prints next:**
   ```text
   Triaged <report file>: <n> fixed, <n> skipped, <n> accepted, <n> dismissed
-  Next: /dx-plan-review <change-id>   or  /dx-implement <change-id>   (plan-review triaged)
-    or: /dx-impl-review <change-id>   or  /dx-archive <change-id>     (impl-review triaged)
+  Next: /dx-review <policy-id> <container-id>   — re-review after fixes
+    or: <each line of the Policy's ## Next>
   ```
 
 ---
@@ -290,7 +286,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `/dx-archive`
 - **Invoke:** user or model (by name, no auto-fire) — `/dx-archive [change-id or effort-id]`
 - **Purpose:** retire a finished change or effort — move its folder to `context/archive/` and stamp it archived. No registry; the archive is just where done work lives; see [ship a change](../tutorials/ship-a-change.md).
-- **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, `reviews/impl-review.md` (warns on any `Resolution: PENDING`); the `change-md`/`effort-md` reference for the schema.
+- **Reads:** the container folder; for an effort, `roadmap.md` and each child change's `archived_at` (children must all be archived first); for a change, every `reviews/*.md` report except the legacy `impl-review.md` and `plan-review.md` (warns on any `Resolution: PENDING`, naming `/dx-review-triage <id> <policy-id>`, and asks whether to archive anyway); the `change-md`/`effort-md` reference for the schema.
 - **Writes:** moves the folder to `context/archive/<today>-<id>/` (prefers `git mv`); stamps the identity file `status: archived` with `archived_at` set and `updated` bumped.
 - **Prints next:**
   ```text
@@ -305,7 +301,7 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ### `dx-references`
 - **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
 - **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the thirteen topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `review-report`, `untrusted-content`. (There is no `model-policy` topic.)
+- **Reads:** `references/<topic>.md` for one of the twelve topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 

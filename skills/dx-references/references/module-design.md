@@ -1,6 +1,6 @@
 # Module design — vocabulary for refactors & structural work
 
-Loaded by `dx-research` / `dx-frame` / `dx-plan` / `dx-refactor-discover` / `dx-impl-review` when the work is a refactor or touches structure. A shared vocabulary for judging *shape*, not a procedure.
+Loaded by `dx-research` / `dx-frame` / `dx-plan` / `dx-refactor-discover` / the `implementation` review Policy when the work is a refactor or touches structure. A shared vocabulary for judging *shape*, not a procedure.
 
 ## Deep vs shallow modules
 A **module** is any unit behind an interface (function, class, file, service). Its **depth** = functionality hidden ÷ interface exposed.

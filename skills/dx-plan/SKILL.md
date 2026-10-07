@@ -74,7 +74,7 @@ Write the `## Progress` section once, all boxes `[ ]`, one `### Phase N` per pha
 
 ```
 Plan written: context/changes/<change-id>/plan.md
-Next: /dx-plan-review <change-id>   — optional pre-implementation gate
+Next: /dx-review plan <change-id>   — optional pre-implementation gate
   or: /dx-implement <change-id>     (/dx-tdd <change-id> for defect/test-first)
 ```
 

@@ -20,7 +20,7 @@ but they answer different questions and change on different schedules.
 | **Tone** | Prescriptive: "do this" | Cautionary / decisional: "this broke" / "we chose X over Y because Z" | Definitional: "X means Y" |
 | **Lives in** | `context/standards/{global,frontend,backend,testing}/` | `foundation/lessons.md` | `foundation/glossary.md` |
 | **Scope** | Project-wide, stable | Specific finding, append-only | Project-wide, grows as terms crystallize |
-| **Origin** | `/dx-standards-discover`, `/dx-standards-update` | `/dx-impl-review`, `/dx-diagnose`, rejected refactor, recorded decision | `/dx-domain-discover` seeds, `/dx-domain` sharpens |
+| **Origin** | `/dx-standards-discover`, `/dx-standards-update` | `/dx-review`, `/dx-diagnose`, rejected refactor, recorded decision | `/dx-domain-discover` seeds, `/dx-domain` sharpens |
 | **Lifecycle** | Catalog, edited in place | Append-only; a recurring one graduates into a standard | Glossary-only file, edited in place |
 | **In a plan** | Matched → "Standards to apply" checklist | Surfaced → "Priors & gotchas" | Read for naming (a one-line habit) |
 
@@ -70,8 +70,7 @@ does not want to relitigate. There is exactly one file — `foundation/lessons.m
 and it is **append-only**: you add entries, you don't rewrite history. Two flavors
 live side by side:
 
-- **Cautionary** — "this broke because…". Born from `/dx-impl-review` catching a
-  recurring finding, or `/dx-diagnose` tracing a class of bug.
+- **Cautionary** — "this broke because…". Born from `/dx-review` catching a recurring finding, or `/dx-diagnose` tracing a class of bug.
 - **Decisional** — "we chose X over Y because Z". This includes a refactor that
   was deliberately *rejected*: "don't re-deepen `config-loader` — it's shallow on
   purpose because we swap backends behind it."
@@ -139,8 +138,9 @@ flowchart TD
 
   P["dx-plan reads ALL THREE"]:::step
   P --> I["dx-implement / dx-tdd: follow matched standards"]:::step
-  I --> R["dx-impl-review: check standards-compliance"]:::step
+  I --> R["dx-review implementation: check standards-compliance"]:::step
   R -- "recurring finding" --> LS["dx-lesson appends"]:::step
+  R -- "repeats a lesson / standard gap" --> SU
   LS -- "if it generalizes" --> SU["dx-standards-update promotes"]:::step
   RD["dx-refactor-discover"]:::step -- "Standard Proposal (≥3 candidates)" --> SU
   SU -.-> S
@@ -161,9 +161,7 @@ In prose:
    `plan.md`, and uses glossary terms in the code it writes. (Which of the two you
    run depends on change type — see
    [implement vs TDD](implement-vs-tdd.md).)
-3. **`/dx-impl-review` checks standards-compliance** alongside plan-drift and
-   safety, and when it spots a *recurring* finding it offers to "record as a
-   lesson."
+3. **`/dx-review implementation` checks standards-compliance** alongside plan-drift and safety. When it spots a *recurring* finding it offers to "record as a lesson" — or, when the finding repeats a lesson already on file or exposes a gap in a standard, it offers `/dx-standards-update` directly instead.
 4. **`/dx-lesson` appends** that finding to `foundation/lessons.md`.
 5. **`/dx-standards-update` promotes** the lesson into `context/standards/` if it
    generalizes and keeps recurring — closing the loop back to where the next

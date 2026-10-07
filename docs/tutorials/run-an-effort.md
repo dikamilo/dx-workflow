@@ -214,7 +214,7 @@ standalone change — plan, implement, review, archive:
 
 > **dx-plan** plans against the inherited effort research and frame, writes
 > `context/changes/payments-schema/plan.md` with a `## Progress` section, and flips the change to
-> `status: planned`. From there it's implement → impl-review → archive, unchanged.
+> `status: planned`. From there it's implement → `/dx-review implementation` → archive, unchanged.
 
 The full walk-through of that lifecycle is [Ship a change](ship-a-change.md) — it applies verbatim to a
 child change, so it isn't repeated here.

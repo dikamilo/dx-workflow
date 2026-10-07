@@ -1,10 +1,6 @@
 # Initialize a project with dx-
 
-In this tutorial you will run `/dx-init` once against a real repo and watch it lay down the
-`context/` state tree that every other dx- skill reads and writes. By the end you will have the five
-workflow folders on disk, three seeded global standards, empty knowledge files ready to fill, and a
-root `CLAUDE.md` that carries the workflow's safety principle — plus your very first work item.
-No prior dx- experience needed.
+In this tutorial you will run `/dx-init` once against a real repo and watch it lay down the `context/` state tree that every other dx- skill reads and writes. By the end you will have the six workflow folders on disk, three seeded global standards, the built-in review Policy, empty knowledge files ready to fill, and a root `CLAUDE.md` that carries the workflow's safety principle — plus your very first work item. No prior dx- experience needed.
 
 ## Prerequisites
 
@@ -43,13 +39,18 @@ Open Claude Code in your project and run:
 > context/efforts/                        created
 > context/changes/                        created
 > context/archive/                        created
+> context/config/review-policies/       created
+> context/config/templates/              created
+> context/config/review-policies/plan.md               created
+> context/config/review-policies/implementation.md     created
+> context/config/review-policies/test-strategy.md      created
+> context/config/review-policies/sessions.md           created
+> context/config/templates/review-policy.md    created
+> context/config/templates/review-report.md    created
 > CLAUDE.md                               updated (rollback principle added)
 > ```
 >
-> It creates the five top-level folders (`foundation/`, `standards/`, `efforts/`, `changes/`,
-> `archive/`), seeds the three global standards by copying its bundled assets, leaves
-> `standards/{frontend,backend,testing}/` empty for `/dx-standards-discover` to fill, and writes a
-> one-line header into each of `foundation/glossary.md` and `foundation/lessons.md`. It also ensures
+> It creates the six top-level folders (`foundation/`, `standards/`, `config/`, `efforts/`, `changes/`, `archive/`), seeds the three global standards and the review Policy files by copying its bundled assets, leaves `standards/{frontend,backend,testing}/` empty for `/dx-standards-discover` to fill, and writes a one-line header into each of `foundation/glossary.md` and `foundation/lessons.md`. It also ensures
 > the root `CLAUDE.md` states the **user-confirmed rollback** principle: on failure, never
 > auto-rollback — stop, analyze the root cause, and ask before reverting anything. Then it stops and
 > prints:
@@ -77,6 +78,9 @@ context/
 │   ├── frontend/            # empty
 │   ├── backend/             # empty
 │   └── testing/             # empty
+├── config/
+│   ├── review-policies/     # seeded: plan, implementation, test-strategy, sessions
+│   └── templates/           # seeded: review-policy, review-report
 ├── efforts/                 # large, multi-slice work
 ├── changes/                 # single shippable units
 └── archive/                 # finished work moves here
@@ -120,6 +124,27 @@ context/foundation/glossary.md
 `foundation/lessons.md` is the same: a single header line
 (`# Lessons — accrued warnings and load-bearing decisions (append-only)`) and nothing else. These
 knowledge files grow as you work; `/dx-init` only stamps the header so later skills have a target.
+
+Finally, look in `context/config/review-policies/`. `implementation.md` is the built-in review **Policy** — the definition of the post-implementation gate you will run as `/dx-review implementation <change-id>` once a change is built. Its frontmatter says which targets it accepts, and its sections list the preconditions, what to load, and the dimensions it checks:
+
+```text
+context/config/review-policies/implementation.md
+```
+
+> ```markdown
+> ---
+> targets: container
+> ---
+>
+> The post-implementation gate: was what got built what `plan.md` planned, and is it safe, well-structured and standards-compliant?
+>
+> ## Preconditions
+> …
+> ## Dimensions
+> …
+> ```
+
+The two `-template.md` files beside it are not Policies: `review-policy.md` documents the shape a Policy follows, and `review-report.md` the shape of the report a review writes. These files are yours from now on. You may edit them, and a re-run of `/dx-init` never overwrites them — which also means a fix to the shipped `implementation` Policy in a later dx- release doesn't reach your copy until you compare and merge it by hand. To add a review of your own, see [write a review policy](write-a-review-policy.md).
 
 ## Step 3 — (Brownfield) seed standards and domain language
 
@@ -172,11 +197,11 @@ below.
 
 After this session your project has, on disk:
 
-- `context/` with its five top folders: `foundation/`, `standards/`, `efforts/`, `changes/`,
-  `archive/`.
+- `context/` with its six top folders: `foundation/`, `standards/`, `config/`, `efforts/`, `changes/`, `archive/`.
 - Three seeded global standards with real content: `context/standards/global/coding-style.md`,
   `minimal-implementation.md`, and `conventions.md`.
 - Empty `standards/{frontend,backend,testing}/` folders, ready for `/dx-standards-discover`.
+- The review Policy files in `context/config/review-policies/`: the built-in `plan.md`, `implementation.md` and `test-strategy.md` and `sessions.md` Policies, and the `review-policy.md` and `review-report.md` templates in `context/config/templates/`.
 - Header-only knowledge files: `context/foundation/glossary.md` and `context/foundation/lessons.md`.
 - A root `CLAUDE.md` carrying the user-confirmed rollback principle and a pointer to the dx- workflow.
 - Your first change scaffolded at `context/changes/oauth-login/` (`status: new`).

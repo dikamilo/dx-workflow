@@ -29,14 +29,14 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 ## 2. What's in and what's out
 
 ### Foundations — file-derived state
-- `context/{foundation,standards,efforts,changes,archive}/` layout (§4–§5).
+- `context/{foundation,standards,config,efforts,changes,archive}/` layout (§4–§5).
 - `change.md` — frontmatter identity + lifecycle.
 - `## Progress` checkbox section as **single source of truth**; resume = first unchecked `- [ ]`.
 - Skills never auto-chain; each **suggests** the next command and stops (no clipboard automation — the user runs it).
 - **Question-scaling from upstream artifacts** — don't re-ask what a frame/research doc (or a parent effort) already settled (§7.4).
 - Implementer "siblings" (`implement` / `tdd`) sharing one Progress section so they interleave.
 - Explicit handoff schemas between skills, no conversation-memory coupling.
-- **`plan-review` and `impl-review` as skill-based gates** (pre- and post-implementation) — no agents needed (§3). **`review-triage`** is the single skill that acts on either gate's findings — the gates themselves stay report-only.
+- **`review` as the skill-based gate** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/config/review-policies/` (the pre-implementation gate is the built-in `plan` Policy, the post-implementation gate the built-in `implementation` Policy, and `test-strategy` a hybrid that runs on a container or as an **Explore run** over the repo or folders), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
 
 ### The knowledge layer
 - **Standards layer** at `context/standards/{global,frontend,backend,testing}/`, plus `standards-discover` and `standards-update` skills.
@@ -66,13 +66,13 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 
 A dedicated agent earns its keep in only two cases: a **hard, harness-enforced capability constraint** (read-only / write-limited) that a prompt alone can't guarantee, and **moving large reused instructions out of the main context**. Neither justifies the cost here:
 
-- `impl-review` and `plan-review` already ran perfectly as **skills** — the reviewer/verifier roles do not need a separate persona or a hard tool restriction.
+- `review` (under its `plan` and `implementation` Policies) already ran perfectly as **skills** — the reviewer/verifier roles do not need a separate persona or a hard tool restriction.
 - `research` is what the built-in `Explore` subagent is for — spawn it with a prompt, no agent file needed.
 - Every dedicated agent adds maintenance surface and one more routing/selection decision — a cost with no offsetting benefit here.
 
 **Decision:** ship skills only. When the workflow needs fan-out or a constrained pass, it spawns built-in `Explore`/`general-purpose` subagents inline. If a future role ever proves it *must not* be violable by the model (e.g. a verifier caught editing files it should only check), that is the single criterion that would justify promoting it to a dedicated agent — but we start from zero and add only on observed need.
 
-**Known limitation this accepts:** because `plan-review`/`impl-review` are skills, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above). `review-triage` is the deliberate escape valve for this constraint: findings need to turn into edits *somewhere*, so that somewhere is a separate skill, keeping both review gates pure.
+**Known limitation this accepts:** because `review` is a skill, their reviewer discipline is prompt-based, not tool-enforced — nothing hard-stops a review skill from editing the code it is checking. This is acceptable for a personal, user-driven workflow; the day a review pass is caught fixing-and-hiding is the day that gate graduates to a tool-restricted agent (the promotion criterion above). `review-triage` is the deliberate escape valve for this constraint: findings need to turn into edits *somewhere*, so that somewhere is a separate skill, keeping both review gates pure.
 
 This keeps the workflow a **single artifact type** (skills), simpler to ship, install, reason about, and document.
 
@@ -102,8 +102,8 @@ A child change links back to its effort via `change.md` frontmatter (`effort: <i
 ### When to use which — `new` is the router
 `new` is the universal entry point and decides the level (asks or infers from size/clarity):
 
-- **Small / clear idea → change.** Standard flow: `new → research? → frame? → plan → implement → impl-review → archive`.
-- **Large / needs splitting → effort.** `new → research → frame → roadmap → (per slice) new <effort> <slice> → plan → implement → impl-review`.
+- **Small / clear idea → change.** Standard flow: `new → research? → frame? → plan → implement → review implementation → archive`.
+- **Large / needs splitting → effort.** `new → research → frame → roadmap → (per slice) new <effort> <slice> → plan → implement → review implementation`.
 
 Freeform changes (no parent effort) remain fully first-class — `new` without an effort just makes a standalone change. Most work is a change; efforts exist for the cases that genuinely decompose.
 
@@ -131,10 +131,12 @@ E. raw idea:      brainstorm → (nothing worth building | already covered) | (c
 ├── CLAUDE.md                      # root orientation + rollback principle + skill index
 └── skills/
     ├── dx-<skill>/SKILL.md        # one directory per skill — current list derives from `ls`; see docs/reference/skills.md
+    ├── dx-init/assets/            # seeded into a target project, missing-only: standards/ and
+    │                              # review-policies/ (→ context/config/review-policies/)
     └── dx-references/             # shared reference docs, loaded on demand via a topic argument
         ├── SKILL.md               # invocable loader: takes a `topic`, reads references/<topic>.md, returns it
         └── references/<topic>.md  # change-md, effort-md, progress-format, plan-template, interview,
-                                    # module-design, knowledge-layer, review-report, …
+                                    # module-design, knowledge-layer, …
 ```
 
 Skill directories don't get individually listed here — that list is exactly the kind of thing that must be derived, not maintained (§14 rule 9): it grows every time a skill is added, and a hand-kept copy would drift immediately. `docs/reference/skills.md` is the maintained inventory; `ls skills/` is the ground truth.
@@ -220,7 +222,9 @@ Every parsed format with more than one consumer has exactly one canonical defini
 | Format | Canonical source | Consumers |
 |---|---|---|
 | `## Progress` checkbox rows | `progress-format.md` | `plan` (creates), `implement`, `tdd` (write), `review-triage`, `archive` (read) |
-| `Resolution: PENDING` schema | `review-report.md` | `plan-review`, `impl-review` (write), `review-triage` (only writer of resolutions) |
+| `Resolution: PENDING` schema | `templates/review-report.md` | `review` (write), `review-triage` (only writer of resolutions), `archive` (reads for PENDING) |
+| Review Policy (`context/config/review-policies/<policy-id>.md`) — `targets`, preconditions, loads, dimensions, on-pass, next | `templates/review-policy.md`, seeded beside it by `init` from `dx-init/assets/config/` | `review` (applies it as written); the user (edits or adds Policies) |
+| Policy report (`reviews/<policy-id>.md`) — Verdicts block, finding format, overwrite rule | `templates/review-report.md`, seeded beside the Policies by `init` | `review` (writes), `review-triage` (resolves findings), `archive` (warns on PENDING) |
 | `change.md` frontmatter | `change-md.md` | every change-lifecycle skill (§7.1) |
 | `effort.md` frontmatter + roadmap `- change:` lines | `effort-md.md` | `roadmap`, `new`, `archive` (§7.2) |
 | `archived_at` derivation | `effort-md.md` / rule 9 (§14) | `archive` (writes it), `roadmap` (reads it to derive slice/effort completion) |
@@ -239,7 +243,7 @@ Three artifacts, all markdown, all in `foundation/` or `standards/`. They look s
 | Job | Normative baseline — *the rulebook* | Accrued scar tissue **+ load-bearing decisions** — *warnings & why-we-chose-X* | Ubiquitous language — *the terms* |
 | Tone | Prescriptive: "do this" | Cautionary **or decisional**: "this broke / don't do X" · "we chose X over Y because Z" | Definitional: "X means Y" |
 | Scope | Project-wide, stable, ahead-of-time | Specific to a finding, append-only | Project-wide, grows as terms crystallize |
-| Origin | `standards-discover` / `standards-update` | Born from `impl-review`, `diagnose`, a rejected refactor, or a recorded design decision | Seeded by `domain-discover`, sharpened by `domain` |
+| Origin | `standards-discover` / `standards-update` | Born from `review`, `diagnose`, a rejected refactor, or a recorded design decision | Seeded by `domain-discover`, sharpened by `domain` |
 | Lifecycle | Reference catalog, edited in place | Append-only; a recurring one **graduates** into a standard | Glossary-only file, edited in place |
 | In a plan | Matched into a **Standards to apply** checklist | Surfaced as **Priors & gotchas** | Read for naming & verbosity (one-line habit) |
 
@@ -256,7 +260,7 @@ flowchart TD
 
     plan["plan<br/>gains: Standards to apply checklist,<br/>Priors &amp; gotchas, glossary vocabulary"]
     implement["implement / tdd<br/>follows matched standards; uses glossary terms"]
-    implreview["impl-review<br/>plan-drift + safety + patterns + standards-compliance"]
+    implreview["review implementation<br/>plan-drift + safety + patterns + standards-compliance"]
     triage["review-triage<br/>applies chosen fixes, commits each"]
     lesson["lesson<br/>appends to foundation/lessons.md"]
     standardsupdate["standards-update<br/>promotes into context/standards/"]
@@ -268,6 +272,7 @@ flowchart TD
     implement --> implreview
     implreview -- "open findings" --> triage
     implreview -- "recurring / non-obvious finding" --> lesson
+    implreview -- "repeats a lesson / exposes a standard gap" --> standardsupdate
     lesson -- "if it generalizes &amp; keeps recurring" --> standardsupdate
     standardsupdate -.-> standards
 
@@ -277,7 +282,7 @@ flowchart TD
     domain["domain"] -- "writes on triggers (clash, fuzzy, resolved)" --> glossary
 ```
 
-The full contract (matching heuristics, lesson entry shape, promotion criteria, glossary entry shape) lives in the **`knowledge-layer`** reference (loaded via `dx-references`) on demand by `dx-plan`, `dx-impl-review`, `dx-standards-update`, `dx-lesson`, `dx-domain`, and `dx-refactor-discover` — which, besides skipping rejections recorded in `lessons.md`, reads the standards its matching picks for the scanned scope as a source of refactor candidates (§9).
+The full contract (matching heuristics, lesson entry shape, promotion criteria, glossary entry shape) lives in the **`knowledge-layer`** reference (loaded via `dx-references`) on demand by `dx-plan`, the `implementation` review Policy, `dx-standards-update`, `dx-lesson`, `dx-domain`, and `dx-refactor-discover` — which, besides skipping rejections recorded in `lessons.md`, reads the standards its matching picks for the scanned scope as a source of refactor candidates (§9).
 
 ### Minimalist fallback
 If three registers ever feels like overhead, collapse standards + lessons into one `context/standards/` tree where each entry carries `source: discovered | learned` (the consumption logic is identical), and keep the glossary separate (it is a different shape — terms, not rules). Start with three — the consumption differs enough to be worth the separation — but the collapse is a one-step simplification if it isn't.
@@ -292,9 +297,9 @@ All three are **discovery entries** — you start from a symptom, a hunting inst
 Feedback-loop-first. The skill is: **build a tight, red-capable feedback loop before any hypothesis.** Phases: build loop → reproduce + minimise → hypothesise (3–5 ranked, falsifiable) → instrument → fix → regression test → cleanup.
 
 - **Default — ad-hoc, no container:** runs on a symptom, finds the cause. Trivial fix → fix inline + leave the regression test. No artifacts.
-- **Promote — when the fix is non-trivial:** creates a change via `new` (stamped `type: defect`, which activates the TDD gate — §14 rule 7) carrying `diagnosis.md` (minimised repro + ranked hypotheses + regression test), then the fix flows through normal `plan → implement → impl-review`.
+- **Promote — when the fix is non-trivial:** creates a change via `new` (stamped `type: defect`, which activates the TDD gate — §14 rule 7) carrying `diagnosis.md` (minimised repro + ranked hypotheses + regression test), then the fix flows through normal `plan → implement → review implementation`.
 
-`diagnosis.md` is read by `plan` exactly the way `research.md` is — a bug-fix change is just a change whose "research" is a diagnosis. Triggers: "it's broken / slow / throwing / failing." Reachable mid-`implement` or from `impl-review` on a regression.
+`diagnosis.md` is read by `plan` exactly the way `research.md` is — a bug-fix change is just a change whose "research" is a diagnosis. Triggers: "it's broken / slow / throwing / failing." Reachable mid-`implement` or from `review` on a regression.
 
 ### `refactor-discover` (user-invoked)
 Run with no concrete target — "find me refactor opportunities." Scans the codebase through two references (both loaded via `dx-references`): `module-design` (deep vs shallow modules, seams, deletion test), which is the primary lens **and** the vocabulary every candidate is phrased in, and `design-lenses` (SRP and the rest of SOLID, KISS, YAGNI, DRY, coupling, orthogonality), which widens what gets found without adding a second way to say it. A third source is the project's own `context/standards/`: the skill loads `knowledge-layer` and uses its *domain × topic* matching to pick the standards that bear on the scope (`global/` plus the scoped code's areas; every applicable standard on an unscoped run), and keeps only the structural rules existing code can be checked against — never plan-authoring or style rules. The standard is taken as correct: each broken rule is **one** candidate (a site count, a few representative sites, a `<standard path> § <rule>` citation), ranked with the lens candidates on the same terms. Code that follows a standard gets no lens candidate (at most one "revisit this standard?" line under the list); a module that breaks a rule and trips a lens is one standard-driven candidate carrying the lens's win; a candidate whose after-shape adds a layer with no second use is capped at `Speculative`, or dropped where a loaded standard says minimal implementation wins. The one exception to the single vocabulary: a standard-driven candidate may name *where things sit* with the standard's roles — its *win* is still said in `module-design` terms. Presents candidates **inline** (markdown, no HTML), and you pick. Before promoting, each pick can optionally be **designed twice** — 3–4 built-in `Plan` subagents in parallel, each under a forcing constraint stated as *where the seam goes* (collapse to 1–3 entry points, move contract out of the interface, split the seam by caller, ports & adapters), compared on depth/locality/seam placement and closed with an opinionated pick — two designs sharing an entry point count as one. Picking exactly one candidate keeps the plain yes/no; picking more than one gets a single batched question (*none* / *all* / *specific ones*, recommending the top pick) and then the same explore-and-confirm loop runs once per selected candidate, sequentially — never more than one candidate's sub-agent batch in flight at a time. The winning sketch(es) ride into the promoted container's seed so `plan` doesn't re-derive them; the skill still writes no `plan.md` and edits no code. Then:
@@ -318,6 +323,13 @@ Runs on a raw idea **before** `new`, when nobody has yet decided the work is wor
 `brainstorm.md` carries what neither research nor a frame has a home for: the alternatives weighed, why the do-nothing lost, and what is explicitly *not* being done. It is read as **settled context** by `plan`, `frame`, and `roadmap` (§7.6) — which is why running `/dx-frame` on top of a brainstorm deepens the conclusion instead of colliding with it, and why the artifact is deliberately not `frame.md`.
 
 This makes the three a clean set: discovery-entry skills that promote a candidate into a standard container, then hand off to the normal workflow.
+
+### `review` Explore runs (a fourth entry, via a Policy)
+A Policy whose `targets` is `explore` or `both` joins the discovery entries when `review` runs over the repo or folders instead of a container: `/dx-review <policy-id> [container-id | paths…] [instructions…]`, arguments resolved positionally (container, then existing paths, then instructions; a container plus a path is refused as ambiguous; no container and no path asks what to review). It produces ephemeral **Candidates** (never a report or a `reviews/` file) and promotes through the same one/many route as `refactor-discover`, but generic: one Candidate → `changes/<slug>/change.md` with the Policy's default `type` plus a seed `research/<topic>.md` (`kind: codebase`); many → a seed block headed `## <Policy> candidates (from /dx-review <policy-id>)` that `new` parses into an effort with the Notes marker `Candidate effort — default slice type: <type>; promoted from /dx-review <policy-id>.` and one research file per entry. A rejection with a load-bearing reason is offered as a lesson, and `lessons.md` is read to skip earlier rejections. Recency from `git log` is the default prior unless the Policy sets `recency: off`. Mechanism in the skill, criteria in the Policy: the Policy's `## Candidates` declares only entry fields, the default `type`, optional `facets` and `recency`. Standard Proposals stay with `refactor-discover`. A Policy may set `promote: off` in `## Candidates`: the run then prints the ranked Candidates, the `Reviewed` list and a top pick and stops (no promote question, no `change.md`, no `Next:`, no lesson offer, no rejection-memory read), and `type:` becomes optional.
+
+A Policy may also declare `## Questions`: stage-tied gates (`after: scan | analysis`, `when:`, `blocks:`) asked per stage as one batched round, in container and Explore runs alike. There are no defaults: an unanswered gate leaves its unit `unconfirmed`, reported with its assumption and no verdict. The report template's optional `## Reviewed` lists every unit checked. The built-in `test-strategy` Policy uses all of this (`Strategy-fit`, `Frontend & e2e`, `Pathological tests`, with three gates), and its last two dimensions are general-knowledge heuristics, not researched rules.
+
+The built-in `sessions` Policy (`targets: explore`, `promote: off`) is a pure-report retrospective adapted from Matt Pocock's `retro`: it reads agent session transcripts (current session by default; widened by instructions) only through `Explore` subagents and ranks suggestions for improving the agent's environment across eight lenses, each with a `Use when` trigger (a lens without evidence is `N/A` in `Reviewed`). Each Candidate carries `where: repo | user-global` and a descriptive `destination:` label that routes nothing. With no readable transcript only the static lenses run. Transcripts are untrusted data and never quoted beyond the minimum, and credentials are never reproduced. Seven lenses come from `retro`; `Skill use` is not from it.
 
 ---
 
@@ -351,6 +363,8 @@ Ship three files under `context/standards/global/` (each ~20–30 lines):
 - **`conventions.md`** — predictable structure, env vars over secrets, minimal deps, feature flags, changelog.
 
 `frontend/`, `backend/`, `testing/` ship **empty**. `standards-discover` populates them per-project from the actual codebase + config, so no inherited opinions land where they don't fit.
+
+`init` also seeds `context/config/review-policies/` with the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies plus `templates/review-policy.md` and `templates/review-report.md`, copying only missing files. They are user-owned once seeded, so a fix to a shipped Policy or template never reaches an existing copy, and a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed compares both templates by hand.
 
 ---
 

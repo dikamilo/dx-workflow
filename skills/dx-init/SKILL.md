@@ -1,6 +1,6 @@
 ---
 name: dx-init
-description: Scaffold the dx- SDLC state tree (context/) in this project and seed the baseline standards.
+description: Scaffold the dx- SDLC state tree (context/) in this project and seed the baseline standards and review Policies.
 disable-model-invocation: true
 ---
 
@@ -16,9 +16,11 @@ Create (only if absent) under `context/`:
 foundation/    glossary.md, lessons.md, research/
 standards/     global/, frontend/, backend/, testing/
 efforts/  changes/  archive/
+config/        review-policies/, templates/
 ```
 
 - **Seed the three global standards** by copying `${CLAUDE_SKILL_DIR}/assets/standards/global/*.md` into `context/standards/global/`. If a target file already exists, leave it — a project may have edited it.
+- **Seed the review Policies and templates** by copying `${CLAUDE_SKILL_DIR}/assets/config/` into `context/config/` (`review-policies/*.md` and `templates/*.md`), missing files only. They are user-owned from then on: `/dx-review` reads them, and a project may edit or add to them.
 - `standards/{frontend,backend,testing}/` ship **empty** — `dx-standards-discover` fills them per-project from the real codebase.
 - `foundation/glossary.md` and `foundation/lessons.md` get a one-line header each and nothing more (e.g. `# Glossary — ubiquitous language for this project` / `# Lessons — accrued warnings and load-bearing decisions (append-only)`). They stay empty; `dx-domain-discover` and `dx-lesson` fill them.
 
@@ -31,7 +33,7 @@ Ensure the project's root `CLAUDE.md` (create if absent, else append a short sec
 
 ## Done when
 
-The tree above exists, the three global standards are in place, and root `CLAUDE.md` carries the rollback principle. Print a short created/present status per artifact, then:
+The tree above exists, the three global standards and the review Policy and template files are in place, and root `CLAUDE.md` carries the rollback principle. Print a short created/present status per artifact, listing each review Policy and template file, then:
 
 ```
 Next: /dx-new <idea>   — create a change or effort and start the workflow.

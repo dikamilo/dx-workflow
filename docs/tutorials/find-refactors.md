@@ -350,9 +350,7 @@ test suite green *before* and *after*, so the deepening can't silently change be
 loads `module-design`, so the interview reasons about the new seam in the right vocabulary. See
 [the plan and its slices](../explanation/plan-and-slices.md) for how that gate shapes the phases.
 
-From here it is the **normal change lifecycle** — nothing about refactor work is special downstream.
-Follow [ship a change](./ship-a-change.md) from its plan step onward: `/dx-plan` → optional
-`/dx-plan-review` → `/dx-implement` → `/dx-impl-review` → `/dx-archive`.
+From here it is the **normal change lifecycle**. Follow [ship a change](./ship-a-change.md) from its plan step onward: `/dx-plan` → optional `/dx-review plan` → `/dx-implement` → `/dx-review implementation` → `/dx-archive`. The one refactor-specific step downstream is in the review: the `implementation` Policy sees `type: refactor`, loads `module-design`, and verifies the behavior-preserving gate held — tests green before and after, and the structure actually improved.
 
 ---
 
@@ -489,5 +487,6 @@ The candidates list itself is gone — ephemeral by design. Only what you promot
   behavior-preserving gate and loads module-design in the plan.
 - [The knowledge layer](../explanation/knowledge-layer.md) — how a recorded lesson stops the next scan
   from re-suggesting a rejected module.
+- [Review a folder with test-strategy](./review-a-folder-with-test-strategy.md) — a `/dx-review` Explore run uses the same promote-one and promote-many shape, with a different seed heading (`## <Policy> candidates (from /dx-review <policy-id>)`).
 - [Diagnose a bug](./diagnose-a-bug.md) — the other discovery entry point: `/dx-diagnose` self-contains
   its promotion into a `type: defect` change, the same way this skill promotes a refactor.

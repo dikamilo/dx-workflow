@@ -1,31 +1,30 @@
 ---
 name: dx-review-triage
-description: Triage findings from a plan-review or impl-review report and apply the fixes you choose.
+description: Triage findings from a review report and apply the fixes you choose.
 disable-model-invocation: true
-argument-hint: "[change-id] [plan|impl]"
+argument-hint: "<container-id> [policy-id]"
 ---
 
 # dx-review-triage
 
-Turn a review report's findings into decisions — and, when you say so, into edits. `dx-plan-review` and `dx-impl-review` only analyze and report; this is the one place that **acts** on a finding, editing `plan.md` or the code it reviewed, one finding at a time, only on your confirmation.
+Turn a review report's findings into decisions — and, when you say so, into edits. Every review (`dx-review`) only analyzes and reports; this is the one place that **acts** on a finding, one finding at a time, only on your confirmation.
 
-**Guard.** Resolve `<change-id>` under `context/changes/`. `reviews/` must contain `plan-review.md` or `impl-review.md` — if the directory is missing or empty, point at `/dx-plan-review` or `/dx-impl-review` instead. If the path is under `context/archive/`, refuse: archived work is done.
-
-## Load first
-The `review-report` reference (invoke `dx-references` with `review-report`) — the finding-ID/`Resolution` schema, the resume rule, and the file conventions this skill reads and writes.
+**Guard.** Resolve `<container-id>` under `context/changes/` or `context/efforts/`. If it resolves under `context/archive/` instead, refuse: archived work is done. If `reviews/` is missing or holds no report, point at `/dx-review <policy-id> <container-id>`.
 
 ## 1 — Resolve which report
 
-Each type has exactly one file — `reviews/plan-review.md` or `reviews/impl-review.md` — always the current review, since re-running `dx-plan-review`/`dx-impl-review` overwrites rather than dating a new file. A second argument names the type (`plan` or `impl`) directly. No argument: exactly one file present → use it; both present → ask which, since a plan-review and an impl-review can each carry open findings on the same change at once.
+A report lives at `reviews/<policy-id>.md`, one per Policy, always the current review because a re-run overwrites it.
+- **A policy ID given** → `reviews/<policy-id>.md`. If the file is missing, name it and list the reports that exist.
+- **No policy ID** → exactly one report → use it; several → ask which, since each can carry open findings at once.
 
-## 2 — Load what the fix touches
+A legacy `reviews/impl-review.md` or `reviews/plan-review.md` is never read and doesn't count as a report: if one is all there is, say it's superseded and point at `/dx-review implementation <container-id>` or `/dx-review plan <container-id>` respectively.
 
-- **plan-review** → `plan.md` in full — this is what gets edited.
-- **impl-review** → the same diff scope `dx-impl-review` used to review: `git log`/`git diff` for the commits that landed this change's phases, plus the specific files each pending finding names. Don't reload files findings you're skipping don't touch.
+## Load first
+The report's schema — the finding/`Resolution` format, the resume rule, the never-commit rule — is `context/config/templates/review-report.md` (missing → `/dx-init`).
 
-## 3 — Walk findings in order
+## 2 — Walk findings in order
 
-Resume per the `review-report` reference: the first finding with `Resolution: PENDING`, document order. For each, show its title, location, detail, and suggested fix, then ask:
+Resume at the first finding with `Resolution: PENDING`, document order. Load what that finding's **Location** names — a plan section → `plan.md`; a `file:line` → that file plus enough surrounding code or `git log` to judge the fix — and nothing for findings you skip. Show its title, location, detail, and suggested fix, then ask:
 
 - **Fix now** — apply the suggested fix (or a variant you propose); show the before/after edit first, apply on confirmation.
 - **Fix differently** — ask what they'd prefer instead, apply that.
@@ -33,13 +32,14 @@ Resume per the `review-report` reference: the first finding with `Resolution: PE
 - **Accept risk** — leave it, record the one-line reason.
 - **Record as lesson** — hand the finding's title and detail to `/dx-lesson`'s entry shape and tell the user to confirm there. Never append to `foundation/lessons.md` yourself — that file has exactly one writer.
 
-Immediately rewrite that finding's `Resolution:` line in place per the reference's rules. If an edit you already applied for an earlier finding also resolves a later one (one fix closing both a Plan-Drift and the Safety finding it caused, say), mark the later finding `FIXED` too, pointing at the same edit — don't manufacture a redundant second edit or commit just to keep one fix per finding.
+Immediately rewrite that finding's `Resolution:` line in place per the schema. If an edit you already applied for an earlier finding also resolves a later one, mark the later finding `FIXED` too, pointing at the same edit — don't manufacture a redundant second edit or commit.
 
-## 4 — Commit code fixes, not plan fixes, never the report
+## 3 — Commit what the fix touched, never the report
 
-- **impl-review fixes** touch shipped code — commit each applied fix on its own, same Conventional Commit shape `dx-implement` uses: `fix(<change-id>): <finding title> (review)`.
-- **plan-review fixes** touch `plan.md` only. `dx-plan` never commits the plan itself, so neither does this.
-- **Never commit the report file itself** (`plan-review.md`/`impl-review.md`), in either case — it's working state like `plan.md`, not a deliverable; the user commits it on their own schedule.
+Decide per applied fix, from the files it changed:
+- **Touched files outside `context/`** (shipped code, docs, config) → commit that fix on its own, the Conventional Commit shape `dx-implement` uses: `fix(<container-id>): <finding title> (review)`. Stage only those files.
+- **Touched only `context/` artifacts** (`plan.md`, `frame.md`, …) → don't commit. Those are working state the user commits on their own schedule.
+- **The report itself** is never committed.
 
 ## On disagreement
 
@@ -51,6 +51,6 @@ Every finding in the resolved report has a `Resolution:` other than `PENDING` �
 
 ```
 Triaged <report file>: <n> fixed, <n> skipped, <n> accepted, <n> dismissed
-Next: /dx-plan-review <change-id>   or  /dx-implement <change-id>   (plan-review triaged)
-  or: /dx-impl-review <change-id>   or  /dx-archive <change-id>     (impl-review triaged)
+Next: /dx-review <policy-id> <container-id>   — re-review after fixes
+  or: <each line of the Policy's ## Next>
 ```
