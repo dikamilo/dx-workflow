@@ -43,9 +43,9 @@ If a term clashes with the glossary, is vague/overloaded, or finally gets pinned
 - **Lessons** — surface any from `foundation/lessons.md` that bear on this change as `## Priors & gotchas`.
 - **Glossary** — draw naming from `foundation/glossary.md` (a one-line habit — no section).
 
-## 4 — Write `plan.md` (invoke `dx-references` with `plan-template`)
+## 4 — Write `plan.md` (load `plan-template` and `design-lenses` in one `dx-references` call)
 
-Also invoke `dx-references` with `design-lenses` — the principles a solution design is judged against, whatever the change's `type`.
+`design-lenses` is the principles a solution design is judged against, whatever the change's `type`.
 
 Follow that shape. Author `## Data model`, `## API & contracts`, and/or `## Failure modes &
 reversibility` for whichever topics step 2 loaded — omit the rest entirely, never `N/A`. Each phase

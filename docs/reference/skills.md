@@ -299,9 +299,9 @@ See [the knowledge layer](../explanation/knowledge-layer.md) for how standards, 
 ## Plumbing
 
 ### `dx-references`
-- **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic>`, **not** a slash command you type.
-- **Purpose:** load a shared reference document by topic so several skills read one canonical copy instead of deep-linking each other's files.
-- **Reads:** `references/<topic>.md` for one of the twelve topics: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `untrusted-content`. (There is no `model-policy` topic.)
+- **Invoke:** internal (`user-invocable: false`) — invoked by other skills as `dx-references <topic> [<topic>...]`, **not** a slash command you type.
+- **Purpose:** load one or more shared reference documents by topic (several in one call; any unknown topic is reported with the available list) so several skills read one canonical copy instead of deep-linking each other's files.
+- **Reads:** `references/<topic>.md` for each named topic, from the twelve: `change-md`, `effort-md`, `progress-format`, `plan-template`, `plan-data-model`, `plan-api-contracts`, `plan-failure-modes`, `interview`, `module-design`, `design-lenses`, `knowledge-layer`, `untrusted-content`. (There is no `model-policy` topic.)
 - **Writes:** nothing — it returns the reference content to the calling skill.
 - **Prints next:** nothing — it has no `Next:` line; control returns to whichever skill invoked it.
 
