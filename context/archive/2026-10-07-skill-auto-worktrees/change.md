@@ -4,10 +4,10 @@ title: Worktree-isolated parallel phases in dx-implement auto mode
 type: feature
 effort: null
 slice: null
-status: implemented
+status: archived
 created: 2026-10-07
 updated: 2026-10-07
-archived_at: null
+archived_at: 2026-10-07
 ---
 
 ## Notes
