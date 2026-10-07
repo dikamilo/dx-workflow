@@ -41,7 +41,7 @@ Skipped on `--manual`. The coordinator never works in the user's checkout. Run e
 - Then run the group's integration phase **once** on the merged tree. Red `(integrated)` row: stop, keep the merged tree as is, invoke `dx-diagnose` unless the cause is obvious.
 - Delete a phase's scratch branch once it has merged.
 
-**Shared state.** `context/` stays in the main checkout and you are its only writer. Subagents read `plan.md`, `change.md`, `frame.md`, research and `handoff.md` at their main-checkout paths (a worktree's committed copy goes stale), and return decisions and gotchas; you append them to `context/changes/<change-id>/handoff.md`. Progress edits are yours.
+**Shared state.** `context/` stays in the main checkout and you are its only writer. Subagents read `plan.md`, `change.md`, `frame.md`, research and `handoff.md` at their main-checkout paths (a worktree's committed copy goes stale), and return decisions and gotchas; you append them to `context/changes/<change-id>/handoff.md` the moment each subagent returns — before any merge, check or stop — so a stopped run keeps them. Progress edits are yours.
 
 **Dev servers and ports.** Start only what an `(integrated)` check needs. Port already in use: stop and report; never kill a process you didn't start. Kill what you started on every exit.
 
