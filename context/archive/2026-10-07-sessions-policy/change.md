@@ -4,10 +4,10 @@ title: sessions Policy
 type: feature
 effort: policy-driven-review
 slice: 4
-status: implemented
+status: archived
 created: 2026-10-07
 updated: 2026-10-07
-archived_at: null
+archived_at: 2026-10-07
 ---
 
 ## Notes

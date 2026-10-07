@@ -1,10 +1,10 @@
 ---
 effort_id: policy-driven-review
 title: Policy-driven review skill
-status: scoped
+status: archived
 created: 2026-10-06
-updated: 2026-10-06
-archived_at: null
+updated: 2026-10-07
+archived_at: 2026-10-07
 ---
 
 ## Goal
