@@ -34,9 +34,11 @@ A run on a target the Policy doesn't accept is refused, naming the Policy and th
 
 ## Explore runs: Candidates, not Findings
 
-The two kinds of run keep separate vocabularies. A container run reviews finished work and writes numbered **Findings** that triage resolves. An Explore run goes hunting with no container to anchor it, so it presents **Candidates**: ephemeral, ranked, inline, each a proposal rather than a defect, and a file only if you promote one. The mechanism for exploring lives in `/dx-review`, as with everything shared. It reads recent `git log` first unless the Policy sets `recency: off`, makes one Candidate per broken rule with a site count instead of one per site, skips what `lessons.md` records as rejected, and ends with one question about which to promote. The Policy's `## Candidates` section declares only what differs: the entry fields, the default change `type`, and optional `facets:` and `recency:`.
+The two kinds of run keep separate vocabularies. A container run reviews finished work and writes numbered **Findings** that triage resolves. An Explore run goes hunting with no container to anchor it, so it presents **Candidates**: ephemeral, ranked, inline, each a proposal rather than a defect, and a file only if you promote one. The mechanism for exploring lives in `/dx-review`, as with everything shared. It reads recent `git log` first unless the Policy sets `recency: off`, makes one Candidate per broken rule with a site count instead of one per site, skips what `lessons.md` records as rejected, and ends with one question about which to promote. The Policy's `## Candidates` section declares only what differs: the entry fields, the default change `type`, and optional `facets:`, `recency:` and `promote:`.
 
 Promotion follows one generic route. One Candidate becomes a change with a seeded `research/` file. Several are printed as a seed block headed `## <Policy> candidates (from /dx-review <policy-id>)`, which `/dx-new` parses into an effort with one research file per entry. Standard Proposals, which `/dx-refactor-discover` makes, are not part of this route.
+
+A Policy can opt out of promotion with `promote: off` in `## Candidates`. The `sessions` Policy does: it reads agent session transcripts and ranks suggestions for improving the coding agent's environment, and those suggestions have no single change to become, because a fix may land in a check, a standard, a global `CLAUDE.md` or a skill. So the run prints the Candidates, the `Reviewed` list and a top pick, then stops. It asks no promote question, chains no `Next:` command and offers no lesson. The mechanism is still generic (the skill honours the line) and the criteria stay in the Policy. Each Candidate's `destination:` label says where its fix would land but routes nothing. Transcripts are read through `Explore` subagents and treated as data, never as instructions.
 
 ## Questions: gates that block
 
@@ -46,9 +48,9 @@ There is deliberately no default answer. A gate you skip, or one nobody is prese
 
 ## Shipped once, then yours
 
-`/dx-init` copies the built-in Policies and the two templates into your project, and only the files that are missing. From then on they are yours: edit `implementation.md`, `plan.md` or `test-strategy.md` to tighten a dimension, delete a check that doesn't apply, add Policies beside it. A re-run of `/dx-init` never overwrites them.
+`/dx-init` copies the built-in Policies and the two templates into your project, and only the files that are missing. From then on they are yours: edit `implementation.md`, `plan.md`, `test-strategy.md` or `sessions.md` to tighten a dimension, delete a check that doesn't apply, add Policies beside it. A re-run of `/dx-init` never overwrites them.
 
-The other side of that is deliberate: **a fix to a shipped Policy never reaches your copy on its own.** When a dx- release improves a built-in Policy, your project keeps running the version it copied; and a project that predates a new built-in, like `plan.md` or `test-strategy.md`, doesn't have it until you re-run `/dx-init`, which seeds only the missing files. The same goes for the two templates: a project seeded before `## Questions`, `## Candidates` and `## Reviewed` existed keeps templates that don't document them, so compare `policy-template.md` and `report-template.md` with the shipped ones by hand. To pick the fix up, compare your copy with the one in the new release and merge it by hand. The alternative — updating Policies in place on upgrade — would silently discard the edits that make Policies worth owning.
+The other side of that is deliberate: **a fix to a shipped Policy never reaches your copy on its own.** When a dx- release improves a built-in Policy, your project keeps running the version it copied; and a project that predates a new built-in, like `plan.md`, `test-strategy.md` or `sessions.md`, doesn't have it until you re-run `/dx-init`, which seeds only the missing files. The same goes for the two templates: a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed keeps templates that don't document them, so compare `policy-template.md` and `report-template.md` with the shipped ones by hand. To pick the fix up, compare your copy with the one in the new release and merge it by hand. The alternative — updating Policies in place on upgrade — would silently discard the edits that make Policies worth owning.
 
 ## Nothing lints a Policy
 
@@ -69,6 +71,7 @@ In exchange, the set of reviews grows with your project rather than with the ski
 - [Write a review policy](../tutorials/write-a-review-policy.md) — add a `security` Policy and run it end to end.
 - [Review and triage](../tutorials/review-and-triage.md) — the built-in `plan` and `implementation` reviews and the triage loop.
 - [Review a folder with test-strategy](../tutorials/review-a-folder-with-test-strategy.md) — an Explore run, its gates and promotion, end to end.
+- [Run the sessions retrospective](../tutorials/run-sessions-retrospective.md) — a report-only Explore run.
 - [Directory layout](directory-layout.md) — where `context/workflow/review-policies/` sits.
 - [The knowledge layer](knowledge-layer.md) — why a Policy is not a Standard: a Standard is a rule your code follows, a Policy defines what one review checks.
 - [Skills reference](../reference/skills.md) — `/dx-review`, `/dx-review-triage` and `/dx-init`.

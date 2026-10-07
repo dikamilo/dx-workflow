@@ -44,7 +44,7 @@
 
 **Finding**: A discrete, stably-numbered item in a review report, carrying a location, detail, recommended fix, and resolution status; never renumbered or deleted. _Avoid_: Issue, Bug, Candidate (ephemeral, unnumbered, from a Discovery Entry).
 
-**Candidate**: A ranked, ephemeral item a Discovery Entry or an Explore run presents for the user to promote into a Change or Effort, or drop — it has no stable number or resolution status and leaves no trace unless promoted or recorded as a Lesson. _Avoid_: Finding (a durable review-report item).
+**Candidate**: A ranked, ephemeral item a Discovery Entry or an Explore run presents for the user to promote into a Change or Effort, or drop — it has no stable number or resolution status and leaves no trace unless promoted or recorded as a Lesson. A report-only Candidate (from a Policy with `promote: off`) is never promoted: it is printed and the run stops. _Avoid_: Finding (a durable review-report item).
 
 **Deep Module**: A unit with a lot of functionality hidden behind a small interface — the good default for design. _Avoid_: Shallow Module.
 

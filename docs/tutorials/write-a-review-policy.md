@@ -4,7 +4,7 @@ In this tutorial you will add a second kind of review to your project — a `sec
 
 ## Prerequisites
 
-- A project where `/dx-init` has run, so `context/workflow/review-policies/` holds `implementation.md`, `policy-template.md` and `report-template.md` (and the other built-in Policies, `plan.md` and `test-strategy.md`). If your copy of `policy-template.md` predates the `## Questions` and `## Candidates` sections used in Step 6, compare it with the shipped one by hand: `/dx-init` never overwrites it. If the folder is missing (an older project), re-run `/dx-init` — it adds missing files and touches nothing else. See [initialize a project](./initialize-a-project.md).
+- A project where `/dx-init` has run, so `context/workflow/review-policies/` holds `implementation.md`, `policy-template.md` and `report-template.md` (and the other built-in Policies, `plan.md`, `test-strategy.md` and `sessions.md`). If your copy of `policy-template.md` predates the `## Questions` and `## Candidates` sections used in Step 6, compare it with the shipped one by hand: `/dx-init` never overwrites it. If the folder is missing (an older project), re-run `/dx-init` — it adds missing files and touches nothing else. See [initialize a project](./initialize-a-project.md).
 - A change that is built: this tutorial reuses `oauth-login` from [ship a change](./ship-a-change.md), at `status: implemented` or `reviewed` but not yet archived — `/dx-review` refuses archived work. If you followed that tutorial to the end, run this one before its archive step, or use any built change of your own.
 - Familiarity with one review-and-triage round. If you haven't run one yet, do [review and triage](./review-and-triage.md) first — this tutorial reuses that loop with your own criteria.
 
@@ -163,7 +163,7 @@ So far `security` reviews one built change. Two more template sections let a Pol
 ```
 
 - **`## Questions`** declares gates. Each says when it fires (`after: scan` or `analysis`), what triggers it (`when:`) and what it holds back (`blocks:`). A stage's questions arrive as one round, and nothing they block is judged until you answer. There is no default: if you skip a gate, that unit is reported `unconfirmed` with its assumption and no verdict. Container runs ask them too.
-- **`## Candidates`** is required once `targets` includes `explore`. It declares the fields of each Candidate an Explore run shows, the `type` a promoted change gets, and optionally `facets:` and `recency: off`.
+- **`## Candidates`** is required once `targets` includes `explore`. It declares the fields of each Candidate an Explore run shows, the `type` a promoted change gets, and optionally `facets:`, `recency: off` and `promote: off`. With `promote: off` the run prints its Candidates and stops, with no promote question (and `type` becomes optional); see [run the sessions retrospective](./run-sessions-retrospective.md).
 
 Run it over a folder instead of a change:
 
@@ -186,6 +186,7 @@ The Policy is yours: edit it whenever your security bar changes, and the next ru
 ## Where to next
 
 - [Review a folder with test-strategy](./review-a-folder-with-test-strategy.md) — an Explore run end to end, with gates and promotion.
+- [Run the sessions retrospective](./run-sessions-retrospective.md) — a report-only Explore run (`promote: off`).
 - [Policy-driven review](../explanation/policy-driven-review.md) — why the review criteria live in a file you own, and what that trades away.
 - [Build standards](./build-standards.md) — when a security finding keeps coming back, it belongs in a standard that every plan matches.
 
