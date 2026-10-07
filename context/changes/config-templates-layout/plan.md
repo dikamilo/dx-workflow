@@ -47,8 +47,8 @@ Delivers docs and release notes that name only the new paths, via the `documenta
 - [x] 1.3 `grep -rn 'context/workflow\|policy-template\|report-template\|-template.md' skills DESIGN.md context/config` returns nothing — 42fcea4
 - [x] 1.4 `npm run lint:skills` passes — 42fcea4
 #### Manual
-- [ ] 1.5 Sandbox: `/dx-init` on an empty project creates `context/config/review-policies/` (four built-in Policies plus any shipped ones) and `context/config/templates/{review-policy,review-report}.md`; a second run reports them present and leaves an edited file untouched
-- [ ] 1.6 Sandbox: `/dx-review implementation <id>` still resolves the Policy and writes a report in the template's shape; a `review-policy.md` left in `review-policies/` is treated as a Policy, not skipped
+- [x] 1.5 Sandbox: `/dx-init` on an empty project creates `context/config/review-policies/` (four built-in Policies plus any shipped ones) and `context/config/templates/{review-policy,review-report}.md`; a second run reports them present and leaves an edited file untouched
+- [x] 1.6 Sandbox: `/dx-review implementation <id>` still resolves the Policy and writes a report in the template's shape; a `review-policy.md` left in `review-policies/` is treated as a Policy, not skipped
 
 ### Phase 2: Docs and changesets
 #### Automated
