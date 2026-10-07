@@ -55,9 +55,10 @@ There is no `default:`. A gate that goes unanswered (unattended run, or the user
 ## Candidates
 <Required for `targets: explore | both`; an Explore run is refused without it. What an Explore run presents:
 - the entry fields of one Candidate (a list),
-- `type:` default change type on promotion: `feature | defect | refactor | migration`,
+- `type:` default change type on promotion: `feature | defect | refactor | migration`; optional with `promote: off`,
 - `facets:` optional fan-out hints,
-- `recency: off` optional; the default is to let recent `git log` churn pull attention first.>
+- `recency: off` optional; the default is to let recent `git log` churn pull attention first,
+- `promote: off` optional; the default is promotable. With it the run prints the ranked Candidates, the `Reviewed` list and the interpreted scope, then stops: no promote question, no rejection-memory read for promotion, no lesson offer.>
 
 ## On pass
 <Optional. What a pass means (for example, no `Blocker` finding) and what to set when it happens.>
