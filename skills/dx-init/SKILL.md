@@ -31,9 +31,13 @@ Ensure the project's root `CLAUDE.md` (create if absent, else append a short sec
 - **User-confirmed rollback:** on failure, never auto-rollback or revert. Stop, analyze the root cause, and ask the user before reverting anything — most failures are simple fixes and auto-rollback discards valid work and hides causes.
 - A one-line pointer: this project uses the dx- SDLC framework; workflow state lives under `context/`.
 
+## .gitignore
+
+Ensure the project's `.gitignore` lists `.worktrees/` — where `/dx-implement` auto mode keeps its worktrees. Create the file if absent, else append the line if missing; never duplicate an existing entry.
+
 ## Done when
 
-The tree above exists, the three global standards and the review Policy and template files are in place, and root `CLAUDE.md` carries the rollback principle. Print a short created/present status per artifact, listing each review Policy and template file, then:
+The tree above exists, the three global standards and the review Policy and template files are in place, root `CLAUDE.md` carries the rollback principle, and `.gitignore` ignores `.worktrees/`. Print a short created/present status per artifact, listing each review Policy and template file and the `.gitignore` entry, then:
 
 ```
 Next: /dx-new <idea>   — create a change or effort and start the workflow.
