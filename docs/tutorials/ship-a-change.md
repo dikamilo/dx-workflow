@@ -193,7 +193,7 @@ when no `frame.md` exists, see [handoff scaling](../explanation/handoff-scaling.
 
 ## Step 3 — Implement it, one phase at a time
 
-`/dx-implement` runs **exactly one phase per invocation** — never the whole plan. It resumes from the
+`/dx-implement` runs **exactly one phase per invocation** — never the whole plan (unless you pass `--auto`, which runs all remaining phases on subagents and commits each one; see the [reference](../reference/skills.md)). It resumes from the
 first `- [ ]` in `## Progress`, does that phase, verifies it, and commits. Run it:
 
 ```text

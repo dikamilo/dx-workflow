@@ -66,7 +66,7 @@ The plan lives at `context/changes/<id>/plan.md`. For the running example — th
 - **Priors & gotchas** surfaces the relevant lines from `foundation/lessons.md` — decisions and scar
   tissue that a new change should not relitigate. If a past change learned "don't re-deepen the config
   loader, it is shallow on purpose," that lesson lands here so the implementer doesn't undo it.
-- **Phases** is the ordered breakdown of the work, cut into slices (next section).
+- **Phases** is the ordered breakdown of the work, cut into slices (next section). Each phase carries a `Depends on:` line (`none` or phase numbers); phases with no unmet dependency and disjoint files can run in parallel under `/dx-implement --auto`. Serial work stays serial.
 - **Progress** is the live execution record (the section after that).
 
 ## Vertical slices, not horizontal layers

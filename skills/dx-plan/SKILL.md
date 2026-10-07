@@ -49,7 +49,7 @@ Also invoke `dx-references` with `design-lenses` — the principles a solution d
 
 Follow that shape. Author `## Data model`, `## API & contracts`, and/or `## Failure modes &
 reversibility` for whichever topics step 2 loaded — omit the rest entirely, never `N/A`. Each phase
-a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass.
+a **vertical slice** where practical — end-to-end, demoable — not a horizontal layer pass. Give each phase a `Depends on:` line (`none` or phase numbers); cut independent work into disjoint files so phases can run in parallel, but serial work stays serial — don't force parallelism or horizontal slices.
 
 If any `## User cases` section is present — this change's own `frame.md`, the parent effort's, or both;
 treat the two as a union, not a replacement — check whether the repo already has a test setup for the
