@@ -20,7 +20,7 @@ A report lives at `reviews/<policy-id>.md`, one per Policy, always the current r
 A legacy `reviews/impl-review.md` or `reviews/plan-review.md` is never read and doesn't count as a report: if one is all there is, say it's superseded and point at `/dx-review implementation <container-id>` or `/dx-review plan <container-id>` respectively.
 
 ## Load first
-The report's schema — the finding/`Resolution` format, the resume rule, the never-commit rule — is `context/workflow/review-policies/report-template.md` (missing → `/dx-init`).
+The report's schema — the finding/`Resolution` format, the resume rule, the never-commit rule — is `context/config/templates/review-report.md` (missing → `/dx-init`).
 
 ## 2 — Walk findings in order
 

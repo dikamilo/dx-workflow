@@ -29,14 +29,14 @@ The guiding rule: *trust Claude to reason — principles over process, reference
 ## 2. What's in and what's out
 
 ### Foundations — file-derived state
-- `context/{foundation,standards,workflow,efforts,changes,archive}/` layout (§4–§5).
+- `context/{foundation,standards,config,efforts,changes,archive}/` layout (§4–§5).
 - `change.md` — frontmatter identity + lifecycle.
 - `## Progress` checkbox section as **single source of truth**; resume = first unchecked `- [ ]`.
 - Skills never auto-chain; each **suggests** the next command and stops (no clipboard automation — the user runs it).
 - **Question-scaling from upstream artifacts** — don't re-ask what a frame/research doc (or a parent effort) already settled (§7.4).
 - Implementer "siblings" (`implement` / `tdd`) sharing one Progress section so they interleave.
 - Explicit handoff schemas between skills, no conversation-memory coupling.
-- **`review` as the skill-based gate** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/workflow/review-policies/` (the pre-implementation gate is the built-in `plan` Policy, the post-implementation gate the built-in `implementation` Policy, and `test-strategy` a hybrid that runs on a container or as an **Explore run** over the repo or folders), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
+- **`review` as the skill-based gate** (pre- and post-implementation) — no agents needed (§3). `review` is generic: its criteria come from a user-editable **Policy** in `context/config/review-policies/` (the pre-implementation gate is the built-in `plan` Policy, the post-implementation gate the built-in `implementation` Policy, and `test-strategy` a hybrid that runs on a container or as an **Explore run** over the repo or folders), so a new kind of review is a new Policy file, not a new skill. **`review-triage`** is the single skill that acts on any review's findings — the reviews themselves stay report-only.
 
 ### The knowledge layer
 - **Standards layer** at `context/standards/{global,frontend,backend,testing}/`, plus `standards-discover` and `standards-update` skills.
@@ -132,7 +132,7 @@ E. raw idea:      brainstorm → (nothing worth building | already covered) | (c
 └── skills/
     ├── dx-<skill>/SKILL.md        # one directory per skill — current list derives from `ls`; see docs/reference/skills.md
     ├── dx-init/assets/            # seeded into a target project, missing-only: standards/ and
-    │                              # review-policies/ (→ context/workflow/review-policies/)
+    │                              # review-policies/ (→ context/config/review-policies/)
     └── dx-references/             # shared reference docs, loaded on demand via a topic argument
         ├── SKILL.md               # invocable loader: takes a `topic`, reads references/<topic>.md, returns it
         └── references/<topic>.md  # change-md, effort-md, progress-format, plan-template, interview,
@@ -222,9 +222,9 @@ Every parsed format with more than one consumer has exactly one canonical defini
 | Format | Canonical source | Consumers |
 |---|---|---|
 | `## Progress` checkbox rows | `progress-format.md` | `plan` (creates), `implement`, `tdd` (write), `review-triage`, `archive` (read) |
-| `Resolution: PENDING` schema | `report-template.md` | `review` (write), `review-triage` (only writer of resolutions), `archive` (reads for PENDING) |
-| Review Policy (`context/workflow/review-policies/<policy-id>.md`) — `targets`, preconditions, loads, dimensions, on-pass, next | `policy-template.md`, seeded beside it by `init` from `dx-init/assets/review-policies/` | `review` (applies it as written); the user (edits or adds Policies) |
-| Policy report (`reviews/<policy-id>.md`) — Verdicts block, finding format, overwrite rule | `report-template.md`, seeded beside the Policies by `init` | `review` (writes), `review-triage` (resolves findings), `archive` (warns on PENDING) |
+| `Resolution: PENDING` schema | `templates/review-report.md` | `review` (write), `review-triage` (only writer of resolutions), `archive` (reads for PENDING) |
+| Review Policy (`context/config/review-policies/<policy-id>.md`) — `targets`, preconditions, loads, dimensions, on-pass, next | `templates/review-policy.md`, seeded beside it by `init` from `dx-init/assets/config/` | `review` (applies it as written); the user (edits or adds Policies) |
+| Policy report (`reviews/<policy-id>.md`) — Verdicts block, finding format, overwrite rule | `templates/review-report.md`, seeded beside the Policies by `init` | `review` (writes), `review-triage` (resolves findings), `archive` (warns on PENDING) |
 | `change.md` frontmatter | `change-md.md` | every change-lifecycle skill (§7.1) |
 | `effort.md` frontmatter + roadmap `- change:` lines | `effort-md.md` | `roadmap`, `new`, `archive` (§7.2) |
 | `archived_at` derivation | `effort-md.md` / rule 9 (§14) | `archive` (writes it), `roadmap` (reads it to derive slice/effort completion) |
@@ -364,7 +364,7 @@ Ship three files under `context/standards/global/` (each ~20–30 lines):
 
 `frontend/`, `backend/`, `testing/` ship **empty**. `standards-discover` populates them per-project from the actual codebase + config, so no inherited opinions land where they don't fit.
 
-`init` also seeds `context/workflow/review-policies/` with the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies plus `policy-template.md` and `report-template.md`, copying only missing files. They are user-owned once seeded, so a fix to a shipped Policy or template never reaches an existing copy, and a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed compares both templates by hand.
+`init` also seeds `context/config/review-policies/` with the built-in `plan`, `implementation`, `test-strategy` and `sessions` Policies plus `templates/review-policy.md` and `templates/review-report.md`, copying only missing files. They are user-owned once seeded, so a fix to a shipped Policy or template never reaches an existing copy, and a project seeded before `## Questions`, `## Candidates`, `promote: off` and `## Reviewed` existed compares both templates by hand.
 
 ---
 

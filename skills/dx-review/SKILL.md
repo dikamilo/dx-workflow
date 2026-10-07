@@ -1,23 +1,23 @@
 ---
 name: dx-review
-description: Run a review defined by a Policy in context/workflow/review-policies/ on a change or effort, and report.
+description: Run a review defined by a Policy in context/config/review-policies/ on a change or effort, and report.
 disable-model-invocation: true
 argument-hint: "<policy-id> [container-id | paths…] [instructions…]"
 ---
 
 # dx-review
 
-Run one review, on a container or as an **Explore run** over the repo or folders. The **Policy** at `context/workflow/review-policies/<policy-id>.md` holds the criteria: its preconditions, what to load, the dimensions and extra checks, what a pass sets, and the next steps. This skill holds the mechanism and applies the Policy as written. **Report only:** never edit what you're reviewing; an Explore run writes only a promoted Change's `change.md` and `research/` (nothing, under `promote: off`). Fixes belong to `/dx-review-triage`.
+Run one review, on a container or as an **Explore run** over the repo or folders. The **Policy** at `context/config/review-policies/<policy-id>.md` holds the criteria: its preconditions, what to load, the dimensions and extra checks, what a pass sets, and the next steps. This skill holds the mechanism and applies the Policy as written. **Report only:** never edit what you're reviewing; an Explore run writes only a promoted Change's `change.md` and `research/` (nothing, under `promote: off`). Fixes belong to `/dx-review-triage`.
 
 **Guard.**
-- **Policy.** If `context/workflow/review-policies/` is missing, point at `/dx-init`. A policy ID is the name of any `.md` there that doesn't end in `-template.md`. If the ID is unknown, name it, list the available IDs, and note that re-running `/dx-init` seeds any built-in Policy the project is missing. If the Policy's `targets` is missing or isn't one of `container | explore | both`, refuse and name the field.
+- **Policy.** If `context/config/review-policies/` is missing, point at `/dx-init`. A policy ID is the name of any `.md` there. If the ID is unknown, name it, list the available IDs, and note that re-running `/dx-init` seeds any built-in Policy the project is missing. If the Policy's `targets` is missing or isn't one of `container | explore | both`, refuse and name the field.
 - **Arguments.** The first is the policy ID. The rest resolve positionally: a container ID (`context/changes/<id>/` or `context/efforts/<id>/`), else the leading tokens that are existing repo paths, and the first token that is neither starts the custom instructions. A container ID under `context/archive/` is refused: archived work is done. A container plus a path is refused as ambiguous. No container and no paths is an **Explore run** over the whole repo.
 - **Target.** `container` refuses an Explore run, `explore` refuses a container run, `both` accepts either; every refusal names the Policy and the targets it accepts. An Explore run on a Policy with no `## Candidates` is refused, naming the section.
 - **Input acquisition.** An Explore run with no container and no paths asks what to review before reading anything. Print the interpreted scope before the fan-out.
 - **Preconditions.** Check every precondition the Policy lists. A failing precondition refuses the run with the next command it names.
 
 ## 1 — Load
-Load what the Policy's `## Load` names, with each conditional load gated on its trigger. Also load `context/workflow/review-policies/report-template.md` (missing → `/dx-init`) and `foundation/glossary.md`. The glossary is a one-line habit: judge naming against the project's terms, and if the work's naming clashes with it or settles a term, invoke `dx-domain`. Custom instructions narrow or steer the run, but they never skip a precondition, and a dimension they leave unchecked is reported `N/A`, not `PASS`.
+Load what the Policy's `## Load` names, with each conditional load gated on its trigger. Also load `context/config/templates/review-report.md` (missing → `/dx-init`) and `foundation/glossary.md`. The glossary is a one-line habit: judge naming against the project's terms, and if the work's naming clashes with it or settles a term, invoke `dx-domain`. Custom instructions narrow or steer the run, but they never skip a precondition, and a dimension they leave unchecked is reported `N/A`, not `PASS`.
 
 ## 2 — Review
 Fan out to built-in `Explore`/`general-purpose` subagents so the main context stays clean, for example one per dimension or pair of dimensions. Give each one the Policy's text for its dimensions and let it read only the files it needs. Run the Policy's `## Extra checks` too.

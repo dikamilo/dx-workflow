@@ -1,4 +1,4 @@
-# Report template — the shape of a review report
+# Review report — the shape of a review report
 
 A container run of `/dx-review <policy-id> <container-id>` writes its report to `context/{changes|efforts}/<container-id>/reviews/<policy-id>.md`. The policy ID and the container ID are enough to find it, so the report has no frontmatter and no date in its name. `/dx-review-triage <container-id> <policy-id>` reads it.
 

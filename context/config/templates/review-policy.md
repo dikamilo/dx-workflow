@@ -1,10 +1,10 @@
-# Policy template — the shape every review Policy follows
+# Review policy — the shape every review Policy follows
 
 A Policy defines one kind of review. `/dx-review` supplies the mechanism (resolving the Policy and the target, loading the glossary, fanning out to subagents, writing the report, offering a lesson, printing next steps). The Policy supplies the criteria: what must hold before the review runs, what it reads, what it checks, and what happens on a pass.
 
 ## Creating a Policy
 
-- Copy this file to `context/workflow/review-policies/<policy-id>.md`. The file name is the policy ID, so `security.md` is run as `security`. Any `.md` here whose name ends in `-template.md` is not a Policy.
+- Copy this file to `context/config/review-policies/<policy-id>.md`. The file name is the policy ID, so `security.md` is run as `security`.
 - Run it with `/dx-review <policy-id> [container-id | paths…] [instructions…]`, and triage a container report with `/dx-review-triage <container-id> <policy-id>`.
 - You may edit a shipped Policy (such as `implementation.md`) in place. `/dx-init` copies only files that are missing, so it never overwrites your edits, and later fixes to a shipped Policy don't reach your copy either. To pick one up, compare your copy with the shipped one by hand.
 - Nothing lints a Policy. This template is the only guardrail, so keep to its sections and headings.
@@ -23,7 +23,7 @@ targets: container   # container | explore | both. Required.
 
 A run on a target the Policy doesn't accept is refused. The refusal names the Policy and the targets it accepts. A missing or invalid `targets` value also refuses the run, naming the field.
 
-**Output follows from the target and is never declared.** A container run always writes a report to `reviews/<policy-id>.md` in that container (see `report-template.md`). An Explore run shows its results inline as Candidates and writes no report, so a Policy that targets `explore` or `both` must carry `## Candidates`.
+**Output follows from the target and is never declared.** A container run always writes a report to `reviews/<policy-id>.md` in that container (see `context/config/templates/review-report.md`). An Explore run shows its results inline as Candidates and writes no report, so a Policy that targets `explore` or `both` must carry `## Candidates`.
 
 ## Body
 
