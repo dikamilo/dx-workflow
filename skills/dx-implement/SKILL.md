@@ -19,7 +19,7 @@ Execute **one phase** of `context/changes/<change-id>/plan.md` per invocation �
 
 ## The phase
 1. **Resume** = the first `- [ ]` in `## Progress`, document order. The `### Phase N:` above it is your phase. If `change.md`'s `status` is still `planned`, flip it to `implementing` (`updated: <today>`) before you start — the lifecycle field should show work underway, not just planned. Do that phase, following the plan's intent and its matched standards. If reality contradicts the plan, stop and ask — don't silently improvise.
-2. **Verify** — run the phase's `#### Automated` checks. Flip a `- [ ]` to `- [x]` **only** when its check genuinely passes. **Fail loud:** if a check is red, missing, or skipped, stop and report — do not check the box. `#### Manual` boxes need a human confirmation before flipping.
+2. **Verify** — run the phase's `#### Automated` checks. Flip a `- [ ]` to `- [x]` **only** when its check genuinely passes. **Fail loud:** if a check is red, missing, or skipped, stop and report — do not check the box. Run each `(agent-runnable)` Manual row yourself and tick it on evidence; stop at a `(user-only)` row for the human, and if they confirm on bare say-so, tick it with ` — ticked on say-so`.
 3. **Commit** the phase as one Conventional Commit: `<type>(<change-id>): <phase title> (p<N>)`. Then append the short SHA to every Progress row that landed in it (` — <sha>`). A no-diff phase (manual-only) commits nothing and leaves rows SHA-less.
 
 Do **not** renumber, delete, or duplicate Progress rows. `dx-implement` and `dx-tdd` are siblings writing this same section, so phases interleave freely — one may be TDD, the next standard.

@@ -68,6 +68,8 @@ Activate the conditional characteristic for `change.md`'s `type`:
 
 Write the `## Progress` section once, all boxes `[ ]`, one `### Phase N` per phase. This is the execution single-source-of-truth `dx-implement`/`dx-tdd` will flip.
 
+Label every `#### Manual` row `(agent-runnable)` or `(user-only)`. Aim for a plan the agent can verify end to end: push each check to `#### Automated` first, then `agent-runnable`; keep `user-only` for what truly needs a human.
+
 ## Done when
 
 `plan.md` exists with matched standards, priors, phases, and Progress; `change.md` is set to `status: planned` and `updated: <today>`. Then print and stop:

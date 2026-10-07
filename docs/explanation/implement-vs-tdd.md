@@ -33,7 +33,7 @@ frontmatter always reflects where the change actually is.
 
 **Verify before you check a box.** Each phase carries `#### Automated` checks (tests, build, migration) and
 sometimes `#### Manual` checks. A `- [ ]` flips to `- [x]` **only** when its check genuinely passes.
-`#### Manual` boxes need a human to confirm. And critically — **fail loud**: if a check is red, missing, or
+Each `#### Manual` row is labelled: the skill runs `(agent-runnable)` rows itself and ticks them on evidence, and stops at `(user-only)` rows for you (a bare say-so tick is recorded ` — ticked on say-so`). And critically — **fail loud**: if a check is red, missing, or
 skipped, the skill stops and reports. It never quietly marks a box done. A green Progress section means the
 work is really green.
 
