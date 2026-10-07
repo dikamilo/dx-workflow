@@ -115,9 +115,9 @@ Additive; nothing is removed.
 
 ### Phase 4: Docs, changeset, dogfood
 #### Automated
-- [x] 4.1 Reference, tutorials, explanation and `DESIGN.md` updated (documentation skill); new test-strategy tutorial added
-- [x] 4.2 Changeset (minor) added with the compare-both-templates note, the argument grammar and the `dx-new` seed heading
-- [x] 4.3 `grep -rn 'not available yet' skills docs` returns nothing; `npm run lint:skills` passes
+- [x] 4.1 Reference, tutorials, explanation and `DESIGN.md` updated (documentation skill); new test-strategy tutorial added — e6f99ed
+- [x] 4.2 Changeset (minor) added with the compare-both-templates note, the argument grammar and the `dx-new` seed heading — e6f99ed
+- [x] 4.3 `grep -rn 'not available yet' skills docs` returns nothing; `npm run lint:skills` passes — e6f99ed
 #### Manual
-- [ ] 4.4 `/dx-init` re-run in this repo seeds `test-strategy.md`; this repo's `policy-template.md` and `report-template.md` refreshed by hand
-- [x] 4.5 Every child change touching `skills/**` has its own changeset (`review-policy-core`, `plan-policy`, this one)
+- [x] 4.4 `/dx-init` re-run in this repo seeds `test-strategy.md`; this repo's `policy-template.md` and `report-template.md` refreshed by hand — e6f99ed
+- [x] 4.5 Every child change touching `skills/**` has its own changeset (`review-policy-core`, `plan-policy`, this one) — e6f99ed
